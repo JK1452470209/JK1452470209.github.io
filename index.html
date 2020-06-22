@@ -167,16 +167,63 @@
   <div class="row mx-auto index-card">
     
     
-    <div class="col-12 col-md-12 mx-auto index-info">
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/06/22/%E7%B1%BB%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98/" target="_self">
+          <img src="/img/post_default.jpg" srcset="/img/loading.gif" alt="类与实例初始化面试题">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a class="index-header" href="/2020/06/22/%E7%B1%BB%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98/">类与实例初始化面试题</a>
+
+      <a href="/2020/06/22/%E7%B1%BB%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98/" class="index-excerpt">
+        
+        
+        <div></div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-06-22
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>
+            
+          </div>
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/%E7%B1%BB%E4%B8%8E%E5%AE%9E%E4%BE%8B%E5%88%9D%E5%A7%8B%E5%8C%96/">类与实例初始化</a>
+            
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2020/06/20/hello-world/" target="_self">
+          <img src="/img/post_default.jpg" srcset="/img/loading.gif" alt="Hello World">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
       <a class="index-header" href="/2020/06/20/hello-world/">Hello World</a>
 
       <a href="/2020/06/20/hello-world/" class="index-excerpt">
         
         
-          
-        
-        <div>Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick</div>
+        <div></div>
       </a>
 
       <div class="index-btm post-metas">
@@ -312,9 +359,9 @@ Quick</div>
         '  ',
         "花有重开日，人无再少年。&nbsp;",
       ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
     });
     typed.stop();
     $(document).ready(function () {
@@ -344,6 +391,57 @@ Quick</div>
 
 
 
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
 
 
 

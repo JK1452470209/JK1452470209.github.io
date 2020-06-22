@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Hello World - Hexo</title>
+  <title>类与实例初始化面试题 - Hexo</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -152,8 +152,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-06-20 15:32">
-      2020-06-20
+    <time datetime="2020-06-22 08:37">
+      2020-06-22
     </time>
   </div>
 
@@ -163,7 +163,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      73 字
+      946 字
     </span>
   
 
@@ -173,7 +173,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      13
        分钟
     </span>
   
@@ -212,25 +212,124 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><div class="hljs"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">"My New Post"</span></code></pre></div>
+              <h1 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h1><h2 id="代码如下："><a href="#代码如下：" class="headerlink" title="代码如下："></a>代码如下：</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.jk.test;
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><div class="hljs"><pre><code class="hljs bash">$ hexo server</code></pre></div>
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-06-15  21:41</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Father</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> i = test();
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> j = method();
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><div class="hljs"><pre><code class="hljs bash">$ hexo generate</code></pre></div>
+    <span class="hljs-keyword">static</span> &#123;
+        System.out.print(<span class="hljs-string">"(1)"</span>);
+    &#125;
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><div class="hljs"><pre><code class="hljs bash">$ hexo deploy</code></pre></div>
+    Father()&#123;
+        System.out.print(<span class="hljs-string">"(2)"</span>);
+    &#125;
+    &#123;
+        System.out.print(<span class="hljs-string">"(3)"</span>);
+    &#125;
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> <span class="hljs-title">test</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.print(<span class="hljs-string">"(4)"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">method</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.print(<span class="hljs-string">"(5)"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;
+&#125;
+
+
+
+
+<span class="hljs-keyword">package</span> com.jk.test;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-06-15  21:41</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Son</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Father</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> i = test();
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> j = method();
+
+    <span class="hljs-keyword">static</span> &#123;
+        System.out.print(<span class="hljs-string">"(6)"</span>);
+    &#125;
+
+    Son()&#123;
+        System.out.print(<span class="hljs-string">"(7)"</span>);
+    &#125;
+    &#123;
+        System.out.print(<span class="hljs-string">"(8)"</span>);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">test</span><span class="hljs-params">()</span></span>&#123;
+        System.out.print(<span class="hljs-string">"(9)"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">method</span><span class="hljs-params">()</span></span>&#123;
+        System.out.print(<span class="hljs-string">"(10)"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        Son son1 = <span class="hljs-keyword">new</span> Son();
+        System.out.println();
+        Son son2 = <span class="hljs-keyword">new</span> Son();
+    &#125;
+&#125;</code></pre></div>
+<p>main函数执行后，大家可以试试看输出的顺序是什么？</p>
+<h2 id="类初始化过程"><a href="#类初始化过程" class="headerlink" title="类初始化过程"></a>类初始化过程</h2><p>1、一个类的创建实例需要先加载并初始化该类<br>    - main方法所在的类需要先加载和初始化<br>2、一个子类要初始化需要先初始化父类<br>3、一个类初始化就是执行&lt;clinit&gt;()方法<br>    - &lt;clinit&gt;()方法由静态类变量显示赋值代码和静态代码块组成</p>
+<hr>
+<p>就是说在main方法启动的时候，就会去初始化类<br>因为在父类和子类中都有静态变量和静态代码块，静态变量和静态代码块顺序是根据代码书写的顺序执行的所以：<br>执行顺序为 （5）（1）（10）（6）</p>
+<h2 id="实例的初始化过程"><a href="#实例的初始化过程" class="headerlink" title="实例的初始化过程"></a>实例的初始化过程</h2><p>实例初始化就是执行&lt;init&gt;()方法<br>    - &lt;init&gt;()方法可能重载有多个，有几个构造器就有几个&lt;init&gt;()方法<br>    - &lt;init&gt;()方法由非静态实例变量显示赋值代码和非静态代码块、对应构造器代码组成<br>    - 非静态实例变量显示复制代码和非静态代码块代码从上到下顺序执行，而对应构造器的代码最后执行<br>    - 每次创建实例对象，调用对应构造器，执行的就是对应的&lt;init&gt;()方法<br>    - &lt;init&gt;()方法的首行是super()或super(实参列表)，即对应父类的&lt;init&gt;()方法</p>
+<hr>
+<p>就是说在调用构造函数进行实例的初始化时，不管有没有super关键字，都会调用父类的构造器先进行初始化，然后在初始化父类构造器后，再执行类中显示赋值代码和非静态代码块 比如Son子类的：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> i = test();
+
+&#123;
+        System.out.print(<span class="hljs-string">"(8)"</span>);
+&#125;
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">method</span><span class="hljs-params">()</span></span>&#123;
+        System.out.print(<span class="hljs-string">"(10)"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+&#125;</code></pre></div>
+<p>最后才是Son子类的构造器</p>
+<div class="hljs"><pre><code class="hljs java">Son()&#123;
+        System.out.print(<span class="hljs-string">"(7)"</span>);
+&#125;</code></pre></div>
+<p>所有根据以上的顺序得出的全部顺序为<br>（5）（1）（10）（6）（4）（3）（2）（9）（8）（7）<br>（4）（3）（2）（9）（8）（7）</p>
+<p>以为到这里结束了嘛，其实这里还有一个坑，就是多态性，方法的重写！</p>
+<h2 id="方法的重写Override"><a href="#方法的重写Override" class="headerlink" title="方法的重写Override"></a>方法的重写Override</h2><p>1、哪些方法不可以被重写<br>    - final方法<br>    - 静态方法<br>    - private等子类中不可见方法<br>2、对象的多态性<br>    - 子类如果重写了父类的方法，通过子类对象调用的一定是子类重写过的代码<br>    - 非静态方法默认的调用对象是this<br>    - this对象在构造器或者说<init>方法中就是正在创建的对象</p>
+<hr>
+<p>也就是说在初始化父类实例时，初始化变量时候调用test（）方法，因为是非静态方法，所有默认调用对象this，是当前对象，也就是Son对象 所以实际执行的是子类重写的方法</p>
+<p>最终的结果顺序为<br><img src="https://img-blog.csdnimg.cn/2020061522493926.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>一叶知秋，穿插了类与实例的初始化过程。<br>此文章根据尚硅谷视频加上个人理解与实践。</p>
 
             </article>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%9D%A2%E8%AF%95%E9%A2%98/">面试题</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E7%B1%BB%E4%B8%8E%E5%AE%9E%E4%BE%8B%E5%88%9D%E5%A7%8B%E5%8C%96/">类与实例初始化</a>
+                    
+                  </div>
                 
               </div>
               
@@ -241,15 +340,15 @@
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/06/22/%E7%B1%BB%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E9%9D%A2%E8%AF%95%E9%A2%98/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">类与实例初始化面试题</span>
-                        <span class="visible-mobile">Previous</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
+                    
+                      <a href="/2020/06/20/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </div>
                 </div>
@@ -411,7 +510,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Hello World&nbsp;",
+        "类与实例初始化面试题&nbsp;",
       ],
       cursorChar: "|",
       typeSpeed: 65,

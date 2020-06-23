@@ -15,9 +15,9 @@
   
   <meta name="theme-color" content="#2f4154">
   <meta name="description" content="">
-  <meta name="author" content="John Doe">
+  <meta name="author" content="Mr.JK">
   <meta name="keywords" content="">
-  <title>类与实例初始化面试题 - Hexo</title>
+  <title>类与实例初始化面试题 - Mr.JK</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -176,7 +176,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      13
+      12
        分钟
     </span>
   
@@ -319,7 +319,7 @@
 &#125;</code></pre></div>
 <p>所有根据以上的顺序得出的全部顺序为<br>（5）（1）（10）（6）（4）（3）（2）（9）（8）（7）<br>（4）（3）（2）（9）（8）（7）</p>
 <p>以为到这里结束了嘛，其实这里还有一个坑，就是多态性，方法的重写！</p>
-<h2 id="方法的重写Override"><a href="#方法的重写Override" class="headerlink" title="方法的重写Override"></a>方法的重写Override</h2><p>1、哪些方法不可以被重写<br>    - final方法<br>    - 静态方法<br>    - private等子类中不可见方法<br>2、对象的多态性<br>    - 子类如果重写了父类的方法，通过子类对象调用的一定是子类重写过的代码<br>    - 非静态方法默认的调用对象是this<br>    - this对象在构造器或者说<init>方法中就是正在创建的对象</p>
+<h2 id="方法的重写Override"><a href="#方法的重写Override" class="headerlink" title="方法的重写Override"></a>方法的重写Override</h2><p>1、哪些方法不可以被重写<br>    - final方法<br>    - 静态方法<br>    - private等子类中不可见方法<br>2、对象的多态性<br>    - 子类如果重写了父类的方法，通过子类对象调用的一定是子类重写过的代码<br>    - 非静态方法默认的调用对象是this<br>    - this对象在构造器或者说<init>方法中就是正在创建的对象</init></p>
 <hr>
 <p>也就是说在初始化父类实例时，初始化变量时候调用test（）方法，因为是非静态方法，所有默认调用对象this，是当前对象，也就是Son对象 所以实际执行的是子类重写的方法</p>
 <p>最终的结果顺序为<br><img src="https://img-blog.csdnimg.cn/2020061522493926.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>一叶知秋，穿插了类与实例的初始化过程。<br>此文章根据尚硅谷视频加上个人理解与实践。</p>

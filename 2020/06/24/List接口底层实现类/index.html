@@ -244,11 +244,10 @@
 <h2 id="二、ArrayList"><a href="#二、ArrayList" class="headerlink" title="二、ArrayList"></a>二、ArrayList</h2><h3 id="1-jdk1-7的情况"><a href="#1-jdk1-7的情况" class="headerlink" title="1.jdk1.7的情况"></a>1.jdk1.7的情况</h3><p>​    ArrayList list = new ArrayList();//底层创建了长度是10的Object[]数组elementData</p>
 <ul>
 <li><p>list.add(123);//elementData[0] = new Integer(123);</p>
-<p>​</p>
 </li>
 <li><p>list.add(11);//如果此次的添加导致底层elementData数组容量不够，则扩容。</p>
 </li>
-<li><p>默认情况下，扩容为原来的容量的1.5倍，同时需要将原有数组中的数据复制到新的数组中。<br>​</p>
+<li><p>默认情况下，扩容为原来的容量的1.5倍，同时需要将原有数组中的数据复制到新的数组中。</p>
 </li>
 <li><p>结论：建议开发中使用带参的构造器：ArrayList list = new ArrayList(int capacity)</p>
 <p>​</p>

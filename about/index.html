@@ -179,7 +179,7 @@
 <div class="text-center">
   <div class="about-info">
     <div class="about-name">林佳坤</div>
-    <div class="about-intro">一位刚出道不久努力码代码的小白</div>
+    <div class="about-intro">别技术说的太多，代码敲的太少</div>
     <div class="about-icons">
       
         
@@ -210,12 +210,60 @@
   </div>
 </div>
 <div class="mt-5 markdown-body">
-  
+  <div><div>
+
+<div id="echarts8949" style="width: 85%;height: 400px;margin: 0 auto"></div>
+<script src="https://cdn.bootcss.com/echarts/4.1.0-release/echarts.min.js"></script>
+<script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('echarts8949'));
+        // 指定图表的配置项和数据
+        var option = {
+    title : {
+        text: '技术分布图',
+        subtext: '纯属虚构',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: ['Spring全家桶','JavaEE','前端','ElasticSearch','JavaSE']
+    },
+    series : [
+        {
+            name: '详细数据',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+                {value:335, name:'Spring全家桶'},
+                {value:310, name:'JavaEE'},
+                {value:234, name:'前端'},
+                {value:135, name:'ElasticSearch'},
+                {value:1548, name:'JavaSE'}
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+}
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+</script></div></div>
 </div>
 
-
-              </div>
-            </div>
+         
+              </div>            
+            </div> 
           </div>
         </div>
       </div>
@@ -372,6 +420,10 @@
 
   <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
+
+
+  
+<script src="/js/custom.js"></script>
 
 
 

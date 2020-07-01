@@ -1,0 +1,21 @@
+@media (min-width: 768px) {
+  .post-content h1::before,
+  .post-content h2::before,
+  .post-content h3::before,
+  .post-content h4::before {
+    visibility: visible;
+    display: inline;
+  }
+  .post-content h1::before {
+    content: "🌈";
+  }
+  .post-content h2::before {
+    content: "⛅";
+  }
+  .post-content h3::before {
+    content: "🔍";
+  }
+  .post-content h4::before {
+    content: "🍥";
+  }
+}

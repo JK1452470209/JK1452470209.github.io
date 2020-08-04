@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mr.JK">
   <meta name="keywords" content="">
-  <title>Docker入门 - Mr.JK</title>
+  <title>SpringBoot启动配置原理 - Mr.JK</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -159,8 +159,8 @@
               
   <div class="mt-3 post-meta">
     <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-    <time datetime="2020-08-03 21:35">
-      2020-08-03
+    <time datetime="2020-08-04 11:25">
+      2020-08-04
     </time>
   </div>
 
@@ -170,7 +170,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.2k 字
+      697 字
     </span>
   
 
@@ -180,7 +180,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17
+      10
        分钟
     </span>
   
@@ -229,162 +229,164 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h1 id="Docker"><a href="#Docker" class="headerlink" title="Docker"></a>Docker</h1><h2 id="1、简介"><a href="#1、简介" class="headerlink" title="1、简介"></a>1、简介</h2><p><strong>Docker</strong>是一个开源的应用容器引擎；是一个轻量级容器技术；</p>
-<p>Docker支持将软件编译成一个镜像；然后在镜像中各种软件做好配置，将镜像发布出去，其他使用者可以直接使用这个镜像；</p>
-<p>运行中的这个镜像称为容器，容器启动是非常快速的。</p>
-<p><img src="/2020/08/03/Docker%E5%85%A5%E9%97%A8/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303145450.png" srcset="/img/loading.gif" alt></p>
-<p><img src="/2020/08/03/Docker%E5%85%A5%E9%97%A8/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303145531.png" srcset="/img/loading.gif" alt></p>
-<h2 id="2、核心概念"><a href="#2、核心概念" class="headerlink" title="2、核心概念"></a>2、核心概念</h2><p>docker主机(Host)：安装了Docker程序的机器（Docker直接安装在操作系统之上）；</p>
-<p>docker客户端(Client)：连接docker主机进行操作；</p>
-<p>docker仓库(Registry)：用来保存各种打包好的软件镜像；</p>
-<p>docker镜像(Images)：软件打包好的镜像；放在docker仓库中；</p>
-<p>docker容器(Container)：镜像启动后的实例称为一个容器；容器是独立运行的一个或一组应用</p>
-<p><img src="/2020/08/03/Docker%E5%85%A5%E9%97%A8/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180303165113.png" srcset="/img/loading.gif" alt></p>
-<p>使用Docker的步骤：</p>
-<p>1）、安装Docker</p>
-<p>2）、去Docker仓库找到这个软件对应的镜像；</p>
-<p>3）、使用Docker运行这个镜像，这个镜像就会生成一个Docker容器；</p>
-<p>4）、对容器的启动停止就是对软件的启动停止；</p>
-<h2 id="3、安装Docker"><a href="#3、安装Docker" class="headerlink" title="3、安装Docker"></a>3、安装Docker</h2><h4 id="1）、安装linux虚拟机"><a href="#1）、安装linux虚拟机" class="headerlink" title="1）、安装linux虚拟机"></a>1）、安装linux虚拟机</h4><p>​    1）、VMWare、VirtualBox（安装）；</p>
-<p>​    2）、导入虚拟机文件centos7-atguigu.ova；</p>
-<p>​    3）、双击启动linux虚拟机;使用  root/ 123456登陆</p>
-<p>​    4）、使用客户端连接linux服务器进行命令操作；</p>
-<p>​    5）、设置虚拟机网络；</p>
-<p>​        桥接网络===选好网卡====接入网线；</p>
-<p>​    6）、设置好网络以后使用命令重启虚拟机的网络</p>
-<div class="hljs"><pre><code class="hljs shell">service network restart</code></pre></div>
+              <h1 id="启动配置原理"><a href="#启动配置原理" class="headerlink" title="启动配置原理"></a>启动配置原理</h1><p>几个重要的事件回调机制</p>
+<p>配置在META-INF/spring.factories</p>
+<p><strong>ApplicationContextInitializer</strong></p>
+<p><strong>SpringApplicationRunListener</strong></p>
+<p>只需要放在ioc容器中</p>
+<p><strong>ApplicationRunner</strong></p>
+<p><strong>CommandLineRunner</strong></p>
+<p>启动流程：</p>
+<h2 id="1、创建SpringApplication对象"><a href="#1、创建SpringApplication对象" class="headerlink" title="1、创建SpringApplication对象"></a><strong>1、创建SpringApplication对象</strong></h2><div class="hljs"><pre><code class="hljs java">initialize(sources);
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initialize</span><span class="hljs-params">(Object[] sources)</span> </span>&#123;
+    <span class="hljs-comment">//保存主配置类</span>
+    <span class="hljs-keyword">if</span> (sources != <span class="hljs-keyword">null</span> &amp;&amp; sources.length &gt; <span class="hljs-number">0</span>) &#123;
+        <span class="hljs-keyword">this</span>.sources.addAll(Arrays.asList(sources));
+    &#125;
+    <span class="hljs-comment">//判断当前是否一个web应用</span>
+    <span class="hljs-keyword">this</span>.webEnvironment = deduceWebEnvironment();
+    <span class="hljs-comment">//从类路径下找到META-INF/spring.factories配置的所有ApplicationContextInitializer；然后保存起来</span>
+    setInitializers((Collection) getSpringFactoriesInstances(
+        ApplicationContextInitializer<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+    <span class="hljs-comment">//从类路径下找到ETA-INF/spring.factories配置的所有ApplicationListener</span>
+    setListeners((Collection) getSpringFactoriesInstances(ApplicationListener<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+    <span class="hljs-comment">//从多个配置类中找到有main方法的主配置类</span>
+    <span class="hljs-keyword">this</span>.mainApplicationClass = deduceMainApplicationClass();
+&#125;</code></pre></div>
 
-<p>​    7）、查看linux的ip地址</p>
-<div class="hljs"><pre><code class="hljs shell">ip addr</code></pre></div>
+<p><img src="/2020/08/04/SpringBoot%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306145727.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/2020/08/04/SpringBoot%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306145855.png" srcset="/img/loading.gif" alt></p>
+<h2 id="2、运行run方法"><a href="#2、运行run方法" class="headerlink" title="2、运行run方法"></a>2、运行run方法</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> ConfigurableApplicationContext <span class="hljs-title">run</span><span class="hljs-params">(String... args)</span> </span>&#123;
+   StopWatch stopWatch = <span class="hljs-keyword">new</span> StopWatch();
+   stopWatch.start();
+   ConfigurableApplicationContext context = <span class="hljs-keyword">null</span>;
+   FailureAnalyzers analyzers = <span class="hljs-keyword">null</span>;
+   configureHeadlessProperty();
+    
+   <span class="hljs-comment">//获取SpringApplicationRunListeners；从类路径下META-INF/spring.factories</span>
+   SpringApplicationRunListeners listeners = getRunListeners(args);
+    <span class="hljs-comment">//回调所有的获取SpringApplicationRunListener.starting()方法</span>
+   listeners.starting();
+   <span class="hljs-keyword">try</span> &#123;
+       <span class="hljs-comment">//封装命令行参数</span>
+      ApplicationArguments applicationArguments = <span class="hljs-keyword">new</span> DefaultApplicationArguments(
+            args);
+      <span class="hljs-comment">//准备环境</span>
+      ConfigurableEnvironment environment = prepareEnvironment(listeners,
+            applicationArguments);
+       		<span class="hljs-comment">//创建环境完成后回调SpringApplicationRunListener.environmentPrepared()；表示环境准备完成</span>
+       
+      Banner printedBanner = printBanner(environment);
+       
+       <span class="hljs-comment">//创建ApplicationContext；决定创建web的ioc还是普通的ioc</span>
+      context = createApplicationContext();
+       
+      analyzers = <span class="hljs-keyword">new</span> FailureAnalyzers(context);
+       <span class="hljs-comment">//准备上下文环境;将environment保存到ioc中；而且applyInitializers()；</span>
+       <span class="hljs-comment">//applyInitializers()：回调之前保存的所有的ApplicationContextInitializer的initialize方法</span>
+       <span class="hljs-comment">//回调所有的SpringApplicationRunListener的contextPrepared()；</span>
+       <span class="hljs-comment">//</span>
+      prepareContext(context, environment, listeners, applicationArguments,
+            printedBanner);
+       <span class="hljs-comment">//prepareContext运行完成以后回调所有的SpringApplicationRunListener的contextLoaded（）；</span>
+       
+       <span class="hljs-comment">//s刷新容器；ioc容器初始化（如果是web应用还会创建嵌入式的Tomcat）；Spring注解版</span>
+       <span class="hljs-comment">//扫描，创建，加载所有组件的地方；（配置类，组件，自动配置）</span>
+      refreshContext(context);
+       <span class="hljs-comment">//从ioc容器中获取所有的ApplicationRunner和CommandLineRunner进行回调</span>
+       <span class="hljs-comment">//ApplicationRunner先回调，CommandLineRunner再回调</span>
+      afterRefresh(context, applicationArguments);
+       <span class="hljs-comment">//所有的SpringApplicationRunListener回调finished方法</span>
+      listeners.finished(context, <span class="hljs-keyword">null</span>);
+      stopWatch.stop();
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.logStartupInfo) &#123;
+         <span class="hljs-keyword">new</span> StartupInfoLogger(<span class="hljs-keyword">this</span>.mainApplicationClass)
+               .logStarted(getApplicationLog(), stopWatch);
+      &#125;
+       <span class="hljs-comment">//整个SpringBoot应用启动完成以后返回启动的ioc容器；</span>
+      <span class="hljs-keyword">return</span> context;
+   &#125;
+   <span class="hljs-keyword">catch</span> (Throwable ex) &#123;
+      handleRunFailure(context, listeners, analyzers, ex);
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(ex);
+   &#125;
+&#125;</code></pre></div>
 
-<p>​    8）、使用客户端连接linux；</p>
-<h4 id="2）、在linux虚拟机上安装docker"><a href="#2）、在linux虚拟机上安装docker" class="headerlink" title="2）、在linux虚拟机上安装docker"></a>2）、在linux虚拟机上安装docker</h4><p>步骤：</p>
-<div class="hljs"><pre><code class="hljs shell">1、检查内核版本，必须是3.10及以上
-uname -r
-2、安装docker
-yum install docker
-3、输入y确认安装
-4、启动docker
-[root@localhost ~]# systemctl start docker
-[root@localhost ~]# docker -v
-Docker version 1.12.6, build 3e8e77d/1.12.6
-5、开机启动docker
-[root@localhost ~]# systemctl enable docker
-Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
-6、停止docker
-systemctl stop docker</code></pre></div>
+<h2 id="3、事件监听机制"><a href="#3、事件监听机制" class="headerlink" title="3、事件监听机制"></a>3、事件监听机制</h2><p>配置在META-INF/spring.factories</p>
+<p><strong>ApplicationContextInitializer</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloApplicationContextInitializer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationContextInitializer</span>&lt;<span class="hljs-title">ConfigurableApplicationContext</span>&gt; </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initialize</span><span class="hljs-params">(ConfigurableApplicationContext applicationContext)</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"ApplicationContextInitializer...initialize..."</span>+applicationContext);
+    &#125;
+&#125;</code></pre></div>
 
-<h2 id="4、Docker常用命令-amp-操作"><a href="#4、Docker常用命令-amp-操作" class="headerlink" title="4、Docker常用命令&amp;操作"></a>4、Docker常用命令&amp;操作</h2><h3 id="1）镜像操作"><a href="#1）镜像操作" class="headerlink" title="1）镜像操作"></a>1）镜像操作</h3><table>
-<thead>
-<tr>
-<th>操作</th>
-<th>命令</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>检索</td>
-<td>docker  search 关键字  eg：docker  search redis</td>
-<td>我们经常去docker  hub上检索镜像的详细信息，如镜像的TAG。</td>
-</tr>
-<tr>
-<td>拉取</td>
-<td>docker pull 镜像名:tag</td>
-<td>:tag是可选的，tag表示标签，多为软件的版本，默认是latest</td>
-</tr>
-<tr>
-<td>列表</td>
-<td>docker images</td>
-<td>查看所有本地镜像</td>
-</tr>
-<tr>
-<td>删除</td>
-<td>docker rmi image-id</td>
-<td>删除指定的本地镜像</td>
-</tr>
-</tbody></table>
-<p><a href="https://hub.docker.com/" target="_blank" rel="noopener">https://hub.docker.com/</a></p>
-<h3 id="2）容器操作"><a href="#2）容器操作" class="headerlink" title="2）容器操作"></a>2）容器操作</h3><p>软件镜像（QQ安装程序）—-运行镜像—-产生一个容器（正在运行的软件，运行的QQ）；</p>
-<p>步骤：</p>
-<div class="hljs"><pre><code class="hljs shell">1、搜索镜像
-[root@localhost ~]# docker search tomcat
-2、拉取镜像
-[root@localhost ~]# docker pull tomcat
-3、根据镜像启动容器
-docker run --name mytomcat -d tomcat:latest
-4、docker ps  
-查看运行中的容器
-5、 停止运行中的容器
-docker stop  容器的id
-6、查看所有的容器
-docker ps -a
-7、启动容器
-docker start 容器id
-8、删除一个容器
- docker rm 容器id
-9、启动一个做了端口映射的tomcat
-[root@localhost ~]# docker run -d -p 8888:8080 tomcat
--d：后台运行
--p: 将主机的端口映射到容器的一个端口    主机端口:容器内部的端口
+<p><strong>SpringApplicationRunListener</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloSpringApplicationRunListener</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">SpringApplicationRunListener</span> </span>&#123;
 
-10、为了演示简单关闭了linux的防火墙
-service firewalld status ；查看防火墙状态
-service firewalld stop：关闭防火墙
-11、查看容器的日志
-docker logs container-name/container-id
+    <span class="hljs-comment">//必须有的构造器</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HelloSpringApplicationRunListener</span><span class="hljs-params">(SpringApplication application, String[] args)</span></span>&#123;
 
-更多命令参看
-https://docs.docker.com/engine/reference/commandline/docker/
-可以参考每一个镜像的文档</code></pre></div>
+    &#125;
 
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">starting</span><span class="hljs-params">()</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"SpringApplicationRunListener...starting..."</span>);
+    &#125;
 
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">environmentPrepared</span><span class="hljs-params">(ConfigurableEnvironment environment)</span> </span>&#123;
+        Object o = environment.getSystemProperties().get(<span class="hljs-string">"os.name"</span>);
+        System.out.println(<span class="hljs-string">"SpringApplicationRunListener...environmentPrepared.."</span>+o);
+    &#125;
 
-<h3 id="3）安装MySQL示例"><a href="#3）安装MySQL示例" class="headerlink" title="3）安装MySQL示例"></a>3）安装MySQL示例</h3><div class="hljs"><pre><code class="hljs shell">docker pull mysql</code></pre></div>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">contextPrepared</span><span class="hljs-params">(ConfigurableApplicationContext context)</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"SpringApplicationRunListener...contextPrepared..."</span>);
+    &#125;
 
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">contextLoaded</span><span class="hljs-params">(ConfigurableApplicationContext context)</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"SpringApplicationRunListener...contextLoaded..."</span>);
+    &#125;
 
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">finished</span><span class="hljs-params">(ConfigurableApplicationContext context, Throwable exception)</span> </span>&#123;
+        System.out.println(<span class="hljs-string">"SpringApplicationRunListener...finished..."</span>);
+    &#125;
+&#125;</code></pre></div>
 
-<p>错误的启动</p>
-<div class="hljs"><pre><code class="hljs shell">[root@localhost ~]# docker run --name mysql01 -d mysql
-42f09819908bb72dd99ae19e792e0a5d03c48638421fa64cce5f8ba0f40f5846
+<p>配置（META-INF/spring.factories）</p>
+<div class="hljs"><pre><code class="hljs properties"><span class="hljs-meta">org.springframework.context.ApplicationContextInitializer</span>=<span class="hljs-string">\</span>
+<span class="hljs-attr">com.atguigu.springboot.listener.HelloApplicationContextInitializer</span>
 
-mysql退出了
-[root@localhost ~]# docker ps -a
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                           PORTS               NAMES
-42f09819908b        mysql               "docker-entrypoint.sh"   34 seconds ago      Exited (1) 33 seconds ago                            mysql01
-538bde63e500        tomcat              "catalina.sh run"        About an hour ago   Exited (143) About an hour ago                       compassionate_
-goldstine
-c4f1ac60b3fc        tomcat              "catalina.sh run"        About an hour ago   Exited (143) About an hour ago                       lonely_fermi
-81ec743a5271        tomcat              "catalina.sh run"        About an hour ago   Exited (143) About an hour ago                       sick_ramanujan
-
-
-//错误日志
-[root@localhost ~]# docker logs 42f09819908b
-error: database is uninitialized and password option is not specified 
-  You need to specify one of MYSQL_ROOT_PASSWORD, MYSQL_ALLOW_EMPTY_PASSWORD and MYSQL_RANDOM_ROOT_PASSWORD；这个三个参数必须指定一个</code></pre></div>
-
-<p>正确的启动</p>
-<div class="hljs"><pre><code class="hljs shell">[root@localhost ~]# docker run --name mysql01 -e MYSQL_ROOT_PASSWORD=123456 -d mysql
-b874c56bec49fb43024b3805ab51e9097da779f2f572c22c695305dedd684c5f
-[root@localhost ~]# docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
-b874c56bec49        mysql               "docker-entrypoint.sh"   4 seconds ago       Up 3 seconds        3306/tcp            mysql01</code></pre></div>
-
-<p>做了端口映射</p>
-<div class="hljs"><pre><code class="hljs shell">[root@localhost ~]# docker run -p 3306:3306 --name mysql02 -e MYSQL_ROOT_PASSWORD=123456 -d mysql
-ad10e4bc5c6a0f61cbad43898de71d366117d120e39db651844c0e73863b9434
-[root@localhost ~]# docker ps
-CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES
-ad10e4bc5c6a        mysql               "docker-entrypoint.sh"   4 seconds ago       Up 2 seconds        0.0.0.0:3306-&gt;3306/tcp   mysql02</code></pre></div>
+<span class="hljs-meta">org.springframework.boot.SpringApplicationRunListener</span>=<span class="hljs-string">\</span>
+<span class="hljs-attr">com.atguigu.springboot.listener.HelloSpringApplicationRunListener</span></code></pre></div>
 
 
 
-<p>几个其他的高级操作</p>
-<div class="hljs"><pre><code class="hljs routeros">docker <span class="hljs-builtin-name">run</span> --name mysql03 -v /conf/mysql:/etc/mysql/conf.d -e <span class="hljs-attribute">MYSQL_ROOT_PASSWORD</span>=my-secret-pw -d mysql:tag
-把主机的/conf/mysql文件夹挂载到 mysqldocker容器的/etc/mysql/conf.d文件夹里面
-改mysql的配置文件就只需要把mysql配置文件放在自定义的文件夹下（/conf/mysql）
 
-docker <span class="hljs-builtin-name">run</span> --name some-mysql -e <span class="hljs-attribute">MYSQL_ROOT_PASSWORD</span>=my-secret-pw -d mysql:tag <span class="hljs-attribute">--character-set-server</span>=utf8mb4 <span class="hljs-attribute">--collation-server</span>=utf8mb4_unicode_ci
-指定mysql的一些配置参数</code></pre></div>
+
+<p>只需要放在ioc容器中</p>
+<p><strong>ApplicationRunner</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloApplicationRunner</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationRunner</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">(ApplicationArguments args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        System.out.println(<span class="hljs-string">"ApplicationRunner...run...."</span>);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p><strong>CommandLineRunner</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloCommandLineRunner</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">CommandLineRunner</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">(String... args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        System.out.println(<span class="hljs-string">"CommandLineRunner...run..."</span>+ Arrays.asList(args));
+    &#125;
+&#125;</code></pre></div>
 
 
             </article>
@@ -395,7 +397,7 @@ docker <span class="hljs-builtin-name">run</span> --name some-mysql -e <span cla
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+                      <a class="hover-with-bg" href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a>
                     
                   </div>
                 
@@ -403,7 +405,7 @@ docker <span class="hljs-builtin-name">run</span> --name some-mysql -e <span cla
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/Docker/">Docker</a>
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
                     
                   </div>
                 
@@ -416,9 +418,9 @@ docker <span class="hljs-builtin-name">run</span> --name some-mysql -e <span cla
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/08/04/SpringBoot%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/">
+                      <a href="/2020/08/04/SpringBoot%E8%87%AA%E5%AE%9A%E4%B9%89starter/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SpringBoot与数据访问</span>
+                        <span class="hidden-mobile">SpringBoot自定义starter</span>
                         <span class="visible-mobile">Previous</span>
                       </a>
                     
@@ -426,8 +428,8 @@ docker <span class="hljs-builtin-name">run</span> --name some-mysql -e <span cla
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/08/03/SpringBoot%E9%85%8D%E7%BD%AE%E5%B5%8C%E5%85%A5%E5%BC%8FServlet%E5%AE%B9%E5%99%A8/">
-                        <span class="hidden-mobile">配置嵌入式Servlet容器</span>
+                      <a href="/2020/08/04/SpringBoot%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/">
+                        <span class="hidden-mobile">SpringBoot与数据访问</span>
                         <span class="visible-mobile">Next</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -642,7 +644,7 @@ docker <span class="hljs-builtin-name">run</span> --name some-mysql -e <span cla
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Docker入门&nbsp;",
+        "SpringBoot启动配置原理&nbsp;",
       ],
       cursorChar: "|",
       typeSpeed: 65,

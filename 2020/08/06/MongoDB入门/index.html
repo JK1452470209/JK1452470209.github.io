@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>MongoDB入门 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-06 16:24">
+      2020-08-06
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="MongoDB入门"><a href="#MongoDB入门" class="headerlink" title="MongoDB入门"></a>MongoDB入门</h1><h2 id="1-mongodb介绍"><a href="#1-mongodb介绍" class="headerlink" title="1.mongodb介绍"></a>1.mongodb介绍</h2><p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/1.png" srcset="/img/loading.gif" alt></p>
+<h2 id="2-下载mongodb"><a href="#2-下载mongodb" class="headerlink" title="2.下载mongodb"></a>2.下载mongodb</h2><p>typora-copy-images-to:mongodb_imgmongodb安装1mongodb介绍2下载mongodbMongoDB提供了可用于32位和64位系统的预编译二进制包，你可以从MongoDB官网下载安装。官方地址：<a href="https://www.mongodb.com/本教程下载3.4版本http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-v3.4-latest-signed.msi" target="_blank" rel="noopener">https://www.mongodb.com/本教程下载3.4版本http://downloads.mongodb.org/win32/mongodb-win32-x86_64-2008plus-ssl-v3.4-latest-signed.msi</a></p>
+<h2 id="3-安装mongodb"><a href="#3-安装mongodb" class="headerlink" title="3.安装mongodb"></a>3.安装mongodb</h2><p>在win7系统安装mongodb需要vc++运行库，如果没有则会提示“无法启动此程序，因为计算机中丢失VCRUNTIME140.dll”。去网上下载或使用360安装：</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/2.png" srcset="/img/loading.gif" alt></p>
+<p>运行mongodb-win32-x86_64-2008plus-ssl-v3.4-latest-signed.msi</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/3.png" srcset="/img/loading.gif" alt></p>
+<p>选择自定义路径</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/4.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/5.png" srcset="/img/loading.gif" alt></p>
+<h2 id="4-启动mongodb"><a href="#4-启动mongodb" class="headerlink" title="4.启动mongodb"></a>4.启动mongodb</h2><p>创建几个文件夹具体如下：数据库路径（data目录）、日志路径（logs目录）和日志文件（mongo.log文件）</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/6.png" srcset="/img/loading.gif" alt></p>
+<p>创建配置文件mongo.conf，文件内容如下:</p>
+<div class="hljs"><pre><code class="hljs properties"><span class="hljs-comment">#数据库路径</span>
+<span class="hljs-attr">dbpath</span>=<span class="hljs-string">d:\MongoDB\Server\3.4\data</span>
+<span class="hljs-comment">#日志输出文件路径</span>
+<span class="hljs-attr">logpath</span>=<span class="hljs-string">d:\MongoDB\Server\3.4\logs\mongo.log</span>
+<span class="hljs-comment">#错误日志采用追加模式</span>
+<span class="hljs-attr">logappend</span>=<span class="hljs-string">true</span>
+<span class="hljs-comment">#启用日志文件，默认启用</span>
+<span class="hljs-attr">journal</span>=<span class="hljs-string">true</span>
+<span class="hljs-comment">#这个选项可以过滤掉一些无用的日志信息，若需要调试使用请设置为false</span>
+<span class="hljs-attr">quiet</span>=<span class="hljs-string">true</span>
+<span class="hljs-comment">#端口号默认为27017</span>
+<span class="hljs-attr">port</span>=<span class="hljs-string">27017</span></code></pre></div>
+
+<p>注意如果出现服务启动失败，或者遇到特点错误100情况 第一种情况是dbpath后有多余空格，第二种情况是其他参数后面带有空格（亲测被坑</p>
+<p>安装MongoDB服务通过执行bin/mongod.exe，使用–install选项来安装服务，使用–config选项来指定之前创建的配置文件。cmd进入d:\MongoDB\Server\3.4\bin</p>
+<div class="hljs"><pre><code class="hljs shell">mongod.exe‐‐config"d:\MongoDB\Server\3.4\mongo.conf"‐‐install</code></pre></div>
+
+<p>启动MongoDB服务</p>
+<div class="hljs"><pre><code class="hljs shell">net start MongoDB</code></pre></div>
+
+<p>关闭MongoDB服务</p>
+<div class="hljs"><pre><code class="hljs shell">net stop MongoDB</code></pre></div>
+
+<p>移除MongoDB服务</p>
+<div class="hljs"><pre><code class="hljs shell">"d:\MongoDB\Server\3.4\bin\mongod.exe"‐‐remove</code></pre></div>
+
+<p>启动mongodb服务，命令执行后，浏览器中输入<a href="http://127.0.0.1:27017" target="_blank" rel="noopener">http://127.0.0.1:27017</a></p>
+<p>看到如下界面即说明启动成功</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/7.png" srcset="/img/loading.gif" alt></p>
+<h2 id="5-安装studio3t"><a href="#5-安装studio3t" class="headerlink" title="5.安装studio3t"></a>5.安装studio3t</h2><p>studio3t是mongodb优秀的客户端工具(类似sqlyog操作mysql的工具）。官方地址在<a href="https://studio3t.com/" target="_blank" rel="noopener">https://studio3t.com/</a></p>
+<p>下载最新版即可</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/8.png" srcset="/img/loading.gif" alt></p>
+<p>下载默认安装后，会提示需要账号秘密，可直接点击完成，跳过 默认为试用版</p>
+<p>创建一个新连接：</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/9.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/10.png" srcset="/img/loading.gif" alt></p>
+<p>填写连接信息：（可不需要mangodb账号秘密直接连接）</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/11.png" srcset="/img/loading.gif" alt></p>
+<p>连接成功：</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/12.png" srcset="/img/loading.gif" alt></p>
+<h2 id="6-mongodb入门"><a href="#6-mongodb入门" class="headerlink" title="6.mongodb入门"></a>6.mongodb入门</h2><h3 id="6-1基础概念"><a href="#6-1基础概念" class="headerlink" title="6.1基础概念"></a>6.1基础概念</h3><p>在mongodb中是通过数据库、集合、文档的方式来管理数据，下边是mongodb与关系数据库的一些概念对比：</p>
+<table>
+<thead>
+<tr>
+<th align="center">SQL术语/概念</th>
+<th align="center">MongoDB术语/概念</th>
+<th align="left">解释/说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">database</td>
+<td align="center">database</td>
+<td align="left">数据库</td>
+</tr>
+<tr>
+<td align="center">table</td>
+<td align="center">collection</td>
+<td align="left">数据库表/集合</td>
+</tr>
+<tr>
+<td align="center">row</td>
+<td align="center">document</td>
+<td align="left">数据记录行/文档</td>
+</tr>
+<tr>
+<td align="center">column</td>
+<td align="center">field</td>
+<td align="left">数据字段/域</td>
+</tr>
+<tr>
+<td align="center">index</td>
+<td align="center">index</td>
+<td align="left">索引</td>
+</tr>
+<tr>
+<td align="center">table joins</td>
+<td align="center"></td>
+<td align="left">表连接（MongoDB不支持）</td>
+</tr>
+<tr>
+<td align="center">primary key</td>
+<td align="center">primary key</td>
+<td align="left">主键,MongoDB自动在每个集合中添加_id的主键</td>
+</tr>
+</tbody></table>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/13.png" srcset="/img/loading.gif" alt></p>
+<p>1、一个mongodb实例可以创建多个数据库</p>
+<p>2、一个数据库可以创建多个集合</p>
+<p>3、一个集合可以包括多个文档。</p>
+<h3 id="6-2连接mongodb"><a href="#6-2连接mongodb" class="headerlink" title="6.2连接mongodb"></a>6.2连接mongodb</h3><p>mongodb的使用方式是客户服务器模式，即使用一个客户端连接mongodb数据库（服务端）。</p>
+<p>1、命令格式</p>
+<div class="hljs"><pre><code class="hljs shell">mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]</code></pre></div>
+
+<p>mongodb://固定前缀</p>
+<p>username：账号，可不填</p>
+<p>password：密码，可不填</p>
+<p>host：主机名或ip地址，只有host主机名为必填项。</p>
+<p>port：端口，可不填，默认27017</p>
+<p>/database：连接某一个数据库</p>
+<p>?options：连接参数，key/value对</p>
+<p>例子：</p>
+<div class="hljs"><pre><code class="hljs shell">mongodb://localhost连接本地数据库27017端口
+mongodb://root:itcast@localhost使用用户名root密码为itcast连接本地数据库27017端口mongodb://localhost,localhost:27018,localhost:27019，连接三台主从服务器，端口为27017、27018、27019</code></pre></div>
+
+<p>2、使用mongodb自带的javascriptshell（mongo.exe）连接</p>
+<p>windows版本的mongodb安装成功，在安装目录下的bin目录有mongo.exe客户端程序</p>
+<p>cmd状态执行mongo.exe:</p>
+<p><img src="/2020/08/06/MongoDB%E5%85%A5%E9%97%A8/14.png" srcset="/img/loading.gif" alt></p>
+<p>此时就可以输入命令来操作mongodb数据库了，javascriptshell可以运行javascript程序。</p>
+<p>3、使用studio3T连接</p>
+<p>4、使用java程序连接</p>
+<p>详细参数：<a href="http://mongodb.github.io/mongo-java-driver/3.4/driver/tutorials/connect-to-mongodb/" target="_blank" rel="noopener">http://mongodb.github.io/mongo-java-driver/3.4/driver/tutorials/connect-to-mongodb/</a></p>
+<p>添加依赖：</p>
+<div class="hljs"><pre><code class="hljs java">&lt;dependency&gt;
+	&lt;groupId&gt;org.mongodb&lt;/groupId&gt;
+	&lt;artifactId&gt;mongo‐java‐driver&lt;/artifactId&gt;
+	&lt;version&gt;3.4.3&lt;/version&gt;
+&lt;/dependency&gt;</code></pre></div>
+
+<p>测试程序：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testConnection</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-comment">//创建mongodb客户端</span>
+    MongoClientmongoClient=newMongoClient(<span class="hljs-string">"localhost"</span>,<span class="hljs-number">27017</span>);
+    <span class="hljs-comment">//或者采用连接字符串</span>
+    <span class="hljs-comment">//MongoClientURIconnectionString=newMongoClientURI("mongodb://root:root@localhost:27017");</span>
+    <span class="hljs-comment">//MongoClientmongoClient=newMongoClient(connectionString);</span>
+    <span class="hljs-comment">//连接数据库</span>
+    MongoDatabasedatabase=mongoClient.getDatabase(<span class="hljs-string">"test"</span>);
+    <span class="hljs-comment">//连接collectionMongo</span>
+    Collection&lt;Document&gt;collection=database.getCollection(<span class="hljs-string">"student"</span>);
+    <span class="hljs-comment">//查询第一个文档</span>
+    DocumentmyDoc=collection.find().first();
+    <span class="hljs-comment">//得到文件内容json串</span>
+    Stringjson=myDoc.toJson();System.out.println(json);
+&#125;</code></pre></div>
+
+<h3 id="6-3数据库"><a href="#6-3数据库" class="headerlink" title="6.3数据库"></a>6.3数据库</h3><p>1、查询数据库</p>
+<p>showv dbs 查询全部数据库</p>
+<p>db 显示当前数据库</p>
+<p>2、创建数据库命令格式：</p>
+<div class="hljs"><pre><code class="hljs shell">useDATABASE_NAME</code></pre></div>
+
+<p>例子：</p>
+<p>usetest02</p>
+<p>有test02数据库则切换到此数据库，没有则创建</p>
+<p>注意：</p>
+<p>新创建的数据库不显示，需要至少包括一个集合。</p>
+<p>3、删除数据库（慎用！！！）</p>
+<p>命令格式：</p>
+<div class="hljs"><pre><code class="hljs shell">db.dropDatabase()</code></pre></div>
+
+<p>例子：</p>
+<p>删除test02数据库</p>
+<p>先切换数据库：usetest02</p>
+<p>再执行删除：db.dropDatabase()</p>
+<h3 id="6-4集合"><a href="#6-4集合" class="headerlink" title="6.4集合"></a>6.4集合</h3><p>集合相当于关系数据库中的表，一个数据库可以创建多个集合，一个集合是将相同类型的文档管理起来。</p>
+<p>1、创建集合</p>
+<div class="hljs"><pre><code class="hljs shel">db.createCollection(name,options)
+name: 新创建的集合名称
+options: 创建参数</code></pre></div>
+
+<p>2.删除集合</p>
+<div class="hljs"><pre><code class="hljs shell">db.collection.drop()
+例子：
+db.student.drop() 删除student集合</code></pre></div>
+
+<h3 id="6-5文档"><a href="#6-5文档" class="headerlink" title="6.5文档"></a>6.5文档</h3><h4 id="6-5-1插入文档"><a href="#6-5-1插入文档" class="headerlink" title="6.5.1插入文档"></a>6.5.1插入文档</h4><p>mongodb中文档的格式是json格式，下边就是一个文档，包括两个key：_id主键和name</p>
+<div class="hljs"><pre><code class="hljs shell">&#123;
+	"_id":ObjectId("5b2cc4bfa6a44812707739b5"),
+	"name":"黑马程序员"
+&#125;</code></pre></div>
+
+<p>插入命令：</p>
+<div class="hljs"><pre><code class="hljs shell">db.COLLECTION_NAME.insert(document)</code></pre></div>
+
+<p>每个文档默认以_id作为主键，主键默认类型为ObjectId（对象类型），mongodb会自动生成主键值。</p>
+<p>例子：</p>
+<div class="hljs"><pre><code class="hljs shell">db.student.insert(&#123;"name":"黑马程序员","age":10&#125;)</code></pre></div>
+
+<p>注意：同一个集合中的文档的key可以不相同！但是建议设置为相同的</p>
+<h4 id="6-5-2更新文档"><a href="#6-5-2更新文档" class="headerlink" title="6.5.2更新文档"></a>6.5.2更新文档</h4><p>命令格式：</p>
+<div class="hljs"><pre><code class="hljs shell">db.collection.update(
+	&lt;query&gt;,
+	&lt;update&gt;,
+	&lt;options&gt;
+)
+query:查询条件，相当于sql语句的where
+update：更新文档内容
+options：选项</code></pre></div>
+
+<p>1、替换文档</p>
+<p>将符合条件”name”:”北京黑马程序”的第一个文档替换为{“name”:”北京黑马程序员”,”age”:10}</p>
+<div class="hljs"><pre><code class="hljs shell">db.student.update(&#123;"name":"黑马程序员"&#125;,&#123;"name":"北京黑马程序员","age":10&#125;)</code></pre></div>
+
+<p>2、$set修改器</p>
+<p>使用$set修改器指定要更新的key，key不存在则创建，存在则更新。</p>
+<p>将符合条件”name”:”北京黑马程序”的所有文档更新name和age的值。</p>
+<div class="hljs"><pre><code class="hljs shell">db.student.update(&#123;"name":"黑马程序员"&#125;,&#123;$set:&#123;"name":"北京黑马程序员","age":10&#125;&#125;,&#123;multi:true&#125;)</code></pre></div>
+
+<p>multi：false表示更新第一个匹配的文档，true表示更新所有匹配的文档</p>
+<h4 id="6-5-3删除文档"><a href="#6-5-3删除文档" class="headerlink" title="6.5.3删除文档"></a>6.5.3删除文档</h4><p>命令格式：</p>
+<div class="hljs"><pre><code class="hljs shell">db.student.remove(&lt;query&gt;)
+query：删除条件，相当于sql语句中的where</code></pre></div>
+
+<p>1、删除所有文档</p>
+<p>db.student.remove({})</p>
+<p>2、删除符合条件的文档</p>
+<p>db.student.remove({“name”:”黑马程序员”})</p>
+<h4 id="6-5-4查询文档"><a href="#6-5-4查询文档" class="headerlink" title="6.5.4查询文档"></a>6.5.4查询文档</h4><p>命令格式：</p>
+<div class="hljs"><pre><code class="hljs shell">db.collection.find(query,projection)
+query：查询条件，可不填
+projection：投影查询key，可不填</code></pre></div>
+
+<p>1、查询全部</p>
+<div class="hljs"><pre><code class="hljs shell">db.student.find()</code></pre></div>
+
+<p>2、查询符合条件的记录</p>
+<p>查询name等为”黑马程序员”的文档。</p>
+<div class="hljs"><pre><code class="hljs shell">db.student.find(&#123;"name":"黑马程序员"&#125;)</code></pre></div>
+
+<p>3、投影查询</p>
+<p>只显示name和age两个key，_id主键不显示。</p>
+<div class="hljs"><pre><code class="hljs shell">db.student.find(&#123;"name":"黑马程序员"&#125;,&#123;name:1,age:1,_id:0&#125;)</code></pre></div>
+
+<h3 id="6-6用户"><a href="#6-6用户" class="headerlink" title="6.6用户"></a>6.6用户</h3><h4 id="6-6-1创建用户"><a href="#6-6-1创建用户" class="headerlink" title="6.6.1创建用户"></a>6.6.1创建用户</h4><p>语法格式：</p>
+<div class="hljs"><pre><code class="hljs json">mongo&gt;db.createUser(
+    &#123;user:"&lt;name&gt;",
+     pwd:"&lt;cleartextpassword&gt;",customData:&#123;&lt;anyinformation&gt;&#125;,
+     roles:[
+         &#123;role:"&lt;role&gt;",db:"&lt;database&gt;"&#125;|"&lt;role&gt;",
+         ...
+     ]&#125;
+)</code></pre></div>
+
+<p>例子：</p>
+<p>创建root用户，角色为root</p>
+<div class="hljs"><pre><code class="hljs json">use admin
+db.createUser(
+    &#123;
+        user:"root",
+        pwd:"root",
+        roles:[&#123;role:"root",db:"admin"&#125;]
+    &#125;
+)</code></pre></div>
+
+<p>内置角色如下：</p>
+<p>1.数据库用户角色：read、readWrite;</p>
+<p>2.数据库管理角色：dbAdmin、dbOwner、userAdmin;</p>
+<p>3.集群管理角色：clusterAdmin、clusterManager、clusterMonitor、hostManager；</p>
+<p>4.备份恢复角色：backup、restore；</p>
+<p>5.所有数据库角色：readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase</p>
+<p>6.超级用户角色：root</p>
+<h4 id="6-6-2查询用户"><a href="#6-6-2查询用户" class="headerlink" title="6.6.2查询用户"></a>6.6.2查询用户</h4><p>查询当前库下的所有用户：</p>
+<div class="hljs"><pre><code class="hljs shell">show users</code></pre></div>
+
+<h4 id="6-6-3删除用户"><a href="#6-6-3删除用户" class="headerlink" title="6.6.3删除用户"></a>6.6.3删除用户</h4><p>语法格式：</p>
+<div class="hljs"><pre><code class="hljs shell">db.dropUser("用户名")</code></pre></div>
+
+<p>例子：</p>
+<p>删除root1用户</p>
+<div class="hljs"><pre><code class="hljs shell">db.dropUser("root1")</code></pre></div>
+
+<h4 id="6-6-4修改用户"><a href="#6-6-4修改用户" class="headerlink" title="6.6.4修改用户"></a>6.6.4修改用户</h4><p>语法格式：</p>
+<div class="hljs"><pre><code class="hljs json">db.updateUser(
+    "&lt;username&gt;",
+    &#123;customData:&#123;&lt;anyinformation&gt;&#125;,
+     roles:[
+         &#123;role:"&lt;role&gt;",db:"&lt;database&gt;"&#125;|"&lt;role&gt;",
+         ...
+     ],
+         pwd:"&lt;cleartextpassword&gt;"
+         &#125;,
+         writeConcern:&#123;&lt;writeconcern&gt;&#125;)</code></pre></div>
+
+<p>例子:</p>
+<p>修改root用户的角色为readWriteAnyDatabase</p>
+<div class="hljs"><pre><code class="hljs shell">use admin
+db.updateUser("root",&#123;roles:[&#123;role:"readWriteAnyDatabase",db:"admin"&#125;]&#125;)</code></pre></div>
+
+<h4 id="6-6-5修改密码"><a href="#6-6-5修改密码" class="headerlink" title="6.6.5修改密码"></a>6.6.5修改密码</h4><p>语法格式：</p>
+<div class="hljs"><pre><code class="hljs shell">db.changeUserPassword("username","newPasswd")</code></pre></div>
+
+<p>例子：</p>
+<p>修改root用户的密码为123</p>
+<div class="hljs"><pre><code class="hljs shell">use admin
+db.changeUserPassword("root","123")</code></pre></div>
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MongoDB/">MongoDB</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/04/SpringBoot%E8%87%AA%E5%AE%9A%E4%B9%89starter/">
+                        <span class="hidden-mobile">SpringBoot自定义starter</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "MongoDB入门&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

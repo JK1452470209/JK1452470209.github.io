@@ -17,19 +17,10 @@
   <meta name="description" content="">
   <meta name="author" content="Mr.JK">
   <meta name="keywords" content="">
-  <title>About - Mr.JK</title>
+  <title>Tags - Spring Data MongoDB - Mr.JK</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
-
-  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
-
-  
-    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
-  
-
-  
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
@@ -58,7 +49,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 80vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -146,7 +137,7 @@
 </nav>
 
     <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
+         style="background: url('/img/banner.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -170,108 +161,27 @@
         <div class="py-5" id="board"
           >
           
-            <div class="about-avatar">
-              <img src="/img/avatar1.png" srcset="/img/loading.gif"
-                   class="img-fluid" alt="avatar">
-            </div>
-          
           <div class="container">
             <div class="row">
               <div class="col-12 col-md-10 m-auto">
                 
 
-<div class="text-center">
-  <div class="about-info">
-    <div class="about-name">Mr.JK</div>
-    <div class="about-intro">别技术说的太多，代码敲的太少</div>
-    <div class="about-icons">
+<div class="list-group">
+  <p class="h4">总篇数</p>
+  <hr>
+  
+    
       
-        
-        
-        
-        <a href="https://github.com/JK1452470209" class="
-           hint--bottom hint--rounded"
-           aria-label=GitHub
-        >
-          <i class="iconfont icon-github-fill" aria-hidden="true"></i>
-          
-        </a>
-      
-        
-        
-        
-        <a href="javascript:;" class="qr-trigger
-           "
-           
-        >
-          <i class="iconfont icon-wechat-fill" aria-hidden="true"></i>
-          
-            <img class="qr-img" src="/img/weixin.jpg" srcset="/img/loading.gif" alt="qrcode" />
-          
-        </a>
-      
-    </div>
-  </div>
+      <p class="h5">2020</p>
+    
+    <a href="/2020/08/09/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday03/" class="list-group-item list-group-item-action">
+      <span class="archive-post-title">学成在线day03</span>
+      <span style="float: right;">08-09</span>
+    </a>
+  
+	
 </div>
-<div class="mt-5 markdown-body">
-  <p class="note note-primary">&nbsp 世界再闹腾都要留给自己一片净土 这里只分享技术</p>
 
-<p>​        HashMap&lt;String, Object&gt; me = new HashMap&lt;&gt;();<br>        me.put(“Gender”,”男”);<br>        me.put(“MyPhone”,18316054662F);<br>        me.put(“Age”,Integer.valueOf(20));<br>        me.put(“Information”,new Object[]{“Name”,”Mr.JK”});<br>        me.put(“Address”,new HashSet&lt;&gt;(Arrays.asList(“广东”,”汕头”,”金平”)));<br>        me.put(“Hobby”,new ArrayList&lt;&gt;(Arrays.asList(“看电影”,”敲代码”,”女朋友”)));</p>
-<div id="echarts5878" style="width: 85%;height: 400px;margin: 0 auto"></div>
-<script src="https://cdn.bootcss.com/echarts/4.1.0-release/echarts.min.js"></script>
-<script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts5878'));
-        // 指定图表的配置项和数据
-        var option = {
-    title : {
-        text: '技术分布图',
-        subtext: '纯属虚构',
-        x:'center'
-    },
-    tooltip : {
-        trigger: 'item',
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
-    },
-    legend: {
-        orient: 'vertical',
-        left: 'left',
-        data: ['Spring全家桶','JavaEE','前端','ElasticSearch','JavaSE']
-    },
-    series : [
-        {
-            name: '详细数据',
-            type: 'pie',
-            radius : '55%',
-            center: ['50%', '60%'],
-            data:[
-                {value:335, name:'Spring全家桶'},
-                {value:310, name:'JavaEE'},
-                {value:234, name:'前端'},
-                {value:135, name:'ElasticSearch'},
-                {value:1548, name:'JavaSE'}
-            ],
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-        }
-    ]
-}
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-</script>
-
-
-
-
-
-
-</div>
 
          
               </div>            
@@ -447,7 +357,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Nothing is difficult to the man who will try.&nbsp;",
+        "Tag - Spring Data MongoDB&nbsp;",
       ],
       cursorChar: "|",
       typeSpeed: 65,
@@ -461,23 +371,6 @@
   </script>
 
 
-
-  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "hover",
-      
-      icon: "<"
-      
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
-  </script>
 
 
 

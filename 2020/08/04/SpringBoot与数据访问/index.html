@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>SpringBoot与数据访问 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-04 11:18">
+      2020-08-04
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      15
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="SpringBoot与数据访问"><a href="#SpringBoot与数据访问" class="headerlink" title="SpringBoot与数据访问"></a>SpringBoot与数据访问</h1><h2 id="1、JDBC"><a href="#1、JDBC" class="headerlink" title="1、JDBC"></a>1、JDBC</h2><div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+		<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+		<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+			<span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+		<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+
+
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">datasource:</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span>
+    <span class="hljs-attr">password:</span> <span class="hljs-number">123456</span>
+    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://192.168.15.22:3306/jdbc</span>
+    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span></code></pre></div>
+
+<p>效果：</p>
+<p>​    默认是用org.apache.tomcat.jdbc.pool.DataSource作为数据源；</p>
+<p>​    数据源的相关配置都在DataSourceProperties里面；</p>
+<p>自动配置原理：</p>
+<p>org.springframework.boot.autoconfigure.jdbc：</p>
+<p>1、参考DataSourceConfiguration，根据配置创建数据源，默认使用Tomcat连接池；可以使用spring.datasource.type指定自定义的数据源类型；</p>
+<p>2、SpringBoot默认可以支持；</p>
+<div class="hljs"><pre><code class="hljs css"><span class="hljs-selector-tag">org</span><span class="hljs-selector-class">.apache</span><span class="hljs-selector-class">.tomcat</span><span class="hljs-selector-class">.jdbc</span><span class="hljs-selector-class">.pool</span><span class="hljs-selector-class">.DataSource</span>、<span class="hljs-selector-tag">HikariDataSource</span>、<span class="hljs-selector-tag">BasicDataSource</span>、</code></pre></div>
+
+<p>3、自定义数据源类型</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Generic DataSource configuration.</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@ConditionalOnMissingBean</span>(DataSource<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">@<span class="hljs-title">ConditionalOnProperty</span>(<span class="hljs-title">name</span> </span>= <span class="hljs-string">"spring.datasource.type"</span>)
+<span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Generic</span> </span>&#123;
+
+   <span class="hljs-meta">@Bean</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> DataSource <span class="hljs-title">dataSource</span><span class="hljs-params">(DataSourceProperties properties)</span> </span>&#123;
+       <span class="hljs-comment">//使用DataSourceBuilder创建数据源，利用反射创建响应type的数据源，并且绑定相关属性</span>
+      <span class="hljs-keyword">return</span> properties.initializeDataSourceBuilder().build();
+   &#125;
+
+&#125;</code></pre></div>
+
+<p>4、<strong>DataSourceInitializer：ApplicationListener</strong>；</p>
+<p>​    作用：</p>
+<p>​        1）、runSchemaScripts();运行建表语句；</p>
+<p>​        2）、runDataScripts();运行插入数据的sql语句；</p>
+<p>默认只需要将文件命名为：</p>
+<div class="hljs"><pre><code class="hljs properties"><span class="hljs-attr">schema-*.sql、data-*.sql</span>
+<span class="hljs-attr">默认规则：schema.sql，schema-all.sql；</span>
+<span class="hljs-meta">可以使用</span>   <span class="hljs-string"></span>
+	<span class="hljs-attr">schema</span>:<span class="hljs-string"></span>
+      <span class="hljs-meta">-</span> <span class="hljs-string">classpath:department.sql</span>
+      <span class="hljs-attr">指定位置</span></code></pre></div>
+
+<p>5、操作数据库：自动配置了JdbcTemplate操作数据库</p>
+<h2 id="2、整合Druid数据源"><a href="#2、整合Druid数据源" class="headerlink" title="2、整合Druid数据源"></a>2、整合Druid数据源</h2><div class="hljs"><pre><code class="hljs java">导入druid数据源
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">DruidConfig</span> </span>&#123;
+
+    <span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"spring.datasource"</span>)
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> DataSource <span class="hljs-title">druid</span><span class="hljs-params">()</span></span>&#123;
+       <span class="hljs-keyword">return</span>  <span class="hljs-keyword">new</span> DruidDataSource();
+    &#125;
+
+    <span class="hljs-comment">//配置Druid的监控</span>
+    <span class="hljs-comment">//1、配置一个管理后台的Servlet</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ServletRegistrationBean <span class="hljs-title">statViewServlet</span><span class="hljs-params">()</span></span>&#123;
+        ServletRegistrationBean bean = <span class="hljs-keyword">new</span> ServletRegistrationBean(<span class="hljs-keyword">new</span> StatViewServlet(), <span class="hljs-string">"/druid/*"</span>);
+        Map&lt;String,String&gt; initParams = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+
+        initParams.put(<span class="hljs-string">"loginUsername"</span>,<span class="hljs-string">"admin"</span>);
+        initParams.put(<span class="hljs-string">"loginPassword"</span>,<span class="hljs-string">"123456"</span>);
+        initParams.put(<span class="hljs-string">"allow"</span>,<span class="hljs-string">""</span>);<span class="hljs-comment">//默认就是允许所有访问</span>
+        initParams.put(<span class="hljs-string">"deny"</span>,<span class="hljs-string">"192.168.15.21"</span>);
+
+        bean.setInitParameters(initParams);
+        <span class="hljs-keyword">return</span> bean;
+    &#125;
+
+
+    <span class="hljs-comment">//2、配置一个web监控的filter</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> FilterRegistrationBean <span class="hljs-title">webStatFilter</span><span class="hljs-params">()</span></span>&#123;
+        FilterRegistrationBean bean = <span class="hljs-keyword">new</span> FilterRegistrationBean();
+        bean.setFilter(<span class="hljs-keyword">new</span> WebStatFilter());
+
+        Map&lt;String,String&gt; initParams = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        initParams.put(<span class="hljs-string">"exclusions"</span>,<span class="hljs-string">"*.js,*.css,/druid/*"</span>);
+
+        bean.setInitParameters(initParams);
+
+        bean.setUrlPatterns(Arrays.asList(<span class="hljs-string">"/*"</span>));
+
+        <span class="hljs-keyword">return</span>  bean;
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="3、整合MyBatis"><a href="#3、整合MyBatis" class="headerlink" title="3、整合MyBatis"></a>3、整合MyBatis</h2><div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p><img src="/2020/08/04/SpringBoot%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180305194443.png" srcset="/img/loading.gif" alt></p>
+<p>步骤：</p>
+<p>​    1）、配置数据源相关属性（见上一节Druid）</p>
+<p>​    2）、给数据库建表</p>
+<p>​    3）、创建JavaBean</p>
+<h3 id="4）、注解版"><a href="#4）、注解版" class="headerlink" title="4）、注解版"></a>4）、注解版</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//指定这是一个操作数据库的mapper</span>
+<span class="hljs-meta">@Mapper</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">DepartmentMapper</span> </span>&#123;
+
+    <span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from department where id=#&#123;id&#125;"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Department <span class="hljs-title">getDeptById</span><span class="hljs-params">(Integer id)</span></span>;
+
+    <span class="hljs-meta">@Delete</span>(<span class="hljs-string">"delete from department where id=#&#123;id&#125;"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">deleteDeptById</span><span class="hljs-params">(Integer id)</span></span>;
+
+    <span class="hljs-meta">@Options</span>(useGeneratedKeys = <span class="hljs-keyword">true</span>,keyProperty = <span class="hljs-string">"id"</span>)
+    <span class="hljs-meta">@Insert</span>(<span class="hljs-string">"insert into department(departmentName) values(#&#123;departmentName&#125;)"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">insertDept</span><span class="hljs-params">(Department department)</span></span>;
+
+    <span class="hljs-meta">@Update</span>(<span class="hljs-string">"update department set departmentName=#&#123;departmentName&#125; where id=#&#123;id&#125;"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">updateDept</span><span class="hljs-params">(Department department)</span></span>;
+&#125;</code></pre></div>
+
+<p>问题：</p>
+<p>自定义MyBatis的配置规则；给容器中添加一个ConfigurationCustomizer；</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@org</span>.springframework.context.annotation.Configuration
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyBatisConfig</span> </span>&#123;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ConfigurationCustomizer <span class="hljs-title">configurationCustomizer</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ConfigurationCustomizer()&#123;
+
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">customize</span><span class="hljs-params">(Configuration configuration)</span> </span>&#123;
+                configuration.setMapUnderscoreToCamelCase(<span class="hljs-keyword">true</span>);
+            &#125;
+        &#125;;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<div class="hljs"><pre><code class="hljs java">使用MapperScan批量扫描所有的Mapper接口；
+<span class="hljs-meta">@MapperScan</span>(value = <span class="hljs-string">"com.atguigu.springboot.mapper"</span>)
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringBoot06DataMybatisApplication</span> </span>&#123;
+
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+		SpringApplication.run(SpringBoot06DataMybatisApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+	&#125;
+&#125;</code></pre></div>
+
+<h3 id="5）、配置文件版"><a href="#5）、配置文件版" class="headerlink" title="5）、配置文件版"></a>5）、配置文件版</h3><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">mybatis:</span>
+  <span class="hljs-attr">config-location:</span> <span class="hljs-string">classpath:mybatis/mybatis-config.xml</span> <span class="hljs-string">指定全局配置文件的位置</span>
+  <span class="hljs-attr">mapper-locations:</span> <span class="hljs-string">classpath:mybatis/mapper/*.xml</span>  <span class="hljs-string">指定sql映射文件的位置</span></code></pre></div>
+
+<p>更多使用参照</p>
+<p><a href="http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/" target="_blank" rel="noopener">http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/</a></p>
+<h2 id="4、整合SpringData-JPA"><a href="#4、整合SpringData-JPA" class="headerlink" title="4、整合SpringData JPA"></a>4、整合SpringData JPA</h2><h3 id="1）、SpringData简介"><a href="#1）、SpringData简介" class="headerlink" title="1）、SpringData简介"></a>1）、SpringData简介</h3><p><img src="/2020/08/04/SpringBoot%E4%B8%8E%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE/%E6%90%9C%E7%8B%97%E6%88%AA%E5%9B%BE20180306105412.png" srcset="/img/loading.gif" alt></p>
+<h3 id="2）、整合SpringData-JPA"><a href="#2）、整合SpringData-JPA" class="headerlink" title="2）、整合SpringData JPA"></a>2）、整合SpringData JPA</h3><p>JPA:ORM（Object Relational Mapping）；</p>
+<p>1）、编写一个实体类（bean）和数据表进行映射，并且配置好映射关系；</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//使用JPA注解配置映射关系</span>
+<span class="hljs-meta">@Entity</span> <span class="hljs-comment">//告诉JPA这是一个实体类（和数据表映射的类）</span>
+<span class="hljs-meta">@Table</span>(name = <span class="hljs-string">"tbl_user"</span>) <span class="hljs-comment">//@Table来指定和哪个数据表对应;如果省略默认表名就是user；</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;
+
+    <span class="hljs-meta">@Id</span> <span class="hljs-comment">//这是一个主键</span>
+    <span class="hljs-meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)<span class="hljs-comment">//自增主键</span>
+    <span class="hljs-keyword">private</span> Integer id;
+
+    <span class="hljs-meta">@Column</span>(name = <span class="hljs-string">"last_name"</span>,length = <span class="hljs-number">50</span>) <span class="hljs-comment">//这是和数据表对应的一个列</span>
+    <span class="hljs-keyword">private</span> String lastName;
+    <span class="hljs-meta">@Column</span> <span class="hljs-comment">//省略默认列名就是属性名</span>
+    <span class="hljs-keyword">private</span> String email;</code></pre></div>
+
+<p>2）、编写一个Dao接口来操作实体类对应的数据表（Repository）</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//继承JpaRepository来完成对数据库的操作</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">JpaRepository</span>&lt;<span class="hljs-title">User</span>,<span class="hljs-title">Integer</span>&gt; </span>&#123;
+&#125;</code></pre></div>
+
+<p>3）、基本的配置JpaProperties</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>  
+ <span class="hljs-attr">jpa:</span>
+    <span class="hljs-attr">hibernate:</span>
+<span class="hljs-comment">#     更新或者创建数据表结构</span>
+      <span class="hljs-attr">ddl-auto:</span> <span class="hljs-string">update</span>
+<span class="hljs-comment">#    控制台显示SQL</span>
+    <span class="hljs-attr">show-sql:</span> <span class="hljs-literal">true</span></code></pre></div>
+
+
+
+<h1 id><a href="#" class="headerlink" title></a></h1>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringBoot/">SpringBoot</a>
+                    
+                      <a class="hover-with-bg" href="/tags/MyBatis/">MyBatis</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JDBC/">JDBC</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SpringData-JPA/">SpringData JPA</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/04/SpringBoot%E5%90%AF%E5%8A%A8%E9%85%8D%E7%BD%AE%E5%8E%9F%E7%90%86/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">SpringBoot启动配置原理</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/03/Docker%E5%85%A5%E9%97%A8/">
+                        <span class="hidden-mobile">Docker入门</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "SpringBoot与数据访问&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

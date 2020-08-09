@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>List接口底层实现类 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-06-24 11:14">
+      2020-06-24
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      22
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="List接口底层实现类"><a href="#List接口底层实现类" class="headerlink" title="List接口底层实现类"></a>List接口底层实现类</h1><h2 id="一、java集合类分类"><a href="#一、java集合类分类" class="headerlink" title="一、java集合类分类"></a>一、java集合类分类</h2><p>java集合框架分为俩种，单列集合框架Collection，和双列集合框架Map</p>
+<h3 id="1-单列集合框架结构"><a href="#1-单列集合框架结构" class="headerlink" title="1.单列集合框架结构"></a>1.单列集合框架结构</h3><p>Collection接口：单列集合，用来存储一个一个的对象</p>
+<ul>
+<li>|—-List接口：存储序的、可重复的数据。  –&gt;“动态”数组<ul>
+<li>|—-ArrayList、LinkedList、Vector<br>​</li>
+</ul>
+</li>
+<li>|—-Set接口：存储无序的、不可重复的数据   –&gt;高中讲的“集合”<ul>
+<li>|—-HashSet、LinkedHashSet、TreeSet</li>
+</ul>
+</li>
+</ul>
+<p>本文将对List接口进行解析</p>
+<p>对应图示：</p>
+<p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1592968971414.png" srcset="/img/loading.gif" alt="单列集合框架"></p>
+<p><strong>实线为直接继承或实现，虚线为间接继承或实现</strong></p>
+<h2 id="二、ArrayList"><a href="#二、ArrayList" class="headerlink" title="二、ArrayList"></a>二、ArrayList</h2><h3 id="1-jdk1-7的情况"><a href="#1-jdk1-7的情况" class="headerlink" title="1.jdk1.7的情况"></a>1.jdk1.7的情况</h3><p>​    ArrayList list = new ArrayList();//底层创建了长度是10的Object[]数组elementData</p>
+<ul>
+<li><p>list.add(123);//elementData[0] = new Integer(123);</p>
+</li>
+<li><p>list.add(11);//如果此次的添加导致底层elementData数组容量不够，则扩容。</p>
+</li>
+<li><p>默认情况下，扩容为原来的容量的1.5倍，同时需要将原有数组中的数据复制到新的数组中。</p>
+</li>
+<li><p>结论：建议开发中使用带参的构造器：ArrayList list = new ArrayList(int capacity)</p>
+<p>​</p>
+</li>
+</ul>
+<h3 id="2-jdk1-8的情况"><a href="#2-jdk1-8的情况" class="headerlink" title="2.jdk1.8的情况"></a>2.jdk1.8的情况</h3><p>​    由于现主流开发都是1.8版本的jdk，所有以下对ArrayList进行深入解读</p>
+<h3 id="3-继承情况"><a href="#3-继承情况" class="headerlink" title="3.继承情况"></a>3.继承情况</h3><p>使用idea自带的可视化工具查看继承与实现情况，可以清楚的看到ArrayList间接的实现了Collection接口</p>
+<p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1592969473(1).jpg" srcset="/img/loading.gif" alt="继承情况"></p>
+<h3 id="4-创建ArrayList"><a href="#4-创建ArrayList" class="headerlink" title="4.创建ArrayList"></a>4.创建ArrayList</h3><p>​    接下来我们来看一下创建一个ArrayList容器会发生什么</p>
+<p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1592969867(1).jpg" srcset="/img/loading.gif" alt="创建ArrayList"></p>
+<p>当我用debug创建一个arrayList时 返回的是一个空的，长度为0的数组</p>
+<p>我们跟进去构造函数</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ArrayList</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">this</span>.elementData = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
+&#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">transient</span> Object[] elementData; <span class="hljs-comment">//一个是Object[]对象,transient关键词是指该对象不需要被序列化</span>
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = &#123;&#125;;<span class="hljs-comment">//一个空的Object[]对象</span></code></pre></div>
+
+<p>与jdk7版本的区别是 jdk7创建后就创建一个长度为10的数组，但jdk8并没有，更加节省内存</p>
+<h3 id="5-添加数据"><a href="#5-添加数据" class="headerlink" title="5.添加数据"></a>5.添加数据</h3><div class="hljs"><pre><code class="hljs java">arrayList.add(<span class="hljs-number">123</span>);</code></pre></div>
+
+<p>我们用debug跟进源码</p>
+<p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1592970609(1).jpg" srcset="/img/loading.gif" alt></p>
+<p>因为存入123是基本数据类型，这里有一个自动装箱的过程（装换为Integer类型）</p>
+<p>后面就是进入add方法</p>
+<p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1592973839(1).jpg" srcset="/img/loading.gif" alt></p>
+<p>size默认初始化为0，进入ensureCapacityInternal方法</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ensureCapacityInternal</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) &#123;
+            minCapacity = Math.max(DEFAULT_CAPACITY, minCapacity);
+            <span class="hljs-comment">//max方法取俩个参数最大的一个（这里DEFAULT_CAPACITY为10），将最大的值赋给minCapacity</span>
+        &#125;
+
+        ensureExplicitCapacity(minCapacity);
+    &#125;
+
+进入ensureExplicitCapacity(minCapacity)方法
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ensureExplicitCapacity</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+        modCount++;<span class="hljs-comment">//默认为0 </span>
+
+        <span class="hljs-comment">// overflow-conscious code</span>
+        <span class="hljs-keyword">if</span> (minCapacity - elementData.length &gt; <span class="hljs-number">0</span>)<span class="hljs-comment">//判断最小容量减去原数组长度是否大于0</span>
+            grow(minCapacity);
+    &#125;   
+进入grow(minCapacity)方法
+
+ <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">grow</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+        <span class="hljs-comment">// overflow-conscious code</span>
+        <span class="hljs-keyword">int</span> oldCapacity = elementData.length;<span class="hljs-comment">//记录老容量长度 此时elementData长度为0</span>
+        <span class="hljs-keyword">int</span> newCapacity = oldCapacity + (oldCapacity &gt;&gt; <span class="hljs-number">1</span>);<span class="hljs-comment">//定义新容量值，老容量长度右移一位后加再上老容量长度，而右移一位是取数值的一半，这里就决定了ArrayList以后进行扩容都是对原数组扩容1.5倍</span>
+        <span class="hljs-keyword">if</span> (newCapacity - minCapacity &lt; <span class="hljs-number">0</span>)<span class="hljs-comment">//0 - 10 小于0 所有进入 </span>
+            newCapacity = minCapacity;		<span class="hljs-comment">//新容量长度就为10</span>
+        <span class="hljs-keyword">if</span> (newCapacity - MAX_ARRAY_SIZE &gt; <span class="hljs-number">0</span>) <span class="hljs-comment">//判断此容量会不会超过最大长度（Integer.MAX_VALUE - 8）</span>
+            newCapacity = hugeCapacity(minCapacity);
+        <span class="hljs-comment">// minCapacity is usually close to size, so this is a win:</span>
+        elementData = Arrays.copyOf(elementData, newCapacity);<span class="hljs-comment">//调用Arrays工具类，对数组进行扩容，原理为将旧数组数据复制到新数组</span>
+    &#125;</code></pre></div>
+
+<h2 id="三、LinkedList"><a href="#三、LinkedList" class="headerlink" title="三、LinkedList"></a>三、LinkedList</h2><h3 id="1-继承情况"><a href="#1-继承情况" class="headerlink" title="1.继承情况"></a>1.继承情况</h3><p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1592975059(1).jpg" srcset="/img/loading.gif" alt></p>
+<p>可以看到不仅间接的实现了List接口，还间接的实现了队列Queue的接口</p>
+<h3 id="2-创建LinkedList"><a href="#2-创建LinkedList" class="headerlink" title="2.创建LinkedList"></a>2.创建LinkedList</h3><div class="hljs"><pre><code class="hljs java">LinkedList linkedList = <span class="hljs-keyword">new</span> LinkedList();</code></pre></div>
+
+<p>通过new的方式只是初始化LinkedList容器，底层双向链表结构还未创建。LinkedList Node类型的first和last属性，默认为null</p>
+<h3 id="3-添加数据"><a href="#3-添加数据" class="headerlink" title="3.添加数据"></a>3.添加数据</h3><div class="hljs"><pre><code class="hljs java">linkedList.add(<span class="hljs-number">123</span>);</code></pre></div>
+
+<p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1592975703(1).jpg" srcset="/img/loading.gif" alt></p>
+<p>进入linkLast中</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//在linkedList里面有first和last属性</span>
+<span class="hljs-keyword">transient</span> Node&lt;E&gt; first;
+<span class="hljs-keyword">transient</span> Node&lt;E&gt; last;
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">linkLast</span><span class="hljs-params">(E e)</span> </span>&#123;
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; l = last; <span class="hljs-comment">//将原料的last对象赋值给l</span>
+    <span class="hljs-keyword">final</span> Node&lt;E&gt; newNode = <span class="hljs-keyword">new</span> Node&lt;&gt;(l, e, <span class="hljs-keyword">null</span>);<span class="hljs-comment">//Node为一个静态内部类 在下面：作用是初始化Node对象（链表对象，prev为头指针，next为尾指针，element为数据）</span>
+    last = newNode;<span class="hljs-comment">//将有数据的newNode赋值给last</span>
+    <span class="hljs-keyword">if</span> (l == <span class="hljs-keyword">null</span>)<span class="hljs-comment">//判断是否是第一个节点，如果是</span>
+        first = newNode;	<span class="hljs-comment">//将NewNode直接赋值给尾节点</span>
+    <span class="hljs-keyword">else</span>
+        l.next = newNode;	<span class="hljs-comment">//不是的话。将节点添加到l.next 相当于将链表连接起来</span>
+    size++;
+    modCount++;
+&#125;
+
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Node</span>&lt;<span class="hljs-title">E</span>&gt; </span>&#123;
+        E item;
+        Node&lt;E&gt; next;
+        Node&lt;E&gt; prev;
+
+        Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;
+            <span class="hljs-keyword">this</span>.item = element;
+            <span class="hljs-keyword">this</span>.next = next;
+            <span class="hljs-keyword">this</span>.prev = prev;
+        &#125;
+    &#125;</code></pre></div>
+
+<h2 id="四、Vector"><a href="#四、Vector" class="headerlink" title="四、Vector"></a>四、Vector</h2><p>jdk7和jdk8中通过Vector()构造器创建对象时，底层都创建了长度为10的数组。<br>在扩容方面，默认扩容为原来的数组长度的2倍。</p>
+<h3 id="1-继承情况-1"><a href="#1-继承情况-1" class="headerlink" title="1.继承情况"></a>1.继承情况</h3><p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1593002715(1).png" srcset="/img/loading.gif" alt></p>
+<h3 id="2-创建Vector"><a href="#2-创建Vector" class="headerlink" title="2.创建Vector"></a>2.创建Vector</h3><p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1593002840(1).jpg" srcset="/img/loading.gif" alt></p>
+<p>让我们跟进去构造函数</p>
+<div class="hljs"><pre><code class="hljs java"> <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Vector</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">this</span>(<span class="hljs-number">10</span>);
+    &#125;
+
+再往下跟，调用一个参数的构造函数
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Vector</span><span class="hljs-params">(<span class="hljs-keyword">int</span> initialCapacity)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>(initialCapacity, <span class="hljs-number">0</span>);
+    &#125;
+    
+再往下跟，调用凉参数的构造函数
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Vector</span><span class="hljs-params">(<span class="hljs-keyword">int</span> initialCapacity, <span class="hljs-keyword">int</span> capacityIncrement)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>();		<span class="hljs-comment">//显示调用父构造函数</span>
+        <span class="hljs-keyword">if</span> (initialCapacity &lt; <span class="hljs-number">0</span>)	<span class="hljs-comment">//为0就报错，参数传进来为10</span>
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"Illegal Capacity: "</span>+
+                                               initialCapacity);
+        <span class="hljs-keyword">this</span>.elementData = <span class="hljs-keyword">new</span> Object[initialCapacity]; <span class="hljs-comment">//创建并初始化了对象数组</span>
+        <span class="hljs-keyword">this</span>.capacityIncrement = capacityIncrement;
+    &#125;
+    
+上面俩个属性定义如下：
+<span class="hljs-keyword">protected</span> Object[] elementData;
+<span class="hljs-keyword">protected</span> <span class="hljs-keyword">int</span> elementCount;</code></pre></div>
+
+<p>此版本为jdk8，jdk7的Vector也是创建一个Vector容器就默认初始化长度为0，与jdk7的ArrayList一样，但是人家开发者对ArrayList进行了改进，使用懒加载，可能Vector要被放弃了吧！！</p>
+<p>接下来讲为什么会放弃Vector</p>
+<h3 id="3-添加数据-1"><a href="#3-添加数据-1" class="headerlink" title="3.添加数据"></a>3.添加数据</h3><p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1593003620(1).jpg" srcset="/img/loading.gif" alt></p>
+<p>接下来跟进源码</p>
+<p><img src="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1593003749(1).jpg" srcset="/img/loading.gif" alt></p>
+<p>elementCount默认为0。</p>
+<p>可以看到有一个ensureCapacityHelper方法，此方法是校验长度是否足够，并去扩容的方法，如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ensureCapacityHelper</span><span class="hljs-params">(<span class="hljs-keyword">int</span> minCapacity)</span> </span>&#123;
+    <span class="hljs-comment">// overflow-conscious code</span>
+    <span class="hljs-keyword">if</span> (minCapacity - elementData.length &gt; <span class="hljs-number">0</span>)
+        grow(minCapacity);<span class="hljs-comment">//扩容方法</span>
+&#125;</code></pre></div>
+
+<p>但此处因为默认初始化长度为10，所以这里不会有扩容的需求。</p>
+<p>稍等！Vector不是挺好的嘛，为什么要放弃他？？因为…</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">add</span><span class="hljs-params">(E e)</span></span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> E <span class="hljs-title">remove</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index)</span> </span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">containsAll</span><span class="hljs-params">(Collection&lt;?&gt; c)</span></span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">addAll</span><span class="hljs-params">(<span class="hljs-keyword">int</span> index, Collection&lt;? extends E&gt; c)</span></span></code></pre></div>
+
+<p>因为他的方法上全加了synchronized，加上这个字段他就是一个线程安全的方法，而他的全部方法都是线程安全方法，又众所周知，线程安全效率大大减低，所以连开发jdk人员都懒得救他，毕竟，出现了更好的人，老情人全忘掉了~</p>
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>上述介绍了List接口的全部实现类，如果数据不需要线程安全，则不要去考虑使用Vector，而因为ArrayList和LinkedList底层实现原理不同，他们使用的地方也有所不同，ArrayList底层使用的是数组实现，因此在需要频繁的插入和删除数据时效率会大大减低，而数组有一个好处，就是有下标，下标最直接好的好处就是查询速度非常的快，而LinkedList底层使用的是双向链表实现，所以在频繁的插入和删除数据时，有超高性能的表现，但是在查询的速度远远比不上ArrayList。</p>
+<p>记重点：ArrayList数组实现，每次扩容1.5倍，使用懒加载，首次扩容长度为10</p>
+<p>​        LinkedList双向链表实现</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/List/">List</a>
+                    
+                      <a class="hover-with-bg" href="/tags/ArrayList/">ArrayList</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LinkedList/">LinkedList</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Vector/">Vector</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Set接口底层实现类</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/24/SpringBoot-SpringMVC%E8%87%AA%E5%8A%A8%E9%85%8D%E7%BD%AE/">
+                        <span class="hidden-mobile">SpringBoot-SpringMVC自动配置</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "List接口底层实现类&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

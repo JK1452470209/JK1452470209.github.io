@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>Set接口底层实现类 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-07-25 13:42">
+      2020-07-25
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      25
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="Set接口底层实现类"><a href="#Set接口底层实现类" class="headerlink" title="Set接口底层实现类"></a>Set接口底层实现类</h1><h1 id="一、Set接口继承关系"><a href="#一、Set接口继承关系" class="headerlink" title="一、Set接口继承关系"></a>一、Set接口继承关系</h1><p>存储的数据特点：无序的、不可重复的元素</p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1595656190066.png" srcset="/img/loading.gif" alt></p>
+<p>|—-Set接口：存储无序的、不可重复的数据   –&gt;高中讲的“集合”</p>
+<ul>
+<li>|—-HashSet：作为Set接口的主要实现类；线程不安全的；可以存储null值</li>
+<li>|—-LinkedHashSet：作为HashSet的子类；遍历其内部数据时，可以按照添加的顺序遍历在添加数据的同时，每个数据还维护了两个引用，记录此数据前一个数据和后一个数据。                   对于频繁的遍历操作，LinkedHashSet效率高于HashSet.</li>
+<li>|—-TreeSet：可以照添加对象的指定属性，进行排序。</li>
+</ul>
+<h1 id="二、HashSet"><a href="#二、HashSet" class="headerlink" title="二、HashSet"></a>二、HashSet</h1><h2 id="1-继承情况"><a href="#1-继承情况" class="headerlink" title="1.继承情况"></a>1.继承情况</h2><p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1595656458260.png" srcset="/img/loading.gif" alt></p>
+<p>可以看到是直接实现了Set接口，和间接继承了Collection接口</p>
+<h2 id="2-创建HashSet"><a href="#2-创建HashSet" class="headerlink" title="2.创建HashSet"></a>2.创建HashSet</h2><p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/abcsd.png" srcset="/img/loading.gif" alt></p>
+<p>debug跟进源代码</p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/1.png" srcset="/img/loading.gif" alt></p>
+<p>可以看到空参构造器里new了一个HashMap出来</p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/2.png" srcset="/img/loading.gif" alt="59565709297"></p>
+<p>而HashMap初始化了一个加载因子的常量，这里由于是map内容不多做细讲</p>
+<p> 实际上HashSet实现Set接口，由哈希表（实际上是一个HashMap实例）支持。它不保证set 的迭代顺序；特别是它不保证该顺序恒久不变，此类允许使用null元素。 </p>
+<p>在HashSet中，元素都存到HashMap键值对的Key上面，而Value时有一个统一的值<code>private static final Object PRESENT = new Object();</code>，(定义一个虚拟的Object对象作为HashMap的value，将此对象定义为static final。) 在添加数据时就能观察到。</p>
+<h2 id="3-添加数据"><a href="#3-添加数据" class="headerlink" title="3.添加数据"></a>3.添加数据</h2><p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/3.png" srcset="/img/loading.gif" alt></p>
+<p>跟进 首先是一个自动装箱</p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/4.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/5.png" srcset="/img/loading.gif" alt></p>
+<div class="hljs"><pre><code class="hljs java">而PRESENT就是刚才提及到的固定的value值 实现了双列变单列
+<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Object PRESENT = <span class="hljs-keyword">new</span> Object();</code></pre></div>
+
+<p>接下来的put就是map的操作了</p>
+<h2 id="4-不可重复性和无序性"><a href="#4-不可重复性和无序性" class="headerlink" title="4.不可重复性和无序性"></a>4.不可重复性和无序性</h2><p>HashSet的俩大特点</p>
+<div class="hljs"><pre><code>1. 无序性：不等于随机性。存储的数据在底层数组中并非照数组索引的顺序添加，而是根据数据的哈希值决定的。
+    2. 不可重复性：保证添加的元素照equals()判断时，不能返回true.即：相同的元素只能添加一个。</code></pre></div><p>在进行测试过程中 我发现避免不了去到map的源码，由于太过复杂 尽量用大白话说明白，map会单独出一篇</p>
+<p>在jdk7和之前 底层使用的是数组加链表，在jdk8后使用的是数组加链表加红黑树。</p>
+<p>因为我们知道map的key是不允许的重复的，如果有重复的key值就会把map的key和value进行更新操作，这一来就说的通了，HashSet就是限制了map的功能，让map的value值固定为常量，只使用key去操作，所以说HashSet不允许有重复的值，其实也是这个新的值把原来的值给替换掉了</p>
+<p><strong>而无序性，要重存放的方式说起。（注意，存进HashSet的对象一定要重写HashCode和equals方法）</strong></p>
+<p>我们向HashSet中添加元素a,首先调用元素a所在类的hashCode()方法，计算元素a的哈希值，<br>        此哈希值接着通过某种算法计算出在HashSet底层数组中的存放位置（即为：索引位置，判断<br>        数组此位置上是否已经元素）：</p>
+<p>  此时有俩种情况：  </p>
+<p>​        1.如果此位置上没其他元素，则元素a添加成功。 —&gt;插入成功情况1<br>               2.如果此位置上其他元素b(或以链表形式存在的多个元素，则比较元素a与元素b的hash值：</p>
+<p>此时又有俩种情况：</p>
+<p>​                1.如果hash值不相同，则元素a添加成功。—&gt;成功情况2<br>                2.如果hash值相同，进而需要调用元素a所在类的equals()方法：</p>
+<p>此时还是有俩种情况：</p>
+<p>​               1.equals()返回true,元素a添加失败<br>               2.equals()返回false,则元素a添加成功。—&gt;成功情况3</p>
+<p>​    对于添加成功的情况2和情况3而言：元素a 与已经存在指定索引位置上数据以链表的方式存储。</p>
+<p>​    </p>
+<p>（链表指向区别↓）</p>
+<p>jdk 7 :元素a放到数组中，指向原来的元素。<br>jdk 8 :原来的元素在数组中，指向元素a</p>
+<p>此时同学们肯定会有疑问，如果HashCode相同难道会出现equals不同的情况嘛？（还真会待会贴出优秀代码）</p>
+<p>由于在数组 和 链表 和 红黑树 的数据结构有点抽象 下面几副图可以形象看到HashSet添加时全过程</p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/6.png" srcset="/img/loading.gif" alt></p>
+<p>情况2：</p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/7.png" srcset="/img/loading.gif" alt></p>
+<p>情况3：</p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/8.png" srcset="/img/loading.gif" alt></p>
+<p>这里没有用到红黑树，是因为加入红黑树是让遍历等操作速度变快，具体的方式为，在数组某一个位置上的链表的层数到8层或总数量多于64个时，链表重新打散，改为使用树结构，当然树结构的头还是数组，变成一颗颗倒着的树。</p>
+<h2 id="5-添加代码"><a href="#5-添加代码" class="headerlink" title="5.添加代码"></a>5.添加代码</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Person</span></span>&#123;
+        Integer num;
+        String name;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Person</span><span class="hljs-params">(Integer num, String name)</span> </span>&#123;
+            <span class="hljs-keyword">this</span>.num = num;
+            <span class="hljs-keyword">this</span>.name = name;
+        &#125;
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-string">"Person&#123;"</span> +
+                    <span class="hljs-string">"num="</span> + num +
+                    <span class="hljs-string">", name='"</span> + name + <span class="hljs-string">'\''</span> +
+                    <span class="hljs-string">'&#125;'</span>;
+        &#125;
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">equals</span><span class="hljs-params">(Object o)</span> </span>&#123;
+            <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == o) <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+            <span class="hljs-keyword">if</span> (!(o <span class="hljs-keyword">instanceof</span> Person)) <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+            Person person = (Person) o;
+            <span class="hljs-keyword">return</span> Objects.equals(num, person.num) &amp;&amp;
+                    Objects.equals(name, person.name);
+        &#125;
+
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">hashCode</span><span class="hljs-params">()</span> </span>&#123;
+            <span class="hljs-keyword">return</span> Objects.hash(num, name);
+        &#125;
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test1</span><span class="hljs-params">()</span></span>&#123;
+        HashSet set = <span class="hljs-keyword">new</span> HashSet();
+        Person p1 = <span class="hljs-keyword">new</span> Person(<span class="hljs-number">1002</span>,<span class="hljs-string">"AA"</span>);
+        Person p2 = <span class="hljs-keyword">new</span> Person(<span class="hljs-number">1002</span>,<span class="hljs-string">"BB"</span>);
+
+        set.add(p1);
+        set.add(p2);
+        System.out.println(set);
+
+        p1.name = <span class="hljs-string">"CC"</span>;
+        set.remove(p1);
+        System.out.println(set);
+        set.add(<span class="hljs-keyword">new</span> Person(<span class="hljs-number">1002</span>,<span class="hljs-string">"CC"</span>));
+        System.out.println(set);
+        set.add(<span class="hljs-keyword">new</span> Person(<span class="hljs-number">1002</span>,<span class="hljs-string">"AA"</span>));
+        System.out.println(set);
+    &#125;</code></pre></div>
+
+<p>运行test1中代码结果为：</p>
+<div class="hljs"><pre><code class="hljs java">[Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'AA'</span>&#125;, Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'BB'</span>&#125;]
+[Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'CC'</span>&#125;, Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'BB'</span>&#125;]
+[Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'CC'</span>&#125;, Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'BB'</span>&#125;, Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'CC'</span>&#125;]
+[Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'CC'</span>&#125;, Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'BB'</span>&#125;, Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'CC'</span>&#125;, Person&#123;num=<span class="hljs-number">1002</span>, name=<span class="hljs-string">'AA'</span>&#125;]</code></pre></div>
+
+<p>是不是很诡异？其实归根结底还是那三种情况</p>
+<h1 id="三、LinkedHashSet"><a href="#三、LinkedHashSet" class="headerlink" title="三、LinkedHashSet"></a>三、LinkedHashSet</h1><h2 id="1-继承情况-1"><a href="#1-继承情况-1" class="headerlink" title="1.继承情况"></a>1.继承情况</h2><p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/9.png" srcset="/img/loading.gif" alt></p>
+<h2 id="2-优劣"><a href="#2-优劣" class="headerlink" title="2.优劣"></a>2.优劣</h2><p>LinkedHashSet 与 HashSet 区别在于 LinkedHashSet 遍历其内部数据时，可以按照添加的顺序遍历，在添加数据的同时，每个数据还维护了两个引用，记录此数据前一个数据和后一个数据。 </p>
+<p>特性就剩不可重复性了</p>
+<p>对于频繁的遍历操作，LinkedHashSet效率高于HashSet</p>
+<h1 id="四、TreeSet"><a href="#四、TreeSet" class="headerlink" title="四、TreeSet"></a>四、TreeSet</h1><h2 id="1-继承情况-2"><a href="#1-继承情况-2" class="headerlink" title="1.继承情况"></a>1.继承情况</h2><p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/10.png" srcset="/img/loading.gif" alt></p>
+<p>TreeSet不太一样，它是可以将数据按照一定的排列顺序进行输出。有俩种方式（定制排序，自然排序）</p>
+<h2 id="2-自然排序"><a href="#2-自然排序" class="headerlink" title="2.自然排序"></a>2.自然排序</h2><p>自然排序就是对象实现了Comparable接口</p>
+<p><img src="/2020/07/25/Set%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/11.png" srcset="/img/loading.gif" alt></p>
+<p>我们知道，Set是无序的，但是用TreeSet的数据就是有序的，那基本数据类型为什么存进去就会变有序呢？</p>
+<p>其实这里有一个自动装箱的过程在Integer中就实现了这个接口</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Integer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Number</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Comparable</span>&lt;<span class="hljs-title">Integer</span>&gt; </span>&#123;
+    
+    
+ 在里面重写了compareTo
+     
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compareTo</span><span class="hljs-params">(Integer anotherInteger)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> compare(<span class="hljs-keyword">this</span>.value, anotherInteger.value);
+    &#125;
+     
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> (x &lt; y) ? -<span class="hljs-number">1</span> : ((x == y) ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span>);
+    &#125;
+    
+以后要想放在TreeSet实现排序的对象 先要自己重写compareTo方法，用自己的排列方式才能生效</code></pre></div>
+
+<h2 id="3-定制排序"><a href="#3-定制排序" class="headerlink" title="3.定制排序"></a>3.定制排序</h2><p>往往在很多时候，自然排序根本不能用，因为不能去更改源代码，所以有另一种方法，帮助我们定制排序的顺序</p>
+<p>这种方法就是给TreeSet构造器中给一个Comparator对象，在Comparator对象中重写compare方法，定制自己需要的排列规则</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">test2</span><span class="hljs-params">()</span></span>&#123;
+       Comparator com = <span class="hljs-keyword">new</span> Comparator() &#123;
+           <span class="hljs-comment">//照年龄从小到大排列</span>
+           <span class="hljs-meta">@Override</span>
+           <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(Object o1, Object o2)</span> </span>&#123;
+               <span class="hljs-keyword">if</span>(o1 <span class="hljs-keyword">instanceof</span> User &amp;&amp; o2 <span class="hljs-keyword">instanceof</span> User)&#123;
+                   User u1 = (User)o1;
+                   User u2 = (User)o2;
+                   <span class="hljs-keyword">return</span> Integer.compare(u1.getAge(),u2.getAge());
+               &#125;<span class="hljs-keyword">else</span>&#123;
+                   <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"输入的数据类型不匹配"</span>);
+               &#125;
+           &#125;
+       &#125;;
+
+       TreeSet set = <span class="hljs-keyword">new</span> TreeSet(com);
+       set.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">"Tom"</span>,<span class="hljs-number">12</span>));
+       set.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">"Jerry"</span>,<span class="hljs-number">32</span>));
+       set.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">"Jim"</span>,<span class="hljs-number">2</span>));
+       set.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">"Mike"</span>,<span class="hljs-number">65</span>));
+       set.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">"Mary"</span>,<span class="hljs-number">33</span>));
+       set.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">"Jack"</span>,<span class="hljs-number">33</span>));
+       set.add(<span class="hljs-keyword">new</span> User(<span class="hljs-string">"Jack"</span>,<span class="hljs-number">56</span>));
+
+
+       Iterator iterator = set.iterator();
+       <span class="hljs-keyword">while</span>(iterator.hasNext())&#123;
+           System.out.println(iterator.next());
+       &#125;
+   &#125;</code></pre></div>
+
+<p>一般来说如果某个对象不需要经常使用排序，则使用定制排序就行，因为可以使用匿名内部类的方式，一次性的排序，而使用自然排序则是一直绑定着排序规则，不灵活。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">源码分析</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Set/">Set</a>
+                    
+                      <a class="hover-with-bg" href="/tags/HashSet/">HashSet</a>
+                    
+                      <a class="hover-with-bg" href="/tags/LinkedHashSet/">LinkedHashSet</a>
+                    
+                      <a class="hover-with-bg" href="/tags/TreeSet/">TreeSet</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/03/SpringBoot%E9%85%8D%E7%BD%AE%E5%B5%8C%E5%85%A5%E5%BC%8FServlet%E5%AE%B9%E5%99%A8/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">配置嵌入式Servlet容器</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/06/24/List%E6%8E%A5%E5%8F%A3%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E7%B1%BB/">
+                        <span class="hidden-mobile">List接口底层实现类</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Set接口底层实现类&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

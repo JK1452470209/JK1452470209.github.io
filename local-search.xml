@@ -15,8 +15,6 @@
       
       <category>学成在线</category>
       
-      <category>新手教程</category>
-      
     </categories>
     
     
@@ -24,7 +22,7 @@
       
       <tag>RabbitMQ</tag>
       
-      <tag>SPringBoot整合RabbitMQ</tag>
+      <tag>SpringBoot整合RabbitMQ</tag>
       
     </tags>
     

@@ -1,0 +1,2231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>学成在线day10：课程发布、ElasticSearch - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-17 14:46">
+      2020-08-17
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      11.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      156
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="😎知识点概览"><a href="#😎知识点概览" class="headerlink" title="😎知识点概览"></a>😎知识点概览</h1><blockquote>
+<p>为了方便后续回顾该项目时能够清晰的知道本章节讲了哪些内容，并且能够从该章节的笔记中得到一些帮助，所以在完成本章节的学习后在此对本章节所涉及到的知识点进行总结概述。</p>
+</blockquote>
+<p>本章节为【学成在线】项目的 <code>day10</code> 的内容</p>
+<ul>
+<li>课程发布功能开发</li>
+<li><code>ElasticsSearch</code> 安装部署</li>
+<li><code>ElasticsSearch</code> 快速入门、<code>IK</code> 分词器、映射、索引</li>
+</ul>
+<h1 id="一、课程发布"><a href="#一、课程发布" class="headerlink" title="一、课程发布"></a>一、课程发布</h1><h2 id="1-需求分析"><a href="#1-需求分析" class="headerlink" title="1. 需求分析"></a>1. 需求分析</h2><p>课程发布后将生成正式的课程详情页面，课程发布后用户即可浏览课程详情页面，并开始课程的学习。课程发布生成课程详情页面的流程与课程预览业务流程相同，如下：</p>
+<p>1、用户进入教学管理中心，进入某个课程的管理界面</p>
+<p>2、点击课程发布，前端请求到课程管理服务</p>
+<p>3、课程管理服务远程调用 <code>CMS</code> 生成课程发布页面，<code>CMS</code> 将课程详情页面发布到服务器</p>
+<p>4、课程管理服务修改课程发布状态为 “<strong>已发布</strong>”，并向前端返回发布成功</p>
+<p>5、用户在教学管理中心点击 “课程详情页面” 链接，查看课程详情页面内容</p>
+<p>流程图如下</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image1" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image1.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="2-CMS一键发布接口"><a href="#2-CMS一键发布接口" class="headerlink" title="2. CMS一键发布接口"></a>2. CMS一键发布接口</h2><h3 id="1、需求分析"><a href="#1、需求分析" class="headerlink" title="1、需求分析"></a>1、需求分析</h3><p>根据需求分析内容，需要在 <code>cms</code> 服务增加页面发布接口供课程管理服务调用，此接口的功能如下：</p>
+<p>1、接收课程管理服务发布的页面信息</p>
+<p>2、将页面信息添加到 数据库<strong>（mongodb）</strong></p>
+<p>3、对页面信息进行静态化</p>
+<p>4、将页面信息发布到服务器</p>
+<h3 id="2、接口定义"><a href="#2、接口定义" class="headerlink" title="2、接口定义"></a>2、接口定义</h3><p>1、创建响应结果类型</p>
+<p>页面发布成功cms返回页面的 <code>url</code></p>
+<p>页面 <code>Url</code> = <code>cmsSite.siteDomain</code> + <code>cmsSite.siteWebPath</code> + <code>cmsPage.pageWebPath</code> + <code>cmsPage.pageName</code></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@NoArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CmsPostPageResult</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ResponseResult</span> </span>&#123;
+    String pageUrl;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">CmsPostPageResult</span><span class="hljs-params">(ResultCode resultCode,String pageUrl)</span></span>&#123;
+        <span class="hljs-keyword">super</span>(resultCode);
+        <span class="hljs-keyword">this</span>.pageUrl = pageUrl;
+    &#125;
+&#125;</code></pre></div>
+
+<p>2、在 <code>api</code> 工程定义页面发布接口</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">   * 一键发布页面</span>
+<span class="hljs-comment">*/</span>
+<span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"一键发布页面"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> CmsPostPageResult <span class="hljs-title">postPageQuick</span><span class="hljs-params">(CmsPage cmsPage)</span></span>;</code></pre></div>
+
+<h3 id="3、Dao"><a href="#3、Dao" class="headerlink" title="3、Dao"></a>3、Dao</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 继承MongoDB自带的一些Repository</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">CmsSiteRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">MongoRepository</span>&lt;<span class="hljs-title">CmsSite</span>,<span class="hljs-title">String</span></span>&#123;
+
+&#125;</code></pre></div>
+
+<h3 id="4、Service"><a href="#4、Service" class="headerlink" title="4、Service"></a>4、Service</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 一键发布页面</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> cmsPage</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> CmsPostPageResult <span class="hljs-title">postPageQuick</span><span class="hljs-params">(CmsPage cmsPage)</span> </span>&#123;
+    <span class="hljs-comment">//添加页面，这里直接调用我们在做预览页面时候开发的保存页面方法</span>
+    CmsPageResult cmsPageResult = <span class="hljs-keyword">this</span>.saveCmsPage(cmsPage);
+    <span class="hljs-keyword">if</span>(!cmsPageResult.isSuccess())&#123;
+        <span class="hljs-comment">//添加页面失败</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CmsPostPageResult(CommonCode.FAIL,<span class="hljs-keyword">null</span>);
+    &#125;
+
+    CmsPage saveCmsPage = cmsPageResult.getCmsPage();
+    String pageId = saveCmsPage.getPageId();
+
+    <span class="hljs-comment">//发布页面,通知cms client发布页面</span>
+    ResponseResult responseResult = <span class="hljs-keyword">this</span>.postPage(pageId);
+    <span class="hljs-keyword">if</span>(!responseResult.isSuccess())&#123;
+        <span class="hljs-comment">//发布失败</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CmsPostPageResult(CommonCode.FAIL,<span class="hljs-keyword">null</span>);
+    &#125;
+
+    <span class="hljs-comment">//得到页面的url，页面url=站点域名+站点webpath+页面webpath+页面名称</span>
+    <span class="hljs-comment">//所以这里我们需要获取站点信息</span>
+    String siteId = saveCmsPage.getSiteId();
+    Optional&lt;CmsSite&gt; cmsSiteOptional = cmsSiteRepository.findById(siteId);
+    <span class="hljs-keyword">if</span>(!cmsSiteOptional.isPresent())&#123;
+        <span class="hljs-comment">//获取站点异常</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CmsPostPageResult(CommonCode.FAIL,<span class="hljs-keyword">null</span>);
+    &#125;
+    CmsSite cmsSite = cmsSiteOptional.get();
+    <span class="hljs-comment">//站点和页面的信息</span>
+    String siteDomain = cmsSite.getSiteDomain();
+    String siteWebPath = cmsSite.getSiteWebPath();
+    String pageWebPath = saveCmsPage.getPageWebPath();
+    String pageName = saveCmsPage.getPageName();
+    <span class="hljs-comment">//发布页面的访问地址</span>
+    String pageUrl = siteDomain + siteWebPath + pageWebPath + pageName;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CmsPostPageResult(CommonCode.SUCCESS, pageUrl);
+&#125;</code></pre></div>
+
+<p>2、页面发布方法</p>
+<h3 id="5、Controller"><a href="#5、Controller" class="headerlink" title="5、Controller"></a>5、Controller</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 一键发布页面</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> cmsPage</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/postPageQuick"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> CmsPostPageResult <span class="hljs-title">postPageQuick</span><span class="hljs-params">(@RequestBody CmsPage cmsPage)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> pageService.postPageQuick(cmsPage);
+&#125;</code></pre></div>
+
+<h2 id="3-课程发布接口"><a href="#3-课程发布接口" class="headerlink" title="3. 课程发布接口"></a>3. 课程发布接口</h2><h3 id="1、API接口"><a href="#1、API接口" class="headerlink" title="1、API接口"></a>1、API接口</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"课程发布"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> CoursePublishResult <span class="hljs-title">CoursePublish</span><span class="hljs-params">(String courseId)</span></span>;</code></pre></div>
+
+<h3 id="2、创建Feign-Client"><a href="#2、创建Feign-Client" class="headerlink" title="2、创建Feign Client"></a>2、创建Feign Client</h3><p>定义一个远程调用的方法，用于远程调用刚才我们在 CMS 服务中定义的一键发布接口。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = <span class="hljs-string">"XC-SERVICE-MANAGE-CMS"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">CmsPageClient</span> </span>&#123;
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/cms/page/postPageQuick"</span>)
+    <span class="hljs-function">CmsPostPageResult <span class="hljs-title">postPageQuick</span><span class="hljs-params">(@RequestBody CmsPage cmsPage)</span></span>;
+&#125;</code></pre></div>
+
+<h3 id="3、Service"><a href="#3、Service" class="headerlink" title="3、Service"></a>3、Service</h3><p><strong>1、配置课程发布页面参数</strong></p>
+<p>新增课程详情页面的站点信息，如果已增加课程详情页面的站点则忽略此步骤。</p>
+<p>向 <code>mongodb</code> 的 <code>cms_site</code> 中新增如下信息</p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+    <span class="hljs-attr">"_id"</span> : ObjectId(<span class="hljs-string">"5b30b052f58b4411fc6cb1cf"</span>), 
+    <span class="hljs-attr">"_class"</span> : <span class="hljs-string">"com.xuecheng.framework.domain.cms.CmsSite"</span>, 
+    <span class="hljs-attr">"siteName"</span> : <span class="hljs-string">"课程详情站点"</span>, 
+    <span class="hljs-attr">"siteDomain"</span> : <span class="hljs-string">"http://www.xuecheng.com"</span>, 
+    <span class="hljs-attr">"sitePort"</span> : <span class="hljs-string">"80"</span>, 
+    <span class="hljs-attr">"siteWebPath"</span> : <span class="hljs-string">"/"</span>, 
+    <span class="hljs-attr">"siteCreateTime"</span> : ISODate(<span class="hljs-string">"2018-02-03T02:34:19.113+0000"</span>)
+&#125;</code></pre></div>
+
+<p>在 <code>application.yml</code> 中配置</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">course-publish:</span>
+  <span class="hljs-attr">siteId:</span> <span class="hljs-string">5b30b052f58b4411fc6cb1cf</span>
+  <span class="hljs-attr">templateId:</span> <span class="hljs-string">5e93d2e3d79e7d6ed1009b95</span>
+  <span class="hljs-attr">previewUrl:</span> <span class="hljs-string">http://www.xuecheng.com/cms/preview/</span>
+  <span class="hljs-attr">pageWebPath:</span> <span class="hljs-string">/course/detail/</span>
+  <span class="hljs-attr">pagePhysicalPath:</span> <span class="hljs-string">G:/job/code/Project/XueChengOnline/xcEduUI01/xuecheng/static/course/detail/</span>
+  <span class="hljs-attr">dataUrlPre:</span> <span class="hljs-string">http://localhost:31200/course/preview/model/</span></code></pre></div>
+
+<ul>
+<li><code>siteId</code>：站点<code>id</code></li>
+<li><code>templateId</code>：模板<code>id</code></li>
+<li><code>dataurlPre</code>：数据<code>url</code>的前缀</li>
+<li><code>pageWebPath</code>: 页面的 <code>web</code> 访问路径</li>
+<li><code>pagePhysicalPath</code>： 这个指的是页面要发布到 <code>nginx</code> 服务器的物理路径，我们在配置文件中定义，可以动态调整，便于扩展。</li>
+</ul>
+<p><strong>2、service 方法如下</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//拼装页面信息</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> CmsPage <span class="hljs-title">setPageInfo</span><span class="hljs-params">(String courseId)</span></span>&#123;
+    <span class="hljs-comment">//获取课程信息</span>
+    CourseBase courseBaseById = <span class="hljs-keyword">this</span>.findCourseBaseById(courseId);
+
+    <span class="hljs-comment">//拼装页面基本信息</span>
+    CmsPage cmsPage = <span class="hljs-keyword">new</span> CmsPage();
+    cmsPage.setDataUrl(publish_dataUrlPre + courseId);
+    cmsPage.setPagePhysicalPath(publish_page_physicalpath);
+    cmsPage.setPageWebPath(publish_page_webpath);
+    cmsPage.setSiteId(publish_siteId);
+    cmsPage.setTemplateId(publish_templateId);
+    cmsPage.setPageName(courseId + <span class="hljs-string">".html"</span>);
+
+    <span class="hljs-comment">//页面别名</span>
+    cmsPage.setPageAliase(courseBaseById.getName());
+    <span class="hljs-keyword">return</span> cmsPage;
+&#125;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 课程详细页面发布</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Transactional</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> CoursePublishResult <span class="hljs-title">coursePublish</span><span class="hljs-params">(String courseId)</span></span>&#123;
+    <span class="hljs-comment">//拼装页面信息</span>
+    CmsPage cmsPage = setPageInfo(courseId);
+
+    <span class="hljs-comment">//发布课程详细页面</span>
+    CmsPostPageResult cmsPostPageResult = cmsPageClient.postPageQuick(cmsPage);
+    <span class="hljs-keyword">if</span>(!cmsPostPageResult.isSuccess())&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CoursePublishResult(CommonCode.FAIL,<span class="hljs-keyword">null</span>);
+    &#125;
+
+    <span class="hljs-comment">//更新课程状态</span>
+    CourseBase courseBaseById = <span class="hljs-keyword">this</span>.findCourseBaseById(courseId);
+    courseBaseById.setStatus(<span class="hljs-string">"202002"</span>);
+    courseBaseRepository.save(courseBaseById);
+
+    <span class="hljs-comment">//课程索引...</span>
+
+    <span class="hljs-comment">//课程缓存...</span>
+
+    <span class="hljs-comment">//页面url</span>
+    String pageUrl = cmsPostPageResult.getPageUrl();
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CoursePublishResult(CommonCode.SUCCESS,pageUrl);
+&#125;</code></pre></div>
+
+<h3 id="4、Controller"><a href="#4、Controller" class="headerlink" title="4、Controller"></a>4、Controller</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 课程发布</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> courseId</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/publish/&#123;id&#125;"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> CoursePublishResult <span class="hljs-title">CoursePublish</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span> String courseId) </span>&#123;
+    <span class="hljs-keyword">return</span> courseService.coursePublish(courseId);
+&#125;</code></pre></div>
+
+<p>5、接口测试</p>
+<h2 id="4-测试CMS一键发布接口"><a href="#4-测试CMS一键发布接口" class="headerlink" title="4. 测试CMS一键发布接口"></a>4. 测试CMS一键发布接口</h2><p><strong>测试前准备工作</strong></p>
+<p>1、启动<code>RabbitMQ</code>服务<br>2、启动 <code>cms</code> 、<code>course</code> 服务<br>3、启动 <code>cms_client</code>，注意配置 <code>routingKey</code> 和队列名称，<code>routingKey</code> 为所使用的站点id</p>
+<p>4、这里我们分别在 <code>course</code> 、<code>cms</code>、cms client 三个服务内对应的地方打上断点，观察发布的流程</p>
+<p><code>course</code> 服务断点，我们设置在远程调用 cms 一键发布接口返回结果之后</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image2" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image2.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>cms 服务断点，在 <strong>一键发布接口</strong> 开始执行的地方我们打上断点</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image3" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image3.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>当 cms 客户端接收到 cms 通过 rabbitMQ 发送的消息后，会调用该方法将页面保存到 nginx 服务器的物理路径内</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image4" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image4.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>准备工作做完了，我们在 course 服务生成的 sawgger-ui 进行测试</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image5" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image5.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>发送请求后，我们在 idea 中可以看到，断点已经跑到了 cms 服务的一键发布接口</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image6" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image6.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>继续执行的话，<code>cms</code> 服务会调用 <code>this.postPage</code> 方法，获取该页面的 数据模型、以及模板数据，将数据静态化后得到完整的页面数据，并且写入到 <code>GridFS</code> 中；</p>
+<p>写入 <code>GridFS</code>后通过 <code>rabbitMQ</code> 发送消息到 <code>cms client</code> ，消息的内容包含一个页面<code>id</code>，入下图，断点已经走到了 <code>cms client</code> 服务的 <code>savePageToServerPath</code> 方法中</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image7" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image7.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>``cms client<code>接收到</code>pageId<code>后，获取该页面数据的 fileId，通过该id到</code>GridFS` 中找到该页面的数据，并写入到页面的物理路径内，写入完成后，回到 cms 服务内拼装发布后的页面地址，再返回到 course 服务</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image8" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image8.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>course 服务接收到 cms 的响应，取出 pageUrl 返回到前端，如下图</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image9" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image9.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>回到 swagger ui，我们可以看到已经返回了一个发布成功的url</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image10" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image10.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>访问页面看下效果</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image11" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image11.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="5-前端页面开发与测试"><a href="#5-前端页面开发与测试" class="headerlink" title="5. 前端页面开发与测试"></a>5. 前端页面开发与测试</h2><p><strong>1、页面开发</strong></p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">el-card</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"box-card"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"header"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"clearfix"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span>课程发布<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"text item"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"course.status == '202001'"</span>&gt;</span>
+      状态：制作中<span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">el-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"primary"</span>  @<span class="hljs-attr">click.native</span>=<span class="hljs-string">"publish"</span> &gt;</span>新课程发布<span class="hljs-tag">&lt;/<span class="hljs-name">el-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-else-if</span>=<span class="hljs-string">"course.status == '202003'"</span>&gt;</span>
+      状态：已下线
+      <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">:href</span>=<span class="hljs-string">"'http://www.xuecheng.com/course/detail/'+this.courseid+'.html'"</span> <span class="hljs-attr">target</span>=<span class="hljs-string">"_blank"</span>&gt;</span>点我查看课程详情页面 <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-else-if</span>=<span class="hljs-string">"course.status == '202002'"</span>&gt;</span>
+      状态：已发布<span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">el-button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"primary"</span>  @<span class="hljs-attr">click.native</span>=<span class="hljs-string">"publish"</span> &gt;</span>修改发布<span class="hljs-tag">&lt;/<span class="hljs-name">el-button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">br</span>/&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">:href</span>=<span class="hljs-string">"'http://www.xuecheng.com/course/detail/'+this.courseid+'.html'"</span> <span class="hljs-attr">target</span>=<span class="hljs-string">"_blank"</span>&gt;</span>点我查看课程详情页面 <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span> <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">el-card</span>&gt;</span></code></pre></div>
+
+<p><strong>2、获取课程状态</strong></p>
+<div class="hljs"><pre><code class="hljs js">getCourseView()&#123;
+  courseApi.findCourseView(<span class="hljs-keyword">this</span>.courseid).then(<span class="hljs-function"><span class="hljs-params">res</span>=&gt;</span>&#123;
+    <span class="hljs-keyword">if</span>(res)&#123;
+        <span class="hljs-comment">//获取课程状态</span>
+        <span class="hljs-keyword">this</span>.course.status = res.status;
+    &#125;
+  &#125;)
+&#125;</code></pre></div>
+
+<p>在页面初始化完成其前执行</p>
+<div class="hljs"><pre><code class="hljs js">mounted()&#123;
+  <span class="hljs-comment">//课程id</span>
+  <span class="hljs-keyword">this</span>.courseid = <span class="hljs-keyword">this</span>.$route.params.courseid;
+  <span class="hljs-comment">//查询课程信息</span>
+  <span class="hljs-keyword">this</span>.getCourseView();
+&#125;</code></pre></div>
+
+<p><strong>3、页面发布接口</strong></p>
+<p>api接口定义</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">/*发布课程*/</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> publish = <span class="hljs-function"><span class="hljs-params">id</span> =&gt;</span> &#123;
+  <span class="hljs-keyword">return</span> http.requestPost(apiUrl+<span class="hljs-string">'/course/publish/'</span>+id);
+&#125;</code></pre></div>
+
+<p>api接口实现</p>
+<div class="hljs"><pre><code class="hljs js">publish()&#123;
+  <span class="hljs-comment">//课程发布</span>
+  courseApi.publish(<span class="hljs-keyword">this</span>.courseid).then(<span class="hljs-function"><span class="hljs-params">res</span>=&gt;</span>&#123;
+      <span class="hljs-keyword">if</span>(res.success)&#123;
+          <span class="hljs-keyword">this</span>.$message.success(<span class="hljs-string">"发布成功，请点击下边的链接查询课程详情页面"</span>)
+          <span class="hljs-keyword">this</span>.getCourseView();
+      &#125;<span class="hljs-keyword">else</span>&#123;
+        <span class="hljs-keyword">this</span>.$message.error(res.message)
+      &#125;
+
+  &#125;)
+&#125;,</code></pre></div>
+
+<p>测试</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image12" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image12.gif" srcset="/img/loading.gif" alt="img"></a></p>
+<h1 id="二、初识-Elastic-Search"><a href="#二、初识-Elastic-Search" class="headerlink" title="二、初识 Elastic Search"></a>二、初识 Elastic Search</h1><h2 id="1-是什么？为什么？"><a href="#1-是什么？为什么？" class="headerlink" title="1. 是什么？为什么？"></a>1. 是什么？为什么？</h2><h3 id="1、简历"><a href="#1、简历" class="headerlink" title="1、简历"></a>1、简历</h3><p>百度百科</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image13" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image13.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>官方网址：<a href="https://www.elastic.co/cn/products/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/cn/products/elasticsearch</a></p>
+<p>Github ：<a href="https://github.com/elastic/elasticsearch" target="_blank" rel="noopener">https://github.com/elastic/elasticsearch</a></p>
+<p><strong>总结：</strong></p>
+<p>1、<code>elasticsearch</code>是一个基于<code>Lucene</code>的高扩展的分布式搜索服务器，支持开箱即用。<br>2、<code>elasticsearch</code> 隐藏了 <code>Lucene</code> 的复杂性，对外提供 <code>Restful</code> 接口来操作索引、搜索。</p>
+<p><strong>突出优点：</strong></p>
+<ol>
+<li>扩展性好，可部署上百台服务器集群，处理PB级数据。</li>
+<li>近实时的去索引数据、搜索数据。</li>
+</ol>
+<p>市面上的同类型的产品有 <code>solr</code> ，那么 <code>es</code> 和 <code>solr</code> 选择哪个？</p>
+<p>如果你公司现在用的 <code>solr</code> 可以满足需求就不要换了。</p>
+<p>如果你公司准备进行全文检索项目的开发，建议优先考虑 <code>elasticsearch</code>，因为像 <code>Github</code>这样大规模的搜索都在用它。</p>
+<h3 id="2、原理于应用"><a href="#2、原理于应用" class="headerlink" title="2、原理于应用"></a>2、原理于应用</h3><p>索引结构</p>
+<p>下图是 <code>ElasticSearch</code> 的索引结构，下边黑色部分是物理结构，上边黄色部分是逻辑结构，逻辑结构也是为了更好的去描述 <code>ElasticSearch</code> 的工作原理及去使用物理结构中的索引文件。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image14" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image14.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>逻辑结构部分是一个倒排索引表：</p>
+<p>1、将要搜索的文档内容分词，所有不重复的词组成分词列表。</p>
+<p>2、将搜索的文档最终以 <code>Document</code> 方式存储起来。</p>
+<p>3、每个词和 <code>docment</code> 都有关联。</p>
+<p>如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image15" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image15.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>现在，如果我们想搜索 <code>quick brown</code> ，我们只需要查找包含每个词条的文档：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image16" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image16.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>两个文档都匹配，但是第一个文档比第二个匹配度更高。如果我们使用仅计算匹配词条数量的简单 相似性算法 ，那么，我们可以说，对于我们查询的相关性来讲，第一个文档比第二个文档更佳。</p>
+<blockquote>
+<p>正排索引：根据词与文章内容的关系进行索引。</p>
+<p>倒排索引：根据词与文章的关系进行索引，需要提前对词和文章进行关联。</p>
+</blockquote>
+<h3 id="3、如何使用es？"><a href="#3、如何使用es？" class="headerlink" title="3、如何使用es？"></a>3、如何使用es？</h3><p><code>Elasticsearch</code> 提供 <code>RESTful Api</code> 接口进行索引、搜索，并且支持多种客户端。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image17" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image17.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>下图是es在项目中的应用方式：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image18" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image18.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>1）用户在前端搜索关键字</p>
+<p>2）项目前端通过 <code>http</code> 方式请求项目服务端</p>
+<p>3）项目服务端通过 <code>Http RESTful</code> 方式请求 <code>ES</code> 集群进行搜索</p>
+<p>4）<code>ES</code> 集群从索引库检索数据。</p>
+<h2 id="2-安装-Elastic-Search"><a href="#2-安装-Elastic-Search" class="headerlink" title="2. 安装 Elastic Search"></a>2. 安装 Elastic Search</h2><h3 id="1、安装"><a href="#1、安装" class="headerlink" title="1、安装"></a>1、安装</h3><p>安装配置：</p>
+<p>1、新版本要求至少 <code>jdk1.8</code> 以上。</p>
+<p>2、支持<code>tar</code>、<code>zip</code>、<code>rpm</code>等多种安装方式。在 <code>windows</code> 下开发建议使用ZIP安装方式。</p>
+<p>3、支持 <code>docker</code> 方式安装</p>
+<p>详细参见：<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/elasticsearch/reference/current/install-elasticsearch.html</a></p>
+<p>注意视频教程中用的是6.2.1的，为了适应较新的版本这里我这里下载 <code>6.8.8</code> 的版本作为演示</p>
+<blockquote>
+<p>截至现在官方已经更新 到了 7.7.*，从语义化版本规范来看，6和7应该有架构上的重大变化，所以我还是选择6系的最新一个版本避免踩坑，以后有需求再去对比7的差异。</p>
+</blockquote>
+<p><a href="https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.8.zip" target="_blank" rel="noopener">https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.8.zip</a></p>
+<p>其他版本下载：<a href="https://www.elastic.co/cn/downloads/past-releases" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/past-releases</a></p>
+<p>下载完成后我们解压 <code>elasticsearch-*.*.*.zip</code></p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image19" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image19.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p><code>bin</code>：脚本目录，包括：启动、停止等可执行脚本</p>
+<p><code>config</code>：配置文件目录</p>
+<p><code>data</code>：索引目录，存放索引文件的地方</p>
+<p><code>logs</code>：日志目录</p>
+<p><code>modules</code>：模块目录，包括了es的功能模块</p>
+<p><code>plugins</code> :插件目录，es支持插件机制</p>
+<h3 id="2、配置文件"><a href="#2、配置文件" class="headerlink" title="2、配置文件"></a>2、配置文件</h3><p>ES的配置文件的地址根据安装形式的不同而不同：</p>
+<p>1、使用 <code>zip</code>、<code>tar</code> 安装，配置文件的地址在安装目录的 <code>config</code> 下。</p>
+<p>2、使用 <code>RPM</code> 安装，配置文件在 <code>/etc/elasticsearch</code> 下。</p>
+<p>3、使用 <code>MSI</code> 安装，配置文件的地址在安装目录的 <code>config</code> 下，并且会自动将 <code>config</code> 目录地址写入环境变量<br><code>ES_PATH_CONF</code>。</p>
+<p>本教程使用的 <code>zip</code> 包安装，配置文件在ES安装目录的<code>config</code>下。</p>
+<p>配置文件如下：</p>
+<ul>
+<li><code>elasticsearch.yml</code> ： 用于配置Elasticsearch运行参数</li>
+<li><code>jvm.options</code> ： 用于配置Elasticsearch JVM设置</li>
+<li><code>log4j2.properties</code>： 用于配置Elasticsearch日志</li>
+</ul>
+<h4 id="elasticsearch-yml"><a href="#elasticsearch-yml" class="headerlink" title="elasticsearch.yml"></a><strong>elasticsearch.yml</strong></h4><p>配置格式是 <code>YAML</code>，可以采用如下两种方式：</p>
+<p><strong>方式1：层次方式</strong></p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">path:</span> 
+  <span class="hljs-attr">data:</span> <span class="hljs-string">/var/lib/elasticsearch</span>
+  <span class="hljs-attr">logs:</span> <span class="hljs-string">/var/log/elasticsearch</span></code></pre></div>
+
+<p><strong>方式2：属性方式</strong></p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">path.data:</span> <span class="hljs-string">/var/lib/elasticsearch</span>
+<span class="hljs-attr">path.logs:</span> <span class="hljs-string">/var/log/elasticsearch</span></code></pre></div>
+
+<p>本项目采用方式2，例子如下：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">cluster.name:</span> <span class="hljs-string">xuecheng</span>
+<span class="hljs-attr">node.name:</span> <span class="hljs-string">xc_node_1</span>
+<span class="hljs-attr">network.host:</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">http.port:</span> <span class="hljs-number">9200</span>
+<span class="hljs-attr">transport.tcp.port:</span> <span class="hljs-number">9300</span>
+<span class="hljs-attr">node.master:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">node.data:</span> <span class="hljs-literal">true</span>
+<span class="hljs-comment">#discovery.zen.ping.unicast.hosts: ["0.0.0.0:9300", "0.0.0.0:9301", "0.0.0.0:9302"]</span>
+<span class="hljs-attr">discovery.zen.minimum_master_nodes:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">bootstrap.memory_lock:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">node.max_local_storage_nodes:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">path.data:</span> <span class="hljs-string">D:\ElasticSearch\elasticsearch‐6.2.1\data</span>
+<span class="hljs-attr">path.logs:</span> <span class="hljs-string">D:\ElasticSearch\elasticsearch‐6.2.1\logs</span>
+<span class="hljs-attr">http.cors.enabled:</span> <span class="hljs-literal">true</span>
+<span class="hljs-string">http.cors.allow‐origin:</span> <span class="hljs-string">/.*/</span></code></pre></div>
+
+<p>注意 <code>path.data</code> 和 <code>path.logs</code> 路径配置正确。</p>
+<p>常用的配置项如下：</p>
+<table>
+<thead>
+<tr>
+<th>配置字段</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cluster.name</td>
+<td>配置 <code>elasticsearch</code> 的集群名称，默认是 <code>elasticsearch</code>。建议修改成一个有意义的名称。</td>
+</tr>
+<tr>
+<td>node.name</td>
+<td>节点名，通常一台物理服务器就是一个节点，<code>es</code> 会默认随机指定一个名字，建议指定一个有意义的名称，方便管理一个或多个节点组成一个 <code>cluster</code> 集群，集群是一个逻辑的概念，节点是物理概念，后边章节会详细介绍。</td>
+</tr>
+<tr>
+<td>path.conf</td>
+<td>设置配置文件的存储路径，tar或zip包安装默认在 <code>es</code> 根目录下的 <code>config</code> 文件夹，<code>rpm</code> 安装默认在 <code>/etc/</code></td>
+</tr>
+<tr>
+<td>path.logs</td>
+<td>设置日志文件的存储路径，默认是es根目录下的 <code>logs</code> 文件夹</td>
+</tr>
+<tr>
+<td>path.plugins</td>
+<td>设置插件的存放路径，默认是 <code>es</code> 根目录下的 <code>plugins</code> 文件夹</td>
+</tr>
+<tr>
+<td>bootstrap.memory_lock</td>
+<td><code>true</code> 设置为 <code>true</code> 可以锁住 <code>ES</code> 使用的内存，避免内存与 <code>swap</code> 分区交换数据。</td>
+</tr>
+<tr>
+<td>elasticsearch path.data</td>
+<td>设置索引数据的存储路径，默认是 <code>es</code> 根目录下的 <code>data</code> 文件夹，可以设置多个存储路径，用逗号隔开。 <code>path.logs</code>: 设置日志文件的存储路径，默认是es根目录下的 <code>logs</code> 文件夹</td>
+</tr>
+<tr>
+<td>network.host</td>
+<td>设置绑定主机的 <code>ip</code> 地址，设置为 <code>0.0.0.0</code> 表示绑定任何 <code>ip</code>，允许外网访问，生产环境建议设置为具体的 <code>ip</code>。</td>
+</tr>
+<tr>
+<td>http.port</td>
+<td><code>9200</code> 设置对外服务的 <code>http</code> 端口，默认为 <code>9200</code>。</td>
+</tr>
+<tr>
+<td>transport.tcp.port</td>
+<td><code>9300</code> 集群结点之间通信端口</td>
+</tr>
+<tr>
+<td>node.master</td>
+<td>指定该节点是否有资格被选举成为 <code>master</code> 结点，默认是true，如果原来的master宕机会重新选举新的master。</td>
+</tr>
+<tr>
+<td>node.data</td>
+<td>指定该节点是否存储索引数据，默认为 <code>true</code>。</td>
+</tr>
+<tr>
+<td>discovery.zen.ping.unicast.hosts</td>
+<td>[“host1:port”, “host2:port”, “…”] 设置集群中 <code>master</code> 节点的初始列表。</td>
+</tr>
+<tr>
+<td>discovery.zen.ping.timeout</td>
+<td><code>3s</code> 设置 <code>ES</code> 自动发现节点连接超时的时间，默认为3秒，如果网络延迟高可设置大些。</td>
+</tr>
+<tr>
+<td>discovery.zen.minimum_master_nodes</td>
+<td>主结点数量的最少值 ,此值的公式为：(<code>master_eligible_nodes</code> / 2) + 1 ，比如：有3个符合要求的主结点，那么这里要设置为2。</td>
+</tr>
+<tr>
+<td>node.max_local_storage_nodes</td>
+<td>单机允许的最大存储结点数，通常单机启动一个结点建议设置为1，开发环境如果单机启动多个节点可设置大于1.</td>
+</tr>
+</tbody></table>
+<h4 id="jvm-options"><a href="#jvm-options" class="headerlink" title="jvm.options"></a>jvm.options</h4><p>设置最小及最大的JVM堆内存大小：</p>
+<p>在 <code>jvm.options</code> 中设置 <code>-Xms</code> 和 <code>-Xmx</code>：</p>
+<p>1） 两个值设置为相等</p>
+<p>2） 将 <code>Xmx</code> 设置为不超过物理内存的一半。</p>
+<h4 id="log4j2-properties"><a href="#log4j2-properties" class="headerlink" title="log4j2.properties"></a>log4j2.properties</h4><p>日志文件设置，ES使用 <code>log4j</code>，注意日志级别的配置。</p>
+<h4 id="系统配置"><a href="#系统配置" class="headerlink" title="系统配置"></a>系统配置</h4><p>在<code>linux</code>上根据系统资源情况，可将每个进程最多允许打开的文件数设置大些。</p>
+<p><code>su limit -n</code> 查询当前文件数</p>
+<p>使用命令设置 <code>limit</code>:<br>先切换到 <code>root</code>，设置完成再切回 <code>elasticsearch</code> 用户。</p>
+<div class="hljs"><pre><code class="hljs c">sudo su 
+ulimit ‐n <span class="hljs-number">65536</span>
+su elasticsearch</code></pre></div>
+
+<p>也可通过下边的方式修改文件进行持久设置<br><code>/etc/security/limits.conf</code> 将下边的行加入此文件：</p>
+<div class="hljs"><pre><code class="hljs angelscript">elasticsearch  ‐  nofile  <span class="hljs-number">65536</span></code></pre></div>
+
+<h3 id="3、启动ES"><a href="#3、启动ES" class="headerlink" title="3、启动ES"></a>3、启动ES</h3><p>进入 <code>bin</code> 目录，在 <code>cmd</code> 下运行：<code>elasticsearch.bat</code></p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image20" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image20.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>浏览器输入：<a href="http://localhost:9200/" target="_blank" rel="noopener">http://localhost:9200</a></p>
+<p>显示结果如下（配置不同内容则不同）说明 <code>ES</code> 启动成功：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+  <span class="hljs-attr">"name"</span> : <span class="hljs-string">"xc_node_1"</span>,
+  <span class="hljs-attr">"cluster_name"</span> : <span class="hljs-string">"xuecheng"</span>,
+  <span class="hljs-attr">"cluster_uuid"</span> : <span class="hljs-string">"J18wPybJREyx1kjOoH8T‐g"</span>,
+  <span class="hljs-attr">"version"</span> : &#123;
+    <span class="hljs-attr">"number"</span> : <span class="hljs-string">"6.2.1"</span>,
+    <span class="hljs-attr">"build_hash"</span> : <span class="hljs-string">"7299dc3"</span>,
+    <span class="hljs-attr">"build_date"</span> : <span class="hljs-string">"2018‐02‐07T19:34:26.990113Z"</span>,
+    <span class="hljs-attr">"build_snapshot"</span> : <span class="hljs-literal">false</span>,
+     <span class="hljs-attr">"lucene_version"</span> : <span class="hljs-string">"7.2.1"</span>,
+    <span class="hljs-attr">"minimum_wire_compatibility_version"</span> : <span class="hljs-string">"5.6.0"</span>,
+    <span class="hljs-attr">"minimum_index_compatibility_version"</span> : <span class="hljs-string">"5.0.0"</span>
+  &#125;,
+  <span class="hljs-attr">"tagline"</span> : <span class="hljs-string">"You Know, for Search"</span>
+&#125;</code></pre></div>
+
+<h3 id="4、安装-head-插件"><a href="#4、安装-head-插件" class="headerlink" title="4、安装 head 插件"></a>4、安装 head 插件</h3><p><code>head</code> 插件是 <code>ES</code> 的一个可视化管理插件，用来监视ES的状态，并通过 <code>head</code> 客户端和 <code>ES</code> 服务进行交互，比如创建映射、创建索引等，<code>head</code> 的项目地址在 <a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener">https://github.com/mobz/elasticsearch-head</a></p>
+<p>从ES6.0 开始，<code>head</code> 插件支持使得 <code>node.js</code> 运行。</p>
+<p><strong>1、安装 node.js</strong></p>
+<p><strong>2、下载 head 并运行</strong></p>
+<div class="hljs"><pre><code class="hljs shell">git clone git://github.com/mobz/elasticsearch-head.git 
+cd elasticsearch-head 
+npm install 
+npm run start open</code></pre></div>
+
+<p>访问 <code>http://本地主机:9100/</code></p>
+<p><strong>3、运行</strong></p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image21" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image21.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>打开浏览器调试工具发现报错：</p>
+<p>Origin null is not allowed by Access-Control-Allow-Origin.</p>
+<p>原因是：head插件作为客户端要连接ES服务（localhost:9200），此时存在跨域问题，elasticsearch默认不允许跨域访问。</p>
+<p><strong>解决方案：</strong></p>
+<p>设置 <code>elasticsearch</code> 允许跨域访问</p>
+<div class="hljs"><pre><code class="hljs c"># 跨域配置
+http.cors.enabled: <span class="hljs-literal">true</span>
+http.cors.allow-origin: /.*/</code></pre></div>
+
+<p>跨域访问允许的域名地址，(允许所有域名) 以上使用正则 <code>http.cors.allow-origin: /.*/</code></p>
+<p>注意：将 <code>config/elasticsearch.yml</code> 另存为utf-8编码格式。</p>
+<p>成功连接 <code>ES</code> 。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image22" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image22.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h1 id="三、ES-快速入门"><a href="#三、ES-快速入门" class="headerlink" title="三、ES 快速入门"></a>三、ES 快速入门</h1><p><code>ES</code> 作为一个索引及搜索服务，对外提供丰富的 <code>REST</code> 接口，快速入门部分的实例使用 <code>head</code> 插件来测试，目的是对 <code>ES</code> 的使用方法及流程有个初步的认识。</p>
+<h2 id="1-创建索引库"><a href="#1-创建索引库" class="headerlink" title="1. 创建索引库"></a>1. 创建索引库</h2><p><code>ES</code> 的索引库是一个逻辑概念，它包括了分词列表及文档列表，同一个索引库中存储了相同类型的文档。它就相当于 <code>MySQL</code> 中的表，或相当于 <code>Mongodb</code> 中的集合。</p>
+<p>关于索引这个语：</p>
+<p>索引（名词）：<code>ES</code> 是基于 <code>Lucene</code> 构建的一个搜索服务，它要从索引库搜索符合条件索引数据。</p>
+<p>索引（动词）：索引库刚创建起来是空的，将数据添加到索引库的过程称为索引。</p>
+<p>下边介绍两种创建索引库的方法，它们的工作原理是相同的，都是客户端向 <code>ES</code> 服务发送命令。</p>
+<p><strong>1）使用 postman 或 curl 这样的工具创建：</strong></p>
+<p><code>put http://localhost:9200/xc_course</code> 索引库名称</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+  <span class="hljs-attr">"settings"</span>:&#123;
+  <span class="hljs-attr">"index"</span>:&#123;
+      <span class="hljs-attr">"number_of_shards"</span>:<span class="hljs-number">1</span>,
+      <span class="hljs-attr">"number_of_replicas"</span>:<span class="hljs-number">0</span>
+   &#125;    
+  &#125;
+&#125;</code></pre></div>
+
+<p><strong>number_of_shards</strong>：设置分片的数量，在集群中通常设置多个分片，表示一个索引库将拆分成多片分别存储不同的结点，提高了 <code>ES</code> 的处理能力和高可用性，入门程序使用单机环境，这里设置为 1。</p>
+<p><strong>number_of_replicas</strong>：设置副本的数量，设置副本是为了提高 <code>ES</code> 的高可靠性，单机环境设置为 <code>0</code>.</p>
+<p>如下是创建的例子，创建 <code>xc_course</code> 索引库，共 <code>1</code> 个分片，<code>0</code> 个副本：</p>
+<p>使用 <code>postman</code> 发送 put 请求</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image23" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image23.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p><strong>2）使用head插件创建</strong></p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image24" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image24.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>效果如下</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image25" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image25.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="2-创建映射"><a href="#2-创建映射" class="headerlink" title="2. 创建映射"></a>2. 创建映射</h2><h3 id="1、概念说明"><a href="#1、概念说明" class="headerlink" title="1、概念说明"></a>1、概念说明</h3><p>在索引中每个文档都包括了一个或多个 <code>field</code>，创建映射就是向索引库中创建 <code>field</code> 的过程，下边是<code>document</code> 和 <code>field</code> 与关系数据库的概念的类比：</p>
+<p>文档（Document）—————- <code>Row</code> 记录</p>
+<p>字段（Field）——————- <code>Columns</code> 列</p>
+<p>注意：<code>6.0</code> 之前的版本有 <code>type</code>（类型）概念，<code>type</code> 相当于关系数据库的表，<code>ES</code> 官方将在 <code>ES9.0</code> 版本中彻底删除 <code>type</code>。</p>
+<p>上边讲的创建索引库相当于关系数据库中的数据库还是表？</p>
+<p>1、如果相当于数据库就表示一个索引库可以创建很多不同类型的文档，这在 <code>ES</code> 中也是允许的。</p>
+<p>2、如果相当于表就表示一个索引库只能存储相同类型的文档，<code>ES</code> 官方建议 在一个索引库中只存储相同类型的文档。</p>
+<h3 id="2、创建映射"><a href="#2、创建映射" class="headerlink" title="2、创建映射"></a>2、创建映射</h3><p>我们要把课程信息存储到 <code>ES</code> 中，这里我们创建课程信息的映射，先来一个简单的映射，如下：</p>
+<p>发送：post <code>http://localhost:9200/索引库名称/类型名称/_mapping</code></p>
+<p>创建类型为 <code>xc_course</code> 的映射，共包括三个字段：<code>name</code>、<code>description</code>、<code>studymondel</code></p>
+<p>由于 <code>ES6.0</code> 版本还没有将 <code>type</code> 彻底删除，所以暂时把 <code>type</code> 起一个没有特殊意义的名字。</p>
+<p>发送 post 请求：<a href="http://localhost:9200/xc_course/doc/_mapping" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_mapping</a></p>
+<blockquote>
+<p>在 <code>xc_course</code> 索引库下的 <code>doc</code> 类型下创建映射。<code>doc</code> 是类型名，可以自定义，在 <code>ES6.0</code> 中要弱化类型的概念，给它起一个没有具体业务意义的名称。</p>
+</blockquote>
+<p>body</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"name"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"description"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"studymodel"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>映射创建成功，查看 <code>head</code> 界面：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image26" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image26.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="3-创建文档"><a href="#3-创建文档" class="headerlink" title="3. 创建文档"></a>3. 创建文档</h2><p>ES中的文档相当于MySQL数据库表中的记录。</p>
+<p>发送：put 或 Post 到<code>http://localhost:9200/xc_course/doc/id值</code>（如果不指定id值ES会自动生成ID）</p>
+<p><a href="http://localhost:9200/xc_course/doc/4028e58161bcf7f40161bcf8b77c0000" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/4028e58161bcf7f40161bcf8b77c0000</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"name"</span>:<span class="hljs-string">"Bootstrap开发框架"</span>,
+    <span class="hljs-attr">"description"</span>:<span class="hljs-string">"Bootstrap是由Twitter推出的一个前台页面开发框架，在行业之中使用较为广泛。此开发框架包含了大量的CSS、JS程序代码，可以帮助开发者（尤其是不擅长页面开发的程序人员）轻松的实现一个不受浏览器限制的精美界面效果。"</span>,
+    <span class="hljs-attr">"studymodel"</span>:<span class="hljs-string">"201001"</span>
+&#125;</code></pre></div>
+
+<p>使用 <code>postman</code> 测试：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image27" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image27.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>通过 <code>head</code> 查询数据：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image28" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image28.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="4-搜索文档"><a href="#4-搜索文档" class="headerlink" title="4. 搜索文档"></a>4. 搜索文档</h2><p>1、根据课程id查询文档<br>发送：get <a href="http://localhost:9200/xc_course/doc/4028e58161bcf7f40161bcf8b77c0000" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/4028e58161bcf7f40161bcf8b77c0000</a></p>
+<p>使用 <code>postman</code> 测试：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image29" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image29.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>2、查询所有记录</p>
+<p>发送 get <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<p>3、查询名称中包括 <code>bootstrap</code> 关键字的的记录<br>发送：get <a href="http://localhost/" target="_blank" rel="noopener">http://localhost</a>:9200/xc_course/doc/_search?q=name:bootstrap</p>
+<p>4、查询学习模式为 <code>201001</code> 的记录<br>发送 get <a href="http://localhost:9200/xc_course/doc/_search?q=studymodel:201001" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search?q=studymodel:201001</a></p>
+<h3 id="查询结果分析"><a href="#查询结果分析" class="headerlink" title="查询结果分析"></a>查询结果分析</h3><p>分析上边查询结果：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"took"</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">"timed_out"</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"_shards"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"successful"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"skipped"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"failed"</span>: <span class="hljs-number">0</span>
+    &#125;,
+    <span class="hljs-attr">"hits"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"max_score"</span>: <span class="hljs-number">0.2876821</span>,
+        <span class="hljs-attr">"hits"</span>: [
+            &#123;
+                <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course"</span>,
+                <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"4028e58161bcf7f40161bcf8b77c0000"</span>,
+                <span class="hljs-attr">"_score"</span>: <span class="hljs-number">0.2876821</span>,
+                <span class="hljs-attr">"_source"</span>: &#123;
+                    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Bootstrap开发框架"</span>,
+                    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"Bootstrap是由Twitter推出的一个前台页面开发框架，在行业之中使用较为广泛。此开发框架包含了大量的CSS、JS程序代码，可以帮助开发者（尤其是不擅长页面开发的程序人员）轻松的实现一个不受浏览器限制的精美界面效果。"</span>,
+                    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>
+                &#125;
+            &#125;
+        ]
+    &#125;
+&#125;</code></pre></div>
+
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>took</td>
+<td>本次操作花费的时间，单位为毫秒。</td>
+</tr>
+<tr>
+<td>timed_out</td>
+<td>请求是否超时</td>
+</tr>
+<tr>
+<td>_shards</td>
+<td>说明本次操作共搜索了哪些分片</td>
+</tr>
+<tr>
+<td>hits</td>
+<td>搜索命中的记录</td>
+</tr>
+<tr>
+<td>hits.total</td>
+<td>符合条件的文档总数 <code>hits.hits</code> ：匹配度较高的前N个文档</td>
+</tr>
+<tr>
+<td>hits.max_score</td>
+<td>文档匹配得分，这里为最高分</td>
+</tr>
+<tr>
+<td>_score</td>
+<td>每个文档都有一个匹配度得分，按照降序排列。</td>
+</tr>
+<tr>
+<td>_source</td>
+<td>显示了文档的原始内容。</td>
+</tr>
+</tbody></table>
+<h1 id="四、IK分词器"><a href="#四、IK分词器" class="headerlink" title="四、IK分词器"></a>四、IK分词器</h1><h2 id="1-测试ES默认的分词器"><a href="#1-测试ES默认的分词器" class="headerlink" title="1. 测试ES默认的分词器"></a>1. 测试ES默认的分词器</h2><p>在添加文档时会进行分词，索引中存放的就是一个一个的词（term），当你去搜索时就是拿关键字去匹配词，最终找到词关联的文档。</p>
+<p>测试当前索引库使用的分词器：</p>
+<p>POST 请求：<a href="http://localhost:9200/_analyze" target="_blank" rel="noopener">http://localhost:9200/_analyze</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;<span class="hljs-attr">"text"</span>:<span class="hljs-string">"分词器"</span>&#125;</code></pre></div>
+
+<p>结果如下：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"tokens"</span>: [
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"分"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"&lt;IDEOGRAPHIC&gt;"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">0</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"词"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"&lt;IDEOGRAPHIC&gt;"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">1</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"器"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">3</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"&lt;IDEOGRAPHIC&gt;"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">2</span>
+        &#125;
+    ]
+&#125;</code></pre></div>
+
+<p>从响应的结果来看，<code>ES</code> 的默认分词器会将我们提交的内容中的每一个词进行分割，这样显然不够智能，下面我们来看一下 <code>IK</code> 分词器。</p>
+<h2 id="2-安装IK分词器"><a href="#2-安装IK分词器" class="headerlink" title="2. 安装IK分词器"></a>2. 安装IK分词器</h2><p>使用IK分词器可以实现对中文分词的效果。<br>下载IK分词器：（Github地址：<a href="https://github.com/medcl/elasticsearch-analysis-ik%EF%BC%89" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik）</a></p>
+<blockquote>
+<p>这里要注意的是，IK分词器的版本的ES的版本的相对应的，也就是说，如果我们 ES 的版本用的是 v6.8.8 那么IK分词器的版本也要对应使用 v6.8.8。</p>
+</blockquote>
+<p>解压，并将解压的文件拷贝到 <code>ES</code> 安装目录的 <code>plugins</code> 下的ik目录下</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image30" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image30.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>测试分词效果：</p>
+<p>POST请求： <a href="http://localhost:9200/_analyze" target="_blank" rel="noopener">http://localhost:9200/_analyze</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;<span class="hljs-attr">"text"</span>:<span class="hljs-string">"测试分词器，后边是测试内容：springcloud实战"</span>,<span class="hljs-attr">"analyzer"</span>:<span class="hljs-string">"ik_max_word"</span>&#125;</code></pre></div>
+
+<p>请求结果</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"tokens"</span>: [
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"测试"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">0</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"分词器"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">5</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">1</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"分词"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">4</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">2</span>
+        &#125;,
+		<span class="hljs-comment">//...省略一部分结果</span>
+    ]
+&#125;</code></pre></div>
+
+<p>从结果可以看出，在我们引入 IK 插件之后，分词器能识别出我们提交的内容中的词语，细心的老铁会注意到我们在 <code>analyzer</code> 字段中引入了 <code>ik_max_word</code> ，这是 <code>IK</code> 插件中的一个分词模式，下面我们来仔细介绍一下 <code>IK</code> 插件中的几种分词模式。</p>
+<h2 id="3-两种分词模式"><a href="#3-两种分词模式" class="headerlink" title="3. 两种分词模式"></a>3. 两种分词模式</h2><p>ik分词器有两种分词模式：<code>ik_max_word</code> 和 <code>ik_smart</code> 模式，下面我们来测试这两种模式。</p>
+<p><strong>1、ik_max_word</strong></p>
+<p>会将文本做最细粒度的拆分，比如会将 “<strong>中华人民共和国人民大会堂</strong> ” 拆分为“ <strong>中华人民共和国</strong>、<strong>中华人民</strong>、<strong>中华</strong>、<strong>华人</strong>、<strong>人民共和国</strong>、<strong>人民</strong>、<strong>共和国</strong>、<strong>大会堂</strong>、<strong>大会</strong>、<strong>会堂等词语</strong>。</p>
+<p>发送 <code>post</code> 请求： <a href="http://localhost:9200/_analyze" target="_blank" rel="noopener">http://localhost:9200/_analyze</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;<span class="hljs-attr">"text"</span>:<span class="hljs-string">"中华人民共和国人民大会堂"</span>,<span class="hljs-attr">"analyzer"</span>:<span class="hljs-string">"ik_max_word"</span>&#125;</code></pre></div>
+
+<p>请求结果</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"tokens"</span>: [
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"中华人民共和国"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">7</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">0</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"中华人民"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">4</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">1</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"中华"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">2</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"华人"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">1</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">3</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">3</span>
+        &#125;,
+        <span class="hljs-comment">//省略部分结果...</span>
+    ]
+&#125;</code></pre></div>
+
+<p><strong>2、ik_smart</strong></p>
+<p>会做最粗粒度的拆分，比如会将 “<strong>中华人民共和国人民大会堂</strong>” 拆分为 <strong>中华人民共和国</strong>、<strong>人民大会堂</strong>。</p>
+<div class="hljs"><pre><code class="hljs json">&#123;<span class="hljs-attr">"text"</span>:<span class="hljs-string">"中华人民共和国人民大会堂"</span>,<span class="hljs-attr">"analyzer"</span>:<span class="hljs-string">"ik_smart"</span>&#125;</code></pre></div>
+
+<p>请求结果</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"tokens"</span>: [
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"中华人民共和国"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">7</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">0</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"人民大会堂"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">7</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">12</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">1</span>
+        &#125;
+    ]
+&#125;</code></pre></div>
+
+<h2 id="4-自定义词库"><a href="#4-自定义词库" class="headerlink" title="4. 自定义词库"></a>4. 自定义词库</h2><p>如果要让分词器支持一些专有词语，可以自定义词库。<br><code>iK</code> 分词器自带一个 <code>main.dic</code> 的文件，此文件为词库文件。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image31" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image31.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>我们在上边的目录中新建一个 <code>my.dic</code> 文件（注意文件格式为 <code>utf-8</code>，不要选择<code>utf-8 BOM</code>）<br>可以在其中自定义词汇</p>
+<p>定义 <code>my.dic</code> , 以每行为单位</p>
+<div class="hljs"><pre><code class="hljs plain">桂北汇</code></pre></div>
+
+<p>编辑 <code>config</code> 中的配置文件 <code>IKAnalyzer.cfg.xml</code> 中配置 <code>my.dic</code></p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">properties</span> <span class="hljs-meta-keyword">SYSTEM</span> <span class="hljs-meta-string">"http://java.sun.com/dtd/properties.dtd"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">comment</span>&gt;</span>IK Analyzer 扩展配置<span class="hljs-tag">&lt;/<span class="hljs-name">comment</span>&gt;</span>
+	<span class="hljs-comment">&lt;!--用户可以在这里配置自己的扩展字典 --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">key</span>=<span class="hljs-string">"ext_dict"</span>&gt;</span>my.dic<span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span>
+	 <span class="hljs-comment">&lt;!--用户可以在这里配置自己的扩展停止词字典--&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">entry</span> <span class="hljs-attr">key</span>=<span class="hljs-string">"ext_stopwords"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">entry</span>&gt;</span>
+	<span class="hljs-comment">&lt;!--用户可以在这里配置远程扩展字典 --&gt;</span>
+	<span class="hljs-comment">&lt;!-- &lt;entry key="remote_ext_dict"&gt;words_location&lt;/entry&gt; --&gt;</span>
+	<span class="hljs-comment">&lt;!--用户可以在这里配置远程扩展停止词字典--&gt;</span>
+	<span class="hljs-comment">&lt;!-- &lt;entry key="remote_ext_stopwords"&gt;words_location&lt;/entry&gt; --&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span></code></pre></div>
+
+<p>在适自定义配置生效之前，我们先来看一下未自定义之前的效果</p>
+<p>发送：post <a href="http://localhost:9200/_analyze" target="_blank" rel="noopener">http://localhost:9200/_analyze</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;<span class="hljs-attr">"text"</span>:<span class="hljs-string">"桂北汇"</span>, <span class="hljs-attr">"analyzer"</span>:<span class="hljs-string">"ik_max_word"</span> &#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"tokens"</span>: [
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"桂北"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">0</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"汇"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">3</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_CHAR"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">1</span>
+        &#125;
+    ]
+&#125;</code></pre></div>
+
+<p>可以看到，在自定义的分词未生效之前，ES还是将我们的提交的 “桂北汇” 拆分了，因为常用的词语组合。</p>
+<p>我们重启 <code>ES</code>，使刚才修改的自定义配置生效再次测试分词效果：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"tokens"</span>: [
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"桂北汇"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">3</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">0</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"桂北"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_WORD"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">1</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"token"</span>: <span class="hljs-string">"汇"</span>,
+            <span class="hljs-attr">"start_offset"</span>: <span class="hljs-number">2</span>,
+            <span class="hljs-attr">"end_offset"</span>: <span class="hljs-number">3</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"CN_CHAR"</span>,
+            <span class="hljs-attr">"position"</span>: <span class="hljs-number">2</span>
+        &#125;
+    ]
+&#125;</code></pre></div>
+
+<p>从结果可以看出，我们在 <code>my.dic</code> 中添加的 “桂北汇” 分词被识别出来了，由于我们使用的是 <code>ik_max_word</code> 分词模式，所以 <code>ES</code> 的 <code>IK</code> 插件会进行更 <strong>细粒度</strong> 的识别。</p>
+<h1 id="五、映射"><a href="#五、映射" class="headerlink" title="五、映射"></a>五、映射</h1><p>上边章节安装了 <code>ik</code> 分词器，如果在索引和搜索时去使用 <code>ik</code> 分词器呢？如何指定其它类型的 <code>field</code>，比如日期类型、数值类型等。本章节学习各种映射类型及映射维护方法。</p>
+<h2 id="1-映射维护方法"><a href="#1-映射维护方法" class="headerlink" title="1. 映射维护方法"></a>1. 映射维护方法</h2><p>1、查询所有索引的映射</p>
+<p>GET 请求： <a href="http://localhost:9200/_mapping" target="_blank" rel="noopener">http://localhost:9200/_mapping</a></p>
+<p>2、创建映射</p>
+<p>POST 请求：<a href="http://localhost:9200/xc_course/doc/_mapping" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_mapping</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"name"</span>: &#123;
+        	<span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"description"</span>: &#123;
+        	<span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"studymodel"</span>: &#123;
+        	<span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>这里要注意得是，映射只能 <strong>创建</strong>，不能删除，以及类型也不能修改，因为如果这个映射一旦创建后，你可能会关联了大量的数据，所以修改是不可取的。</p>
+<h2 id="2-常用映射类型"><a href="#2-常用映射类型" class="headerlink" title="2. 常用映射类型"></a>2. 常用映射类型</h2><p>下图是ES6.2核心的字段类型如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image32" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image32.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="1、text-文本字段"><a href="#1、text-文本字段" class="headerlink" title="1、text 文本字段"></a>1、text 文本字段</h3><p>字符串包括 <code>text</code> 和 <code>keyword</code> 两种类型</p>
+<p><strong>analyzer 属性</strong></p>
+<p>通过 <code>analyzer</code> 属性指定分词器。</p>
+<p>下边指定 <code>name</code> 的字段类型为 <code>text</code>，使用 <code>ik</code> 分词器的 <code>ik_max_word</code> 分词模式。</p>
+<div class="hljs"><pre><code class="hljs json">"name": &#123;
+    "type": "text",
+    "analyzer":"ik_max_word"
+&#125;</code></pre></div>
+
+<p>上边指定了 <code>analyzer</code> 是指在索引和搜索都使用 <code>ik_max_word</code>，如果单独想定义搜索时使用的分词器则可以通过<br><code>search_analyzer</code> 属性。对于 <code>ik</code> 分词器建议是索引时使用 <code>ik_max_word</code> 将搜索内容进行细粒度分词，搜索时使用 <code>ik_smart</code> 提高搜索精确性 。</p>
+<div class="hljs"><pre><code class="hljs json">"name": &#123;
+    "type": "text",
+    "analyzer":"ik_max_word",
+    "search_analyzer":"ik_smart"
+&#125;</code></pre></div>
+
+<p><strong>index 属性</strong></p>
+<p>通过 <code>index</code> 属性指定是否索引。</p>
+<p>默认为 <code>index=true</code>，即要进行索引，只有进行索引才可以从索引库搜索到。</p>
+<p>但是也有一些内容不需要索引，比如：商品图片地址只被用来展示图片，不进行搜索图片，此时可以将 <code>index</code>设置为 <code>false</code>。删除索引，重新创建映射，将 <code>pic</code> 的 <code>index</code> 设置为 <code>false</code>，尝试根据 <code>pic</code> 去搜索，结果搜索不到数据</p>
+<div class="hljs"><pre><code class="hljs json">"pic": &#123;
+    "type": "text",
+    "index":false
+&#125;</code></pre></div>
+
+<p><strong>store 属性</strong></p>
+<p>是否在 <code>source</code> 之外存储，每个文档索引后会在 <code>ES</code> 中保存一份原始文档，存放在 <code>_source</code> 中，一般情况下不需要设置 <code>store</code> 为 <code>true</code>，因为在 <code>source</code> 中已经有一份原始文档了。</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>删除 <code>xc_course/doc</code> 下的映射 ，发送 DELETE 请求到 <code>http://10.1.1.168:9200/xc_course</code></p>
+<p>创建，发送PUT请求 <code>http://localhost:9200/xc_course</code> 索引库名称</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+  <span class="hljs-attr">"settings"</span>:&#123;
+  <span class="hljs-attr">"index"</span>:&#123;
+      <span class="hljs-attr">"number_of_shards"</span>:<span class="hljs-number">1</span>,
+      <span class="hljs-attr">"number_of_replicas"</span>:<span class="hljs-number">0</span>
+   &#125;    
+  &#125;
+&#125;</code></pre></div>
+
+<p>创建新映射：POST <a href="http://localhost:9200/xc_course/doc/_mapping" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_mapping</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"name"</span>: &#123;
+        <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+        <span class="hljs-attr">"analyzer"</span>:<span class="hljs-string">"ik_max_word"</span>,
+        <span class="hljs-attr">"search_analyzer"</span>:<span class="hljs-string">"ik_smart"</span>
+    &#125;,
+    <span class="hljs-attr">"description"</span>: &#123;
+        <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+        <span class="hljs-attr">"analyzer"</span>:<span class="hljs-string">"ik_max_word"</span>,
+        <span class="hljs-attr">"search_analyzer"</span>:<span class="hljs-string">"ik_smart"</span>
+    &#125;,
+    <span class="hljs-attr">"pic"</span>:&#123;
+        <span class="hljs-attr">"type"</span>:<span class="hljs-string">"text"</span>,
+        <span class="hljs-attr">"index"</span>:<span class="hljs-literal">false</span>
+    &#125;,
+    <span class="hljs-attr">"studymodel"</span>:&#123;
+        <span class="hljs-attr">"type"</span>:<span class="hljs-string">"text"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>插入文档：</p>
+<p>POST <a href="http://localhost:9200/xc_course/doc/4028e58161bcf7f40161bcf8b77c0000" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/4028e58161bcf7f40161bcf8b77c0000</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"name"</span>:<span class="hljs-string">"Bootstrap开发框架"</span>,
+    <span class="hljs-attr">"description"</span>:<span class="hljs-string">"Bootstrap是由Twitter推出的一个前台页面开发框架，在行业之中使用较为广泛。此开发框架包含了大量的CSS、JS程序代码，可以帮助开发者（尤其是不擅长页面开发的程序人员）轻松的实现一个不受浏览器限制的精美界面效果。"</span>,
+    <span class="hljs-attr">"pic"</span>:<span class="hljs-string">"group1/M00/00/01/wKhlQFqO4MmAOP53AAAcwDwm6SU490.jpg"</span>,
+    <span class="hljs-attr">"studymodel"</span>:<span class="hljs-string">"201002"</span>
+&#125;</code></pre></div>
+
+<p><strong>查询测试：</strong></p>
+<p>GET请求： <a href="http://localhost/" target="_blank" rel="noopener">http://localhost</a>:9200/xc_course/_search?q=name:开发</p>
+<p>查询结果：获取到 <code>name</code> 中包含 “开发” 的文档</p>
+<p>GET请求： <a href="http://localhost/" target="_blank" rel="noopener">http://localhost</a>:9200/xc_course/_search?q=description:开发</p>
+<p>查询结果：获取到 <code>description</code> 中包含 “开发” 的文档</p>
+<p>GET请求： <a href="http://localhost/" target="_blank" rel="noopener">http://localhost</a>:9200/xc_course/_search?q=pic:group1/M00/00/01/wKhlQFqO4MmAOP53AAAcwDwm6SU490.jpg</p>
+<p>查询结果：由于前面 <code>pic</code> 字段 设置了 <code>index</code> 属性为 <code>false</code></p>
+<p>GET请求： <a href="http://localhost:9200/xc_course/_search?q=studymodel:201002" target="_blank" rel="noopener">http://localhost:9200/xc_course/_search?q=studymodel:201002</a></p>
+<p>查询结果: 由于没有为 <code>studymodel</code> 字段使用的是默认的分词器，默认分词器会将我们前面插入的 “<code>201002</code>” 索引为一个词，所以需要全部匹配才能搜索到。</p>
+<p>通过测试发现：<code>name</code> 和 <code>description</code> 都支持全文检索，<code>pic</code> 不可作为查询条件。</p>
+<h3 id="2、keyword-关键词字段"><a href="#2、keyword-关键词字段" class="headerlink" title="2、keyword 关键词字段"></a>2、keyword 关键词字段</h3><p>上边介绍的 <code>text</code> 文本字段在映射时要设置分词器，<code>keyword</code> 字段为关键字字段，通常搜索 <code>keyword</code> 是按照整体搜索，所以创建 <code>keyword</code> 字段的索引时是不进行分词的，比如：邮政编码、手机号码、身份证等。<code>keyword</code> 字段通常用于过虑、排序、聚合等。</p>
+<h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><p>创建一个新的索引库进行测试，或者删除原来的，这里我们创建一个新的</p>
+<p>1、创建索引库 <code>xc_course2</code></p>
+<p>PUT <a href="http://10.1.1.168:9200/xc_course2" target="_blank" rel="noopener">http://10.1.1.168:9200/xc_course2</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+  <span class="hljs-attr">"settings"</span>:&#123;
+  <span class="hljs-attr">"index"</span>:&#123;
+      <span class="hljs-attr">"number_of_shards"</span>:<span class="hljs-number">1</span>,
+      <span class="hljs-attr">"number_of_replicas"</span>:<span class="hljs-number">0</span>
+   &#125;    
+  &#125;
+&#125;</code></pre></div>
+
+<p>2、创建映射</p>
+<p>这里我们将 <code>name</code> 和 <code>studymodel</code> 这两个字段的 <code>type</code> 设置为 <code>keyword</code></p>
+<p>POST <a href="http://10.1.1.168:9200/xc_course2/doc/_mapping" target="_blank" rel="noopener">http://10.1.1.168:9200/xc_course2/doc/_mapping</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"name"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"description"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"studymodel"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>3、创建文档</p>
+<p>创建映射后，我们创建文档数据用于测试</p>
+<p>POST <a href="http://10.1.1.168:9200/xc_course2/doc/4028e58161bcf7f40161bcf8b77c0000" target="_blank" rel="noopener">http://10.1.1.168:9200/xc_course2/doc/4028e58161bcf7f40161bcf8b77c0000</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"java编程基础"</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"java语言是世界第一编程语言，在软件开发领域使用人数最多。"</span>,
+    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>
+&#125;</code></pre></div>
+
+<p>4、测试查询</p>
+<p>GET <a href="http://localhost/" target="_blank" rel="noopener">http://localhost</a>:9200/xc_course2/_search?q=name:java</p>
+<p>查询结果如下</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"took"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">"timed_out"</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"_shards"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"successful"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"skipped"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"failed"</span>: <span class="hljs-number">0</span>
+    &#125;,
+    <span class="hljs-attr">"hits"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"max_score"</span>: <span class="hljs-literal">null</span>,
+        <span class="hljs-attr">"hits"</span>: []
+    &#125;
+&#125;</code></pre></div>
+
+<p><code>name</code>是 <code>keyword</code> 类型，所以查询方式是精确查询，所以查询不到任何数据。</p>
+<p>下面我们尝试一下精确的查询</p>
+<p>GET <a href="http://10.1.1.168:9200/xc_course2/_search?q=name:java%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80" target="_blank" rel="noopener">http://10.1.1.168:9200/xc_course2/_search?q=name:java编程基础</a></p>
+<p>查询结果如下</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"took"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">"timed_out"</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"_shards"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"successful"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"skipped"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"failed"</span>: <span class="hljs-number">0</span>
+    &#125;,
+    <span class="hljs-attr">"hits"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"max_score"</span>: <span class="hljs-number">0.2876821</span>,
+        <span class="hljs-attr">"hits"</span>: [
+            &#123;
+                <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course2"</span>,
+                <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"4028e58161bcf7f40161bcf8b77c0000"</span>,
+                <span class="hljs-attr">"_score"</span>: <span class="hljs-number">0.2876821</span>,
+                <span class="hljs-attr">"_source"</span>: &#123;
+                    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"java编程基础"</span>,
+                    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"java语言是世界第一编程语言，在软件开发领域使用人数最多。"</span>,
+                    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>
+                &#125;
+            &#125;
+        ]
+    &#125;
+&#125;</code></pre></div>
+
+<p>查询成功。</p>
+<h3 id="3、date-日期类型"><a href="#3、date-日期类型" class="headerlink" title="3、date 日期类型"></a>3、date 日期类型</h3><p>日期类型不用设置分词器，通常日期类型的字段用于排序。</p>
+<p><strong>format 属性</strong></p>
+<p>通过 <code>format</code> 设置日期格式</p>
+<p>例子：</p>
+<p>下边的设置允许 <code>date</code>字段存储年月日时分秒、年月日及毫秒三种格式。</p>
+<p>POST: <a href="http://10.1.1.168:9200/xc_course/doc/_mapping" target="_blank" rel="noopener">http://10.1.1.168:9200/xc_course/doc/_mapping</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"timestamp"</span>: &#123;
+	        <span class="hljs-attr">"type"</span>: <span class="hljs-string">"date"</span>,
+	        <span class="hljs-attr">"format"</span>: <span class="hljs-string">"yyyy‐MM‐dd HH:mm:ss||yyyy‐MM‐dd"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>插入文档：</p>
+<p>POST: <a href="http://localhost:9200/xc_course/doc/00002" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/00002</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"spring开发基础"</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"spring 在java领域非常流行，java程序员都在用。"</span>,
+    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>,
+    <span class="hljs-attr">"pic"</span>:<span class="hljs-string">"group1/M00/00/01/wKhlQFqO4MmAOP53AAAcwDwm6SU490.jpg"</span>,
+    <span class="hljs-attr">"timestamp"</span>:<span class="hljs-string">"2018‐07‐04 18:28:58"</span>
+&#125;</code></pre></div>
+
+<p>查询测试</p>
+<p>GET <a href="http://10.1.1.168:9200/xc_course/_search?q=name:%E5%BC%80%E5%8F%91" target="_blank" rel="noopener">http://10.1.1.168:9200/xc_course/_search?q=name:开发</a></p>
+<h3 id="4、数值类型"><a href="#4、数值类型" class="headerlink" title="4、数值类型"></a>4、数值类型</h3><p>下边是ES支持的数值类型</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image33" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image33.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>1、尽量选择范围小的类型，提高搜索效率</p>
+<p>2、对于浮点数尽量用 <strong>比例因子</strong>，比如一个价格字段，单位为元，我们将比例因子设置为 <code>100</code>这在 <code>ES</code> 中会按 分 存储，映射如下</p>
+<div class="hljs"><pre><code class="hljs json">"price": &#123;
+    "type": "scaled_float",
+    "scaling_factor": 100
+&#125;,</code></pre></div>
+
+<p>由于比例因子为100，如果我们输入的价格是 <code>23.45</code> 则 <code>ES</code> 中会将 <code>23.45</code> 乘以 <code>100</code> 存储在ES中。</p>
+<p>如果输入的价格是 <code>23.456</code>，ES 会将 <code>23.456</code> 乘以 <code>100</code> 再取一个接近原始值的数，得出 <code>2346</code>。</p>
+<p>使用比例因子的好处是 <strong>整型比浮点型更易压缩</strong>，节省磁盘空间。</p>
+<p>如果比例因子不适合，则从下表选择范围小的去用：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_10/image34" target="_blank" rel="noopener"><img src="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/image34.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>更新已有映射，并插入文档：</p>
+<p>POST: <a href="http://localhost:9200/xc_course/doc/3" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/3</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+	<span class="hljs-attr">"name"</span>: <span class="hljs-string">"spring开发基础"</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"spring 在java领域非常流行，java程序员都在用。"</span>,
+    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>,
+    <span class="hljs-attr">"pic"</span>:<span class="hljs-string">"group1/M00/00/01/wKhlQFqO4MmAOP53AAAcwDwm6SU490.jpg"</span>,
+    <span class="hljs-attr">"timestamp"</span>:<span class="hljs-string">"2018‐07‐04 18:28:58"</span>,
+    <span class="hljs-attr">"price"</span>:<span class="hljs-number">38.6</span>
+&#125;</code></pre></div>
+
+<h3 id="5、综合例子"><a href="#5、综合例子" class="headerlink" title="5、综合例子"></a>5、综合例子</h3><p>1、发送 DELETE 请求到 <code>http://10.1.1.168:9200/xc_course</code></p>
+<p>2、创建，发送PUT请求 <code>http://localhost:9200/xc_course</code> 索引库名称</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+  <span class="hljs-attr">"settings"</span>:&#123;
+  <span class="hljs-attr">"index"</span>:&#123;
+      <span class="hljs-attr">"number_of_shards"</span>:<span class="hljs-number">1</span>,
+      <span class="hljs-attr">"number_of_replicas"</span>:<span class="hljs-number">0</span>
+   &#125;    
+  &#125;
+&#125;</code></pre></div>
+
+<p>3、创建如下映射</p>
+<p>post：<a href="http://localhost:9200/xc_course/doc/_mapping" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_mapping</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"name"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>
+        &#125;,
+        <span class="hljs-attr">"description"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>
+        &#125;,
+        <span class="hljs-attr">"pic"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-attr">"index"</span>: <span class="hljs-literal">false</span>
+        &#125;,
+        <span class="hljs-attr">"studymodel"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>4、插入文档</p>
+<p>POST: <a href="http://localhost:9200/xc_course/doc/1" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/1</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Bootstrap开发"</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"Bootstrap是由Twitter推出的一个前台页面开发框架，是一个非常流行的开发框架，此框架集成了多种页面效果。此开发框架包含了大量的CSS、JS程序代码，可以帮助开发者（尤其是不擅长页面开发的程序人员）轻松的实现一个不受浏览器限制的精美界面效果。"</span>,
+    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201002"</span>,
+    <span class="hljs-attr">"price"</span>: <span class="hljs-number">38.6</span>,
+    <span class="hljs-attr">"timestamp"</span>: <span class="hljs-string">"2018-04-25 19:11:35"</span>,
+    <span class="hljs-attr">"pic"</span>: <span class="hljs-string">"group1/M00/00/00/wKhlQFs6RCeAY0pHAA Jx5ZjNDEM428.jpg"</span>
+&#125;</code></pre></div>
+
+<p>5、搜索测试</p>
+<p>GET: <a href="http://10.1.1.168:9200/xc_course/doc/_search?q=name:%E5%BC%80%E5%8F%91" target="_blank" rel="noopener">http://10.1.1.168:9200/xc_course/doc/_search?q=name:开发</a></p>
+<h1 id="六、索引管理（Java-API）"><a href="#六、索引管理（Java-API）" class="headerlink" title="六、索引管理（Java API）"></a>六、索引管理（Java API）</h1><h2 id="1-搭建工程"><a href="#1-搭建工程" class="headerlink" title="1. 搭建工程"></a>1. 搭建工程</h2><h3 id="1、ES客户端简介"><a href="#1、ES客户端简介" class="headerlink" title="1、ES客户端简介"></a>1、ES客户端简介</h3><p>ES提供多种不同的客户端：</p>
+<p><strong>TransportClient</strong></p>
+<p>ES提供的传统客户端，官方计划8.0版本删除此客户端。</p>
+<p><strong>RestClient</strong></p>
+<p><code>RestClient</code> 是官方推荐使用的，它包括两种：<code>Java Low Level REST Client</code> 和 <code>Java High Level REST Client</code>。</p>
+<p>ES在 <strong>6.0</strong> 之后提供 <code>Java High Level REST Client</code>， 两种客户端官方更推荐使用 J<code>ava High Level REST Client</code>，不过当前它还处于完善中，有些功能还没有。</p>
+<p>文章中准备采用 <code>Java High Level REST Client</code>，如果它有不支持的功能，则使用 <code>Java Low Level REST Client</code>。</p>
+<p>添加依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.elasticsearch.client<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>elasticsearch‐rest‐high‐level‐client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>6.8.8<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.elasticsearch<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>elasticsearch<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>6.8.8<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<h3 id="2、创建搜索工程"><a href="#2、创建搜索工程" class="headerlink" title="2、创建搜索工程"></a>2、创建搜索工程</h3><p>创建搜索工程（maven工程）：<code>xc-service-search</code>，添加 <code>RestHighLevelClient</code> 依赖及<code>junit</code> 依赖。</p>
+<p><strong>1）完整依赖文件如下</strong></p>
+<p><code>pom.xml</code></p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>xc-framework-parent<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.xuecheng<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">relativePath</span>&gt;</span>../xc-framework-parent/pom.xml<span class="hljs-tag">&lt;/<span class="hljs-name">relativePath</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>xc-service-search<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.xuecheng<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>xc-framework-model<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.xuecheng<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>xc-framework-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.xuecheng<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>xc-service-api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.elasticsearch.client<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>elasticsearch-rest-high-level-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>6.8.8<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.elasticsearch<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>elasticsearch<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>6.8.8<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>fastjson<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-io<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-lang3<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+<p><strong>2）配置文件</strong></p>
+<p><code>application.yml</code></p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-string">$&#123;port:40100&#125;</span>
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">xc-search-service</span>
+<span class="hljs-attr">xuecheng:</span>
+  <span class="hljs-attr">elasticsearch:</span>
+    <span class="hljs-attr">hostlist:</span> <span class="hljs-string">$&#123;eshostlist:127.0.0.1:9200&#125;</span> <span class="hljs-comment">#多个结点中间用逗号分隔</span></code></pre></div>
+
+<p><strong>3）配置类</strong></p>
+<p>创建 <code>com.xuecheng.search.config</code> 包在其下创建配置类</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.search.config;
+
+<span class="hljs-keyword">import</span> org.apache.http.HttpHost;
+<span class="hljs-keyword">import</span> org.elasticsearch.client.RestClient;
+<span class="hljs-keyword">import</span> org.elasticsearch.client.RestHighLevelClient;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Administrator</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@version</span> 1.0</span>
+<span class="hljs-comment"> **/</span>
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ElasticsearchConfig</span> </span>&#123;
+
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;xuecheng.elasticsearch.hostlist&#125;"</span>)
+    <span class="hljs-keyword">private</span> String hostlist;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * restHighLevelClient</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> RestHighLevelClient <span class="hljs-title">restHighLevelClient</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-comment">//解析hostlist配置信息</span>
+        String[] split = hostlist.split(<span class="hljs-string">","</span>);
+        <span class="hljs-comment">//创建HttpHost数组，其中存放es主机和端口的配置信息</span>
+        HttpHost[] httpHostArray = <span class="hljs-keyword">new</span> HttpHost[split.length];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;split.length;i++)&#123;
+            String item = split[i];
+            httpHostArray[i] = <span class="hljs-keyword">new</span> HttpHost(item.split(<span class="hljs-string">":"</span>)[<span class="hljs-number">0</span>], Integer.parseInt(item.split(<span class="hljs-string">":"</span>)[<span class="hljs-number">1</span>]), <span class="hljs-string">"http"</span>);
+        &#125;
+        <span class="hljs-comment">//创建RestHighLevelClient客户端</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> RestHighLevelClient(RestClient.builder(httpHostArray));
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 项目主要使用RestHighLevelClient，对于低级的客户端暂时不用</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> RestClient <span class="hljs-title">restClient</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-comment">//解析hostlist配置信息</span>
+        String[] split = hostlist.split(<span class="hljs-string">","</span>);
+        <span class="hljs-comment">//创建HttpHost数组，其中存放es主机和端口的配置信息</span>
+        HttpHost[] httpHostArray = <span class="hljs-keyword">new</span> HttpHost[split.length];
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;split.length;i++)&#123;
+            String item = split[i];
+            httpHostArray[i] = <span class="hljs-keyword">new</span> HttpHost(item.split(<span class="hljs-string">":"</span>)[<span class="hljs-number">0</span>], Integer.parseInt(item.split(<span class="hljs-string">":"</span>)[<span class="hljs-number">1</span>]), <span class="hljs-string">"http"</span>);
+        &#125;
+        <span class="hljs-keyword">return</span> RestClient.builder(httpHostArray).build();
+    &#125;
+
+&#125;</code></pre></div>
+
+<p><strong>4、启动类</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.search;
+
+<span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.domain.EntityScan;
+<span class="hljs-keyword">import</span> org.springframework.context.annotation.ComponentScan;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Administrator</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@version</span> 1.0</span>
+<span class="hljs-comment"> **/</span>
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EntityScan</span>(<span class="hljs-string">"com.xuecheng.framework.domain.search"</span>)<span class="hljs-comment">//扫描实体类</span>
+<span class="hljs-meta">@ComponentScan</span>(basePackages=&#123;<span class="hljs-string">"com.xuecheng.api"</span>&#125;)<span class="hljs-comment">//扫描接口</span>
+<span class="hljs-meta">@ComponentScan</span>(basePackages=&#123;<span class="hljs-string">"com.xuecheng.search"</span>&#125;)<span class="hljs-comment">//扫描本项目下的所有类</span>
+<span class="hljs-meta">@ComponentScan</span>(basePackages=&#123;<span class="hljs-string">"com.xuecheng.framework"</span>&#125;)<span class="hljs-comment">//扫描common下的所有类</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchApplication</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        SpringApplication.run(SearchApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="2-创建索引库"><a href="#2-创建索引库" class="headerlink" title="2. 创建索引库"></a>2. 创建索引库</h2><p><strong>1、API</strong></p>
+<p>创建索引：</p>
+<p>PUT： <a href="http://localhost:9200/%E7%B4%A2%E5%BC%95%E5%90%8D%E7%A7%B0" target="_blank" rel="noopener">http://localhost:9200/索引名称</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"settings"</span>:&#123;
+        <span class="hljs-attr">"index"</span>:&#123;
+            "number_of_shards":1, #分片的数量
+            "number_of_replicas":0 #副本数量
+        &#125;,
+    &#125;,
+&#125;</code></pre></div>
+
+<p>创建映射：</p>
+<p><a href="http://localhost:9200/%E7%B4%A2%E5%BC%95%E5%BA%93%E5%90%8D%E7%A7%B0/%E7%B1%BB%E5%9E%8B%E5%90%8D%E7%A7%B0/" target="_blank" rel="noopener">http://localhost:9200/索引库名称/类型名称/</a><em>mapping</em></p>
+<p>创建类型为 <code>xc_course</code> 的映射，共包括三个字段：name、description、studymodel</p>
+<p>PUT: <a href="http://localhost:9200/xc_course/doc/_mapping" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_mapping</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"name"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>
+        &#125;,
+        <span class="hljs-attr">"description"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>
+        &#125;,
+        <span class="hljs-attr">"studymodel"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"price"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"float"</span>
+        &#125;,
+        <span class="hljs-attr">"timestamp"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"date"</span>,
+            <span class="hljs-attr">"format"</span>: <span class="hljs-string">"yyyy‐MM‐dd HH:mm:ss||yyyy‐MM‐dd||epoch_millis"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p><strong>2、Java Client</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.search;
+
+<span class="hljs-keyword">import</span> org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+<span class="hljs-keyword">import</span> org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+<span class="hljs-keyword">import</span> org.elasticsearch.client.IndicesClient;
+<span class="hljs-keyword">import</span> org.elasticsearch.client.RestClient;
+<span class="hljs-keyword">import</span> org.elasticsearch.client.RestHighLevelClient;
+<span class="hljs-keyword">import</span> org.elasticsearch.common.settings.Settings;
+<span class="hljs-keyword">import</span> org.elasticsearch.common.xcontent.XContent;
+<span class="hljs-keyword">import</span> org.elasticsearch.common.xcontent.XContentType;
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;
+<span class="hljs-keyword">import</span> org.springframework.test.context.junit4.SpringRunner;
+
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-meta">@SpringBootTest</span>
+<span class="hljs-meta">@RunWith</span>(SpringRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">TestIndex</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    RestHighLevelClient restHighLevelClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    RestClient restClient;
+
+    <span class="hljs-comment">//创建索引库</span>
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testCreateIndex</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+        <span class="hljs-comment">//创建索引请求对象</span>
+        CreateIndexRequest createIndexRequest = <span class="hljs-keyword">new</span> CreateIndexRequest(<span class="hljs-string">"xc_course"</span>);
+
+        <span class="hljs-comment">//设置索引参数</span>
+        createIndexRequest.settings(Settings.builder()
+                .put(<span class="hljs-string">"number_of_shards"</span>,<span class="hljs-number">1</span>)
+                .put(<span class="hljs-string">"number_of_replicas"</span>,<span class="hljs-number">0</span>)
+        );
+
+        <span class="hljs-comment">//设置索引库的映射</span>
+        <span class="hljs-comment">//这里的映射数据直接前面测试API的JSON字符串</span>
+        createIndexRequest.mapping(<span class="hljs-string">"doc"</span>,<span class="hljs-string">"&#123;\n"</span> +
+                <span class="hljs-string">"    \"properties\": &#123;\n"</span> +
+                <span class="hljs-string">"        \"name\": &#123;\n"</span> +
+                <span class="hljs-string">"            \"type\": \"text\",\n"</span> +
+                <span class="hljs-string">"            \"analyzer\": \"ik_max_word\",\n"</span> +
+                <span class="hljs-string">"            \"search_analyzer\": \"ik_smart\"\n"</span> +
+                <span class="hljs-string">"        &#125;,\n"</span> +
+                <span class="hljs-string">"        \"description\": &#123;\n"</span> +
+                <span class="hljs-string">"            \"type\": \"text\",\n"</span> +
+                <span class="hljs-string">"            \"analyzer\": \"ik_max_word\",\n"</span> +
+                <span class="hljs-string">"            \"search_analyzer\": \"ik_smart\"\n"</span> +
+                <span class="hljs-string">"        &#125;,\n"</span> +
+                <span class="hljs-string">"        \"studymodel\": &#123;\n"</span> +
+                <span class="hljs-string">"            \"type\": \"keyword\"\n"</span> +
+                <span class="hljs-string">"        &#125;,\n"</span> +
+                <span class="hljs-string">"        \"price\": &#123;\n"</span> +
+                <span class="hljs-string">"            \"type\": \"float\"\n"</span> +
+                <span class="hljs-string">"        &#125;,\n"</span> +
+                <span class="hljs-string">"        \"timestamp\": &#123;\n"</span> +
+                <span class="hljs-string">"            \"type\": \"date\",\n"</span> +
+                <span class="hljs-string">"            \"format\": \"yyyy‐MM‐dd HH:mm:ss||yyyy‐MM‐dd||epoch_millis\"\n"</span> +
+                <span class="hljs-string">"        &#125;\n"</span> +
+                <span class="hljs-string">"    &#125;\n"</span> +
+                <span class="hljs-string">"&#125;"</span>,XContentType.JSON);
+        <span class="hljs-comment">//操作客户端</span>
+        IndicesClient indices = restHighLevelClient.indices();
+        <span class="hljs-comment">//创建响应对象</span>
+        CreateIndexResponse createIndexResponse = indices.create(createIndexRequest);
+        <span class="hljs-comment">//得到响应结果</span>
+        <span class="hljs-keyword">boolean</span> shardsAcknowledged = createIndexResponse.isShardsAcknowledged();
+        System.out.println(shardsAcknowledged);
+    &#125;
+&#125;</code></pre></div>
+
+<p>运行后成功创建映射</p>
+<h2 id="3-添加文档"><a href="#3-添加文档" class="headerlink" title="3. 添加文档"></a>3. 添加文档</h2><p><strong>1、API</strong></p>
+<p>格式如下： PUT <code>/{index}/{type}/{id} { &quot;field&quot;: &quot;value&quot;, ... }</code></p>
+<p>如果不指定 <code>id</code>，<code>ES</code> 会自动生成。</p>
+<p>一个例子：<br>put <a href="http://localhost:9200/xc_course/doc/3" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/3</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+    <span class="hljs-attr">"name"</span>:<span class="hljs-string">"spring cloud实战"</span>,
+    <span class="hljs-attr">"description"</span>:<span class="hljs-string">"本课程主要从四个章节进行讲解： 1.微服务架构入门 2.spring cloud 基础入门 3.实战Spring</span>
+<span class="hljs-string">    Boot 4.注册中心eureka。"</span>,
+    <span class="hljs-attr">"studymodel"</span>:<span class="hljs-string">"201001"</span>
+    <span class="hljs-string">"price"</span>:<span class="hljs-number">5.6</span>
+&#125;</code></pre></div>
+
+<p><strong>2、Java Client</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 添加文档</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAddDoc</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    <span class="hljs-comment">//准备json数据</span>
+    Map&lt;String, Object&gt; jsonMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+    jsonMap.put(<span class="hljs-string">"name"</span>, <span class="hljs-string">"spring cloud实战"</span>);
+    jsonMap.put(<span class="hljs-string">"description"</span>, <span class="hljs-string">"本课程主要从四个章节进行讲解： 1.微服务架构入门 2.spring cloud 基础入门 3.实战Spring Boot 4.注册中心eureka。"</span>);
+    jsonMap.put(<span class="hljs-string">"studymodel"</span>, <span class="hljs-string">"201001"</span>);
+    SimpleDateFormat dateFormat =<span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">"yyyy‐MM‐dd HH:mm:ss"</span>);
+    jsonMap.put(<span class="hljs-string">"timestamp"</span>, dateFormat.format(<span class="hljs-keyword">new</span> Date()));
+    jsonMap.put(<span class="hljs-string">"price"</span>, <span class="hljs-number">5.6f</span>);
+    <span class="hljs-comment">//索引请求对象</span>
+    IndexRequest indexRequest = <span class="hljs-keyword">new</span> IndexRequest(<span class="hljs-string">"xc_course"</span>,<span class="hljs-string">"doc"</span>);
+    <span class="hljs-comment">//指定索引文档内容</span>
+    indexRequest.source(jsonMap);
+    <span class="hljs-comment">//索引响应对象</span>
+    IndexResponse indexResponse = restHighLevelClient.index(indexRequest);
+    <span class="hljs-comment">//获取响应结果</span>
+    DocWriteResponse.Result result = indexResponse.getResult();
+    System.out.println(result);
+&#125;</code></pre></div>
+
+<h2 id="4-查询文档"><a href="#4-查询文档" class="headerlink" title="4. 查询文档"></a>4. 查询文档</h2><p><strong>1、API</strong></p>
+<p>格式如下： GET <code>/{index}/{type}/{id}</code></p>
+<p><strong>2、Java Client</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 查询文档</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">getDoc</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    GetRequest getRequest = <span class="hljs-keyword">new</span> GetRequest(
+            <span class="hljs-string">"xc_course"</span>,
+            <span class="hljs-string">"doc"</span>,
+            <span class="hljs-string">"eWb_kXEB39nW0xAzs9Pd"</span>
+    );
+    GetResponse getResponse = restHighLevelClient.get(getRequest);
+    <span class="hljs-keyword">boolean</span> exists = getResponse.isExists();
+    <span class="hljs-keyword">if</span>(!exists)&#123;
+        System.out.println(<span class="hljs-string">"文档不存在"</span>);
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        Map&lt;String, Object&gt; sourceAsMap = getResponse.getSourceAsMap();
+        System.out.println(sourceAsMap);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="5-更新文档"><a href="#5-更新文档" class="headerlink" title="5. 更新文档"></a>5. 更新文档</h2><p><strong>1、API</strong></p>
+<p><code>ES</code> 更新文档的顺序是：先检索到文档、将原来的文档标记为删除、创建新文档、删除旧文档，创建新文档就会重建索引。</p>
+<p>通过请求 <code>Url</code> 有两种方法：</p>
+<p>1）完全替换</p>
+<p>POST：<a href="http://localhost:9200/xc_test/doc/3" target="_blank" rel="noopener">http://localhost:9200/xc_test/doc/3</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+	<span class="hljs-attr">"name"</span>:<span class="hljs-string">"spring cloud实战"</span>,
+    <span class="hljs-attr">"description"</span>:<span class="hljs-string">"本课程主要从四个章节进行讲解： 1.微服务架构入门 2.spring cloud 基础入门 3.实战SpringBoot 4.注册中心eureka。"</span>,
+    <span class="hljs-attr">"studymodel"</span>:<span class="hljs-string">"201001"</span>,
+    <span class="hljs-attr">"price"</span>:<span class="hljs-number">5.6</span>
+&#125;</code></pre></div>
+
+<p>2）局部更新</p>
+<p>下边的例子是只更新 <code>price</code> 字段。</p>
+<p>post: <a href="http://localhost:9200/xc_test/doc/3/_update" target="_blank" rel="noopener">http://localhost:9200/xc_test/doc/3/_update</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+	<span class="hljs-attr">"doc"</span>:&#123;<span class="hljs-attr">"price"</span>:<span class="hljs-number">66.6</span>&#125;
+&#125;</code></pre></div>
+
+<p><strong>2、Java Client</strong></p>
+<p>使用 <code>Client Api</code> 更新文档的方法同上边第二种局部更新方法。<br>可以指定文档的部分字段也可以指定完整的文档内容。</p>
+<div class="hljs"><pre><code class="hljs json"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 更新文档</span>
+<span class="hljs-comment"> */</span>
+@Test
+public void updateDoc() throws IOException &#123;
+    UpdateRequest updateRequest = new UpdateRequest("xc_course", "doc","eWb_kXEB39nW0xAzs9Pd");
+    Map&lt;String, String&gt; map = new HashMap&lt;&gt;();
+    map.put("name", "spring cloud alibaba");
+    updateRequest.doc(map);
+    UpdateResponse update = restHighLevelClient.update(updateRequest);
+    RestStatus status = update.status();
+    System.out.println(status);
+&#125;</code></pre></div>
+
+<h2 id="6-删除文档"><a href="#6-删除文档" class="headerlink" title="6. 删除文档"></a>6. 删除文档</h2><p><strong>1、API</strong></p>
+<p>根据 <code>id</code> 删除，格式如下：</p>
+<p>DELETE： <code>/{index}/{type}/{id}</code></p>
+<p>搜索匹配删除，将搜索出来的记录删除，格式如下：</p>
+<p>POST： <code>/{index}/{type}/_delete_by_query</code></p>
+<p>下边是搜索条件例子：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>:&#123;
+        <span class="hljs-attr">"term"</span>:&#123;
+        <span class="hljs-attr">"studymodel"</span>:<span class="hljs-string">"201001"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>上边例子的搜索匹配删除会将 <code>studymodel</code> 为 <code>201001</code> 的记录全部删除。</p>
+<p><strong>2、Java Client</strong></p>
+<div class="hljs"><pre><code class="hljs json"><span class="hljs-comment">//根据id删除文档</span>
+@Test
+public void testDelDoc() throws IOException &#123;
+    <span class="hljs-comment">//删除文档id</span>
+    String id = "eqP_amQBKsGOdwJ4fHiC";
+    <span class="hljs-comment">//删除索引请求对象</span>
+    DeleteRequest deleteRequest = new DeleteRequest("xc_course","doc",id);
+    <span class="hljs-comment">//响应对象</span>
+    DeleteResponse deleteResponse = client.delete(deleteRequest);
+    <span class="hljs-comment">//获取响应结果</span>
+    DocWriteResponse.Result result = deleteResponse.getResult();
+    System.out.println(result);
+&#125;</code></pre></div>
+
+<p>搜索匹配删除还没有具体的 <code>api</code>，可以采用先搜索出文档 <code>id</code>，根据文档 <code>id</code> 删除。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BF/">学成在线</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ElasticsSearch/">ElasticsSearch</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/16/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday09/">
+                        <span class="hidden-mobile">学成在线day09：Eureka、Feign、课程预览实现</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "学成在线day10：课程发布、ElasticSearch&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

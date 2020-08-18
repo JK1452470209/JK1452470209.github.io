@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>学成在线day11：基于 ElasticSearch 构建搜索服务 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-18 10:08">
+      2020-08-18
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      9.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      127
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="😎知识点概览"><a href="#😎知识点概览" class="headerlink" title="😎知识点概览"></a>😎知识点概览</h1><blockquote>
+<p>为了方便后续回顾该项目时能够清晰的知道本章节讲了哪些内容，并且能够从该章节的笔记中得到一些帮助，所以在完成本章节的学习后在此对本章节所涉及到的知识点进行总结概述。</p>
+</blockquote>
+<p>本章节为【学成在线】项目的 <code>day11</code> 的内容</p>
+<ul>
+<li>基于 <code>Java</code> 客户端实现 DSL 搜索</li>
+<li>搭建 <code>ElasticSearch</code> 集群环境</li>
+<li>使用 <code>Logstash</code> 自动创建 <code>ElasticSearch</code> 的索引、数据文档</li>
+<li>基于 <code>ElasticSearch</code> 开发搜索服务接口</li>
+</ul>
+<h1 id="一、搜索管理"><a href="#一、搜索管理" class="headerlink" title="一、搜索管理"></a>一、搜索管理</h1><h2 id="1-准备环境"><a href="#1-准备环境" class="headerlink" title="1. 准备环境"></a>1. 准备环境</h2><h3 id="1、创建映射"><a href="#1、创建映射" class="headerlink" title="1、创建映射"></a>1、创建映射</h3><p>创建 <code>xc_course</code> 索引库，方式如下</p>
+<p>post：<a href="http://localhost:9200/xc_course/doc/_mapping" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_mapping</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"description"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>
+        &#125;,
+        <span class="hljs-attr">"name"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>
+        &#125;,
+        <span class="hljs-attr">"pic"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>,
+            <span class="hljs-attr">"index"</span>: <span class="hljs-literal">false</span>
+        &#125;,
+        <span class="hljs-attr">"price"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"float"</span>
+        &#125;,
+        <span class="hljs-attr">"studymodel"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"timestamp"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"date"</span>,
+            <span class="hljs-attr">"format"</span>: <span class="hljs-string">"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="2、插入原始数据"><a href="#2、插入原始数据" class="headerlink" title="2、插入原始数据"></a>2、插入原始数据</h3><p>向 <code>xc_course/doc</code> 中插入以下三个文档数据：</p>
+<p>PUT：<a href="http://localhost:9200/xc_course/doc/1" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/1</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Bootstrap开发"</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"Bootstrap是由Twitter推出的一个前台页面开发框架，是一个非常流行的开发框架，此框架集成了多种页面效果。此开发框架包含了大量的CSS、JS程序代码，可以帮助开发者（尤其是不擅长页面开发的程序人员）轻松的实现一个不受浏览器限制的精美界面效果。"</span>,
+    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201002"</span>,
+    <span class="hljs-attr">"price"</span>:<span class="hljs-number">38.6</span>,
+    <span class="hljs-attr">"timestamp"</span>:<span class="hljs-string">"2018-04-25 19:11:35"</span>,
+ <span class="hljs-attr">"pic"</span>:<span class="hljs-string">"group1/M00/00/00/wKhlQFs6RCeAY0pHAAJx5ZjNDEM428.jpg"</span>
+&#125;</code></pre></div>
+
+<p>PUT：<a href="http://localhost:9200/xc_course/doc/2" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/2</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+	<span class="hljs-attr">"name"</span>: <span class="hljs-string">"java编程基础"</span>,
+<span class="hljs-attr">"description"</span>: <span class="hljs-string">"java语言是世界第一编程语言，在软件开发领域使用人数最多。"</span>,
+<span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>,
+<span class="hljs-attr">"price"</span>:<span class="hljs-number">68.6</span>,
+<span class="hljs-attr">"timestamp"</span>:<span class="hljs-string">"2018-03-25 19:11:35"</span>,
+<span class="hljs-attr">"pic"</span>:<span class="hljs-string">"group1/M00/00/00/wKhlQFs6RCeAY0pHAAJx5ZjNDEM428.jpg"</span>
+&#125;</code></pre></div>
+
+<p>PUT：<a href="http://localhost:9200/xc_course/doc/3" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/3</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"spring开发基础"</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"spring 在java领域非常流行，java程序员都在用。"</span>,
+    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>,
+    <span class="hljs-attr">"price"</span>:<span class="hljs-number">88.6</span>,
+    <span class="hljs-attr">"timestamp"</span>:<span class="hljs-string">"2018-02-24 19:11:35"</span>,
+  <span class="hljs-attr">"pic"</span>:<span class="hljs-string">"group1/M00/00/00/wKhlQFs6RCeAY0pHAAJx5ZjNDEM428.jpg"</span>
+&#125;</code></pre></div>
+
+<h3 id="3、简单的搜索一下"><a href="#3、简单的搜索一下" class="headerlink" title="3、简单的搜索一下"></a>3、简单的搜索一下</h3><p>简单搜索就是通过 <code>url</code> 进行查询，以 <code>get</code> 方式请求 <code>ES</code>。</p>
+<p>格式：GET ../_search?q=…..</p>
+<blockquote>
+<p>q：搜索字符串。</p>
+</blockquote>
+<p>例子：?q=name:spring</p>
+<blockquote>
+<p>搜索name中包括spring的文档。</p>
+</blockquote>
+<h2 id="2-DSL-搜索"><a href="#2-DSL-搜索" class="headerlink" title="2. DSL 搜索"></a>2. DSL 搜索</h2><p>DSL(Domain Specific Language) 是 <code>ES</code> 提出的基于 <code>json</code> 的搜索方式，在搜索时传入特定的 <code>json</code> 格式的数据来完成不同的搜索需求。</p>
+<p><code>DSL</code> 比 <code>URI</code> (在url传递搜索参数) 搜索方式功能强大，在项目中建议使用 <code>DSL</code> 方式来完成搜索。</p>
+<h3 id="1、查询所有文档"><a href="#1、查询所有文档" class="headerlink" title="1、查询所有文档"></a>1、查询所有文档</h3><p>查询所有索引库的文档。</p>
+<p>发送：post <a href="http://localhost:9200/_search" target="_blank" rel="noopener">http://localhost:9200/_search</a></p>
+<p>查询指定索引库 <strong>指定类型</strong> 下的文档。（通过使用此方法）</p>
+<p>发送：post <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>: &#123;
+    	<span class="hljs-attr">"match_all"</span>: &#123;&#125;
+    &#125;,
+    <span class="hljs-attr">"_source"</span> : [<span class="hljs-string">"name"</span>,<span class="hljs-string">"studymodel"</span>]
+&#125;</code></pre></div>
+
+<blockquote>
+<p>_source：<code>source</code> 源过虑设置，指定结果中所包括的字段有哪些。</p>
+</blockquote>
+<p>搜索结果：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"took"</span>: <span class="hljs-number">9</span>,
+    <span class="hljs-attr">"timed_out"</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"_shards"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"successful"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"skipped"</span>: <span class="hljs-number">0</span>,
+        <span class="hljs-attr">"failed"</span>: <span class="hljs-number">0</span>
+    &#125;,
+    <span class="hljs-attr">"hits"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">3</span>,
+        <span class="hljs-attr">"max_score"</span>: <span class="hljs-number">1.0</span>,
+        <span class="hljs-attr">"hits"</span>: [
+            &#123;
+                <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course"</span>,
+                <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"1"</span>,
+                <span class="hljs-attr">"_score"</span>: <span class="hljs-number">1.0</span>,
+                <span class="hljs-attr">"_source"</span>: &#123;
+                    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201002"</span>,
+                    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Bootstrap开发"</span>
+                &#125;
+            &#125;,
+            &#123;
+                <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course"</span>,
+                <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"2"</span>,
+                <span class="hljs-attr">"_score"</span>: <span class="hljs-number">1.0</span>,
+                <span class="hljs-attr">"_source"</span>: &#123;
+                    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>,
+                    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"java编程基础"</span>
+                &#125;
+            &#125;,
+            &#123;
+                <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course"</span>,
+                <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+                <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"3"</span>,
+                <span class="hljs-attr">"_score"</span>: <span class="hljs-number">1.0</span>,
+                <span class="hljs-attr">"_source"</span>: &#123;
+                    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>,
+                    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"spring开发基础"</span>
+                &#125;
+            &#125;
+        ]
+    &#125;
+&#125;</code></pre></div>
+
+<p>结果说明：</p>
+<table>
+<thead>
+<tr>
+<th>字段名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>took</td>
+<td>本次操作花费的时间，单位为毫秒。</td>
+</tr>
+<tr>
+<td>timed_out</td>
+<td>请求是否超时</td>
+</tr>
+<tr>
+<td>_shards</td>
+<td>说明本次操作共搜索了哪些分片</td>
+</tr>
+<tr>
+<td>hits</td>
+<td>搜索命中的记录</td>
+</tr>
+<tr>
+<td>hits.total</td>
+<td>符合条件的文档总数 hits.hits ：匹配度较高的前N个文档</td>
+</tr>
+<tr>
+<td>hits.max_score</td>
+<td>文档匹配得分，这里为最高分</td>
+</tr>
+<tr>
+<td>_score</td>
+<td>每个文档都有一个匹配度得分，按照降序排列。</td>
+</tr>
+<tr>
+<td>_source</td>
+<td>显示了文档的原始内容。</td>
+</tr>
+</tbody></table>
+<p><strong>使用JAVA 客户端实现：</strong></p>
+<ul>
+<li>创建搜索请求对象</li>
+<li>指定类型（部分版本不需要指定类型，这里以 <code>6.2.1</code> 为例）</li>
+<li>构建搜索源对象</li>
+<li>配置搜索方式，设置需要过滤字段</li>
+<li>向搜索请求中设置搜索源</li>
+<li>执行搜索，向ES发起 <code>http</code> 请求</li>
+<li>搜索结果 <code>asd as</code></li>
+<li>匹配到的总记录数</li>
+<li>得到匹配度高的文档</li>
+<li>遍历结果，获取 <code>SearchHit</code> 对象中的属性，输出或者存档。</li>
+</ul>
+<p>具体代码如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootTest</span>
+<span class="hljs-meta">@RunWith</span>(SpringRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">TestSearch</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    RestHighLevelClient client;
+
+    <span class="hljs-comment">//搜索type下的全部记录</span>
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testSearchAll</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+        <span class="hljs-comment">//获取搜索请求对象，并且设置类型</span>
+        SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(<span class="hljs-string">"xc_course"</span>);
+        searchRequest.types(<span class="hljs-string">"doc"</span>);
+        SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+
+        <span class="hljs-comment">//设置搜索方式</span>
+        searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+
+        <span class="hljs-comment">//配置source源字段过虑，1显示的，2排除的</span>
+        searchSourceBuilder.fetchSource(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"name"</span>,<span class="hljs-string">"studymodel"</span>&#125;, <span class="hljs-keyword">new</span> String[]&#123;&#125;);
+
+        <span class="hljs-comment">//将搜索源配置到搜索请求中，执行搜索，获取搜索响应结果</span>
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = client.search(searchRequest);
+
+        <span class="hljs-comment">//获取所有搜索结果、总匹配数量</span>
+        SearchHits hits = searchResponse.getHits();
+        <span class="hljs-keyword">long</span> totalHits = hits.getTotalHits();
+
+        <span class="hljs-comment">//筛选出匹配度高的文档记录</span>
+        SearchHit[] searchHits = hits.getHits();
+
+        <span class="hljs-comment">//遍历结果</span>
+        <span class="hljs-keyword">for</span> (SearchHit hit : searchHits) &#123;
+            String index = hit.getIndex();
+            String type = hit.getType();
+            String id = hit.getId();
+            <span class="hljs-keyword">float</span> score = hit.getScore();
+            String sourceAsString = hit.getSourceAsString();
+            Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+            String name = (String) sourceAsMap.get(<span class="hljs-string">"name"</span>);
+            String studymodel = (String) sourceAsMap.get(<span class="hljs-string">"studymodel"</span>);
+            String description = (String) sourceAsMap.get(<span class="hljs-string">"description"</span>);
+            System.out.println(name);
+            System.out.println(studymodel);
+            System.out.println(description);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="2、分页查询"><a href="#2、分页查询" class="headerlink" title="2、分页查询"></a>2、分页查询</h3><p><code>ES</code> 支持分页查询，传入两个参数：<code>from</code> 和 <code>size</code>。</p>
+<ul>
+<li>form：表示起始文档的下标，从0开始。</li>
+<li>size：查询的文档数量。</li>
+</ul>
+<p>发送：post <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"from"</span> : <span class="hljs-number">0</span>, 
+    <span class="hljs-attr">"size"</span> : <span class="hljs-number">1</span>,
+    <span class="hljs-attr">"query"</span>: &#123;
+    	<span class="hljs-attr">"match_all"</span>: &#123;&#125;
+    &#125;,
+    <span class="hljs-attr">"_source"</span> : [<span class="hljs-string">"name"</span>,<span class="hljs-string">"studymodel"</span>]
+&#125;</code></pre></div>
+
+<p><strong>使用JAVA 客户端实现：</strong></p>
+<div class="hljs"><pre><code class="hljs java"> <span class="hljs-comment">//分页查询</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testSearchPage</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    <span class="hljs-comment">//获取搜索请求对象，并且设置类型</span>
+    SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(<span class="hljs-string">"xc_course"</span>);
+    searchRequest.types(<span class="hljs-string">"doc"</span>);
+    SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+
+    <span class="hljs-comment">//设置搜索方式</span>
+    searchSourceBuilder.query(QueryBuilders.matchAllQuery());
+
+    <span class="hljs-comment">//ES这里是按起始坐标来实现分页查询,所以我们要指定一个页码</span>
+    <span class="hljs-keyword">int</span> pageNum = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">int</span> size = <span class="hljs-number">2</span>;
+    <span class="hljs-comment">//通过页码和查询数量得出起始位置</span>
+    <span class="hljs-keyword">int</span> fromNum = (pageNum - <span class="hljs-number">1</span>) * size;
+    <span class="hljs-comment">//分页查询，设置起始下标，从0开始</span>
+    searchSourceBuilder.from(<span class="hljs-number">0</span>);
+    <span class="hljs-comment">//每页显示个数</span>
+    searchSourceBuilder.size(size);
+    <span class="hljs-comment">//配置source源字段过虑，1显示的，2排除的</span>
+    searchSourceBuilder.fetchSource(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"name"</span>,<span class="hljs-string">"studymodel"</span>&#125;, <span class="hljs-keyword">new</span> String[]&#123;&#125;);
+
+    <span class="hljs-comment">//将搜索源配置到搜索请求中，执行搜索，获取搜索响应结果</span>
+    searchRequest.source(searchSourceBuilder);
+    SearchResponse searchResponse = restHighLevelClient.search(searchRequest);
+
+    <span class="hljs-comment">//获取所有搜索结果、总匹配数量</span>
+    SearchHits hits = searchResponse.getHits();
+    <span class="hljs-keyword">long</span> totalHits = hits.getTotalHits();
+
+    <span class="hljs-comment">//筛选出匹配度高的文档记录</span>
+    SearchHit[] searchHits = hits.getHits();
+
+    <span class="hljs-comment">//遍历结果</span>
+    <span class="hljs-keyword">for</span>(SearchHit hit : searchHits)&#123;
+        System.out.println(hit.toString());
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="3、Term-Query"><a href="#3、Term-Query" class="headerlink" title="3、Term Query"></a>3、Term Query</h3><p><code>Term Query</code> 为精确查询，在搜索时会整体匹配关键字，不再将关键字分词。</p>
+<p>发送：post <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"term"</span> : &#123;
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"spring"</span>
+        &#125;
+    &#125;,
+    <span class="hljs-attr">"_source"</span> : [<span class="hljs-string">"name"</span>,<span class="hljs-string">"studymodel"</span>]
+&#125;</code></pre></div>
+
+<p>上边的搜索会查询 <code>name</code> 包括 <code>spring</code> 这个词的文档。</p>
+<p><strong>JAVA客户端实现：</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * Term Query 精确查询</span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">TestSearchTermQuery</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(<span class="hljs-string">"xc_course"</span>);
+    searchRequest.types(<span class="hljs-string">"doc"</span>);
+    SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+    <span class="hljs-comment">//设置查询类型为termQuery,精确匹配name中包含spring的文档</span>
+    searchSourceBuilder.query(QueryBuilders.termQuery(<span class="hljs-string">"name"</span>,<span class="hljs-string">"spring"</span>));<span class="hljs-comment">//source源字段过虑</span>
+
+    <span class="hljs-comment">//不指定过滤条件则默认显示查询到的文档的所有字段</span>
+    searchSourceBuilder.fetchSource(<span class="hljs-keyword">new</span> String[]&#123;&#125;, <span class="hljs-keyword">new</span> String[]&#123;&#125;);
+
+    <span class="hljs-comment">//设置搜索源并获取搜索结果</span>
+    searchRequest.source(searchSourceBuilder);
+    SearchResponse searchResponse = restHighLevelClient.search(searchRequest);
+
+    <span class="hljs-comment">//获取搜索结果</span>
+    <span class="hljs-comment">//  .getHits() 取本次所有匹配结果</span>
+    <span class="hljs-comment">//  .getHits().getHits() 筛选出匹配度高的文档记录</span>
+    SearchHits hits = searchResponse.getHits();
+    <span class="hljs-keyword">long</span> totalHits = hits.getTotalHits();
+    <span class="hljs-comment">//筛选匹配度最高的结果</span>
+    SearchHit[] searchHits = hits.getHits();
+
+    System.out.println(<span class="hljs-string">"结果数量为: "</span> + totalHits);
+    <span class="hljs-comment">//输出搜索结果</span>
+    <span class="hljs-keyword">for</span>(SearchHit hit : searchHits)&#123;
+        System.out.println(hit.getSourceAsMap());
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="4、根据id精确匹配"><a href="#4、根据id精确匹配" class="headerlink" title="4、根据id精确匹配"></a>4、根据id精确匹配</h3><p>ES提供根据多个id值匹配的方法：</p>
+<p>post： <a href="http://127.0.0.1:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://127.0.0.1:9200/xc_course/doc/_search</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"ids"</span> : &#123;
+            <span class="hljs-attr">"type"</span> : <span class="hljs-string">"doc"</span>,
+            <span class="hljs-attr">"values"</span> : [<span class="hljs-string">"3"</span>, <span class="hljs-string">"4"</span>, <span class="hljs-string">"100"</span>]
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p><strong>JAVA客户端实现：</strong></p>
+<div class="hljs"><pre><code class="hljs java">String[] split = <span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"1"</span>,<span class="hljs-string">"2"</span>&#125;;
+List&lt;String&gt; idList = Arrays.asList(split);
+searchSourceBuilder.query(QueryBuilders.termsQuery(<span class="hljs-string">"_id"</span>, idList));</code></pre></div>
+
+<h3 id="5、match-query-匹配单个字段"><a href="#5、match-query-匹配单个字段" class="headerlink" title="5、match query (匹配单个字段)"></a>5、match query (匹配单个字段)</h3><h4 id="1-基本使用"><a href="#1-基本使用" class="headerlink" title="(1) 基本使用"></a>(1) 基本使用</h4><p><code>match query</code> 即全文检索，它的搜索方式是先将搜索字符串分词，再使用各各词条从索引中搜索。</p>
+<p><code>match query</code> 与 <code>Term query</code> 区别是 <code>match query</code> 在搜索前先将搜索关键字分词，再拿各各词语去索引中搜索。</p>
+<p>需求：检索 <code>name</code> 字段中包含 spring开发 的文档，并且结果只显示该文档的 name 字段</p>
+<p>发送：post <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"match"</span>: &#123;
+            <span class="hljs-attr">"name"</span>: &#123;
+                <span class="hljs-attr">"query"</span>: <span class="hljs-string">"spring开发"</span>,
+                <span class="hljs-attr">"operator"</span>: <span class="hljs-string">"or"</span>
+            &#125;
+        &#125;
+    &#125;,
+	<span class="hljs-attr">"_source"</span> : [<span class="hljs-string">"name"</span>]
+&#125;</code></pre></div>
+
+<ul>
+<li>query：搜索的关键字，对于英文关键字如果有多个单词则中间要用半角逗号分隔，而对于中文关键字中间可以用逗号分隔也可以不用。</li>
+<li>operator：<code>or</code> 表示 只要有一个词在文档中出现则就符合条件, <code>and</code> 表示每个词都在文档中出现则才符合条件</li>
+</ul>
+<p><strong>operator</strong>：<code>or</code> 表示 只要有一个词在文档中出现则就符合条件, <code>and</code> 表示每个词都在文档中出现则才符合条件</p>
+<p>搜索结果：</p>
+<div class="hljs"><pre><code class="hljs json">"hits": [
+    &#123;
+        <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course"</span>,
+        <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"3"</span>,
+        <span class="hljs-attr">"_score"</span>: <span class="hljs-number">1.3802519</span>,
+        <span class="hljs-attr">"_source"</span>: &#123;
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"spring开发基础"</span>
+        &#125;
+    &#125;,
+    &#123;
+        <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course"</span>,
+        <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"1"</span>,
+        <span class="hljs-attr">"_score"</span>: <span class="hljs-number">0.52354836</span>,
+        <span class="hljs-attr">"_source"</span>: &#123;
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"Bootstrap开发"</span>
+        &#125;
+    &#125;
+]</code></pre></div>
+
+<p>上边的搜索的执行过程是：</p>
+<p>1、将 <code>spring开发</code> 分词，分为 <code>spring</code>、<code>开发</code> 两个词</p>
+<p>2、再使用 <code>spring</code> 和开发两个词去匹配索引中搜索。</p>
+<p>3、由于设置了 <code>operator</code> 为 <code>or</code>，只要有一个词匹配成功则就返回该文档。</p>
+<p>我们将 operator 设置为 <code>and</code> 再次进行搜索</p>
+<div class="hljs"><pre><code class="hljs json">"hits": [
+    &#123;
+        <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course"</span>,
+        <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+        <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"3"</span>,
+        <span class="hljs-attr">"_score"</span>: <span class="hljs-number">1.3802519</span>,
+        <span class="hljs-attr">"_source"</span>: &#123;
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"spring开发基础"</span>
+        &#125;
+    &#125;
+]</code></pre></div>
+
+<p>从结果中我们可以看到，使用 <code>and</code> 进行搜索后，ES会匹配指定的字段包含 <code>spring</code>、<code>开发</code> 两个词的结果。</p>
+<p><strong>JAVA客户端实现：</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据关键字搜索</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMatchQuery</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(<span class="hljs-string">"xc_course"</span>);
+    searchRequest.types(<span class="hljs-string">"doc"</span>);
+    SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+    <span class="hljs-comment">//source源字段过虑</span>
+    searchSourceBuilder.fetchSource(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"name"</span>&#125;, <span class="hljs-keyword">new</span> String[]&#123;&#125;);
+    <span class="hljs-comment">//设置过滤器，匹配关键字</span>
+    searchSourceBuilder.query(QueryBuilders.matchQuery(<span class="hljs-string">"description"</span>, <span class="hljs-string">"spring开发"</span>).operator(Operator.OR));
+    searchRequest.source(searchSourceBuilder);
+
+    <span class="hljs-comment">//执行搜索请求</span>
+    SearchResponse searchResponse = client.search(searchRequest);
+    SearchHits hits = searchResponse.getHits();
+    SearchHit[] searchHits = hits.getHits();
+
+    <span class="hljs-comment">//输出搜索结果</span>
+    <span class="hljs-keyword">for</span>(SearchHit hit : searchHits)&#123;
+        System.out.println(hit.getSourceAsMap());
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="2-minimum-should-match"><a href="#2-minimum-should-match" class="headerlink" title="(2) minimum_should_match"></a>(2) minimum_should_match</h4><p>上边使用的 <code>operator = or</code> 表示只要有一个词匹配上就得分，如果实现三个词至少有两个词匹配如何实现？使用 <code>minimum_should_match</code> 可以指定文档匹配词的占比：</p>
+<p>比如搜索语句如下：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"match"</span>: &#123;
+            <span class="hljs-attr">"description"</span>: &#123;
+                <span class="hljs-attr">"query"</span>: <span class="hljs-string">"spring开发框架"</span>,
+                <span class="hljs-attr">"minimum_should_match"</span>: <span class="hljs-string">"80%"</span>
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p><code>spring开发框架</code> 会被分为三个词：<code>spring</code>、<code>开发</code>、<code>框架</code></p>
+<p>设置 <code>minimum_should_match:80%</code> 表示，三个词在文档的匹配占比为 <strong>80%</strong>，即 3<em>0.8=2.4，向上取整得2，表示至少有 *</em>两个词** 在文档中要匹配成功。</p>
+<p>对应的 <code>RestClient</code> 如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//匹配关键字</span>
+MatchQueryBuilder matchQueryBuilder = QueryBuilders.matchQuery(<span class="hljs-string">"description"</span>, <span class="hljs-string">"前台页面开发框架 架构"</span>).minimumShouldMatch(<span class="hljs-string">"80%"</span>);<span class="hljs-comment">//设置匹配占比</span>
+searchSourceBuilder.query(matchQueryBuilder);</code></pre></div>
+
+<h3 id="6、multi-query-匹配多个字段"><a href="#6、multi-query-匹配多个字段" class="headerlink" title="6、multi query (匹配多个字段)"></a>6、multi query (匹配多个字段)</h3><p>上边学习的 <code>termQuery</code> 和 <code>matchQuery</code> 一次只能匹配一个 <code>Field</code>，本节学习 <code>multiQuery</code>，一次可以匹配多个字段。</p>
+<h4 id="1-基本使用-1"><a href="#1-基本使用-1" class="headerlink" title="(1) 基本使用"></a>(1) 基本使用</h4><p>单项匹配是在一个 <code>field</code> 中去匹配，多项匹配是拿关键字去多个 <code>Field</code> 中匹配，例子如下：</p>
+<p>发送：post <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<p>拿关键字 <code>spring css</code>去匹配 <code>name</code> 和 <code>description</code> 字段。</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"multi_match"</span>: &#123;
+            <span class="hljs-attr">"query"</span>: <span class="hljs-string">"spring css"</span>,
+            <span class="hljs-attr">"minimum_should_match"</span>: <span class="hljs-string">"50%"</span>,
+            <span class="hljs-attr">"fields"</span>: [
+                <span class="hljs-string">"name"</span>,
+                <span class="hljs-string">"description"</span>
+            ]
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="2-提升-boost-权重"><a href="#2-提升-boost-权重" class="headerlink" title="(2) 提升 boost (权重)"></a>(2) 提升 boost (权重)</h4><p>匹配多个字段时可以提升字段的 <code>boost</code>（权重）来提高得分</p>
+<p>例子：提升 <code>boost</code>之前，执行下边的查询：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"multi_match"</span>: &#123;
+            <span class="hljs-attr">"query"</span>: <span class="hljs-string">"spring框架"</span>,
+            <span class="hljs-attr">"minimum_should_match"</span>: <span class="hljs-string">"50%"</span>,
+            <span class="hljs-attr">"fields"</span>: [
+                <span class="hljs-string">"name"</span>,
+                <span class="hljs-string">"description"</span>
+            ]
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>通过查询发现 <code>Bootstrap</code> 排在前边。</p>
+<p>提升 <code>boost</code>，通常关键字匹配上 <code>name</code> 的权重要比匹配上 <code>description</code> 的权重高，这里可以对<code>name</code> 的权重提升。</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"multi_match"</span>: &#123;
+            <span class="hljs-attr">"query"</span>: <span class="hljs-string">"spring框架"</span>,
+            <span class="hljs-attr">"minimum_should_match"</span>: <span class="hljs-string">"50%"</span>,
+            <span class="hljs-attr">"fields"</span>: [
+                <span class="hljs-string">"name^10"</span>,
+                <span class="hljs-string">"description"</span>
+            ]
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p><code>name^10</code> 表示权重提升 <code>10</code> 倍，执行上边的查询，发现 <code>name</code> 中包括 <code>spring</code> 关键字的文档排在前边。</p>
+<p><strong>JAVA 客户端：</strong></p>
+<div class="hljs"><pre><code class="hljs java">MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(<span class="hljs-string">"spring框架"</span>,<span class="hljs-string">"name"</span>, <span class="hljs-string">"description"</span>)
+.minimumShouldMatch(<span class="hljs-string">"50%"</span>);
+multiMatchQueryBuilder.field(<span class="hljs-string">"name"</span>,<span class="hljs-number">10</span>);<span class="hljs-comment">//提升boost</span></code></pre></div>
+
+<h3 id="7、布尔查询"><a href="#7、布尔查询" class="headerlink" title="7、布尔查询"></a>7、布尔查询</h3><p>布尔查询对应于 <code>Lucene</code> 的 <code>BooleanQuery</code> 查询，实现将多个查询组合起来。</p>
+<p>三个参数：</p>
+<p><code>must</code>：文档必须匹配 <code>must</code> 所包括的查询条件，相当于 <code>AND</code></p>
+<p><code>should</code>：文档应该匹配 <code>should</code> 所包括的查询条件其中的一个或多个，相当于 <code>OR</code></p>
+<p><code>must_not</code>：文档不能匹配 <code>must_not</code> 所包括的该查询条件，相当于 <code>NOT</code></p>
+<p>分别使用 <code>must</code>、<code>should</code>、<code>must_not</code> 测试下边的查询：</p>
+<p>发送：POST <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"_source"</span>: [
+        <span class="hljs-string">"name"</span>,
+        <span class="hljs-string">"studymodel"</span>,
+        <span class="hljs-string">"description"</span>
+    ],
+    <span class="hljs-attr">"from"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"size"</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"bool"</span>: &#123;
+            <span class="hljs-attr">"must"</span>: [
+                &#123;
+                    <span class="hljs-attr">"multi_match"</span>: &#123;
+                        <span class="hljs-attr">"query"</span>: <span class="hljs-string">"spring框架"</span>,
+                        <span class="hljs-attr">"minimum_should_match"</span>: <span class="hljs-string">"50%"</span>,
+                        <span class="hljs-attr">"fields"</span>: [
+                            <span class="hljs-string">"name^10"</span>,
+                            <span class="hljs-string">"description"</span>
+                        ]
+                    &#125;
+                &#125;,
+                &#123;
+                    <span class="hljs-attr">"term"</span>: &#123;
+                        <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>
+                    &#125;
+                &#125;
+            ]
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p><code>must</code>：表示必须，多个查询条件必须都满足。（通常使用<code>must</code>）</p>
+<p><code>should</code>：表示或者，多个查询条件只要有一个满足即可。</p>
+<p><code>must_not</code>：表示非。</p>
+<p><strong>JAVA客户端实现：</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//BoolQuery，将搜索关键字分词，拿分词去索引库搜索</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testBoolQuery</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    <span class="hljs-comment">//创建搜索请求对象</span>
+    SearchRequest searchRequest= <span class="hljs-keyword">new</span> SearchRequest(<span class="hljs-string">"xc_course"</span>);
+    searchRequest.types(<span class="hljs-string">"doc"</span>);
+    <span class="hljs-comment">//创建搜索源配置对象</span>
+    SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+    searchSourceBuilder.fetchSource(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"name"</span>,<span class="hljs-string">"pic"</span>,<span class="hljs-string">"studymodel"</span>&#125;,<span class="hljs-keyword">new</span> String[]&#123;&#125;);
+    <span class="hljs-comment">//multiQuery</span>
+    String keyword = <span class="hljs-string">"spring开发框架"</span>;
+    MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(<span class="hljs-string">"spring框架"</span>,
+    <span class="hljs-string">"name"</span>, <span class="hljs-string">"description"</span>)
+    .minimumShouldMatch(<span class="hljs-string">"50%"</span>);
+    multiMatchQueryBuilder.field(<span class="hljs-string">"name"</span>,<span class="hljs-number">10</span>);
+    <span class="hljs-comment">//TermQuery</span>
+    TermQueryBuilder termQueryBuilder = QueryBuilders.termQuery(<span class="hljs-string">"studymodel"</span>, <span class="hljs-string">"201001"</span>);
+    <span class="hljs-comment">//布尔查询</span>
+    BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+    boolQueryBuilder.must(multiMatchQueryBuilder);
+    boolQueryBuilder.must(termQueryBuilder);
+    <span class="hljs-comment">//设置布尔查询对象</span>
+    searchSourceBuilder.query(boolQueryBuilder);
+    searchRequest.source(searchSourceBuilder);<span class="hljs-comment">//设置搜索源配置</span>
+    SearchResponse searchResponse = client.search(searchRequest);
+    SearchHits hits = searchResponse.getHits();
+    SearchHit[] searchHits = hits.getHits();
+    <span class="hljs-keyword">for</span>(SearchHit hit:searchHits)&#123;
+        Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+        System.out.println(sourceAsMap);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="8、过滤器"><a href="#8、过滤器" class="headerlink" title="8、过滤器"></a>8、过滤器</h3><p>过虑是针对 <strong>搜索的结果</strong> 进行过虑，过虑器主要判断的是文档是否匹配，不去 <strong>计算和判断文档的匹配度得分</strong>，所以过虑器的 <strong>性能</strong> 比查询要高，且方便缓存，推荐尽量使用过虑器去实现查询或者 <strong>过虑器</strong> 和 <strong>查询</strong> 共同使用。</p>
+<p>过虑器在布尔查询中使用，下边是在搜索结果的基础上进行过滤</p>
+<p>发送：POST <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"_source"</span>: [
+        <span class="hljs-string">"name"</span>,
+        <span class="hljs-string">"studymodel"</span>,
+        <span class="hljs-string">"description"</span>,
+        <span class="hljs-string">"price"</span>
+    ],
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"bool"</span>: &#123;
+            <span class="hljs-attr">"must"</span>: [
+                &#123;
+                    <span class="hljs-attr">"multi_match"</span>: &#123;
+                        <span class="hljs-attr">"query"</span>: <span class="hljs-string">"spring框架"</span>,
+                        <span class="hljs-attr">"minimum_should_match"</span>: <span class="hljs-string">"50%"</span>,
+                        <span class="hljs-attr">"fields"</span>: [
+                            <span class="hljs-string">"name^10"</span>,
+                            <span class="hljs-string">"description"</span>
+                        ]
+                    &#125;
+                &#125;
+            ],
+            <span class="hljs-attr">"filter"</span>: [
+                &#123;
+                    <span class="hljs-attr">"term"</span>: &#123;
+                        <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>
+                    &#125;
+                &#125;,
+                &#123;
+                    <span class="hljs-attr">"range"</span>: &#123;
+                        <span class="hljs-attr">"price"</span>: &#123;
+                            <span class="hljs-attr">"gte"</span>: <span class="hljs-number">60</span>,
+                            <span class="hljs-attr">"lte"</span>: <span class="hljs-number">100</span>
+                        &#125;
+                    &#125;
+                &#125;
+            ]
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>range：范围过虑，保留大于等于 <code>60</code> 并且小于等于 <code>100</code> 的记录。</p>
+<p>term：项匹配过虑，保留 <code>studymodel</code> 等于 <code>201001</code> 的记录。</p>
+<p>注意：<code>range</code> 和 <code>term</code> 一次只能对一个 <code>Field</code> 设置范围过虑。</p>
+<p><strong>JAVA 客户端实现：</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//布尔查询使用过虑器</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testFilter</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(<span class="hljs-string">"xc_course"</span>);
+    searchRequest.types(<span class="hljs-string">"doc"</span>);
+    SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+    <span class="hljs-comment">//source源字段过虑</span>
+    searchSourceBuilder.fetchSource(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"name"</span>,<span class="hljs-string">"studymodel"</span>,<span class="hljs-string">"price"</span>,<span class="hljs-string">"description"</span>&#125;,
+    <span class="hljs-keyword">new</span> String[]&#123;&#125;);
+    searchRequest.source(searchSourceBuilder);
+    <span class="hljs-comment">//匹配关键字</span>
+    MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(<span class="hljs-string">"spring框</span>
+<span class="hljs-string">    架"</span>, <span class="hljs-string">"name"</span>, <span class="hljs-string">"description"</span>);
+    <span class="hljs-comment">//设置匹配占比</span>
+    multiMatchQueryBuilder.minimumShouldMatch(<span class="hljs-string">"50%"</span>);
+    <span class="hljs-comment">//提升另个字段的Boost值</span>
+    multiMatchQueryBuilder.field(<span class="hljs-string">"name"</span>,<span class="hljs-number">10</span>);
+    searchSourceBuilder.query(multiMatchQueryBuilder);
+    <span class="hljs-comment">//布尔查询</span>
+    BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+    boolQueryBuilder.must(searchSourceBuilder.query());
+    <span class="hljs-comment">//过虑条件</span>
+    boolQueryBuilder.filter(QueryBuilders.termQuery(<span class="hljs-string">"studymodel"</span>, <span class="hljs-string">"201001"</span>));
+    boolQueryBuilder.filter(QueryBuilders.rangeQuery(<span class="hljs-string">"price"</span>).gte(<span class="hljs-number">60</span>).lte(<span class="hljs-number">100</span>));
+    <span class="hljs-comment">//执行搜索</span>
+	SearchResponse searchResponse = client.search(searchRequest);
+    SearchHits hits = searchResponse.getHits();
+    SearchHit[] searchHits = hits.getHits();
+    <span class="hljs-keyword">for</span>(SearchHit hit:searchHits)&#123;
+        Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+        System.out.println(sourceAsMap);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="9、排序"><a href="#9、排序" class="headerlink" title="9、排序"></a>9、排序</h3><p>可以在字段上添加一个或多个排序，支持在 <code>keyword</code>、<code>date</code>、<code>float</code> 等类型上添加，<code>text</code> 类型的字段上不允许添加排序。</p>
+<p>需求：过虑 <code>0--10</code> 元价格范围的文档，并且对结果进行排序，先按 <code>studymodel</code> 降序，再按价格升序</p>
+<p>发送 POST <a href="http://localhost:9200/xc_course/doc/_search" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_search</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"_source"</span>: [
+        <span class="hljs-string">"name"</span>,
+        <span class="hljs-string">"studymodel"</span>,
+        <span class="hljs-string">"description"</span>,
+        <span class="hljs-string">"price"</span>
+    ],
+    <span class="hljs-attr">"query"</span>: &#123;
+        <span class="hljs-attr">"bool"</span>: &#123;
+            <span class="hljs-attr">"filter"</span>: [
+                &#123;
+                    <span class="hljs-attr">"range"</span>: &#123;
+                        <span class="hljs-attr">"price"</span>: &#123;
+                            <span class="hljs-attr">"gte"</span>: <span class="hljs-number">0</span>,
+                            <span class="hljs-attr">"lte"</span>: <span class="hljs-number">100</span>
+                        &#125;
+                    &#125;
+                &#125;
+            ]
+        &#125;
+    &#125;,
+    <span class="hljs-attr">"sort"</span>: [
+        &#123;
+            <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"desc"</span>
+        &#125;,
+        &#123;
+            <span class="hljs-attr">"price"</span>: <span class="hljs-string">"asc"</span>
+        &#125;
+    ]
+&#125;</code></pre></div>
+
+<blockquote>
+<p>dest 表示降序，从大到小，asc 表示升序，从小到大</p>
+</blockquote>
+<p><strong>JAVA客户端实现</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testSort</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(<span class="hljs-string">"xc_course"</span>);
+    searchRequest.types(<span class="hljs-string">"doc"</span>);
+    SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+    <span class="hljs-comment">//source源字段过虑</span>
+    searchSourceBuilder.fetchSource(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"name"</span>,<span class="hljs-string">"studymodel"</span>,<span class="hljs-string">"price"</span>,<span class="hljs-string">"description"</span>&#125;,
+    <span class="hljs-keyword">new</span> String[]&#123;&#125;);
+    searchRequest.source(searchSourceBuilder);
+    <span class="hljs-comment">//布尔查询</span>
+    BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+    <span class="hljs-comment">//过虑</span>
+  boolQueryBuilder.filter(QueryBuilders.rangeQuery(<span class="hljs-string">"price"</span>).gte(<span class="hljs-number">0</span>).lte(<span class="hljs-number">100</span>));
+    <span class="hljs-comment">//排序</span>
+    searchSourceBuilder.sort(<span class="hljs-keyword">new</span> FieldSortBuilder(<span class="hljs-string">"studymodel"</span>).order(SortOrder.DESC));
+    searchSourceBuilder.sort(<span class="hljs-keyword">new</span> FieldSortBuilder(<span class="hljs-string">"price"</span>).order(SortOrder.ASC));
+    SearchResponse searchResponse = client.search(searchRequest);
+    SearchHits hits = searchResponse.getHits();
+    SearchHit[] searchHits = hits.getHits();
+    <span class="hljs-keyword">for</span>(SearchHit hit:searchHits)&#123;
+        Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+        System.out.println(sourceAsMap);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="10、高亮显示"><a href="#10、高亮显示" class="headerlink" title="10、高亮显示"></a>10、高亮显示</h3><p><strong>JAVA客户端实现</strong></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testHighlight</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(<span class="hljs-string">"xc_course"</span>);
+    searchRequest.types(<span class="hljs-string">"doc"</span>);
+    SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+    <span class="hljs-comment">//source源字段过虑</span>
+    searchSourceBuilder.fetchSource(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"name"</span>,<span class="hljs-string">"studymodel"</span>,<span class="hljs-string">"price"</span>,<span class="hljs-string">"description"</span>&#125;,
+    <span class="hljs-keyword">new</span> String[]&#123;&#125;);
+    searchRequest.source(searchSourceBuilder);
+    <span class="hljs-comment">//匹配关键字</span>
+    MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(<span class="hljs-string">"开发"</span>,
+    <span class="hljs-string">"name"</span>, <span class="hljs-string">"description"</span>);
+    searchSourceBuilder.query(multiMatchQueryBuilder);
+    <span class="hljs-comment">//布尔查询</span>
+    BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+    boolQueryBuilder.must(searchSourceBuilder.query());
+    <span class="hljs-comment">//过虑</span>
+    boolQueryBuilder.filter(QueryBuilders.rangeQuery(<span class="hljs-string">"price"</span>).gte(<span class="hljs-number">0</span>).lte(<span class="hljs-number">100</span>));
+    <span class="hljs-comment">//排序</span>
+    searchSourceBuilder.sort(<span class="hljs-keyword">new</span> FieldSortBuilder(<span class="hljs-string">"studymodel"</span>).order(SortOrder.DESC));
+    searchSourceBuilder.sort(<span class="hljs-keyword">new</span> FieldSortBuilder(<span class="hljs-string">"price"</span>).order(SortOrder.ASC));
+    <span class="hljs-comment">//高亮设置</span>
+    HighlightBuilder highlightBuilder = <span class="hljs-keyword">new</span> HighlightBuilder();
+    highlightBuilder.preTags(<span class="hljs-string">"&lt;tag&gt;"</span>);<span class="hljs-comment">//设置前缀</span>
+    highlightBuilder.postTags(<span class="hljs-string">"&lt;/tag&gt;"</span>);<span class="hljs-comment">//设置后缀</span>
+    <span class="hljs-comment">// 设置高亮字段</span>
+    highlightBuilder.fields().add(<span class="hljs-keyword">new</span> HighlightBuilder.Field(<span class="hljs-string">"name"</span>));
+    <span class="hljs-comment">// highlightBuilder.fields().add(new HighlightBuilder.Field("description"));</span>
+    searchSourceBuilder.highlighter(highlightBuilder);
+    SearchResponse searchResponse = client.search(searchRequest);
+    SearchHits hits = searchResponse.getHits();
+    SearchHit[] searchHits = hits.getHits();
+    <span class="hljs-keyword">for</span> (SearchHit hit : searchHits) &#123;
+        Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+        <span class="hljs-comment">//名称</span>
+        String name = (String) sourceAsMap.get(<span class="hljs-string">"name"</span>);
+        <span class="hljs-comment">//取出高亮字段内容</span>
+        Map&lt;String, HighlightField&gt; highlightFields = hit.getHighlightFields();
+        <span class="hljs-keyword">if</span>(highlightFields!=<span class="hljs-keyword">null</span>)&#123;
+            HighlightField nameField = highlightFields.get(<span class="hljs-string">"name"</span>);
+            <span class="hljs-keyword">if</span>(nameField!=<span class="hljs-keyword">null</span>)&#123;
+                Text[] fragments = nameField.getFragments();
+                StringBuffer stringBuffer = <span class="hljs-keyword">new</span> StringBuffer();
+                <span class="hljs-keyword">for</span> (Text str : fragments) &#123;
+                    stringBuffer.append(str.string());
+                &#125; 
+                name = stringBuffer.toString();
+            &#125;
+        &#125;
+        <span class="hljs-comment">//取出所有结果</span>
+        Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+        System.out.println(sourceAsMap);
+    &#125;
+&#125;</code></pre></div>
+
+<h1 id="二、集群管理"><a href="#二、集群管理" class="headerlink" title="二、集群管理"></a>二、集群管理</h1><p><code>ES</code> 通常以集群方式工作，这样做不仅能够提高 <code>ES</code> 的搜索能力还可以处理大数据搜索的能力，同时也增加了系统的容错能力及高可用，<code>ES</code> 可以实现 <code>PB</code> 级数据的搜索。</p>
+<h2 id="1-集群结构"><a href="#1-集群结构" class="headerlink" title="1. 集群结构"></a>1. 集群结构</h2><p>下图是 <code>ES</code> 集群结构的示意图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image1" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image1.png" srcset="/img/loading.gif" alt="image-20200423073305474.png"></a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image1" target="_blank" rel="noopener">image-20200423073305474.png</a></p>
+<p>从上图总结以下概念：</p>
+<p><strong>1、结点</strong></p>
+<p><code>ES</code> 集群由多个服务器组成，每个服务器即为一个 <code>Node</code> 结点(如果该服务器只部署了一个 <code>ES</code> 进程)。</p>
+<p><strong>2、分片</strong></p>
+<p>当我们的文档量很大时，由于内存和硬盘的限制，同时也为了提高 <code>ES</code> 的处理能力、容错能力及高可用能力，我们将索引分成若干分片，每个分片可以放在不同的服务器，这样就实现了多个服务器共同对外提供索引及搜索服务。<br>一个搜索请求过来，会分别从各各分片去查询，最后将查询到的数据合并返回给用户。</p>
+<p><strong>3、副本</strong></p>
+<p>为了提高 <code>ES</code> 的高可用同时也为了提高搜索的吞吐量，我们将分片复制一份或多份存储在其它的服务器，这样即使当前的服务器挂掉了，拥有副本的服务器照常可以提供服务。</p>
+<p><strong>4、主结点</strong></p>
+<p>一个集群中会有一个或多个主结点，主结点的作用是集群管理，比如增加节点，移除节点等，主结点挂掉后ES会重新选一个主结点。</p>
+<p><strong>5、结点转发</strong></p>
+<p>每个结点都知道其它结点的信息，我们可以对任意一个结点发起请求，接收请求的结点会转发给其它结点查询数据</p>
+<h2 id="2-搭建集群"><a href="#2-搭建集群" class="headerlink" title="2. 搭建集群"></a>2. 搭建集群</h2><h3 id="1、节点的三个角色"><a href="#1、节点的三个角色" class="headerlink" title="1、节点的三个角色"></a>1、节点的三个角色</h3><p>下边的例子实现创建一个 2结点的集群，并且索引的分片我们设置 2片，每片一个副本。</p>
+<p>主结点：<code>master</code> 节点主要用于集群的管理及索引，比如新增结点、分片分配、索引的新增和删除等。</p>
+<p>数据结点：<code>data</code> 节点上保存了数据分片，它负责索引和搜索操作。 客户端结点：<code>client</code> 节点仅作为请求客户端存在，<code>client</code> 的作用也作为负载均衡器，<code>client</code> 节点不存数据，只是将请求均衡转发到其它结点。</p>
+<p>通过下边两项参数来配置结点的功能：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">node.master:</span> <span class="hljs-comment">#是否允许为主结点</span>
+<span class="hljs-attr">node.data:</span> <span class="hljs-comment">#允许存储数据作为数据结点</span>
+<span class="hljs-attr">node.ingest:</span> <span class="hljs-comment">#是否允许成为协调节点，</span></code></pre></div>
+
+<p>四种组合方式：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-string">master=true,</span> <span class="hljs-string">data=true：即是主结点又是数据结点</span>
+<span class="hljs-string">master=false,</span> <span class="hljs-string">data=true：仅是数据结点</span>
+<span class="hljs-string">master=true,</span> <span class="hljs-string">data=false：仅是主结点，不存储数据</span>
+<span class="hljs-string">master=false,</span> <span class="hljs-string">data=false：即不是主结点也不是数据结点，此时可设置ingest为true表示它是一个客户端</span></code></pre></div>
+
+<h3 id="2、创建节点"><a href="#2、创建节点" class="headerlink" title="2、创建节点"></a>2、创建节点</h3><h4 id="1-配置节点1"><a href="#1-配置节点1" class="headerlink" title="(1) 配置节点1"></a>(1) 配置节点1</h4><p>结点1 对外服务的 <code>http</code> 端口是 <code>9200</code>，集群管理端口是 <code>9300</code></p>
+<p>配置 elasticsearch.yml</p>
+<p>结点名：<code>xc_node_1</code></p>
+<p><code>elasticsearch.yml</code> 内容如下</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">cluster.name:</span> <span class="hljs-string">xuecheng</span>
+<span class="hljs-attr">node.name:</span> <span class="hljs-string">xc_node_1</span>
+<span class="hljs-comment"># 主机绑定IP、端口等信息</span>
+<span class="hljs-attr">network.host:</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">http.port:</span> <span class="hljs-number">9200</span>
+<span class="hljs-attr">transport.tcp.port:</span> <span class="hljs-number">9300</span>
+<span class="hljs-attr">node.master:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">node.data:</span> <span class="hljs-literal">true</span>
+<span class="hljs-comment"># 配置master节点列表</span>
+<span class="hljs-attr">discovery.zen.ping.unicast.hosts:</span> <span class="hljs-string">["0.0.0.0:9300",</span> <span class="hljs-string">"0.0.0.0:9301"</span><span class="hljs-string">]</span>
+<span class="hljs-comment"># 最小的主节点数量</span>
+<span class="hljs-attr">discovery.zen.minimum_master_nodes:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">node.ingest:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">bootstrap.memory_lock:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">node.max_local_storage_nodes:</span> <span class="hljs-number">1</span>
+
+<span class="hljs-comment"># 数据与日志目录</span>
+<span class="hljs-attr">path.data:</span> <span class="hljs-string">D:\soft\elasticsearch\elasticsearch-6.8.8_1\data</span>
+<span class="hljs-attr">path.logs:</span> <span class="hljs-string">D:\soft\elasticsearch\elasticsearch-6.8.8_1\logs</span>
+
+<span class="hljs-comment"># 跨域配置</span>
+<span class="hljs-attr">http.cors.enabled:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">http.cors.allow-origin:</span> <span class="hljs-string">/.*/</span></code></pre></div>
+
+<p>启动节点1</p>
+<h4 id="2-配置节点2"><a href="#2-配置节点2" class="headerlink" title="(2) 配置节点2"></a>(2) 配置节点2</h4><p>我们测试环境就在同一台机器上部署两个节点，所以需要将 <code>ES</code> 的安装包再解压一份，并复制节点1的ik插件和一些日志配置文件到 <strong>节点2</strong> 的目录下</p>
+<p>结点 <code>2</code>对外服务的 <code>http</code> 端口是 <code>9201</code>，集群管理端口是<code>9302</code></p>
+<p>结点名：<code>xc_node_2</code></p>
+<p><code>elasticsearch.yml</code> 内容如下 ：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">cluster.name:</span> <span class="hljs-string">xuecheng</span>
+<span class="hljs-attr">node.name:</span> <span class="hljs-string">xc_node_2</span>
+<span class="hljs-comment"># 主机绑定IP、端口等信息</span>
+<span class="hljs-attr">network.host:</span> <span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>
+<span class="hljs-attr">http.port:</span> <span class="hljs-number">9201</span>
+<span class="hljs-attr">transport.tcp.port:</span> <span class="hljs-number">9301</span>
+<span class="hljs-attr">node.master:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">node.data:</span> <span class="hljs-literal">true</span>
+<span class="hljs-comment"># 配置master节点列表</span>
+<span class="hljs-attr">discovery.zen.ping.unicast.hosts:</span> <span class="hljs-string">["0.0.0.0:9300",</span> <span class="hljs-string">"0.0.0.0:9301"</span><span class="hljs-string">]</span>
+<span class="hljs-comment"># 最小的主节点数量</span>
+<span class="hljs-attr">discovery.zen.minimum_master_nodes:</span> <span class="hljs-number">1</span>
+<span class="hljs-attr">node.ingest:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">bootstrap.memory_lock:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">node.max_local_storage_nodes:</span> <span class="hljs-number">1</span>
+
+<span class="hljs-comment"># 数据与日志目录</span>
+<span class="hljs-attr">path.data:</span> <span class="hljs-string">D:\soft\elasticsearch\elasticsearch-6.8.8_1\data</span>
+<span class="hljs-attr">path.logs:</span> <span class="hljs-string">D:\soft\elasticsearch\elasticsearch-6.8.8_2\logs</span>
+
+<span class="hljs-comment"># 跨域配置</span>
+<span class="hljs-attr">http.cors.enabled:</span> <span class="hljs-literal">true</span>
+<span class="hljs-attr">http.cors.allow-origin:</span> <span class="hljs-string">/.*/</span></code></pre></div>
+
+<p>启动结点2</p>
+<h3 id="3、创建索引库"><a href="#3、创建索引库" class="headerlink" title="3、创建索引库"></a>3、创建索引库</h3><p>1）使用head连上其中一个结点</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image2" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image2.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>上图表示两个结点已经创建成功。</p>
+<p>2）下边创建索引库，共 <code>2</code> 个分片，每个分片一个副本。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image3" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image3.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>创建成功，刷新 head</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image4" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image4.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>上图可以看到共有4个分片，其中两个分片是副本。</p>
+<h3 id="4、集群的健康状态"><a href="#4、集群的健康状态" class="headerlink" title="4、集群的健康状态"></a>4、集群的健康状态</h3><p>通过访问 GET <code>/_cluster/health</code> 来查看 <code>Elasticsearch</code> 的集群健康情况。</p>
+<p>用三种颜色来展示健康状态： <code>green</code> 、 <code>yellow</code> 或者 <code>red</code> 。</p>
+<ul>
+<li>green：所有的主分片和副本分片都正常运行。</li>
+<li>yellow：所有的主分片都正常运行，但有些副本分片运行不正常。</li>
+<li>ed：存在主分片运行不正常。</li>
+</ul>
+<p>GET 请求：<a href="http://localhost:9200/_cluster/health" target="_blank" rel="noopener">http://localhost:9200/_cluster/health</a></p>
+<p>响应结果：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"cluster_name"</span>: <span class="hljs-string">"xuecheng"</span>,
+    <span class="hljs-attr">"status"</span>: <span class="hljs-string">"green"</span>,
+    <span class="hljs-attr">"timed_out"</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">"number_of_nodes"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">"number_of_data_nodes"</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">"active_primary_shards"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"active_shards"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"relocating_shards"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"initializing_shards"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"unassigned_shards"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"delayed_unassigned_shards"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"number_of_pending_tasks"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"number_of_in_flight_fetch"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"task_max_waiting_in_queue_millis"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"active_shards_percent_as_number"</span>: <span class="hljs-number">100.0</span>
+&#125;</code></pre></div>
+
+<h2 id="3-测试"><a href="#3-测试" class="headerlink" title="3. 测试"></a>3. 测试</h2><p>1）创建映射并写入文档</p>
+<p>连接 其中任意一台结点，创建映射写入文档。</p>
+<p>POST <a href="http://localhost:9200/xc_course/doc/3" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/3</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123; 
+	<span class="hljs-attr">"name"</span>: <span class="hljs-string">"spring开发基础"</span>,
+    <span class="hljs-attr">"description"</span>: <span class="hljs-string">"spring 在java领域非常流行，java软件开发人员都在用。"</span>,
+    <span class="hljs-attr">"studymodel"</span>: <span class="hljs-string">"201001"</span>,
+    <span class="hljs-attr">"price"</span>:<span class="hljs-number">66.6</span>
+&#125;</code></pre></div>
+
+<p>响应结果：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"_index"</span>: <span class="hljs-string">"xc_course"</span>,
+    <span class="hljs-attr">"_type"</span>: <span class="hljs-string">"doc"</span>,
+    <span class="hljs-attr">"_id"</span>: <span class="hljs-string">"3"</span>,
+    <span class="hljs-attr">"_version"</span>: <span class="hljs-number">1</span>,
+    <span class="hljs-attr">"result"</span>: <span class="hljs-string">"created"</span>,
+    <span class="hljs-attr">"_shards"</span>: &#123;
+        <span class="hljs-attr">"total"</span>: <span class="hljs-number">2</span>,
+        <span class="hljs-attr">"successful"</span>: <span class="hljs-number">1</span>,
+        <span class="hljs-attr">"failed"</span>: <span class="hljs-number">0</span>
+    &#125;,
+    <span class="hljs-attr">"_seq_no"</span>: <span class="hljs-number">0</span>,
+    <span class="hljs-attr">"_primary_term"</span>: <span class="hljs-number">1</span>
+&#125;</code></pre></div>
+
+<p>从上边的提示可看出，两个分片都保存成功。</p>
+<p>2）搜索</p>
+<p>向其它一个结点发起搜索请求，查询全部数据。</p>
+<p>3）关闭一个结点</p>
+<p>ES会重新选中一个主结点（前提在配置结点时允许它可以为主结点）</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image5" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image5.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>此时向活的结点发起搜索请求，仍然正常。</p>
+<p>4）添加一个结点</p>
+<p>添加结点 <code>3</code>，端口设置为：</p>
+<p><code>http</code> 端口是：<code>9202</code></p>
+<p>集群管理端口是 <code>9302</code></p>
+<p>结点名：<code>xc_node_3</code></p>
+<p>此结点的配置：</p>
+<div class="hljs"><pre><code class="hljs json">node.master: false
+node.data: true</code></pre></div>
+
+<p>启动结点3，刷新 <code>head</code>，下图显示 <code>ES</code> 将分片分在了 <code>3</code> 个结点</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image6" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image6.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>向结点3发起搜索请求：</p>
+<p>GET： <a href="http://127.0.0.1:9202/xc_course/doc/_search" target="_blank" rel="noopener">http://127.0.0.1:9202/xc_course/doc/_search</a></p>
+<p>全部数据可被正常搜索到。</p>
+<h1 id="三、搜索服务开发"><a href="#三、搜索服务开发" class="headerlink" title="三、搜索服务开发"></a>三、搜索服务开发</h1><h2 id="1-课程搜索服务需求分析"><a href="#1-课程搜索服务需求分析" class="headerlink" title="1. 课程搜索服务需求分析"></a>1. 课程搜索服务需求分析</h2><h3 id="1、需求分析"><a href="#1、需求分析" class="headerlink" title="1、需求分析"></a>1、需求分析</h3><p><a href="https://qnoss.codeyee.com/20200704_11/image7" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image7.png" srcset="/img/loading.gif" alt="img"></a></p>
+<ol>
+<li>根据分类搜索课程信息。</li>
+<li>根据关键字搜索课程信息，搜索方式为全文检索，关键字需要匹配课程的名称、 课程内容。</li>
+<li>根据难度等级搜索课程。</li>
+<li>搜索结点分页显示。</li>
+</ol>
+<h3 id="2、搜索流程"><a href="#2、搜索流程" class="headerlink" title="2、搜索流程"></a>2、搜索流程</h3><p><a href="https://qnoss.codeyee.com/20200704_11/image8" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image8.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>1、课程管理服务将数据写到 <code>MySQL</code> 数据库</p>
+<p>2、使用 <code>Logstash</code> 将 <code>MySQL</code> 数据库中的数据写到 <code>ES</code> 的索引库。</p>
+<p>3、用户在前端搜索课程信息，请求到搜索服务。</p>
+<p>4、搜索服务请求 <code>ES</code> 搜索课程信息。</p>
+<h2 id="2-课程索引"><a href="#2-课程索引" class="headerlink" title="2. 课程索引"></a>2. 课程索引</h2><h3 id="1、技术方案"><a href="#1、技术方案" class="headerlink" title="1、技术方案"></a>1、技术方案</h3><p>如何维护课程索引信息？</p>
+<p>1、当课程向 <code>MySQL</code> 添加后同时将课程信息添加到索引库。采用 <code>Logstach</code> 实现，<code>Logstach</code>会从 <code>MySQL</code> 中 将数据采集到 <code>ES</code> 索引库。</p>
+<p>2、当课程在 <code>MySQL</code> 更新信息后同时更新该课程在索引库的信息。</p>
+<p>采用 <code>Logstach</code> 实现。</p>
+<p>3、当课程在 <code>MySQL</code> 删除后同时将该课程从索引库删除。</p>
+<p>手工写程序实现，在删除课程后将索引库中该课程信息删除。</p>
+<h3 id="2、准备课程索引信息"><a href="#2、准备课程索引信息" class="headerlink" title="2、准备课程索引信息"></a>2、准备课程索引信息</h3><p>课程发布成功在 <code>MySQL</code> 数据库存储课程发布信息，此信息作为课程索引信息。</p>
+<h4 id="创建课程发布表"><a href="#创建课程发布表" class="headerlink" title="创建课程发布表"></a>创建课程发布表</h4><p>课程信息分布在 <code>course_base</code>、<code>course_pic</code> 等不同的表中。</p>
+<p>课程发布成功为了方便进行索引将这几张表的数据合并在一张表中，作为课程发布信息。</p>
+<p>创建 <code>course_pub</code> 表</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image9" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image9.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h4 id="创建表模型"><a href="#创建表模型" class="headerlink" title="创建表模型"></a>创建表模型</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@ToString</span>
+<span class="hljs-meta">@Entity</span>
+<span class="hljs-meta">@Table</span>(name=<span class="hljs-string">"course_pub"</span>)
+<span class="hljs-meta">@GenericGenerator</span>(name = <span class="hljs-string">"jpa-assigned"</span>, strategy = <span class="hljs-string">"assigned"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CoursePub</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = -<span class="hljs-number">916357110051689487L</span>;
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-meta">@GeneratedValue</span>(generator = <span class="hljs-string">"jpa-assigned"</span>)
+    <span class="hljs-meta">@Column</span>(length = <span class="hljs-number">32</span>)
+    <span class="hljs-keyword">private</span> String id;
+    <span class="hljs-keyword">private</span> String name;
+    <span class="hljs-keyword">private</span> String users;
+    <span class="hljs-keyword">private</span> String mt;
+    <span class="hljs-keyword">private</span> String st;
+    <span class="hljs-keyword">private</span> String grade;
+    <span class="hljs-keyword">private</span> String studymodel;
+    <span class="hljs-keyword">private</span> String teachmode;
+    <span class="hljs-keyword">private</span> String description;
+    <span class="hljs-keyword">private</span> String pic;<span class="hljs-comment">//图片</span>
+    <span class="hljs-keyword">private</span> Date timestamp;<span class="hljs-comment">//时间戳</span>
+    <span class="hljs-keyword">private</span> String charge;+
+    <span class="hljs-keyword">private</span> String valid;
+    <span class="hljs-keyword">private</span> String qq;
+    <span class="hljs-keyword">private</span> Float price;
+    <span class="hljs-keyword">private</span> Float price_old;
+    <span class="hljs-keyword">private</span> String expires;
+    <span class="hljs-keyword">private</span> String teachplan;<span class="hljs-comment">//课程计划</span>
+    <span class="hljs-meta">@Column</span>(name=<span class="hljs-string">"pub_time"</span>)
+    <span class="hljs-keyword">private</span> String pubTime;<span class="hljs-comment">//课程发布时间</span>
+&#125;</code></pre></div>
+
+<h4 id="添加课程索引"><a href="#添加课程索引" class="headerlink" title="添加课程索引"></a>添加课程索引</h4><p>我们需要在课程发成功后执行添加课程索引的操作</p>
+<p>1）创建 <code>course_pub</code> 表的 <code>dao</code></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">CoursePubRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">JpaRepository</span>&lt;<span class="hljs-title">CoursePub</span>, <span class="hljs-title">String</span>&gt; </span>&#123;&#125;</code></pre></div>
+
+<ol>
+<li>修改课程发布</li>
+</ol>
+<p>我们先将添加索引拆分为两个方法：createCoursePub、saveCoursePub</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//保存CoursePub</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> CoursePub <span class="hljs-title">saveCoursePub</span><span class="hljs-params">(String id, CoursePub coursePub)</span></span>&#123;
+    <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(id))&#123;
+    ExceptionCast.cast(CourseCode.COURSE_PUBLISH_COURSEIDISNULL);
+    &#125; 
+    CoursePub coursePubNew = <span class="hljs-keyword">null</span>;
+    Optional&lt;CoursePub&gt; coursePubOptional = coursePubRepository.findById(id);
+    <span class="hljs-keyword">if</span>(coursePubOptional.isPresent())&#123;
+    	coursePubNew = coursePubOptional.get();
+    &#125; 
+    <span class="hljs-keyword">if</span>(coursePubNew == <span class="hljs-keyword">null</span>)&#123;
+    	coursePubNew = <span class="hljs-keyword">new</span> CoursePub();
+    &#125; 
+    BeanUtils.copyProperties(coursePub,coursePubNew);
+    <span class="hljs-comment">//设置主键</span>
+    coursePubNew.setId(id);
+    <span class="hljs-comment">//更新时间戳为最新时间</span>
+    coursePub.setTimestamp(<span class="hljs-keyword">new</span> Date());
+    <span class="hljs-comment">//发布时间</span>
+    SimpleDateFormat simpleDateFormat = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">"YYYY-MM-dd HH:mm:ss"</span>);
+    String date = simpleDateFormat.format(<span class="hljs-keyword">new</span> Date());
+    coursePub.setPubTime(date);
+    coursePubRepository.save(coursePub);
+    <span class="hljs-keyword">return</span> coursePub;
+&#125;
+
+<span class="hljs-comment">//创建coursePub对象</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> CoursePub <span class="hljs-title">createCoursePub</span><span class="hljs-params">(String id)</span></span>&#123;
+    CoursePub coursePub = <span class="hljs-keyword">new</span> CoursePub();
+    coursePub.setId(id);
+    <span class="hljs-comment">//基础信息</span>
+    Optional&lt;CourseBase&gt; courseBaseOptional = courseBaseRepository.findById(id);
+    <span class="hljs-keyword">if</span>(courseBaseOptional == <span class="hljs-keyword">null</span>)&#123;
+        CourseBase courseBase = courseBaseOptional.get();
+        BeanUtils.copyProperties(courseBase, coursePub);
+    &#125; 
+    <span class="hljs-comment">//查询课程图片</span>
+    Optional&lt;CoursePic&gt; picOptional = coursePicRepository.findById(id);
+    <span class="hljs-keyword">if</span>(picOptional.isPresent())&#123;
+        CoursePic coursePic = picOptional.get();
+        BeanUtils.copyProperties(coursePic, coursePub);
+    &#125; 
+    <span class="hljs-comment">//课程营销信息</span>
+    Optional&lt;CourseMarket&gt; marketOptional = courseMarketRepository.findById(id);
+    <span class="hljs-keyword">if</span>(marketOptional.isPresent())&#123;
+        CourseMarket courseMarket = marketOptional.get();
+        BeanUtils.copyProperties(courseMarket, coursePub);
+    &#125; 
+    <span class="hljs-comment">//课程计划</span>
+    TeachplanNode teachplanNode = teachplanMapper.selectList(id);
+    <span class="hljs-comment">//将课程计划转成json</span>
+    String teachplanString = JSON.toJSONString(teachplanNode);
+    coursePub.setTeachplan(teachplanString);
+    <span class="hljs-keyword">return</span> coursePub;
+&#125;</code></pre></div>
+
+<p>3）修改课程方法，调用 <code>createCoursePub</code> 和 <code>saveCoursePub</code> 方法</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//课程发布</span>
+<span class="hljs-meta">@Transactional</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> CoursePublishResult <span class="hljs-title">publish</span><span class="hljs-params">(String courseId)</span></span>&#123;
+    ....
+    <span class="hljs-comment">//创建课程索引</span>
+    <span class="hljs-comment">//创建课程索引信息</span>
+    CoursePub coursePub = createCoursePub(courseId);
+    <span class="hljs-comment">//向数据库保存课程索引信息</span>
+    CoursePub newCoursePub = saveCoursePub(courseId, coursePub);
+    <span class="hljs-keyword">if</span>(newCoursePub==<span class="hljs-keyword">null</span>)&#123;
+    <span class="hljs-comment">//创建课程索引信息失败			</span>
+ExceptionCast.cast(CourseCode.COURSE_PUBLISH_CREATE_INDEX_ERROR);
+    &#125;
+    ....
+&#125;</code></pre></div>
+
+<h3 id="3、搭建ES环境"><a href="#3、搭建ES环境" class="headerlink" title="3、搭建ES环境"></a>3、搭建ES环境</h3><p>创建索引库 ， 创建 <code>xc_course</code> 索引库，1分片，0个副本。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image10" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image10.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>创建映射</p>
+<p>POST: <a href="http://localhost:9200/xc_course/doc/_mapping" target="_blank" rel="noopener">http://localhost:9200/xc_course/doc/_mapping</a></p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"properties"</span>: &#123;
+        <span class="hljs-attr">"description"</span>: &#123;
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"grade"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"id"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"mt"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"name"</span>: &#123;
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"users"</span>: &#123;
+            <span class="hljs-attr">"index"</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"charge"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"valid"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"pic"</span>: &#123;
+            <span class="hljs-attr">"index"</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"qq"</span>: &#123;
+            <span class="hljs-attr">"index"</span>: <span class="hljs-literal">false</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"price"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"float"</span>
+        &#125;,
+        <span class="hljs-attr">"price_old"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"float"</span>
+        &#125;,
+        <span class="hljs-attr">"st"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"status"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"studymodel"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"teachmode"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"keyword"</span>
+        &#125;,
+        <span class="hljs-attr">"teachplan"</span>: &#123;
+            <span class="hljs-attr">"analyzer"</span>: <span class="hljs-string">"ik_max_word"</span>,
+            <span class="hljs-attr">"search_analyzer"</span>: <span class="hljs-string">"ik_smart"</span>,
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"text"</span>
+        &#125;,
+        <span class="hljs-attr">"expires"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"date"</span>,
+            <span class="hljs-attr">"format"</span>: <span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>
+        &#125;,
+        <span class="hljs-attr">"pub_time"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"date"</span>,
+            <span class="hljs-attr">"format"</span>: <span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>
+        &#125;,
+        <span class="hljs-attr">"start_time"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"date"</span>,
+            <span class="hljs-attr">"format"</span>: <span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>
+        &#125;,
+        <span class="hljs-attr">"end_time"</span>: &#123;
+            <span class="hljs-attr">"type"</span>: <span class="hljs-string">"date"</span>,
+            <span class="hljs-attr">"format"</span>: <span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="4、Logstash创建索引"><a href="#4、Logstash创建索引" class="headerlink" title="4、Logstash创建索引"></a>4、Logstash创建索引</h3><p>Logstash是ES下的一款开源软件，它能够同时 从多个来源采集数据、转换数据，然后将数据发送 <code>Eleasticsearch</code> 中创建索引。</p>
+<p>本项目使用 <code>Logstash</code> 将 <code>MySQL</code> 中的数据采用到ES索引中。</p>
+<h4 id="下载-Logstash"><a href="#下载-Logstash" class="headerlink" title="下载 Logstash"></a>下载 Logstash</h4><p>下载的 <code>Logstash</code> 要和ES的版本保持一致，下载地址 <a href="https://www.elastic.co/cn/downloads/logstash" target="_blank" rel="noopener">https://www.elastic.co/cn/downloads/logstash</a></p>
+<p>下载完成后解压即可</p>
+<h4 id="安装-Logstash"><a href="#安装-Logstash" class="headerlink" title="安装 Logstash"></a>安装 Logstash</h4><p><code>ogstash-input-jdbc</code> 是<code>ruby</code>开发的，先下载 <code>ruby</code> 并安装</p>
+<p>下载地址: <a href="https://rubyinstaller.org/downloads/" target="_blank" rel="noopener">https://rubyinstaller.org/downloads/</a></p>
+<p>安装完成查看是否安装成功 <code>ruby -v</code></p>
+<p><code>6.x</code> 版本本身不带 <code>logstash-input-jdbc</code> 插件，需要手动安装 ，在bin目录下执行以下命令</p>
+<div class="hljs"><pre><code class="hljs shell">.\logstash-plugin.bat install logstash-input-jdbc</code></pre></div>
+
+<p><a href="https://qnoss.codeyee.com/20200704_11/image11" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image11.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>安装成功后我们可以在 <code>logstash</code> 根目录下的 <code>vendor\bundle\jruby\2.5.0\gems</code> 目录查看对应的插件版本</p>
+<h4 id="创建模板文件"><a href="#创建模板文件" class="headerlink" title="创建模板文件"></a>创建模板文件</h4><p><code>Logstash</code> 的工作是从 <code>MySQL</code> 中读取数据，向ES中创建索引，这里需要提前创建 <code>mapping</code> 的模板文件以便 <code>logstash</code> 使用。</p>
+<p>在 <code>logstach</code> 的 <code>config</code> 目录创建 <code>xc_course_template.json</code>，内容如下：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+   <span class="hljs-attr">"mappings"</span> : &#123;
+      <span class="hljs-attr">"doc"</span> : &#123;
+         <span class="hljs-attr">"properties"</span> : &#123;
+            <span class="hljs-attr">"charge"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"description"</span> : &#123;
+               <span class="hljs-attr">"analyzer"</span> : <span class="hljs-string">"ik_max_word"</span>,
+               <span class="hljs-attr">"search_analyzer"</span> : <span class="hljs-string">"ik_smart"</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"text"</span>
+            &#125;,
+            <span class="hljs-attr">"end_time"</span> : &#123;
+               <span class="hljs-attr">"format"</span> : <span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"date"</span>
+            &#125;,
+            <span class="hljs-attr">"expires"</span> : &#123;
+               <span class="hljs-attr">"format"</span> : <span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"date"</span>
+            &#125;,
+            <span class="hljs-attr">"grade"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"id"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"mt"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"name"</span> : &#123;
+               <span class="hljs-attr">"analyzer"</span> : <span class="hljs-string">"ik_max_word"</span>,
+               <span class="hljs-attr">"search_analyzer"</span> : <span class="hljs-string">"ik_smart"</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"text"</span>
+            &#125;,
+            <span class="hljs-attr">"pic"</span> : &#123;
+               <span class="hljs-attr">"index"</span> : <span class="hljs-literal">false</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"price"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"float"</span>
+            &#125;,
+            <span class="hljs-attr">"price_old"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"float"</span>
+            &#125;,
+            <span class="hljs-attr">"pub_time"</span> : &#123;
+               <span class="hljs-attr">"format"</span> : <span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"date"</span>
+            &#125;,
+            <span class="hljs-attr">"qq"</span> : &#123;
+               <span class="hljs-attr">"index"</span> : <span class="hljs-literal">false</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"st"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"start_time"</span> : &#123;
+               <span class="hljs-attr">"format"</span> : <span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"date"</span>
+            &#125;,
+            <span class="hljs-attr">"status"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"studymodel"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"teachmode"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;,
+            <span class="hljs-attr">"teachplan"</span> : &#123;
+               <span class="hljs-attr">"analyzer"</span> : <span class="hljs-string">"ik_max_word"</span>,
+               <span class="hljs-attr">"search_analyzer"</span> : <span class="hljs-string">"ik_smart"</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"text"</span>
+            &#125;,
+            <span class="hljs-attr">"users"</span> : &#123;
+               <span class="hljs-attr">"index"</span> : <span class="hljs-literal">false</span>,
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"text"</span>
+            &#125;,
+            <span class="hljs-attr">"valid"</span> : &#123;
+               <span class="hljs-attr">"type"</span> : <span class="hljs-string">"keyword"</span>
+            &#125;
+         &#125;
+      &#125;
+   &#125;,
+   <span class="hljs-attr">"template"</span> : <span class="hljs-string">"xc_course"</span>
+&#125;</code></pre></div>
+
+<p>该文件对于的是ES库中的映射</p>
+<h4 id="配置-mysql-conf"><a href="#配置-mysql-conf" class="headerlink" title="配置 mysql.conf"></a>配置 mysql.conf</h4><p>在 <code>logstash</code> 的 <code>config</code> 目录下配置 <code>mysql.conf</code>文件供 <code>logstash</code> 使用，<code>logstash</code> 会根据<code>mysql.conf</code> 文件的配置的地址从 <code>MySQL</code> 中读取数据向 <code>ES</code> 中写入索引。</p>
+<p>参考 <a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-jdbc.html" target="_blank" rel="noopener">https://www.elastic.co/guide/en/logstash/current/plugins-inputs-jdbc.html</a></p>
+<p>配置输入数据源和输出数据源。</p>
+<div class="hljs"><pre><code class="hljs conf">input &#123;
+    stdin &#123;
+    &#125; 
+    jdbc &#123;
+        jdbc_connection_string &#x3D;&gt; &quot;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;xc_course?useUnicode&#x3D;true&amp;characterEncoding&#x3D;utf-8&amp;useSSL&#x3D;true&amp;serverTimezone&#x3D;UTC&quot;
+        # 数据库信息
+        jdbc_user &#x3D;&gt; &quot;root&quot;
+        jdbc_password &#x3D;&gt; 123123
+        # MYSQL 驱动地址,修改为maven仓库对应的位置
+        jdbc_driver_library &#x3D;&gt; &quot;D:&#x2F;soft&#x2F;apache-maven-3.5.4&#x2F;repository&#x2F;mysql&#x2F;mysql-connector-java&#x2F;5.1.40&#x2F;mysql-
+        connector-java-5.1.40.jar&quot;
+        # the name of the driver class for mysql
+        jdbc_driver_class &#x3D;&gt; &quot;com.mysql.jdbc.Driver&quot;
+        jdbc_paging_enabled &#x3D;&gt; &quot;true&quot;
+        jdbc_page_size &#x3D;&gt; &quot;50000&quot;
+        #要执行的sql文件
+        #statement_filepath &#x3D;&gt; &quot;&#x2F;conf&#x2F;course.sql&quot;
+		# 这里我们采用直接sql语句的形式, 因为logstash默认采用的是UTC标准时间,我们这里需要加上8小时
+        statement &#x3D;&gt; &quot;select * from course_pub where timestamp &gt; date_add(:sql_last_value,INTERVAL 8 HOUR)&quot;
+        #定时配置
+        schedule &#x3D;&gt; &quot;* * * * *&quot;
+        record_last_run &#x3D;&gt; true
+        last_run_metadata_path &#x3D;&gt; &quot;D:&#x2F;soft&#x2F;elasticsearch&#x2F;logstash-6.8.8&#x2F;config&#x2F;logstash_metadata&quot;
+        &#125;
+    &#125; 
+    output &#123;
+        elasticsearch &#123;
+        #ES的ip地址和端口
+        hosts &#x3D;&gt; &quot;localhost:9200&quot;
+        #hosts &#x3D;&gt; [&quot;localhost:9200&quot;,&quot;localhost:9202&quot;,&quot;localhost:9203&quot;]
+        #ES索引库名称
+        index &#x3D;&gt; &quot;xc_course&quot;
+        document_id &#x3D;&gt; &quot;%&#123;id
+        document_type &#x3D;&gt; &quot;doc&quot;
+        template &#x3D;&gt;&quot;D:&#x2F;soft&#x2F;elasticsearch&#x2F;logstash-6.8.8&#x2F;config&#x2F;xc_course_template.json&quot;
+        template_name &#x3D;&gt; &quot;xc_course&quot;
+        template_overwrite &#x3D;&gt;&quot;true&quot;
+    &#125; 
+	stdout &#123;
+    #日志输出
+    	codec &#x3D;&gt; json_lines
+    &#125;
+&#125;</code></pre></div>
+
+<p>说明：</p>
+<p>1、<code>ES</code> 采用 <code>UTC</code> 时区问题</p>
+<p><code>ES</code> 采用 <code>UTC</code> 时区，比北京时间早8小时，所以 <code>ES</code> 读取数据时让最后更新时间加8小时<br><code>where timestamp &gt; date_add(:sql_last_value,INTERVAL 8 HOUR)</code></p>
+<p>2、<code>logstash</code> 每个执行完成会在 <code>config/logstash_metadata</code> 记录执行时间下次以此时间为基准进行增量同步数据到索引库。</p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><p>启动 <code>logstash.bat</code></p>
+<div class="hljs"><pre><code class="hljs c">.\logstash.bat -f ..\<span class="hljs-built_in">config</span>\mysql.conf</code></pre></div>
+
+<p><a href="https://qnoss.codeyee.com/20200704_11/image12" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image12.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>修改 <code>course_pub</code> 中的数据，并且修改 <code>timestamp</code> 为当前时间，观察 <code>Logstash</code> 日志是否读取到要索引的数据。</p>
+<p>最后用 <code>head</code> 登录 <code>ES</code> 查看索引文档内容是否修改。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image13" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image13.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="3-课程搜索实战"><a href="#3-课程搜索实战" class="headerlink" title="3. 课程搜索实战"></a>3. 课程搜索实战</h2><h3 id="1、需求分析-1"><a href="#1、需求分析-1" class="headerlink" title="1、需求分析"></a>1、需求分析</h3><p>1、根据 <strong>分类</strong> 搜索课程信息。</p>
+<p>2、根据 <strong>关键字</strong> 搜索课程信息，搜索方式为全文检索，关键字需要匹配课程的名称、 课程内容。</p>
+<p>3、根据 <strong>难度等级</strong> 搜索课程。</p>
+<p>4、搜索结点分页显示。</p>
+<h4 id="技术分析"><a href="#技术分析" class="headerlink" title="技术分析"></a>技术分析</h4><p>1、根据关键字搜索，采用 <code>MultiMatchQuery</code>，搜索 <code>name</code>、<code>description</code>、<code>teachplan</code></p>
+<p>2、根据分类、课程等级搜索采用过虑器实现。</p>
+<p>3、分页查询。</p>
+<p>4、高亮显示。</p>
+<h3 id="2、创建搜索服务工程"><a href="#2、创建搜索服务工程" class="headerlink" title="2、创建搜索服务工程"></a>2、创建搜索服务工程</h3><p>该工程环境我们在 <code>day10</code> 已经搭建完成，如果你未学习前面的章节，请参考 <code>day10 六、索引管理</code> 的内容。</p>
+<h3 id="3、构建API"><a href="#3、构建API" class="headerlink" title="3、构建API"></a>3、构建API</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.api.search;
+
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.course.CoursePub;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.search.CourseSearchParam;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.QueryResponseResult;
+<span class="hljs-keyword">import</span> io.swagger.annotations.Api;
+<span class="hljs-keyword">import</span> io.swagger.annotations.ApiOperation;
+
+<span class="hljs-keyword">import</span> java.io.IOException;
+
+<span class="hljs-meta">@Api</span>(value = <span class="hljs-string">"课程搜索"</span>, description = <span class="hljs-string">"基于ES构建的课程搜索API"</span>,tags = &#123;<span class="hljs-string">"课程搜索"</span>&#125;)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">EsCourseConrollerApi</span> </span>&#123;
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"课程详细搜索"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> QueryResponseResult&lt;CoursePub&gt; <span class="hljs-title">findList</span><span class="hljs-params">(<span class="hljs-keyword">int</span> page, <span class="hljs-keyword">int</span> size, CourseSearchParam courseSearchParam)</span> <span class="hljs-keyword">throws</span> IOException</span>;
+&#125;</code></pre></div>
+
+<h3 id="4、Service"><a href="#4、Service" class="headerlink" title="4、Service"></a>4、Service</h3><h4 id="按关键词搜索"><a href="#按关键词搜索" class="headerlink" title="按关键词搜索"></a>按关键词搜索</h4><p>在 <code>appliction.yml</code> 中配置 <code>source_field</code></p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">elasticsearch:</span>
+    <span class="hljs-attr">hostlist:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:9200</span> <span class="hljs-comment">#多个结点中间用逗号分隔</span>
+    <span class="hljs-attr">course:</span>
+    <span class="hljs-attr">index:</span> <span class="hljs-string">xc_course</span>
+    <span class="hljs-attr">type:</span> <span class="hljs-string">doc</span>
+    <span class="hljs-attr">source_field:</span> <span class="hljs-string">id,name,grade,mt,st,charge,valid,pic,qq,price,price_old,status,studymodel,teachmode,expires,pub_time,start_time,end_time</span></code></pre></div>
+
+<p><code>service</code> 完整代码如下</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 课程列表搜索</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> page 页码</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> size 每页数量</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> courseSearchParam 搜索参数</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> QueryResponseResult&lt;CoursePub&gt; <span class="hljs-title">findList</span><span class="hljs-params">(<span class="hljs-keyword">int</span> page, <span class="hljs-keyword">int</span> size, CourseSearchParam courseSearchParam)</span> <span class="hljs-keyword">throws</span> IOException</span>&#123;
+    <span class="hljs-comment">//设置索引</span>
+    SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(es_index);
+    <span class="hljs-comment">//设置类型</span>
+    searchRequest.types(es_type);
+    <span class="hljs-comment">//创建搜索源对象</span>
+    SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+    <span class="hljs-comment">//创建布尔查询对象</span>
+    BoolQueryBuilder boolQueryBuilder = <span class="hljs-keyword">new</span> BoolQueryBuilder();
+
+    <span class="hljs-comment">//源字段过滤</span>
+    String[] fieldArr = source_field.split(<span class="hljs-string">","</span>);
+    searchSourceBuilder.fetchSource(fieldArr,<span class="hljs-keyword">new</span> String[]&#123;&#125;);
+
+    <span class="hljs-comment">//根据关键字进行查询</span>
+    <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(courseSearchParam.getKeyword()))&#123;
+        <span class="hljs-comment">//匹配关键词</span>
+        MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(courseSearchParam.getKeyword(), <span class="hljs-string">"name"</span>, <span class="hljs-string">"teachplan"</span>, <span class="hljs-string">"description"</span>);
+        <span class="hljs-comment">//设置匹配占比</span>
+        multiMatchQueryBuilder.minimumShouldMatch(<span class="hljs-string">"70%"</span>);
+        <span class="hljs-comment">//提升字段的权重值</span>
+        multiMatchQueryBuilder.field(<span class="hljs-string">"name"</span>,<span class="hljs-number">10</span>);
+        boolQueryBuilder.must(multiMatchQueryBuilder);
+    &#125;
+
+    <span class="hljs-comment">//根据难度进行过滤</span>
+    <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(courseSearchParam.getMt()))&#123;
+        boolQueryBuilder.filter(QueryBuilders.termQuery(<span class="hljs-string">"mt"</span>,courseSearchParam.getMt()));
+    &#125;
+    <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(courseSearchParam.getSt()))&#123;
+        boolQueryBuilder.filter(QueryBuilders.termQuery(<span class="hljs-string">"st"</span>,courseSearchParam.getSt()));
+    &#125;
+    <span class="hljs-comment">//根据等级进行过滤</span>
+    <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(courseSearchParam.getGrade()))&#123;
+        boolQueryBuilder.filter(QueryBuilders.termQuery(<span class="hljs-string">"grade"</span>,courseSearchParam.getGrade()));
+    &#125;
+
+    <span class="hljs-comment">//设置分页参数</span>
+    <span class="hljs-keyword">if</span>(page&lt;=<span class="hljs-number">0</span>)&#123;
+        page = <span class="hljs-number">1</span>;
+    &#125;
+    <span class="hljs-keyword">if</span>(size&lt;=<span class="hljs-number">0</span>)&#123;
+        size = <span class="hljs-number">20</span>;
+    &#125;
+    <span class="hljs-comment">//计算搜索起始位置</span>
+    <span class="hljs-keyword">int</span> start = (page-<span class="hljs-number">1</span>) * size;
+    searchSourceBuilder.from(start);
+    searchSourceBuilder.size(size);
+
+    <span class="hljs-comment">//将布尔查询对象添加到搜索源内</span>
+    searchSourceBuilder.query(boolQueryBuilder);
+
+    <span class="hljs-comment">//配置高亮信息</span>
+    HighlightBuilder highlightBuilder = <span class="hljs-keyword">new</span> HighlightBuilder();
+    highlightBuilder.preTags(<span class="hljs-string">"&lt;font class='eslight'&gt;"</span>);
+    highlightBuilder.postTags(<span class="hljs-string">"&lt;/font&gt;"</span>);
+    <span class="hljs-comment">//设置高亮字段</span>
+    highlightBuilder.fields().add(<span class="hljs-keyword">new</span> HighlightBuilder.Field(<span class="hljs-string">"name"</span>));
+    searchSourceBuilder.highlighter(highlightBuilder);
+
+    <span class="hljs-comment">//请求搜索</span>
+    searchRequest.source(searchSourceBuilder);
+    SearchResponse searchResponse = <span class="hljs-keyword">null</span>;
+    <span class="hljs-keyword">try</span>&#123;
+        searchResponse = restHighLevelClient.search(searchRequest);
+    &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+        <span class="hljs-comment">//搜索异常</span>
+        e.printStackTrace();
+        LOGGER.error(<span class="hljs-string">"search error ...&#123;&#125;"</span>,e.getMessage());
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> QueryResponseResult&lt;&gt;(CommonCode.FAIL,<span class="hljs-keyword">null</span>);
+    &#125;
+
+    <span class="hljs-comment">//结果收集处理</span>
+    SearchHits hits = searchResponse.getHits();
+    <span class="hljs-comment">//获取匹配度高的结果</span>
+    SearchHit[] searchHits = hits.getHits();
+    <span class="hljs-comment">//总记录数</span>
+    <span class="hljs-keyword">long</span> totalHits = hits.getTotalHits();
+    <span class="hljs-comment">//数据列表</span>
+    ArrayList&lt;CoursePub&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+    <span class="hljs-comment">//添加数据</span>
+    <span class="hljs-keyword">for</span> (SearchHit hit: searchHits)&#123;
+        CoursePub coursePub = <span class="hljs-keyword">new</span> CoursePub();
+
+        Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+        <span class="hljs-comment">//取出名称</span>
+        String name = (String) sourceAsMap.get(<span class="hljs-string">"name"</span>);
+        coursePub.setName(name);
+        <span class="hljs-comment">//图片</span>
+        String pic = (String) sourceAsMap.get(<span class="hljs-string">"pic"</span>);
+        coursePub.setPic(pic);
+        <span class="hljs-comment">//优惠后的价格</span>
+        Float price = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">if</span>(sourceAsMap.get(<span class="hljs-string">"price"</span>) !=<span class="hljs-keyword">null</span>)&#123;
+                price = Float.parseFloat(String.format(<span class="hljs-string">"%.3f"</span>,sourceAsMap.get(<span class="hljs-string">"price"</span>)));
+            &#125;
+        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+            e.printStackTrace();
+        &#125;
+        coursePub.setPrice(price);
+        <span class="hljs-comment">//优惠前的价格</span>
+        Float priceOld = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">if</span>(sourceAsMap.get(<span class="hljs-string">"price_old"</span>) !=<span class="hljs-keyword">null</span>)&#123;
+                priceOld = Float.parseFloat(String.format(<span class="hljs-string">"%.3f"</span>,sourceAsMap.get(<span class="hljs-string">"price_old"</span>)));
+            &#125;
+        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+            e.printStackTrace();
+        &#125;
+        coursePub.setPrice_old(priceOld);
+
+        list.add(coursePub);
+    &#125;
+
+    <span class="hljs-comment">//返回响应结果</span>
+    QueryResult&lt;CoursePub&gt; queryResult = <span class="hljs-keyword">new</span> QueryResult&lt;&gt;();
+    queryResult.setList(list);
+    queryResult.setTotal(totalHits);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> QueryResponseResult&lt;&gt;(CommonCode.SUCCESS,queryResult);
+&#125;</code></pre></div>
+
+<p>servcice 的代码中的注释已经写得很详细了，这里我就不再做过多的解释，请详细的阅读上述的代码。</p>
+<h3 id="5、Controller"><a href="#5、Controller" class="headerlink" title="5、Controller"></a>5、Controller</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 课程信息搜索</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> page 页码</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> size 每页数量</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> courseSearchParam 搜索参数</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/list/&#123;page&#125;/&#123;size&#125;"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> QueryResponseResult&lt;CoursePub&gt; <span class="hljs-title">findList</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"page"</span>)</span> <span class="hljs-keyword">int</span> page,@<span class="hljs-title">PathVariable</span><span class="hljs-params">(<span class="hljs-string">"size"</span>)</span> <span class="hljs-keyword">int</span> size, CourseSearchParam courseSearchParam) <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    <span class="hljs-keyword">return</span> esCourseService.findList(page,size,courseSearchParam);
+&#125;</code></pre></div>
+
+<h3 id="6、测试"><a href="#6、测试" class="headerlink" title="6、测试"></a>6、测试</h3><h4 id="根据关键字搜索"><a href="#根据关键字搜索" class="headerlink" title="根据关键字搜索"></a>根据关键字搜索</h4><p>使用 <code>postman</code> 测试</p>
+<p>GET: <a href="http://localhost:40100/search/course/list/1/20?keyword=java" target="_blank" rel="noopener">http://localhost:40100/search/course/list/1/20?keyword=java</a> 开发</p>
+<p><a href="https://qnoss.codeyee.com/20200704_11/image14" target="_blank" rel="noopener"><img src="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/image14.gif" srcset="/img/loading.gif" alt="img"></a></p>
+<h4 id="根据价格、等级、难度进行搜索"><a href="#根据价格、等级、难度进行搜索" class="headerlink" title="根据价格、等级、难度进行搜索"></a>根据价格、等级、难度进行搜索</h4><p>待测试</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BF/">学成在线</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/ElasticSearch/">ElasticSearch</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/17/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday10/">
+                        <span class="hidden-mobile">学成在线day10：课程发布、ElasticSearch</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "学成在线day11：基于 ElasticSearch 构建搜索服务&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

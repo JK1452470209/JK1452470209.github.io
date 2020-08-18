@@ -153,9 +153,9 @@
     
     <tags>
       
-      <tag>GridFS</tag>
-      
       <tag>RabbitMQ</tag>
+      
+      <tag>GridFS</tag>
       
     </tags>
     
@@ -207,9 +207,9 @@
     
     <tags>
       
-      <tag>Freemarker</tag>
-      
       <tag>GridFS</tag>
+      
+      <tag>Freemarker</tag>
       
     </tags>
     

@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>学成在线day12：基于 Nuxt.js 构建搜索前端工程 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-19 13:48">
+      2020-08-19
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      122
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="😎知识点概览"><a href="#😎知识点概览" class="headerlink" title="😎知识点概览"></a>😎知识点概览</h1><blockquote>
+<p>为了方便后续回顾该项目时能够清晰的知道本章节讲了哪些内容，并且能够从该章节的笔记中得到一些帮助，所以在完成本章节的学习后在此对本章节所涉及到的知识点进行总结概述。</p>
+</blockquote>
+<p>本章节为【学成在线】项目的 <code>day12</code> 的内容</p>
+<ul>
+<li>Nuxt.js 的基本使用</li>
+<li>基于 Nuxt.js 开发搜索门户前端</li>
+</ul>
+<h1 id="一、搜索前端技术需求"><a href="#一、搜索前端技术需求" class="headerlink" title="一、搜索前端技术需求"></a>一、搜索前端技术需求</h1><p>采用 <code>vue.js</code> 开发搜索界面则 <code>SEO</code> 不友好，需要解决 <code>SEO</code> 的问题。</p>
+<h2 id="1-什么是SEO"><a href="#1-什么是SEO" class="headerlink" title="1. 什么是SEO?"></a>1. 什么是SEO?</h2><p>我们先开一下百度百科是如何描述的</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image1" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image1.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>总结：<code>seo</code> 是网站为了提高自已的网站排名，获得更多的流量，对网站的结构及内容进行调整优化，以便搜索引擎（百度，google等）更好抓取到更优质的网站的内容。</p>
+<p>下图是搜索引擎爬取网站页面的大概流程图：</p>
+<blockquote>
+<p>搜索引擎的工作流程很复杂，下图只是简单概括</p>
+</blockquote>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image2" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image2.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>从上图可以看到 <code>SEO</code> 是网站自己为了方便 <code>spider</code> (爬虫) 抓取网页而作出的网页内容优化，常见的 <code>SEO</code> 方法比如：</p>
+<ul>
+<li>对 <code>url</code> 链接的规范化，多用 <code>restful</code> 风格的 <code>url</code>，多用静态资源 <code>url</code>；</li>
+<li>注意 <code>title</code>、<code>keywords</code> 的设置。</li>
+<li>由于 <code>spider</code> 对 <code>javascript</code> 支持不好，对于网页跳转用 <code>href</code> 标签。</li>
+</ul>
+<h2 id="2-服务端渲染和客户端渲染"><a href="#2-服务端渲染和客户端渲染" class="headerlink" title="2. 服务端渲染和客户端渲染"></a>2. 服务端渲染和客户端渲染</h2><p>采用什么技术有利于 <code>SEO</code>？要解答这个问题需要理解服务端渲染和客户端渲染。</p>
+<p>那么什么是服务端渲染?</p>
+<p>我们用传统的 <code>servlet</code> 开发来举例：浏览器请求 <code>servlet</code>，<code>servlet</code> 在服务端生成 <code>html</code> 响应给浏览器，浏览器展示<code>html</code> 的内容，这个过程就是服务端渲染，如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image3" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image3.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>服务端渲染的特点：</p>
+<p>1）在服务端生成 <code>html</code> 网页的 <code>dom</code> 元素。</p>
+<p>2）客户端（浏览器）只负责显示 <code>dom</code> 元素内容。</p>
+<p>当初随着 <code>web2.0</code> 的到来，<code>AJAX</code> 技术兴起，出现了客户端渲染：客户端（浏览器） 使用 <code>AJAX</code> 向服务端发起<code>http</code> 请求，获取到了想要的数据，客户端拿着数据开始渲染 <code>html</code> 网页，生成 <code>Dom</code> 元素，并最终将网页内容展示给用户</p>
+<p>客户端渲染如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image4" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image4.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>客户端渲染的特点：</p>
+<p>1）在服务端只是给客户端响应的了数据，而不是 <code>html</code> 网页</p>
+<p>2）客户端（浏览器）负责获取服务端的数据生成 <code>Dom</code> 元素。</p>
+<p>两种方式各有什么优缺点？</p>
+<p><strong>客户端渲染：</strong></p>
+<ol>
+<li>缺点</li>
+</ol>
+<p>不利于网站进行 <code>SEO</code>，因为网站大量使用 <code>javascript</code> 技术，不利于 <code>spider</code> 抓取网页。</p>
+<ol>
+<li>优点</li>
+</ol>
+<p>客户端负责渲染，用户体验性好，服务端只提供数据不用关心用户界面的内容，有利于提高服务端的开发效率。</p>
+<p>3）适用场景</p>
+<p>对SEO没有要求的系统，比如后台管理类的系统，如电商后台管理，用户管理等。</p>
+<p><strong>服务端渲染：</strong></p>
+<ol>
+<li>优点</li>
+</ol>
+<p>有利于SEO，网站通过 <code>href</code> 的 <code>url</code> 将 <code>spider</code>直接引到服务端，服务端提供优质的网页内容给 <code>spider</code>。</p>
+<ol>
+<li>缺点</li>
+</ol>
+<p>服务端完成一部分客户端的工作，通常完成一个需求需要修改客户端和服务端的代码，开发效率低，不利于系统的<br>稳定性。</p>
+<p>3）适用场景</p>
+<p>对 <code>SEO</code> 有要求的系统，比如：门户首页、商品详情页面等。</p>
+<h1 id="二、Nuxt-js-介绍"><a href="#二、Nuxt-js-介绍" class="headerlink" title="二、Nuxt.js 介绍"></a>二、Nuxt.js 介绍</h1><h2 id="0x01-简单的了解一下"><a href="#0x01-简单的了解一下" class="headerlink" title="0x01 简单的了解一下"></a>0x01 简单的了解一下</h2><p>移动互联网的兴起促进了 <code>web</code> 前后端分离开发模式的发展，服务端只专注业务，前端只专注用户体验，前端大量运用的前端渲染技术，比如流行的 <code>vue.js</code>、<code>react</code> 框架都实现了功能强大的前端渲染。</p>
+<p>但是，对于有 <code>SEO</code> 需求的网页如果使用前端渲染技术去开发就不利于 <code>SEO</code> 了，有没有一种即使用 <code>vue.js</code>、<code>react</code> 的前端技术也实现服务端渲染的技术呢？其实，对于服务端渲染的需求，<code>vue.js</code>、<code>react</code> 这样流行的前端框架提供了服务端渲染的解决方案。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image5" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image5.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>从上图可以看到：</p>
+<p><code>react</code> 框架提供 <code>next.js</code> 实现服务端渲染。</p>
+<p><code>vue.js</code> 框架提供 <code>Nuxt.js</code> 实现服务端渲染。</p>
+<p>基本原理</p>
+<h2 id="0x02-工作原理"><a href="#0x02-工作原理" class="headerlink" title="0x02 工作原理"></a>0x02 工作原理</h2><p>下图展示了从客户端请求到 <code>Nuxt.js</code> 进行服务端渲染的整体的工作流程：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image6" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image6.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>1、用户打开浏览器，输入网址请求到 <code>Node.js</code></p>
+<p>2、部署在 <code>Node.js</code> 的应用 <code>Nuxt.js</code> 接收浏览器请求，并请求服务端获取数据</p>
+<p>3、<strong>Nuxt.js</strong> 获取到数据后进行服务端渲染</p>
+<p>4、<strong>Nuxt.js</strong> 将 <code>html</code> 网页响应给浏览器</p>
+<p><strong>Nuxt.js</strong> 使用了哪些技术？</p>
+<p><strong>Nuxt.js</strong> 使用 <code>Vue.js</code> + <code>webpack</code> + <code>Babel</code> 三大技术框架/组件，如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image7" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image7.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p><code>Babel</code> 是一个 <code>js</code> 的转码器，负责将 <code>ES6</code> 的代码转成浏览器识别的 <code>ES5</code> 代码。</p>
+<p><code>Webpack</code> 是一个前端工程打包工具。</p>
+<p><code>Vue.js</code> 是一个优秀的前端框架。</p>
+<p>那么 <strong>Nuxt.js</strong> 的特性有哪些？</p>
+<ul>
+<li>基于 <code>Vue.js</code></li>
+<li>自动代码分层</li>
+<li>服务端渲染</li>
+<li>强大的路由功能，支持异步数据</li>
+<li>静态文件服务</li>
+<li>ES6/ES7 语法支持</li>
+<li>打包和压缩 <code>JS</code> 和 <code>CSS</code></li>
+<li><code>HTML</code> 头部标签管理</li>
+<li>本地开发支持热加载</li>
+<li>集成 <code>ESLint</code></li>
+<li>支持各种样式预处理器： <code>SASS</code>、<code>LESS</code>、 <code>Stylus</code> 等等</li>
+</ul>
+<h1 id="三、Nuxt-js-基本使用"><a href="#三、Nuxt-js-基本使用" class="headerlink" title="三、Nuxt.js 基本使用"></a>三、Nuxt.js 基本使用</h1><h2 id="1-创建-Nuxt-工程"><a href="#1-创建-Nuxt-工程" class="headerlink" title="1. 创建 Nuxt 工程"></a>1. 创建 Nuxt 工程</h2><p><code>nuxt.js</code> 有标准的目录结构，官方提供了模板工程，可以模板工程快速创建 <code>nuxt</code> 项目。</p>
+<p>模板工程地址：<a href="https://github.com/nuxt-community/starter-template/archive/master.zip" target="_blank" rel="noopener">https://github.com/nuxt-community/starter-template/archive/master.zip</a></p>
+<p>本项目提供基于 <code>Nuxt.js</code> 的封装工程，基于此封装工程开发搜索前端，见 <code>资料/xc-ui-pc-portal.zip</code>，解压 <code>xc-ui-pc-portal.zip</code> 到本项目前端工程目录下。</p>
+<p>本前端工程属于门户的一部分，将承载一部分考虑 <code>SEO</code> 的非静态化页面。</p>
+<p>本工程基于 <code>Nuxt.js</code> 模板工程构建，<code>Nuxt.js</code> 使用 <code>1.3</code> 版本，并加入了今后开发中所使用的依赖包，直接解压本工程即可使用。</p>
+<h2 id="2-目录结构"><a href="#2-目录结构" class="headerlink" title="2. 目录结构"></a>2. 目录结构</h2><p>目录结构如下</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image8" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image8.png" srcset="/img/loading.gif" alt="img"></a></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述信息</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>assets</td>
+<td>资源目录 <code>assets</code> 用于组织未编译的静态资源如 <code>LESS</code>、<code>SASS</code> 或 <code>JavaScript</code></td>
+</tr>
+<tr>
+<td>components</td>
+<td>组件目录 <code>components</code> 用于组织应用的 <code>Vue.js</code> 组件。<code>Nuxt.js</code> 不会扩展增强该目录下 <code>Vue.js</code> 组件，即这些组件不会像页面组件那样有 <code>asyncData</code> 方法的特性。</td>
+</tr>
+<tr>
+<td>layouts</td>
+<td>布局目录 <code>layouts</code> 用于组织应用的布局组件。该目录名为 <code>Nuxt.js</code> 保留的，不可更改。</td>
+</tr>
+<tr>
+<td>middleware</td>
+<td><code>middleware</code> 目录用于存放应用的中间件</td>
+</tr>
+<tr>
+<td>pages</td>
+<td>页面目录 <code>pages</code> 用于组织应用的路由及视图。<code>Nuxt.js</code> 框架读取该目录下所有的 <code>.vue</code> 文件并自动生成对应的路由配置。该目录名为 <code>Nuxt.js</code> 保留的，不可更改。</td>
+</tr>
+<tr>
+<td>plugins</td>
+<td>插件目录 <code>plugins</code> 用于组织那些需要在 根<code>vue.js</code>应用 实例化之前需要运行的 <code>Javascript</code> 插件</td>
+</tr>
+<tr>
+<td>static</td>
+<td>静态文件目录 <code>static</code> 用于存放应用的静态文件，此类文件不会被 <code>Nuxt.js</code> 调用 <code>Webpack</code> 进行构建编译处理。 服务器启动的时候，该目录下的文件会映射至应用的根路径 / 下。例如: <code>/static/logo.png</code> 映射至 <code>/logo.png</code> ，该目录名为<code>Nuxt.js</code>保留的，不可更改。</td>
+</tr>
+<tr>
+<td>Store</td>
+<td><code>store</code> 目录用于组织应用的 <code>Vuex</code> 状态树 文件。 <code>Nuxt.js</code> 框架集成了 <code>Vuex</code> 状态树 的相关功能配置，在 <code>store</code> 目录下创建一个 <code>index.js</code> 文件可激活这些配置。</td>
+</tr>
+<tr>
+<td>nuxt.config.js</td>
+<td>nuxt.config.js 文件用于组织 <code>Nuxt.js</code> 应用的个性化配置，以便覆盖默认配置。该文件名为<code>Nuxt.js</code> 保留的，不可更改。</td>
+</tr>
+<tr>
+<td>package.json</td>
+<td>文件用于描述应用的依赖关系和对外暴露的脚本接口。该文件名为 <code>Nuxt.js</code> 保留的，不可更改。</td>
+</tr>
+</tbody></table>
+<p>nuxt.js 提供了目录的别名，方便在程序中引用：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image9" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image9.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>官方文档： <a href="https://zh.nuxtjs.org/guide/installation" target="_blank" rel="noopener">https://zh.nuxtjs.org/guide/installation</a></p>
+<h2 id="3-页面布局"><a href="#3-页面布局" class="headerlink" title="3. 页面布局"></a>3. 页面布局</h2><p>页面布局就是页面内容的整体结构，通过在 <code>layouts</code> 目录下添加布局文件来实现。在 <code>layouts</code> 根目录下的所有文件都属于个性化布局文件，可以在页面组件中利用 <code>layout</code> 属性来引用。</p>
+<p>一个例子：</p>
+<p>1、定义：<code>layouts/test.vue</code> 布局文件，如下：</p>
+<p>注意：布局文件中一定要加 <code>&lt;nuxt/&gt;</code> 组件用于显示页面内容。</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>这里是头<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">nuxt</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>这里是尾<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;</span>
+
+&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div>
+
+<p>2、在 <code>pages</code> 目录创建 <code>user</code> 目录，并创建 <code>index.vue</code> 页面</p>
+<p>在 <code>pages/user/index.vue</code> 页面里， 可以指定页面组件使用 <code>test</code> 布局，代码如下：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    测试页面
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>&#123;</span>
+<span class="actionscript">	layout:<span class="hljs-string">'test'</span></span>
+&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div>
+
+<p>3、测试</p>
+<p>请求：<a href="http://localhost/" target="_blank" rel="noopener">http://localhost</a>:10000/user，效果如下:</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image10" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image10.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="4-路由"><a href="#4-路由" class="headerlink" title="4. 路由"></a>4. 路由</h2><h3 id="1、基础路由"><a href="#1、基础路由" class="headerlink" title="1、基础路由"></a>1、基础路由</h3><p><strong>Nuxt.js</strong> 依据 <code>pages</code> 目录结构自动生成 <code>vue-router</code> 模块的路由配置。</p>
+<p><strong>Nuxt.js</strong> 根据 <code>pages</code> 的目录结构及页面名称定义规范来生成路由，下边是一个基础路由的例子</p>
+<p>假设 <code>pages</code> 的目录结构如下：</p>
+<div class="hljs"><pre><code class="hljs haml">pages/
+-<span class="ruby">-<span class="hljs-params">| user/</span></span>
+<span class="ruby">-----<span class="hljs-params">| index.vue</span></span>
+<span class="ruby">-----<span class="hljs-params">| one.vue</span></span></code></pre></div>
+
+<p>那么，<code>Nuxt.js</code> 自动生成的路由配置如下：</p>
+<div class="hljs"><pre><code class="hljs js">router: &#123;
+	routes: [
+        &#123;
+            name: <span class="hljs-string">'user'</span>,
+            path: <span class="hljs-string">'/user'</span>,
+            component: <span class="hljs-string">'pages/user/index.vue'</span>
+        &#125;,
+        &#123;
+            name: <span class="hljs-string">'user-one'</span>,
+            path: <span class="hljs-string">'/user/one'</span>,
+            component: <span class="hljs-string">'pages/user/one.vue'</span>
+        &#125;
+    ]
+&#125;</code></pre></div>
+
+<p><strong>index.vue</strong> 代码如下：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    用户管理首页
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>&#123;</span>
+<span class="actionscript">	layout:<span class="hljs-string">"test"</span></span>
+&#125; 
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div>
+
+<p><strong>one.vue</strong> 代码如下：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        one页面
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript">    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>&#123;</span>
+<span class="actionscript">        layout:<span class="hljs-string">"test"</span></span>
+    &#125; 
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div>
+
+<p>分别访问如下链接进行测试：</p>
+<p><a href="http://localhost:10000/user" target="_blank" rel="noopener">http://localhost:10000/user</a></p>
+<p><a href="http://localhost:10000/user/one" target="_blank" rel="noopener">http://localhost:10000/user/one</a></p>
+<h3 id="2、嵌套路由"><a href="#2、嵌套路由" class="headerlink" title="2、嵌套路由"></a>2、嵌套路由</h3><p>你可以通过 <code>vue-router</code> 的子路由创建 <code>Nuxt.js</code> 应用的嵌套路由。</p>
+<p>创建内嵌子路由，你需要添加一个 <code>Vue</code> 文件，同时添加一个<strong>与该文件同名</strong>的目录用来存放子视图组件。</p>
+<p>别忘了在父级 <code>Vue</code> 文件内增加 <code>&lt;nuxt-child/&gt;</code> 用于显示子视图内容。</p>
+<p>假设文件结构如：</p>
+<div class="hljs"><pre><code class="hljs html">pages/
+--| user/
+-----| _id.vue
+-----| index.vue
+--| user.vue</code></pre></div>
+
+<p>Nuxt.js 自动生成的路由配置如下：</p>
+<div class="hljs"><pre><code class="hljs js">router: &#123;
+    routes: [
+        &#123;
+            path: <span class="hljs-string">'/user'</span>,
+            component: <span class="hljs-string">'pages/user.vue'</span>,
+            children: [
+                &#123;
+                    path: <span class="hljs-string">''</span>,
+                    component: <span class="hljs-string">'pages/user/index.vue'</span>,
+                    name: <span class="hljs-string">'user'</span>
+                &#125;,
+                &#123;
+                    path: <span class="hljs-string">':id'</span>,
+                    component: <span class="hljs-string">'pages/user/_id.vue'</span>,
+                    name: <span class="hljs-string">'user-id'</span>
+                &#125;
+            ]
+        &#125;
+    ]
+&#125;</code></pre></div>
+
+<p>将 <code>user.vue</code> 文件创建到与 <code>user</code> 目录的父目录下，即和 <code>user</code> 目录保持平级 。</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        用户管理导航
+        <span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/user/101'"</span>&gt;</span>点击修改ID<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">nuxt-child</span>/&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>&#123;</span>
+<span class="actionscript">    layout:<span class="hljs-string">"test"</span></span>
+&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div>
+
+<p><code>_id.vue</code> 页面实现了向页面传入 <code>id</code> 参数，页面内容如下：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        修改用户信息&#123;&#123;id&#125;&#125;
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;</span>
+<span class="actionscript">    layout:<span class="hljs-string">"test"</span>,</span>
+    data()&#123;
+<span class="actionscript">        <span class="hljs-keyword">return</span>&#123;</span>
+<span class="actionscript">            id:<span class="hljs-string">""</span></span>
+        &#125;
+    &#125;,
+    mounted()&#123;
+<span class="actionscript">        <span class="hljs-keyword">this</span>.id = <span class="hljs-keyword">this</span>.$route.params.id;</span>
+<span class="javascript">        <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.id)</span>
+    &#125;
+&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div>
+
+<p>测试：<a href="http://localhost:10000/user" target="_blank" rel="noopener">http://localhost:10000/user</a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image11" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image11.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>点击修改</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image12" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image12.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="5-获取数据"><a href="#5-获取数据" class="headerlink" title="5. 获取数据"></a>5. 获取数据</h2><h3 id="1、asyncData"><a href="#1、asyncData" class="headerlink" title="1、asyncData"></a>1、asyncData</h3><p>Nuxt.js 扩展了 <code>Vue.js</code>，增加了一个叫 <code>asyncData</code> 的方法， <code>asyncData</code> 方法会在组件（<strong>限于页面组件</strong>）每次加载之前被调用。</p>
+<p>它可以在服务端或路由更新之前被调用。 在这个方法被调用的时候，第一个参数被设定为当前页面的上下文对象，你可以利用 <code>asyncData</code> 方法来获取数据，<code>Nuxt.js</code> 会将 <code>asyncData</code> 返回的数据融合组件 <code>data</code> 方法返回的数据一并返回给当前组件，从而实现服务端渲染页面的效果。</p>
+<p>注意：由于 <code>asyncData</code> 方法是在组件 <strong>初始化</strong> 前被调用的，所以在方法内是没有办法通过 <code>this</code> 来引用组件的实例对象。</p>
+<p>例子：在上边例子中的 <code>user/_id.vue</code> 中添加，页面代码如下：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    修改用户信息&#123;&#123;id&#125;&#125;,名称：&#123;&#123;name&#125;&#125;,课程名称：&#123;&#123;course&#125;&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>&#123;</span>
+<span class="actionscript">    layout:<span class="hljs-string">'test'</span>,</span>
+<span class="actionscript">    <span class="hljs-comment">//根据id查询用户信息</span></span>
+    asyncData()&#123;
+<span class="javascript">        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"async方法"</span>)</span>
+<span class="actionscript">        <span class="hljs-keyword">return</span> &#123;</span>
+<span class="actionscript">            name:<span class="hljs-string">'黑马程序员'</span></span>
+        &#125;
+    &#125;,
+    data()&#123;
+<span class="actionscript">        <span class="hljs-keyword">return</span> &#123;</span>
+<span class="actionscript">            id:<span class="hljs-string">''</span>,</span>
+<span class="actionscript">            course: <span class="hljs-string">""</span></span>
+        &#125;
+    &#125;,
+   	methods:&#123;
+<span class="actionscript">      getCourse:<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>&#123;</span>
+<span class="actionscript">          <span class="hljs-keyword">this</span>.course = <span class="hljs-string">"spring实战666"</span></span>
+      &#125;  
+    &#125;,
+    mounted()&#123;
+<span class="actionscript">        <span class="hljs-keyword">this</span>.id = <span class="hljs-keyword">this</span>.$route.params.id;</span>
+<span class="actionscript">        <span class="hljs-keyword">this</span>.getCourse();</span>
+    &#125;
+&#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div>
+
+<p>此方法在服务端被执行，观察服务端控制台打印输出 <strong>“async方法”</strong>。</p>
+<p>此方法返回 <code>data</code> 模型数据，在服务端被渲染，最后响应给前端，刷新此页面查看页面源代码可以看到 <code>name</code>模型数据已在页面源代码中显示，而 <code>course</code> 变量是在 <code>mounted</code> 钩子函数中调用了 <code>getCourse</code> 方法对 <code>course</code> 进行赋值，属于客户端使用 <code>JS</code>进行渲染，所以在页面源代码中没有看到 <code>course</code> 变量的值，如下图所示</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image13" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image13.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="2、async-await-方法"><a href="#2、async-await-方法" class="headerlink" title="2、async/await 方法"></a>2、async/await 方法</h3><p>使用 <code>async</code> 和 <code>await</code> 配合 <code>promise</code> 也可以实现同步调用，<code>nuxt.js</code> 中使用 <code>async/await</code> 实现同步调用效果。</p>
+<p>1、先测试异步调用，增加a、b两个方法，并在 <code>mounted</code> 中调用</p>
+<div class="hljs"><pre><code class="hljs js">methods:&#123;
+    a()&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve,reject</span>)</span>&#123;
+            setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+                resolve(<span class="hljs-number">1</span>)
+            &#125;,<span class="hljs-number">2000</span>)
+        &#125;)
+    &#125;,
+        b()&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve,reject</span>)</span>&#123;
+                setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+                    resolve(<span class="hljs-number">2</span>)
+                &#125;,<span class="hljs-number">1000</span>)
+            &#125;)
+        &#125;
+&#125;,
+    mounted()&#123;
+        <span class="hljs-keyword">this</span>.a().then(<span class="hljs-function"><span class="hljs-params">res</span>=&gt;</span>&#123;
+            alert(res)
+            <span class="hljs-built_in">console</span>.log(res)
+        &#125;)
+        <span class="hljs-keyword">this</span>.b().then(<span class="hljs-function"><span class="hljs-params">res</span>=&gt;</span>&#123;
+            alert(res)
+            <span class="hljs-built_in">console</span>.log(res)
+        &#125;)
+    &#125;</code></pre></div>
+
+<p>从上述代码中，<code>a</code> 方法使用 <code>setTimeout</code> 延迟了2秒执行，<code>b</code> 方法延迟了1秒，如果按同步顺序进行执行，应该还是先输出 <code>a</code> 方法的内容再输出 <code>b</code> 方法。</p>
+<p>观察客户端，并没有按照方法执行的顺序输出，使用 <code>Promise</code> 实现了异步调用，执行结果如下图</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image14" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image14.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>2、使用 <code>async/await</code> 完成同步调用</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">async</span> asyncData(&#123; store, route &#125;) &#123;
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"async方法"</span>)
+    <span class="hljs-keyword">var</span> a = <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>&#123;
+        setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"1"</span>)
+            resolve(<span class="hljs-number">1</span>)
+        &#125;,<span class="hljs-number">2000</span>)
+    &#125;);
+    <span class="hljs-keyword">var</span> a = <span class="hljs-keyword">await</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">resolve, reject</span>) </span>&#123;
+        setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+            <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"2"</span>)
+            resolve(<span class="hljs-number">2</span>)
+        &#125;,<span class="hljs-number">1000</span>)
+    &#125;);
+    <span class="hljs-keyword">return</span> &#123;
+        name:<span class="hljs-string">'黑马程序员'</span>
+    &#125;
+&#125;,</code></pre></div>
+
+<p>这里我们在 <code>asyncData</code> 方法前面增加了 <code>async</code> 关键字，在调用 <code>Promise</code> 前也增加了 <code>await</code> , 观察服务端控制台发现是按照 <code>a、b</code> 方法的调用顺序输出 1、2，实现了使用 <code>async/await</code> 完成同步调用。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image15" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image15.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h1 id="四、搜索服务前端开发"><a href="#四、搜索服务前端开发" class="headerlink" title="四、搜索服务前端开发"></a>四、搜索服务前端开发</h1><h2 id="1-搜索页面"><a href="#1-搜索页面" class="headerlink" title="1. 搜索页面"></a>1. 搜索页面</h2><h3 id="1、需求分析"><a href="#1、需求分析" class="headerlink" title="1、需求分析"></a>1、需求分析</h3><p><a href="https://qnoss.codeyee.com/20200704_12/image16" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image16.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>上图是课程搜索前端的界面，用户通过前端向服务端发起搜索请求，搜索功能包括：</p>
+<p>1、界面默认查询所有课程，并分页显示</p>
+<p>2、通过一级分类和二分类搜索课程，选择一级分类后将显示下属的二级分类</p>
+<p>3、通过关键字搜索课程</p>
+<p>4、通过课程等级搜索课程</p>
+<h3 id="2、页面布局"><a href="#2、页面布局" class="headerlink" title="2、页面布局"></a>2、页面布局</h3><p><code>nuxt.js</code> 将 <code>/layout/default.vue</code> 作为所有页面的默认布局，通常布局包括：页头、内容区、页尾</p>
+<p><code>default.vue</code> 内容如下：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Header</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">nuxt</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">Footer</span> /&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="javascript">    <span class="hljs-keyword">import</span> Footer <span class="hljs-keyword">from</span> <span class="hljs-string">'../components/Footer.vue'</span></span>
+<span class="javascript">    <span class="hljs-keyword">import</span> Header <span class="hljs-keyword">from</span> <span class="hljs-string">'../components/Header.vue'</span></span>
+<span class="javascript">    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;</span>
+        components: &#123;
+            Header,
+            Footer
+        &#125;
+    &#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span></code></pre></div>
+
+<h3 id="3、Nginx代理配置"><a href="#3、Nginx代理配置" class="headerlink" title="3、Nginx代理配置"></a>3、Nginx代理配置</h3><p>搜索页面中以 <code>/static</code> 开头的静态资源通过 <code>nginx</code> 解析，如下：</p>
+<p><code>/static/plugins</code>：指向门户目录下的 <code>plugins</code> 目录。</p>
+<p><code>/static/css</code>：指向门户目录下的的 <code>css</code> 目录</p>
+<p>修改 <code>Nginx</code> 中 <a href="http://www.xuecheng.com/" target="_blank" rel="noopener">www.xuecheng.com</a> 虚拟主机的配置：</p>
+<blockquote>
+<p>在之前的章节当中如果已经配置了静态资源虚拟主机，可以忽略这个步骤</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs c">#静态资源，包括系统所需要的图片，js、css等静态资源
+location /<span class="hljs-keyword">static</span>/img/ &#123;
+    alias F:/develop/xc_portal_static/img/;
+    #静态资源，包括系统所需要的图片，js、css等静态资源
+    location /<span class="hljs-keyword">static</span>/img/ &#123;
+    alias F:/develop/xc_portal_static/img/;
+&#125; 
+location /<span class="hljs-keyword">static</span>/css/ &#123;
+    alias F:/develop/xc_portal_static/css/;
+&#125; 
+location /<span class="hljs-keyword">static</span>/js/ &#123;
+    alias F:/develop/xc_portal_static/js/;
+&#125; 
+location /<span class="hljs-keyword">static</span>/plugins/ &#123;
+    alias F:/develop/xc_portal_static/plugins/;
+    add_header Access-Control-Allow-Origin http:<span class="hljs-comment">//ucenter.xuecheng.com;</span>
+    add_header Access-Control-Allow-Credentials <span class="hljs-literal">true</span>;
+    add_header Access-Control-Allow-Methods GET;
+&#125;</code></pre></div>
+
+<p>配置搜索 <code>Url</code>，下图是 <code>Nginx</code> 搜索转发流程图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image17" target="_blank" rel="noopener"><img src="https://qnoss.codeyee.com/20200704_12/image17" srcset="/img/loading.gif" alt="img"></a></p>
+<p>用户请求 <code>/course/search</code>时 <code>Nginx</code> 将请求转发到 <code>nuxt.js</code> 服务，<code>nginx</code> 在转发时根据每台 <code>nuxt</code> 服务的负载情况进行转发，实现负载均衡。</p>
+<p>本教程开发环境 <code>Nuxt.js</code> 服务和 <a href="http://www.xuecheng.com/" target="_blank" rel="noopener">www.xuecheng.com</a> 虚拟机主在同一台计算机，使用同一个 <code>nginx</code>，配置如下：</p>
+<div class="hljs"><pre><code class="hljs json">#前端门户课程搜索
+location ^~ /course/search &#123;
+    proxy_pass http://dynamic_portal_server_pool;
+&#125; 
+#后端搜索服务
+location /openapi/search/ &#123;
+    proxy_pass http://search_server_pool/search/;
+&#125;</code></pre></div>
+
+<p><code>dynamic_portal_server_pool</code> 配置如下 ：</p>
+<div class="hljs"><pre><code class="hljs json">#前端动态门户
+upstream dynamic_portal_server_pool&#123;
+    server 127.0.0.1:10000 weight=10;
+&#125;
+#后台搜索服务（公开api）
+upstream search_server_pool&#123;
+    server 127.0.0.1:40100 weight=10;
+&#125;</code></pre></div>
+
+<p>其它配置：</p>
+<blockquote>
+<p>nuxt.js 会自动请求这些一些内置的api，如果不配置的话前端会报错，所以还是给它整上，暂时不需要去追究这些接口是何作用</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs json">#开发环境webpack定时加载此文件
+location ^~ /__webpack_hmr &#123;
+	proxy_pass http://dynamic_portal_server_pool/__webpack_hmr;
+&#125;
+#开发环境 nuxt 访问 _nuxt
+location ^~ /_nuxt/ &#123;
+	proxy_pass http://dynamic_portal_server_pool/_nuxt/;
+&#125;</code></pre></div>
+
+<p>在静态虚拟主机中添加：</p>
+<div class="hljs"><pre><code class="hljs json">#分类信息
+location /static/category/ &#123;
+    alias E:/Project/XueChengOnline/xcEduUI01/xuecheng/static/category/;
+&#125;</code></pre></div>
+
+<h3 id="4、搜索页面"><a href="#4、搜索页面" class="headerlink" title="4、搜索页面"></a>4、搜索页面</h3><p>创建搜索页面如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image18" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image18.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>页面文件参考：<code>资料/search/index_1.vue</code>，重要代码如下：<br><code>nuxt.js</code> 支持定义 <code>header</code>，本页面我们在 <code>header</code> 中引入 <code>css</code> 样式并定义头部信息。</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">//配置文件</span>
+<span class="hljs-keyword">let</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'~/config/sysConfig'</span>)
+<span class="hljs-keyword">import</span> querystring <span class="hljs-keyword">from</span> <span class="hljs-string">'querystring'</span>
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> courseApi <span class="hljs-keyword">from</span> <span class="hljs-string">'~/api/course'</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;
+    head() &#123;
+        <span class="hljs-keyword">return</span> &#123;
+            title: <span class="hljs-string">'传智播客-一样的教育,不一样的品质'</span>,
+            meta: [
+                &#123;<span class="hljs-attr">charset</span>: <span class="hljs-string">'utf-8'</span>&#125;,
+                &#123;<span class="hljs-attr">name</span>: <span class="hljs-string">'description'</span>, <span class="hljs-attr">content</span>: <span class="hljs-string">'传智播客专注IT培训,Java培训,Android培训,安卓培训,PHP培训,C++培训,网页设计培训,平面设计培训,UI设计培训,移动开发培训,网络营销培训,web前端培训,云计算大数据培训,全栈工程师培训,产品经理培训。'</span>&#125;,
+                &#123;<span class="hljs-attr">name</span>: <span class="hljs-string">'keywords'</span>, <span class="hljs-attr">content</span>: <span class="hljs-keyword">this</span>.keywords&#125;
+            ],
+            link: [
+                &#123;<span class="hljs-attr">rel</span>: <span class="hljs-string">'stylesheet'</span>, <span class="hljs-attr">href</span>: <span class="hljs-string">'/static/plugins/normalize-css/normalize.css'</span>&#125;,
+                &#123;<span class="hljs-attr">rel</span>: <span class="hljs-string">'stylesheet'</span>, <span class="hljs-attr">href</span>: <span class="hljs-string">'/static/plugins/bootstrap/dist/css/bootstrap.css'</span>&#125;,
+                &#123;<span class="hljs-attr">rel</span>: <span class="hljs-string">'stylesheet'</span>, <span class="hljs-attr">href</span>: <span class="hljs-string">'/static/css/page-learing-list.css'</span>&#125;
+            ]
+        &#125;
+    &#125;,</code></pre></div>
+
+<p>其它数据模型及方法：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="actionscript">    <span class="hljs-comment">//配置文件</span></span>
+<span class="javascript">    <span class="hljs-keyword">let</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'~/config/sysConfig'</span>)</span>
+<span class="javascript">    <span class="hljs-keyword">import</span> querystring <span class="hljs-keyword">from</span> <span class="hljs-string">'querystring'</span></span>
+<span class="javascript">    <span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> courseApi <span class="hljs-keyword">from</span> <span class="hljs-string">'~/api/course'</span></span>
+<span class="javascript">    <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> &#123;</span>
+        head() &#123;
+<span class="actionscript">            <span class="hljs-keyword">return</span> &#123;</span>
+<span class="actionscript">                title: <span class="hljs-string">'传智播客-一样的教育,不一样的品质'</span>,</span>
+                meta: [
+<span class="actionscript">                    &#123;charset: <span class="hljs-string">'utf-8'</span>&#125;,</span>
+<span class="actionscript">                    &#123;name: <span class="hljs-string">'description'</span>, content: <span class="hljs-string">'传智播客专注IT培训,Java培训,Android培训,安卓培训,PHP培</span></span>
+                     训,C++培训,网页设计培训,平面设计培训,UI设计培训,移动开发培训,网络营销培训,web前端培训,云计算大数据培训,
+                     全栈工程师培训,产品经理培训。'&#125;,
+<span class="actionscript">                     &#123;name: <span class="hljs-string">'keywords'</span>, content: <span class="hljs-keyword">this</span>.keywords&#125;</span>
+                ],
+                link: [
+<span class="actionscript">                    &#123;rel: <span class="hljs-string">'stylesheet'</span>, href: <span class="hljs-string">'/static/plugins/normalize-css/normalize.css'</span>&#125;,</span>
+<span class="actionscript">                    &#123;rel: <span class="hljs-string">'stylesheet'</span>, href: <span class="hljs-string">'/static/plugins/bootstrap/dist/css/bootstrap.css'</span>&#125;,</span>
+<span class="actionscript">                    &#123;rel: <span class="hljs-string">'stylesheet'</span>, href: <span class="hljs-string">'/static/css/page-learing-list.css'</span>&#125;</span>
+                ]
+            &#125;
+        &#125;,
+<span class="javascript">        <span class="hljs-keyword">async</span> asyncData(&#123; store, route &#125;) &#123;</span>
+<span class="actionscript">            <span class="hljs-keyword">return</span> &#123;</span>
+                courselist: &#123;&#125;,
+                first_category:&#123;&#125;,
+                second_category:&#123;&#125;,
+<span class="actionscript">                mt:<span class="hljs-string">''</span>,</span>
+<span class="actionscript">                st:<span class="hljs-string">''</span>,</span>
+<span class="actionscript">                grade:<span class="hljs-string">''</span>,</span>
+<span class="actionscript">                keyword:<span class="hljs-string">''</span>,</span>
+                total:0,
+                imgUrl:config.imgUrl
+            &#125;
+        &#125;,
+        data() &#123;
+<span class="actionscript">            <span class="hljs-keyword">return</span> &#123;</span>
+                courselist: &#123;&#125;,
+                first_category:&#123;&#125;,
+                second_category:&#123;&#125;,
+<span class="actionscript">                mt:<span class="hljs-string">''</span>,</span>
+<span class="actionscript">                st:<span class="hljs-string">''</span>,</span>
+<span class="actionscript">                grade:<span class="hljs-string">''</span>,</span>
+<span class="actionscript">                keyword:<span class="hljs-string">''</span>,</span>
+                imgUrl:config.imgUrl,
+<span class="actionscript">                total:<span class="hljs-number">0</span>,<span class="hljs-comment">//总记录数</span></span>
+<span class="actionscript">                page:<span class="hljs-number">1</span>,<span class="hljs-comment">//页码</span></span>
+<span class="actionscript">                page_size:<span class="hljs-number">12</span><span class="hljs-comment">//每页显示个数</span></span>
+            &#125;
+        &#125;,
+<span class="actionscript">        watch:&#123;<span class="hljs-comment">//路由发生变化立即搜索search表示search方法</span></span>
+<span class="actionscript">            <span class="hljs-string">'$route'</span>:<span class="hljs-string">'search'</span></span>
+        &#125;,
+        methods: &#123;
+<span class="actionscript">            <span class="hljs-comment">//分页触发</span></span>
+            handleCurrentChange(page) &#123;
+            &#125;,
+<span class="actionscript">            <span class="hljs-comment">//搜索方法</span></span>
+            search()&#123;
+<span class="actionscript">                <span class="hljs-comment">//刷新当前页面</span></span>
+<span class="javascript">                <span class="hljs-built_in">window</span>.location.reload();</span>
+            &#125;
+        &#125;
+    &#125;
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre></div>
+
+<h3 id="5、测试"><a href="#5、测试" class="headerlink" title="5、测试"></a>5、测试</h3><p>重启Nginx，请求：<a href="http://www.xuecheng.com/course/search%EF%BC%8C%E9%A1%B5%E9%9D%A2%E6%95%88%E6%9E%9C%E5%A6%82%E4%B8%8B%EF%BC%9A" target="_blank" rel="noopener">http://www.xuecheng.com/course/search，页面效果如下：</a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image19" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image19.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="2-查看全部"><a href="#2-查看全部" class="headerlink" title="2. 查看全部"></a>2. 查看全部</h2><h3 id="1、需求分析-1"><a href="#1、需求分析-1" class="headerlink" title="1、需求分析"></a>1、需求分析</h3><p>初次进入页面，没有输入任何查询条件，默认查询全部课程，分页显示</p>
+<h3 id="2、api方法"><a href="#2、api方法" class="headerlink" title="2、api方法"></a>2、api方法</h3><p>在api目录创建本工程所用的api方法类，api方法类使用了public.js等一些抽取类：</p>
+<p>/api/public.js————-抽取axios 的基础方法</p>
+<p>/api/util.js—————–工具类</p>
+<p>/config/sysConfig.js—-系统配置类，配置了系统参数变量</p>
+<p>创建 <code>course.js</code>，作为课程相关业务模块的 <code>api</code> 方法类。</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">import</span> http <span class="hljs-keyword">from</span> <span class="hljs-string">'./public'</span>
+<span class="hljs-keyword">import</span> qs <span class="hljs-keyword">from</span> <span class="hljs-string">'qs'</span>
+<span class="hljs-keyword">let</span> config = <span class="hljs-built_in">require</span>(<span class="hljs-string">'~/config/sysConfig'</span>)
+<span class="hljs-keyword">let</span> apiURL = config.apiURL
+<span class="hljs-keyword">let</span> staticURL = config.staticURL
+<span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span> === <span class="hljs-string">'undefined'</span>) &#123;
+    apiURL = config.backApiURL
+    staticURL = config.backStaticURL
+&#125; 
+<span class="hljs-comment">/*搜索*/</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> search_course = <span class="hljs-function">(<span class="hljs-params">page,size,params</span>) =&gt;</span> &#123;
+    <span class="hljs-keyword">let</span> querys = qs.stringify(params);
+    <span class="hljs-keyword">return</span> 	http.requestQuickGet(apiURL+<span class="hljs-string">"/search/course/list/"</span>+page+<span class="hljs-string">"/"</span>+size+<span class="hljs-string">"?"</span>+querys);
+&#125;</code></pre></div>
+
+<h3 id="3、搜索方法"><a href="#3、搜索方法" class="headerlink" title="3、搜索方法"></a>3、搜索方法</h3><p>实现思路如下：</p>
+<p>1、用户请求本页面到达 <code>node.js</code></p>
+<p>2、在 <code>asyncData</code> 方法中向服务端请求查询课程</p>
+<p>3、<code>asyncData</code> 方法执行完成开始服务端渲染在 <code>asyncData</code> 中执行搜索，代码如下：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">async</span> asyncData(&#123; store, route &#125;) &#123;<span class="hljs-comment">//服务端调用方法</span>
+    <span class="hljs-comment">//搜索课程</span>
+    <span class="hljs-keyword">let</span> page = route.query.page;
+    <span class="hljs-keyword">if</span>(!page)&#123;
+        page = <span class="hljs-number">1</span>;
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        page = <span class="hljs-built_in">Number</span>.parseInt(page)
+    &#125; 
+    <span class="hljs-built_in">console</span>.log(page);
+    <span class="hljs-comment">//请求搜索服务，搜索服务</span>
+    <span class="hljs-keyword">let</span> course_data = <span class="hljs-keyword">await</span> courseApi.search_course(page,<span class="hljs-number">2</span>,route.query);
+    <span class="hljs-built_in">console</span>.log(course_data)
+
+    <span class="hljs-comment">//拿到数据</span>
+    <span class="hljs-keyword">if</span> (course_data &amp;&amp; course_data.queryResult ) &#123;
+        <span class="hljs-keyword">let</span> keywords = <span class="hljs-string">''</span>
+        <span class="hljs-keyword">let</span> mt=<span class="hljs-string">''</span>
+        <span class="hljs-keyword">let</span> st=<span class="hljs-string">''</span>
+        <span class="hljs-keyword">let</span> grade=<span class="hljs-string">''</span>
+        <span class="hljs-keyword">let</span> keyword=<span class="hljs-string">''</span>
+        <span class="hljs-keyword">let</span> total = course_data.queryResult.total
+        <span class="hljs-keyword">if</span>( route.query.mt)&#123;
+            mt = route.query.mt
+        &#125; 
+        <span class="hljs-keyword">if</span>( route.query.st)&#123;
+            st = route.query.st
+        &#125; 
+        <span class="hljs-keyword">if</span>( route.query.grade)&#123;
+            grade = route.query.grade
+        &#125; 
+        <span class="hljs-keyword">if</span>( route.query.keyword)&#123;
+            keyword = route.query.keyword
+        &#125; 
+        <span class="hljs-keyword">return</span> &#123;
+            courselist: course_data.queryResult.list,<span class="hljs-comment">//课程列表</span>
+            keywords:keywords,
+            mt:mt,
+            st:st,
+            grade:grade,
+            keyword:keyword,
+            page:page,
+            total:total,
+            imgUrl:config.imgUrl
+        &#125;
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        <span class="hljs-comment">//未拿到数据，返回空值对象到前端</span>
+        <span class="hljs-keyword">return</span> &#123;
+            courselist: &#123;&#125;,
+            first_category:&#123;&#125;,
+            second_category:&#123;&#125;,
+            mt:<span class="hljs-string">''</span>,
+            st:<span class="hljs-string">''</span>,
+            grade:<span class="hljs-string">''</span>,
+            keyword:<span class="hljs-string">''</span>,
+            page:page,
+            total:<span class="hljs-number">0</span>,
+            imgUrl:config.imgUrl
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="4、页面"><a href="#4、页面" class="headerlink" title="4、页面"></a>4、页面</h3><p>在页面中展示课程列表。</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-comment">&lt;!-- 渲染课程信息 --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"recom-item"</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(course, index) in courselist"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/detail/'+course.id+'.html'"</span> <span class="hljs-attr">target</span>=<span class="hljs-string">"_blank"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"course.pic"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">"imgUrl+'/'+course.pic"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"100%"</span> <span class="hljs-attr">alt</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-else</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/img/widget-demo1.png"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"100%"</span> <span class="hljs-attr">alt</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"course_title"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-html</span>=<span class="hljs-string">"course.name"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"float: left"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"course.charge == '203001'"</span>&gt;</span>免费<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"course.charge == '203002'"</span>&gt;</span>￥&#123;&#123;course.price | money&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+                <span class="hljs-comment">&lt;!-- &lt;em&gt; · &lt;/em&gt;--&gt;</span>
+                <span class="hljs-symbol">&amp;nbsp;</span><span class="hljs-symbol">&amp;nbsp;</span>
+                <span class="hljs-comment">&lt;!--&lt;em&gt;1125人在学习&lt;/em&gt;--&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<p>添加在 <code>index.vue</code> 页面的 <code>content-list</code> 节点下，具体代码参考 <code>资料/index_2.vue</code> 文件</p>
+<p>访问搜索页面，<code>nuxt.js</code> 会在页面渲染之前请求查询接口拿到数据，并在 node.js 上完成页面的渲染</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image20" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image20.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>效果预览</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image21" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image21.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="3-分页查询"><a href="#3-分页查询" class="headerlink" title="3. 分页查询"></a>3. 分页查询</h2><h3 id="1、服务端代码"><a href="#1、服务端代码" class="headerlink" title="1、服务端代码"></a>1、服务端代码</h3><p>服务端实现代码已在 <code>day11</code> 的内容中完成，搜索服务核心代码如下</p>
+<div class="hljs"><pre><code class="hljs java">...
+<span class="hljs-comment">//分页</span>
+<span class="hljs-comment">//当前页码</span>
+<span class="hljs-keyword">if</span>(page&lt;=<span class="hljs-number">0</span>)&#123;
+page = <span class="hljs-number">1</span>;
+&#125; /
+/起始记录下标
+<span class="hljs-keyword">int</span> from = (page -<span class="hljs-number">1</span>) * size;
+searchSourceBuilder.from(from);
+searchSourceBuilder.size(size);
+...</code></pre></div>
+
+<h3 id="2、前端代码"><a href="#2、前端代码" class="headerlink" title="2、前端代码"></a>2、前端代码</h3><p>使用 <code>Element ui</code> 的 <code>el-pagination</code> 分页插件：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"text-align: center"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">el-pagination</span></span>
+<span class="hljs-tag">                   <span class="hljs-attr">background</span></span>
+<span class="hljs-tag">                   <span class="hljs-attr">layout</span>=<span class="hljs-string">"prev, pager, next"</span></span>
+<span class="hljs-tag">                   @<span class="hljs-attr">current-change</span>=<span class="hljs-string">"handleCurrentChange"</span></span>
+<span class="hljs-tag">                   <span class="hljs-attr">:total</span>=<span class="hljs-string">"total"</span></span>
+<span class="hljs-tag">                   <span class="hljs-attr">:page-size</span>=<span class="hljs-string">"page_size"</span></span>
+<span class="hljs-tag">                   <span class="hljs-attr">:current-page</span>=<span class="hljs-string">"page"</span></span>
+<span class="hljs-tag">                   <span class="hljs-attr">prev-text</span>=<span class="hljs-string">"上一页"</span></span>
+<span class="hljs-tag">                   <span class="hljs-attr">next-text</span>=<span class="hljs-string">"下一页"</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">el-pagination</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<p>定义分页触发方法：</p>
+<div class="hljs"><pre><code class="hljs js">methods:&#123;
+    <span class="hljs-comment">//分页触发</span>
+    handleCurrentChange(page) &#123;
+        <span class="hljs-keyword">this</span>.page = page
+        <span class="hljs-keyword">this</span>.$route.query.page = page
+        <span class="hljs-keyword">let</span> querys = querystring.stringify(<span class="hljs-keyword">this</span>.$route.query)
+        <span class="hljs-built_in">window</span>.location = <span class="hljs-string">'/course/search?'</span>+querys;
+    &#125; .
+        ..</code></pre></div>
+
+<h2 id="4-按分类搜索"><a href="#4-按分类搜索" class="headerlink" title="4. 按分类搜索"></a>4. 按分类搜索</h2><h3 id="1、需求分析-2"><a href="#1、需求分析-2" class="headerlink" title="1、需求分析"></a>1、需求分析</h3><p>1）通过一级分类搜索</p>
+<p>2）选择一级分类后将显示下属的二级分类</p>
+<p>3）选择二分类进行搜索</p>
+<p>4）选择一级分类的全部则表示没有按照分类搜索</p>
+<p>5）选择一级分类的全部时二级分类不显示</p>
+<h3 id="2、api-方法"><a href="#2、api-方法" class="headerlink" title="2、api 方法"></a>2、api 方法</h3><p>课程分类将通过页面静态化的方式写入静态资源下，通过 <code>/category/category.json</code> 可访问，</p>
+<p>通过 <a href="http://www.xuecheng.com/static/category/category.json" target="_blank" rel="noopener">www.xuecheng.com/static/category/category.json</a> 即可访问。</p>
+<p><code>category.json</code> 的内容如下</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image22" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image22.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>我们需要定义 <code>api</code> 方法获取所有的分类</p>
+<p>在 <code>/api/course.js</code> 中添加：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">/*获取分类*/</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> sysres_category = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+<span class="hljs-keyword">return</span> http.requestQuickGet(staticURL+<span class="hljs-string">"/static/category/category.json"</span>);
+&#125;</code></pre></div>
+
+<h3 id="3、在-asncData-中查询分类"><a href="#3、在-asncData-中查询分类" class="headerlink" title="3、在 asncData 中查询分类"></a>3、在 asncData 中查询分类</h3><p>进入搜索页面将默认显示所有一级分类，当前如果已选择一级分类则要显示所有一级分类及该一级分类下属的二级<br>分类。在 <code>asyncData</code> 方法中实现上边的需求，代码如下：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">async</span> asyncData(&#123; store, route &#125;) &#123;
+    <span class="hljs-comment">//服务端调用方法</span>
+    <span class="hljs-comment">//搜索课程</span>
+    <span class="hljs-keyword">let</span> page = route.query.page;
+    <span class="hljs-keyword">if</span> (!page) &#123;
+        page = <span class="hljs-number">1</span>;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        page = <span class="hljs-built_in">Number</span>.parseInt(page);
+    &#125;
+    <span class="hljs-built_in">console</span>.log(page);
+    <span class="hljs-comment">//请求搜索服务，搜索服务</span>
+    <span class="hljs-keyword">let</span> course_data = <span class="hljs-keyword">await</span> courseApi.search_course(page, <span class="hljs-number">2</span>, route.query);
+    <span class="hljs-built_in">console</span>.log(course_data);
+    <span class="hljs-keyword">let</span> category_data = <span class="hljs-keyword">await</span> courseApi.sysres_category();
+    <span class="hljs-built_in">console</span>.log(category_data)
+    <span class="hljs-keyword">if</span> (course_data &amp;&amp; course_data.queryResult) &#123;
+        <span class="hljs-keyword">let</span> keywords = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">let</span> mt = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">let</span> st = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">let</span> grade = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">let</span> keyword = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">let</span> total = course_data.queryResult.total;
+        <span class="hljs-keyword">if</span> (route.query.mt) &#123;
+            mt = route.query.mt;
+        &#125;
+        <span class="hljs-keyword">if</span> (route.query.st) &#123;
+            st = route.query.st;
+        &#125;
+        <span class="hljs-keyword">if</span> (route.query.grade) &#123;
+            grade = route.query.grade;
+        &#125;
+        <span class="hljs-keyword">if</span> (route.query.keyword) &#123;
+            keyword = route.query.keyword;
+        &#125;
+
+        <span class="hljs-comment">//全部分类</span>
+        <span class="hljs-keyword">let</span> category = category_data.category; <span class="hljs-comment">//分部分类</span>
+        <span class="hljs-keyword">let</span> first_category = category[<span class="hljs-number">0</span>].children; <span class="hljs-comment">//一级分类</span>
+        <span class="hljs-keyword">let</span> second_category = []; <span class="hljs-comment">//二级分类</span>
+
+        <span class="hljs-comment">//遍历一级分类</span>
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> first_category) &#123;
+            keywords += first_category[i].name + <span class="hljs-string">" "</span>;
+            <span class="hljs-keyword">if</span> (mt != <span class="hljs-string">""</span> &amp;&amp; mt == first_category[i].id) &#123;
+                <span class="hljs-comment">//取出二级分类</span>
+                second_category = first_category[i].children;
+                <span class="hljs-comment">// console.log(second_category)</span>
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> &#123;
+            courselist: course_data.queryResult.list, <span class="hljs-comment">//课程列表</span>
+            keywords: keywords,
+            first_category: first_category,
+            second_category: second_category,
+            mt: mt,
+            st: st,
+            grade: grade,
+            keyword: keyword,
+            page: page,
+            total: total,
+            imgUrl: config.imgUrl
+        &#125;;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">return</span> &#123;
+            courselist: &#123;&#125;,
+            first_category: &#123;&#125;,
+            second_category: &#123;&#125;,
+            mt: <span class="hljs-string">""</span>,
+            st: <span class="hljs-string">""</span>,
+            grade: <span class="hljs-string">""</span>,
+            keyword: <span class="hljs-string">""</span>,
+            page: page,
+            total: <span class="hljs-number">0</span>,
+            imgUrl: config.imgUrl
+        &#125;;
+    &#125;
+&#125;,</code></pre></div>
+
+<h3 id="4、页面-1"><a href="#4、页面-1" class="headerlink" title="4、页面"></a>4、页面</h3><p>在页面显示一级分类及二级分类，需要根据当前是否选择一级分类、是否选择二分类显示页面内容。</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>一级分类：<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"mt!=''"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?</span></span>
+<span class="hljs-tag"><span class="hljs-string">        keyword='+keyword+'&amp;grade='+grade"</span>&gt;</span>全部<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"all"</span> <span class="hljs-attr">v-else</span>&gt;</span>全部<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ol</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"category_v in first_category"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link all"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?keyword='+keyword+'&amp;mt=' +</span></span>
+<span class="hljs-tag"><span class="hljs-string">                                                   category_v.id"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"category_v.id == mt"</span>&gt;</span>&#123;&#123;category_v.name&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?keyword='+keyword+'&amp;mt=' +</span></span>
+<span class="hljs-tag"><span class="hljs-string">                                               category_v.id"</span> <span class="hljs-attr">v-else</span>&gt;</span>&#123;&#123;category_v.name&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--&lt;ol&gt;</span>
+<span class="hljs-comment">    &lt;li&gt;数据分析&lt;/li&gt;</span>
+<span class="hljs-comment">    &lt;li&gt;机器学习工程&lt;/li&gt;</span>
+<span class="hljs-comment">    &lt;li&gt;前端开发工程&lt;/li&gt;</span>
+<span class="hljs-comment">    &lt;/ol&gt;--&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>二级分类：<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"st!=''"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?</span></span>
+<span class="hljs-tag"><span class="hljs-string">        keyword='+keyword+'&amp;mt='+mt+'&amp;grade='+grade"</span>&gt;</span>全部<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"all"</span> <span class="hljs-attr">v-else</span>&gt;</span>全部<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ol</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"second_category.length&gt;0"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"category_v in second_category"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link all"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?keyword='+keyword+'&amp;mt='+mt+'&amp;st='</span></span>
+<span class="hljs-tag"><span class="hljs-string">                                                   + category_v.id"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"category_v.id == st"</span>&gt;</span>&#123;&#123;category_v.name&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?keyword='+keyword+'&amp;mt='+mt+'&amp;st=' +</span></span>
+<span class="hljs-tag"><span class="hljs-string">                                               category_v.id"</span> <span class="hljs-attr">v-else</span>&gt;</span>&#123;&#123;category_v.name&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- &lt;li&gt;大数据&lt;/li&gt;</span>
+<span class="hljs-comment">        &lt;li&gt;云计算&lt;/li&gt;--&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--&lt;a href="#" class="more"&gt;更多 ∨&lt;/a&gt;--&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre></div>
+
+<h3 id="5、立即搜索"><a href="#5、立即搜索" class="headerlink" title="5、立即搜索"></a>5、立即搜索</h3><p>当用户点击分类时立即执行搜索，实现思路如下：</p>
+<ul>
+<li>点击分类立即更改路由。</li>
+<li>通过监听路由，路由更改则刷新页面。</li>
+</ul>
+<p>1）创建搜索方法</p>
+<div class="hljs"><pre><code class="hljs js">search()&#123;
+<span class="hljs-comment">//刷新当前页面</span>
+	<span class="hljs-built_in">window</span>.location.reload();
+&#125;</code></pre></div>
+
+<p>2）定义watch</p>
+<p>通过 <code>vue.js</code> 的 <code>watch</code> 可以实现监视某个变量，当变量值出现变化时执行某个方法。</p>
+<p>实现思路是：</p>
+<p>1、点击分类页面路由更改</p>
+<p>2、通过 <code>watch</code> 监视路由，路由更改触发 <code>search</code> 方法与 <code>methods</code> 并行定义 <code>watch</code>：</p>
+<div class="hljs"><pre><code class="hljs js">watch: &#123;
+    <span class="hljs-comment">//路由发生变化立即搜索search表示search方法</span>
+    $route: <span class="hljs-string">"search"</span>
+&#125;,</code></pre></div>
+
+<h2 id="5-按难度等级搜索"><a href="#5-按难度等级搜索" class="headerlink" title="5. 按难度等级搜索"></a>5. 按难度等级搜索</h2><h3 id="1、需求分析-3"><a href="#1、需求分析-3" class="headerlink" title="1、需求分析"></a>1、需求分析</h3><p>用户选择不同的课程难度等级去搜索课程。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image23" target="_blank" rel="noopener"><img src="https://qnoss.codeyee.com/20200704_12/image23" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="2、api方法-1"><a href="#2、api方法-1" class="headerlink" title="2、api方法"></a>2、api方法</h3><p>使用 <code>search_course</code> 方法完成搜索。</p>
+<h3 id="3、页面"><a href="#3、页面" class="headerlink" title="3、页面"></a>3、页面</h3><p>按难度等级搜索思路如下：</p>
+<p>1）点击难度等级立即更改路由。</p>
+<p>2）通过监听路由，路由更改则立即执行 <code>search</code> 搜索方法</p>
+<p>按难度等级搜索页面代码如下：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>难度等级：<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"grade!=''"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?keyword='+keyword+'&amp;mt=' +</span></span>
+<span class="hljs-tag"><span class="hljs-string">                                           mt+'&amp;st='+st+'&amp;grade='"</span>&gt;</span>全部
+            <span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"all"</span> <span class="hljs-attr">v-else</span>&gt;</span>全部<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ol</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"grade=='200001'"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"all"</span>&gt;</span>初级<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-else</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?keyword='+keyword+'&amp;mt=' +</span></span>
+<span class="hljs-tag"><span class="hljs-string">            mt+'&amp;st='+st+'&amp;grade=200001'"</span>&gt;</span>初级<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"grade=='200002'"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"all"</span>&gt;</span>中级<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-else</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?keyword='+keyword+'&amp;mt=' +</span></span>
+<span class="hljs-tag"><span class="hljs-string">            mt+'&amp;st='+st+'&amp;grade=200002'"</span>&gt;</span>中级<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"grade=='200003'"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"all"</span>&gt;</span>高级<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-else</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">nuxt-link</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"title-link"</span> <span class="hljs-attr">:to</span>=<span class="hljs-string">"'/course/search?keyword='+keyword+'&amp;mt=' +</span></span>
+<span class="hljs-tag"><span class="hljs-string">            mt+'&amp;st='+st+'&amp;grade=200003'"</span>&gt;</span>高级<span class="hljs-tag">&lt;/<span class="hljs-name">nuxt-link</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ol</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre></div>
+
+<h2 id="6-高亮显示"><a href="#6-高亮显示" class="headerlink" title="6. 高亮显示"></a>6. 高亮显示</h2><h3 id="1、服务端代码-1"><a href="#1、服务端代码-1" class="headerlink" title="1、服务端代码"></a>1、服务端代码</h3><p>高亮的核心代码</p>
+<div class="hljs"><pre><code class="hljs java">...
+   <span class="hljs-comment">//定义高亮</span>
+   HighlightBuilder highlightBuilder = <span class="hljs-keyword">new</span> HighlightBuilder();
+   highlightBuilder.preTags(<span class="hljs-string">"&lt;font class='eslight'&gt;"</span>);
+   highlightBuilder.postTags(<span class="hljs-string">"&lt;/font&gt;"</span>);
+   highlightBuilder.fields().add(<span class="hljs-keyword">new</span> HighlightBuilder.Field(<span class="hljs-string">"name"</span>));
+   searchSourceBuilder.highlighter(highlightBuilder);
+...
+   <span class="hljs-comment">//添加数据</span>
+   <span class="hljs-keyword">for</span>(SearchHit hit:searchHits)&#123;
+       CoursePub coursePub = <span class="hljs-keyword">new</span> CoursePub();
+       <span class="hljs-comment">//源文档</span>
+       Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+       <span class="hljs-comment">//课程id</span>
+       String id = (String) sourceAsMap.get(<span class="hljs-string">"id"</span>);
+       coursePub.setId(id);
+       <span class="hljs-comment">//取出name</span>
+       String name = (String) sourceAsMap.get(<span class="hljs-string">"name"</span>);
+
+       <span class="hljs-comment">//取出高亮字段</span>
+       Map&lt;String, HighlightField&gt; highlightFields = hit.getHighlightFields();
+       <span class="hljs-keyword">if</span>(highlightFields.get(<span class="hljs-string">"name"</span>)!=<span class="hljs-keyword">null</span>)&#123;
+           HighlightField highlightField = highlightFields.get(<span class="hljs-string">"name"</span>);
+           Text[] fragments = highlightField.fragments();
+           StringBuffer stringBuffer = <span class="hljs-keyword">new</span> StringBuffer();
+           <span class="hljs-keyword">for</span>(Text text:fragments)&#123;
+               stringBuffer.append(text);
+           &#125; 
+           name = stringBuffer.toString();
+       &#125; 
+       coursePub.setName(name);
+       ....
+   &#125;</code></pre></div>
+
+<p>核心的代码主要是设置 <code>HighlightBuilder</code> 对象的高亮属性，然后在遍历添加数据的循环中，在map中取出<code>name</code> 属性后，再取出高亮字段，并且设置到 <code>name</code> 属性中。</p>
+<p>以下是搜索服务的全部代码</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.search.service;
+
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.course.CoursePub;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.search.CourseSearchParam;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.CommonCode;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.QueryResponseResult;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.QueryResult;
+<span class="hljs-keyword">import</span> org.apache.commons.lang3.StringUtils;
+<span class="hljs-keyword">import</span> org.elasticsearch.action.search.SearchRequest;
+<span class="hljs-keyword">import</span> org.elasticsearch.action.search.SearchResponse;
+<span class="hljs-keyword">import</span> org.elasticsearch.client.RestHighLevelClient;
+<span class="hljs-keyword">import</span> org.elasticsearch.common.text.Text;
+<span class="hljs-keyword">import</span> org.elasticsearch.index.query.BoolQueryBuilder;
+<span class="hljs-keyword">import</span> org.elasticsearch.index.query.MultiMatchQueryBuilder;
+<span class="hljs-keyword">import</span> org.elasticsearch.index.query.QueryBuilders;
+<span class="hljs-keyword">import</span> org.elasticsearch.search.SearchHit;
+<span class="hljs-keyword">import</span> org.elasticsearch.search.SearchHits;
+<span class="hljs-keyword">import</span> org.elasticsearch.search.builder.SearchSourceBuilder;
+<span class="hljs-keyword">import</span> org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+<span class="hljs-keyword">import</span> org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+<span class="hljs-keyword">import</span> org.slf4j.Logger;
+<span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="hljs-keyword">import</span> javax.naming.directory.SearchResult;
+<span class="hljs-keyword">import</span> java.io.IOException;
+<span class="hljs-keyword">import</span> java.util.ArrayList;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EsCourseService</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(EsCourseService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;xuecheng.elasticsearch.course.index&#125;"</span>)
+    <span class="hljs-keyword">private</span> String es_index;
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;xuecheng.elasticsearch.course.type&#125;"</span>)
+    <span class="hljs-keyword">private</span> String es_type;
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;xuecheng.elasticsearch.course.source_field&#125;"</span>)
+    <span class="hljs-keyword">private</span> String source_field;
+
+    <span class="hljs-meta">@Autowired</span>
+    RestHighLevelClient restHighLevelClient;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 课程列表搜索</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> page 页码</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> size 每页数量</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> courseSearchParam 搜索参数</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> QueryResponseResult&lt;CoursePub&gt; <span class="hljs-title">findList</span><span class="hljs-params">(<span class="hljs-keyword">int</span> page, <span class="hljs-keyword">int</span> size, CourseSearchParam courseSearchParam)</span> <span class="hljs-keyword">throws</span> IOException</span>&#123;
+        <span class="hljs-comment">//设置索引</span>
+        SearchRequest searchRequest = <span class="hljs-keyword">new</span> SearchRequest(es_index);
+        <span class="hljs-comment">//设置类型</span>
+        searchRequest.types(es_type);
+        <span class="hljs-comment">//创建搜索源对象</span>
+        SearchSourceBuilder searchSourceBuilder = <span class="hljs-keyword">new</span> SearchSourceBuilder();
+        <span class="hljs-comment">//创建布尔查询对象</span>
+        BoolQueryBuilder boolQueryBuilder = <span class="hljs-keyword">new</span> BoolQueryBuilder();
+
+        <span class="hljs-comment">//源字段过滤</span>
+        String[] fieldArr = source_field.split(<span class="hljs-string">","</span>);
+        searchSourceBuilder.fetchSource(fieldArr,<span class="hljs-keyword">new</span> String[]&#123;&#125;);
+
+        <span class="hljs-comment">//根据关键字进行查询</span>
+        <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(courseSearchParam.getKeyword()))&#123;
+            <span class="hljs-comment">//匹配关键词</span>
+            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(courseSearchParam.getKeyword(), <span class="hljs-string">"name"</span>, <span class="hljs-string">"teachplan"</span>, <span class="hljs-string">"description"</span>);
+            <span class="hljs-comment">//设置匹配占比</span>
+            multiMatchQueryBuilder.minimumShouldMatch(<span class="hljs-string">"70%"</span>);
+            <span class="hljs-comment">//提升字段的权重值</span>
+            multiMatchQueryBuilder.field(<span class="hljs-string">"name"</span>,<span class="hljs-number">10</span>);
+            boolQueryBuilder.must(multiMatchQueryBuilder);
+        &#125;
+
+        <span class="hljs-comment">//根据难度进行过滤</span>
+        <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(courseSearchParam.getMt()))&#123;
+            boolQueryBuilder.filter(QueryBuilders.termQuery(<span class="hljs-string">"mt"</span>,courseSearchParam.getMt()));
+        &#125;
+        <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(courseSearchParam.getSt()))&#123;
+            boolQueryBuilder.filter(QueryBuilders.termQuery(<span class="hljs-string">"st"</span>,courseSearchParam.getSt()));
+        &#125;
+        <span class="hljs-comment">//根据等级进行过滤</span>
+        <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(courseSearchParam.getGrade()))&#123;
+            boolQueryBuilder.filter(QueryBuilders.termQuery(<span class="hljs-string">"grade"</span>,courseSearchParam.getGrade()));
+        &#125;
+
+        <span class="hljs-comment">//设置分页参数</span>
+        <span class="hljs-keyword">if</span>(page&lt;=<span class="hljs-number">0</span>)&#123;
+            page = <span class="hljs-number">1</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(size&lt;=<span class="hljs-number">0</span>)&#123;
+            size = <span class="hljs-number">20</span>;
+        &#125;
+        <span class="hljs-comment">//计算搜索起始位置</span>
+        <span class="hljs-keyword">int</span> start = (page-<span class="hljs-number">1</span>) * size;
+        searchSourceBuilder.from(start);
+        searchSourceBuilder.size(size);
+
+        <span class="hljs-comment">//将布尔查询对象添加到搜索源内</span>
+        searchSourceBuilder.query(boolQueryBuilder);
+
+        <span class="hljs-comment">//配置高亮信息</span>
+        HighlightBuilder highlightBuilder = <span class="hljs-keyword">new</span> HighlightBuilder();
+        highlightBuilder.preTags(<span class="hljs-string">"&lt;font class='eslight'&gt;"</span>);
+        highlightBuilder.postTags(<span class="hljs-string">"&lt;/font&gt;"</span>);
+        <span class="hljs-comment">//设置高亮字段</span>
+        highlightBuilder.fields().add(<span class="hljs-keyword">new</span> HighlightBuilder.Field(<span class="hljs-string">"name"</span>));
+        searchSourceBuilder.highlighter(highlightBuilder);
+
+        <span class="hljs-comment">//请求搜索</span>
+        searchRequest.source(searchSourceBuilder);
+        SearchResponse searchResponse = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span>&#123;
+            searchResponse = restHighLevelClient.search(searchRequest);
+        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+            <span class="hljs-comment">//搜索异常</span>
+            e.printStackTrace();
+            LOGGER.error(<span class="hljs-string">"search error ...&#123;&#125;"</span>,e.getMessage());
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> QueryResponseResult&lt;&gt;(CommonCode.FAIL,<span class="hljs-keyword">null</span>);
+        &#125;
+
+        <span class="hljs-comment">//结果收集处理</span>
+        SearchHits hits = searchResponse.getHits();
+        <span class="hljs-comment">//获取匹配度高的结果</span>
+        SearchHit[] searchHits = hits.getHits();
+        <span class="hljs-comment">//总记录数</span>
+        <span class="hljs-keyword">long</span> totalHits = hits.getTotalHits();
+        <span class="hljs-comment">//数据列表</span>
+        ArrayList&lt;CoursePub&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+        <span class="hljs-comment">//添加数据</span>
+        <span class="hljs-keyword">for</span> (SearchHit hit: searchHits)&#123;
+            CoursePub coursePub = <span class="hljs-keyword">new</span> CoursePub();
+
+            Map&lt;String, Object&gt; sourceAsMap = hit.getSourceAsMap();
+
+
+            <span class="hljs-comment">//取出id</span>
+            String id = (String) sourceAsMap.get(<span class="hljs-string">"id"</span>);
+            coursePub.setId(id);
+            <span class="hljs-comment">//取出名称</span>
+            String name = (String) sourceAsMap.get(<span class="hljs-string">"name"</span>);
+
+            <span class="hljs-comment">//取出高亮字段</span>
+            Map&lt;String, HighlightField&gt; highlightFields = hit.getHighlightFields();
+            <span class="hljs-keyword">if</span>(highlightFields.get(<span class="hljs-string">"name"</span>)!=<span class="hljs-keyword">null</span>)&#123;
+                HighlightField highlightField = highlightFields.get(<span class="hljs-string">"name"</span>);
+                Text[] fragments = highlightField.fragments();
+                StringBuffer stringBuffer = <span class="hljs-keyword">new</span> StringBuffer();
+                <span class="hljs-keyword">for</span>(Text text:fragments)&#123;
+                    stringBuffer.append(text);
+                &#125;
+                name = stringBuffer.toString();
+            &#125;
+            coursePub.setName(name);
+            <span class="hljs-comment">//图片</span>
+            String pic = (String) sourceAsMap.get(<span class="hljs-string">"pic"</span>);
+            coursePub.setPic(pic);
+            <span class="hljs-comment">//优惠后的价格</span>
+            Float price = <span class="hljs-keyword">null</span>;
+            <span class="hljs-keyword">try</span> &#123;
+                <span class="hljs-keyword">if</span>(sourceAsMap.get(<span class="hljs-string">"price"</span>) !=<span class="hljs-keyword">null</span>)&#123;
+                    price = Float.parseFloat(String.format(<span class="hljs-string">"%.3f"</span>,sourceAsMap.get(<span class="hljs-string">"price"</span>)));
+                &#125;
+            &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+                e.printStackTrace();
+            &#125;
+            coursePub.setPrice(price);
+            <span class="hljs-comment">//优惠前的价格</span>
+            Float priceOld = <span class="hljs-keyword">null</span>;
+            <span class="hljs-keyword">try</span> &#123;
+                <span class="hljs-keyword">if</span>(sourceAsMap.get(<span class="hljs-string">"price_old"</span>) !=<span class="hljs-keyword">null</span>)&#123;
+                    priceOld = Float.parseFloat(String.format(<span class="hljs-string">"%.3f"</span>,sourceAsMap.get(<span class="hljs-string">"price_old"</span>)));
+                &#125;
+            &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+                e.printStackTrace();
+            &#125;
+            coursePub.setPrice_old(priceOld);
+            list.add(coursePub);
+
+
+        &#125;
+
+        <span class="hljs-comment">//返回响应结果</span>
+        QueryResult&lt;CoursePub&gt; queryResult = <span class="hljs-keyword">new</span> QueryResult&lt;&gt;();
+        queryResult.setList(list);
+        queryResult.setTotal(totalHits);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> QueryResponseResult&lt;&gt;(CommonCode.SUCCESS,queryResult);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="2、前端代码-1"><a href="#2、前端代码-1" class="headerlink" title="2、前端代码"></a>2、前端代码</h3><p>在后端的代码中，我们在添加高亮标签时候引用了 <code>eslight</code> 的样式，代码如下</p>
+<div class="hljs"><pre><code class="hljs html">highlightBuilder.preTags("<span class="hljs-tag">&lt;<span class="hljs-name">font</span> <span class="hljs-attr">class</span>=<span class="hljs-string">'eslight'</span>&gt;</span>");</code></pre></div>
+
+<p>所以我们在 <code>search/index.vue</code> 中定义 <code>eslight</code> 样式，实现多高亮字段的样式控制。</p>
+<div class="hljs"><pre><code class="hljs css">&lt;<span class="hljs-selector-tag">style</span>&gt;
+<span class="hljs-selector-class">.eslight</span>&#123;
+	<span class="hljs-attribute">color</span>: red;
+&#125; 
+...</code></pre></div>
+
+<p>我们来测试一下，在搜索门户前端下搜索关键词 <code>spring cloud</code></p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image24" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image24.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>从测试的结果中可以看到，我们搜索的关键词成功的被高亮。</p>
+<h1 id="五、集成测试"><a href="#五、集成测试" class="headerlink" title="五、集成测试"></a>五、集成测试</h1><h2 id="1、需求分析-4"><a href="#1、需求分析-4" class="headerlink" title="1、需求分析"></a>1、需求分析</h2><p>本次集成测试的目的如下：</p>
+<p>1、测试课程发布与CMS接口是否正常。</p>
+<p>2、测试课程发布与ES接口是否正常。</p>
+<p>3、测试课程从创建到发布的整个过程。</p>
+<h2 id="2、准备环境"><a href="#2、准备环境" class="headerlink" title="2、准备环境"></a>2、准备环境</h2><p>1、启动 MySQL、MongoDB</p>
+<p>2、启动 ElasticSearch、RabbitMQ</p>
+<p>3、启动 Eureka Server</p>
+<p>4、启动 CMS、课程管理服务、搜索服务。</p>
+<p>5、启动 Nginx、系统管理前端、教学管理前端、Nuxt.js。</p>
+<h2 id="3、开始测试"><a href="#3、开始测试" class="headerlink" title="3、开始测试"></a>3、开始测试</h2><p>这里我们发布一个大数据的测试课程</p>
+<blockquote>
+<p>这里要注意的是，发布课程前需要添加课程营销和课程计划，否则将发布失败。</p>
+</blockquote>
+<p><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image25.png" srcset="/img/loading.gif" alt="img"></p>
+<p>点击课程发布</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image26" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image26.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>发布成功，我们到 <code>coursePub</code> 表上看一下我们发布的课程信息</p>
+<p><a href="https://i.loli.net/2020/05/09/erXkFpA6giHxLPE.png" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/erXkFpA6giHxLPE.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>从上图中我们可以看到，我们发布的信息已经成功添加到了 coursePub 表内，这个时候等待 <code>LogStash</code> 自动采集我们课程发布的信息，并添加到 <code>Elastic Search</code> 的索引内。</p>
+<p>等待一段时间后，我们从 <code>LogStash</code> 的控制台信息内可以看到，已经采集了我们发布的课程信息，并成功索引到了 Elastic Search</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image27" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image27.png" srcset="/img/loading.gif" alt="LogStash控制台"></a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image27" target="_blank" rel="noopener">LogStash控制台</a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image28" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image28.png" srcset="/img/loading.gif" alt="ES索引数据"></a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image28" target="_blank" rel="noopener">ES索引数据</a></p>
+<p>这个时候我们到搜索的前端门户上搜索我们最新发布的课程</p>
+<p><a href="https://qnoss.codeyee.com/20200704_12/image29" target="_blank" rel="noopener"><img src="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/image29.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>成功的搜索到了刚才发布的大数据课程，并且将 “大数据” 这个关键词进行高亮处理。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BF/">学成在线</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Nuxt-js/">Nuxt.js</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/18/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday11/">
+                        <span class="hidden-mobile">学成在线day11：基于 ElasticSearch 构建搜索服务</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "学成在线day12：基于 Nuxt.js 构建搜索前端工程&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

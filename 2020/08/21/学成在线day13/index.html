@@ -1,0 +1,2011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>学成在线day13：使用FFmpeg进行格式转换以及m3u8文件生成、文件分块上传接口实现 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-21 11:20">
+      2020-08-21
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10.5k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      142
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="😎知识点概览"><a href="#😎知识点概览" class="headerlink" title="😎知识点概览"></a>😎知识点概览</h1><blockquote>
+<p>为了方便后续回顾该项目时能够清晰的知道本章节讲了哪些内容，并且能够从该章节的笔记中得到一些帮助，所以在完成本章节的学习后在此对本章节所涉及到的知识点进行总结概述。</p>
+</blockquote>
+<p>本章节为【学成在线】项目的 <code>day13</code> 的内容</p>
+<ul>
+<li><code>FFmpeg</code> 的基本使用</li>
+<li>使用 <code>m3u8</code> 和 <code>video.js</code>技术实现视频的在线播放</li>
+<li>搭建媒资服务工程实现文件的分块储存</li>
+</ul>
+<h1 id="一、在线学习需求分析"><a href="#一、在线学习需求分析" class="headerlink" title="一、在线学习需求分析"></a>一、在线学习需求分析</h1><h2 id="1-需求描述"><a href="#1-需求描述" class="headerlink" title="1. 需求描述"></a>1. 需求描述</h2><p>学成在线作为在线教育网站，提供多种学习形式，包括：录播、直播、图文、社群等，学生登录进入学习中心即可</p>
+<p>在线学习，本章节将开发录播课程的在线学习功能，需求如下：</p>
+<p>1、学生可以在 <code>windows</code> 浏览器上在线观看视频。</p>
+<p>2、播放器具有快进、快退、暂停等基本功能。</p>
+<p>3、学生可以方便切换章节进行学习。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image1" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image1.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>什么是录播课程？</p>
+<p>录播课程就是提供录制好课程视频，供用户在线点播，反复学习。</p>
+<p>课程视频如何管理？</p>
+<p>媒资管理系统专门来管理课程视频，用户视频文件上传到媒资系统，并对视频进行编码处理。</p>
+<h2 id="2-视频点播解决方案"><a href="#2-视频点播解决方案" class="headerlink" title="2. 视频点播解决方案"></a>2. 视频点播解决方案</h2><h3 id="流媒体方案"><a href="#流媒体方案" class="headerlink" title="流媒体方案"></a>流媒体方案</h3><p>详细参考：<a href="https://baike.baidu.com/item/%E6%B5%81%E5%AA%92%E4%BD%93/98740?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E6%B5%81%E5%AA%92%E4%BD%93/98740?fr=aladdin</a></p>
+<p>概括理解：流媒体就是将视频文件分成许多小块儿，将这些小块儿作为数据包通过网络发送出去，实现一边传输视<br>频 数据 包一边观看视频。</p>
+<ul>
+<li><p>流式传输</p>
+<p>在网络上传输音、视频信息有两个方式：下载 和 流式传输。</p>
+<p>下载：就是把音、视频文件完全下载到本机后开始播放，它的特点是必须等到视频文件下载完成方可播放，播放等待时间较长，无法去播放还未下载的部分视频。</p>
+<p>流式传输：就是客户端通过链接视频服务器实时传输音、视频信息，实现 “<strong>边下载边播放</strong>”。</p>
+<p>流式传输包括如下两种方式：</p>
+<ul>
+<li><p>1） 顺序流式传输</p>
+<p>即顺序下载音、视频文件，可以实现边下载边播放，不过，用户只能观看已下载的视频内容，无法快进到未下载的视频部分，顺序流式传输可以使用 <code>Http</code> 服务器来实现，比如 <code>Nginx</code>、<code>Apache</code> 等。</p>
+</li>
+<li><p>2）实时流式传输</p>
+<p>实时流式传输可以解决顺序流式传输无法快进的问题，它与Http流式传输不同，它必须使用流媒体服务器并且使用流媒体协议来传输视频，它比 <code>Http</code> 流式传输复杂。常见的实时流式传输协议有<code>RTSP</code>、<code>RTMP</code>、<code>RSVP</code> 等。</p>
+</li>
+</ul>
+</li>
+<li><p>流媒体系统的概要结构</p>
+<p>通过流媒体系统的概要结构，学习流媒体系统的基本业务流程。</p>
+</li>
+</ul>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image2" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image2.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>1、将原始的视频文件通过编码器转换为适合网络传输的流格式，编码后的视频直接输送给媒体服务器。<br>原始的视频文件通常是事先录制好的视频，比如通过摄像机、摄像头等录像、录音设备采集到的音视频文<br>件，体积较大，要想在网络上传输需要经过压缩处理，即通过编码器进行编码 。</p>
+<p>2、媒体服务获取到编码好的视频文件，对外提供流媒体数据传输接口，接口协议包括 ：<code>HTTP</code>、<code>RTSP</code>、<code>RTMP</code> 等 。</p>
+<p>3、播放器通过流媒体协议与媒体服务器通信，获取视频数据，播放视频。</p>
+<h3 id="点播方案"><a href="#点播方案" class="headerlink" title="点播方案"></a>点播方案</h3><p>本项目包括点播和直播两种方式，我们先调研一下几个点播的方案，如下：</p>
+<ol>
+<li><p>播放器通过 <code>http</code> 协议从 <code>http</code> 服务器上下载视频文件进行播放</p>
+<p>问题：必须等到视频下载完才可以播放，不支持快进到某个时间点进行播放</p>
+</li>
+<li><p>播放器通过 <code>rtmp</code> 协议连接媒体服务器以实时流方式播放视频</p>
+<p>使用rtmp协议需要架设媒体服务器，造价高，对于直播多采用此方案。</p>
+</li>
+<li><p>播放器使用 <code>HLS</code> 协议连接 <code>http</code> 服务器（<code>Nginx</code>、<code>Apache</code>等）实现近实时流方式播放视频</p>
+<p>HLS协议规定：基于 <code>Http</code> 协议，视频封装格式为 <code>ts</code>，视频的编码格式为 <code>H264</code>,音频编码格式为<code>MP3</code>、<code>AAC</code>或者 <code>AC-3</code>。</p>
+</li>
+</ol>
+<p>那么 <code>HLS</code> 是什么？</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image3" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image3.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p><code>HLS</code> 的工作方式是：将视频拆分成若干 <code>ts</code> 格式的小文件，通过 <code>m3u8</code> 格式的索引文件对这些 <code>ts</code> 小文件建立索引。一般 <code>10</code> 秒一个 <code>ts</code> 文件，播放器连接 <code>m3u8</code> 文件播放，当快进时通过 <code>m3u8</code> 即可找到对应的索引文件，并去下载对应的 <code>ts</code> 文件，从而实现快进、快退以近实时的方式播放视频。</p>
+<p>IOS、Android 设备、及各大浏览器都支持 <code>HLS</code> 协议。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image4" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image4.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>详细参考：<a href="https://baike.baidu.com/item/HLS/8328931?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/HLS/8328931?fr=aladdin</a></p>
+<p>采用 <code>HLS</code> 方案即可实现边下载边播放，并可不用使用 <code>rtmp</code> 等流媒体协议，不用构建专用的媒体服务器，节省成本。所以本项目点播方案确定为方案 <code>3</code>。</p>
+<h1 id="二、视频编码"><a href="#二、视频编码" class="headerlink" title="二、视频编码"></a>二、视频编码</h1><h2 id="1-视频编码格式"><a href="#1-视频编码格式" class="headerlink" title="1. 视频编码格式"></a>1. 视频编码格式</h2><p>先来看一下百度百科中的简介</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image5" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image5.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>详情参考 ：<a href="https://baike.baidu.com/item/%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/839038" target="_blank" rel="noopener">https://baike.baidu.com/item/%E8%A7%86%E9%A2%91%E7%BC%96%E7%A0%81/839038</a></p>
+<p>首先我们要分清文件格式和编码格式：</p>
+<p>文件格式：是指 <code>.mp4</code>、<code>.avi</code>、<code>.rmvb</code> 等 这些不同扩展名的视频文件的文件格式 ，视频文件的内容主要包括视频和音频，其文件格式是按照一 定的编码格式去编码，并且按照该文件所规定的封装格式将视频、音频、字幕等信息封装在一起，播放器会根据它们的封装格式去提取出编码，然后由播放器解码，最终播放音视频。</p>
+<p>音视频编码格式：通过音视频的压缩技术，将视频格式转换成另一种视频格式，通过视频编码实现流媒体的传输。</p>
+<p>比如：一个 <code>.avi</code> 的视频文件原来的编码是 <code>a</code>，通过编码后编码格式变为 <code>b</code>，音频原来为 <code>c</code>，通过编码后变为<code>d</code>。</p>
+<h2 id="2-FFmpeg-的基本使用"><a href="#2-FFmpeg-的基本使用" class="headerlink" title="2. FFmpeg 的基本使用"></a>2. FFmpeg 的基本使用</h2><p>我们将视频录制完成后，使用视频编码软件对视频进行编码，本项目 使用 <code>FFmpeg</code> 对视频进行编码。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image6" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image6.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p><code>FFmpeg</code> 被许多开源项目采用，QQ影音、暴风影音、VLC 等。</p>
+<p>下载：FFmpeg <a href="https://www.ffmpeg.org/download.html#build-windows" target="_blank" rel="noopener">https://www.ffmpeg.org/download.html#build-windows</a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image7" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image7.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>下载完成后，将 <code>ffmpeg</code> 解压到磁盘下，设置环境变量 <code>FFMPEG_HOME</code> 的值为 <code>ffmpeg</code> 的安装目录</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image8" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image8.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>将 <code>%FFMPEG_HOME%/bin</code> 添加到环境变量<code>Path</code> 中</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image9" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image9.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="3-生成-m3u8-ts-文件"><a href="#3-生成-m3u8-ts-文件" class="headerlink" title="3. 生成 m3u8/ts 文件"></a>3. 生成 m3u8/ts 文件</h2><p>使用 <code>ffmpeg</code> 生成 <code>m3u8</code> 的步骤如下：</p>
+<p>第一步：先将 <code>avi</code> 视频转成 <code>mp4</code></p>
+<div class="hljs"><pre><code class="hljs shell">ffmpeg.exe -i lucene.avi -c:v libx264 -s 1280x720 -pix_fmt yuv420p -b:a 63k -b:v 753k -r 18 lucene.mp4</code></pre></div>
+
+<p>下面把各参数意思大概讲讲，大概了解意思即可，不再此展开流媒体专业知识的讲解。</p>
+<ul>
+<li><code>-c:v</code> 视频编码为 <code>x264</code> ，<code>x264</code> 编码是 <code>H264</code> 的一种开源编码格式。</li>
+<li><code>-s</code> 设置分辨率</li>
+<li><code>-pix_fmt yuv420p</code>：设置像素采样方式，主流的采样方式有三种，<code>YUV4:4:4</code>，<code>YUV4:2:2</code>，<code>YUV4:2:0</code>，它的作用是根据采样方式来从码流中还原每个像素点的YUV（亮度信息与色彩信息）值。</li>
+<li><code>-b</code> 设置码率，<code>-b:a</code> 和 <code>-b:v</code> 分别表示音频的码率和视频的码率，<code>-b</code> 表示音频加视频的总码率。码率对一个视频质量有很大的作用，后边会介绍。</li>
+<li><code>-r</code>：帧率，表示每秒更新图像画面的次数，通常大于 <code>24</code> 肉眼就没有连贯与停顿的感觉了。</li>
+</ul>
+<p>第二步：将 <code>mp4</code> 生成 <code>m3u8</code></p>
+<div class="hljs"><pre><code class="hljs shell">mkdir hls
+ffmpeg -i lucene.mp4 -hls_time 10 -hls_list_size 0 -hls_segment_filename ./hls/lucene_%05d.ts ./hls/lucene.m3u8</code></pre></div>
+
+<ul>
+<li><p><code>-hls_time</code> 设置每片的长度，单位为秒</p>
+</li>
+<li><p><code>-hls_list_size n</code>: 保存的分片的数量，设置为 <code>0</code> 表示保存所有分片</p>
+</li>
+<li><p><code>-hls_segment_filename</code> ：段文件的名称，<code>%05d</code> 表示 <code>5</code> 位数字</p>
+<p>生成的效果是：将 <code>lucene.mp4</code> 视频文件每 <code>10</code> 秒生成一个 <code>ts</code> 文件，最后生成一个 <code>m3u8</code> 文件，<code>m3u8</code> 文件是 <code>ts</code> 的索引文件。</p>
+</li>
+</ul>
+<p>使用 <code>VLC</code> 打开 <code>m3u8</code> 文件，测试播放效果，<code>VLC</code> 是一款自由、开源的跨平台多媒体播放器及框架，可播放大多数多媒体文件，以及 <code>DVD</code>、音频 <code>CD</code>、<code>VCD</code> 及各类流媒体协议。（<a href="http://www.videolan.org/%EF%BC%89" target="_blank" rel="noopener">http://www.videolan.org/）</a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image10" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image10.png" srcset="/img/loading.gif" alt="img"></a></p>
+<blockquote>
+<p>如果这里出现无法播放的情况，请将 <code>FFmpeg</code> 和 <code>VLC</code> 播放器更新到最新版本。</p>
+</blockquote>
+<h3 id="码率的设置"><a href="#码率的设置" class="headerlink" title="码率的设置"></a>码率的设置</h3><p>码率又叫比特率即每秒传输的 <code>bit</code> 数，单位为 <code>bps(Bit Per Second)</code>，码率越大传送数据的速度越快。</p>
+<p>码率的计算公式是：<code>文件大小（转成 bit）/ 时长（秒）/1024 = kbps</code> 即每秒传输千位数</p>
+<p>例如一个 <code>1M</code> 的视频，它的时长是 <code>10s</code>，它的码率等于 <code>1*1024*1024*8/10/1024 = 819Kbps</code></p>
+<p>码率设置到多少才能达到最好，通过根据个人的经验或参考一些视频网台给出的参考，下图是优酷对码率的要求：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image11" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image11.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>如果要将视频上传到优酷则必须按照上面的要求，如果是自己搭建视频服务器，码率设置不易过大，最终达到的视频清晰度满足业务需求即可。</p>
+<h1 id="三、播放器"><a href="#三、播放器" class="headerlink" title="三、播放器"></a>三、播放器</h1><h2 id="1-技术选型"><a href="#1-技术选型" class="headerlink" title="1. 技术选型"></a>1. 技术选型</h2><p>视频编码后要使用播放器对其进行解码、播放视频内容。在 <code>web</code> 应用中常用的播放器有 <code>flash</code> 播放器、<code>H5</code> 播放器或浏览器插件播放器，其中以 <code>flash</code> 和 <code>H5</code> 播放器最常见。</p>
+<p>flash 播放器：缺点是需要在客户机安装 <code>Adobe Flash Player</code> 播放器，优点是 <code>flash</code> 播放器已经很成熟了，并且浏览器对 <code>flash</code> 支持也很好。</p>
+<p>H5播放器：基于 <code>h5</code> 自带 <code>video</code> 标签进行构建，优点是大部分浏览器支持 <code>H5</code>，不用再安装第三方的<code>flash</code> 播放器，并且随着前端技术的发展，<code>h5</code> 技术会越来越成熟。</p>
+<p>本项目采用H5播放器，使用 <code>Video.js</code> 开源播放器。</p>
+<p><code>Video.js</code> 是一款基于 <code>HTML5</code> 世界的网络视频播放器。它支持 <code>HTML5</code> 和 <code>Flash</code> 视频，它支持在台式机和移动设备上播放视频。这个项目于 <code>2010</code> 年中开始，目前已在 <code>40</code> 万网站使用。</p>
+<p>官方地址：<a href="http://videojs.com/" target="_blank" rel="noopener">http://videojs.com/</a></p>
+<h2 id="2-下载-video-js"><a href="#2-下载-video-js" class="headerlink" title="2. 下载 video.js"></a>2. 下载 video.js</h2><p>Video.js： <a href="https://github.com/videojs/video.js" target="_blank" rel="noopener">https://github.com/videojs/video.js</a></p>
+<p>videojs-contrib-hls： <a href="https://github.com/videojs/videojs-contrib-hls#installation%EF%BC%88videojs-contrib-hls%E6%98%AF%E6%92%AD%E6%94%BE" target="_blank" rel="noopener">https://github.com/videojs/videojs-contrib-hls#installation（videojs-contrib-hls是播放</a> <code>hls</code> 的一个插件）</p>
+<p>使用文档：<a href="http://docs.videojs.com/tutorial-videojs_.html" target="_blank" rel="noopener">http://docs.videojs.com/tutorial-videojs_.html</a></p>
+<p>本教程使用 video.js <code>6.7.3</code> 版本，videojs-contrib-hls <code>5.14.1</code> 版本。</p>
+<p>下载上边两个文件，为了测试需求将其放在门户工程的 <code>plugins</code> 目录中。</p>
+<h2 id="3-搭建媒体播放器"><a href="#3-搭建媒体播放器" class="headerlink" title="3. 搭建媒体播放器"></a>3. 搭建媒体播放器</h2><p>正常使用 <code>video.js</code> 播放视频是通过一个网页，用户通过浏览器打开网页去播放视频，网页和视频都从web服务器请求，通常视频的 <code>url</code> 地址使用单独的域名。</p>
+<h3 id="配置-Nginx媒体服务器"><a href="#配置-Nginx媒体服务器" class="headerlink" title="配置 Nginx媒体服务器"></a>配置 Nginx媒体服务器</h3><p>HLS 协议基于 <code>Http</code> 协议，本项目使用 <code>Nginx</code> 作为视频服务器。下图是 <code>Nginx</code> 媒体服务器的配置流程图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image12" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image12.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>1、用户打开<a href="http://www.xuecheng.xn--com-x28dk46phv5a/" target="_blank" rel="noopener">www.xuecheng.com上边的</a> <code>video.html</code> 网页 ，在此网页中引入视频链接，视频地址指向video.xuecheng.com</p>
+<p>2、video.xuecheng.com 进行负载均衡处理，将视频请求转发到媒体服务器</p>
+<p>根据上边的流程，我们在媒体服务器上安装 <code>Nginx</code>，并配置如下：</p>
+<div class="hljs"><pre><code class="hljs c">#学成网媒体服务
+server &#123;
+    <span class="hljs-built_in">listen</span> <span class="hljs-number">90</span>;
+    server_name localhost;
+    #视频目录
+    location /video/ &#123;
+        alias F:/develop/video/;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="配置媒体服务器代理"><a href="#配置媒体服务器代理" class="headerlink" title="配置媒体服务器代理"></a>配置媒体服务器代理</h3><p>媒体服务器不止一台，通过代理实现负载均衡功能，使用 <code>Nginx</code> 作为媒体服务器的代理，此代理服务器作为 <code>video.xuecheng.com</code> 域名服务器。</p>
+<p>配置 <code>video.xuecheng.com</code> 虚拟主机：</p>
+<p>注意：这里我们开发环境中代理服务器和媒体服务器在同一台服务器，使用同一个<code>Nginx</code>。</p>
+<div class="hljs"><pre><code class="hljs c">#学成网媒体服务代理
+<span class="hljs-built_in">map</span> $http_origin $origin_list&#123;
+    <span class="hljs-keyword">default</span> http:<span class="hljs-comment">//www.xuecheng.com;</span>
+    <span class="hljs-string">"~http://www.xuecheng.com"</span> http:<span class="hljs-comment">//www.xuecheng.com;</span>
+    <span class="hljs-string">"~http://ucenter.xuecheng.com"</span> http:<span class="hljs-comment">//ucenter.xuecheng.com;</span>
+&#125; 
+#学成网媒体服务代理
+server &#123;
+    <span class="hljs-built_in">listen</span> <span class="hljs-number">80</span>;
+    server_name video.xuecheng.com;
+    location /video &#123;
+        proxy_pass http:<span class="hljs-comment">//video_server_pool;</span>
+        add_header Access-Control-Allow-Origin $origin_list;
+        #add_header Access-Control-Allow-Origin *;
+        add_header Access-Control-Allow-Credentials <span class="hljs-literal">true</span>;
+        add_header Access-Control-Allow-Methods GET;
+    &#125;
+&#125;</code></pre></div>
+
+<p>cors跨域参数：</p>
+<ul>
+<li>Access-Control-Allow-Origin：允许跨域访问的外域地址</li>
+<li>Access-Control-Allow-Credentials： 允许客户端携带证书访问</li>
+<li>Access-Control-Allow-Methods：允许客户端跨域访问的方法</li>
+</ul>
+<p>通常允许跨域访问的站点不是一个，所以这里用 <code>map</code> 定义了多个站点。</p>
+<p>如果允许任何站点跨域访问则设置为 *，通常这是不建议的。</p>
+<p><code>video_server_pool</code> 的配置如下：</p>
+<div class="hljs"><pre><code class="hljs c">#媒体服务
+upstream video_server_pool&#123;
+    server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">90</span> weight=<span class="hljs-number">10</span>;
+&#125;</code></pre></div>
+
+<p>配置 <code>hosts</code> 文件，本教程开发环境使用 <code>Windows10</code>，修改 <code>hosts</code> 文件，路径为 <code>C:\Windows\System32\drivers\etc\hosts</code></p>
+<div class="hljs"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1</span> video.xuecheng.com</code></pre></div>
+
+<h2 id="4-测试-video-js"><a href="#4-测试-video-js" class="headerlink" title="4. 测试 video.js"></a>4. 测试 video.js</h2><p>参考文档如下：</p>
+<p><a href="https://github.com/videojs/videojs-contrib-hls#installation" target="_blank" rel="noopener">https://github.com/videojs/videojs-contrib-hls#installation</a></p>
+<p><a href="http://jsbin.com/vokipos/8/edit?html,output" target="_blank" rel="noopener">http://jsbin.com/vokipos/8/edit?html,output</a></p>
+<p>1、编写测试页面 <code>video.html</code>。</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-meta-keyword">html</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"content-type"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"text/html; charset=utf-8"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>视频播放<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"/plugins/videojs/video-js.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">id</span>=<span class="hljs-string">example-video</span> <span class="hljs-attr">width</span>=<span class="hljs-string">800</span> <span class="hljs-attr">height</span>=<span class="hljs-string">600</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"video-js vjs-default-skin vjs-big-play-</span></span>
+<span class="hljs-tag"><span class="hljs-string">                                                            centered"</span> <span class="hljs-attr">controls</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">"http://127.0.0.1:90/video/add.jpg"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">source</span></span>
+<span class="hljs-tag">                    <span class="hljs-attr">src</span>=<span class="hljs-string">"http://video.xuecheng.com/video/hls/lucene.m3u8"</span></span>
+<span class="hljs-tag">                    <span class="hljs-attr">type</span>=<span class="hljs-string">"application/x-mpegURL"</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">"switchvideo()"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"switch"</span>/&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/plugins/videojs/video.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/plugins/videojs/videojs-contrib-hls.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span>
+<span class="actionscript">            <span class="hljs-keyword">var</span> player = videojs(<span class="hljs-string">'example-video'</span>);</span>
+<span class="actionscript">            <span class="hljs-comment">//player.play();</span></span>
+<span class="actionscript">            <span class="hljs-comment">//切换视频</span></span>
+<span class="actionscript">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">switchvideo</span><span class="hljs-params">()</span></span>&#123;</span>
+                player.src(&#123;
+<span class="actionscript">                    src: <span class="hljs-string">'http://video.xuecheng.com/video/hls/lucene.m3u8'</span>,</span>
+<span class="actionscript">                    type: <span class="hljs-string">'application/x-mpegURL'</span>,</span>
+<span class="actionscript">                    withCredentials: <span class="hljs-literal">true</span></span>
+                &#125;);
+                player.play();
+            &#125;
+        <span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre></div>
+
+<p>2、测试</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image13" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image13.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>点击 <code>switch</code> 测试切换视频功能。</p>
+<h1 id="四、搭建学习中心前端"><a href="#四、搭建学习中心前端" class="headerlink" title="四、搭建学习中心前端"></a>四、搭建学习中心前端</h1><h2 id="1-界面原型"><a href="#1-界面原型" class="headerlink" title="1. 界面原型"></a>1. 界面原型</h2><p>先看一下界面原型，如下图，最终的目标是在此页面使用 <code>video.js</code> 播放视频。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image14" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image14.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="2-创建学习中心工程"><a href="#2-创建学习中心工程" class="headerlink" title="2. 创建学习中心工程"></a>2. 创建学习中心工程</h2><p>学习中心的用户是学生，为了便于系统维护和扩展，单独创建学习中心工程：</p>
+<p>1、从资料目录拷贝 <code>xc-ui-pc-leanring.zip</code> 并解压到 <code>xc-ui-pc-leanring</code> 目录。</p>
+<p>2、使用 <code>webstorm</code> 创建打开 <code>xc-ui-pc-leanring</code> 目录</p>
+<p>3、进入 <code>xc-ui-pc-leanring</code> 目录，执行 <code>cnpm install</code>，将根据 <code>package.json</code> 的依赖配置远程下载依赖的 <code>js</code> 包。</p>
+<p>创建完成，<code>xc-ui-pc-leanring</code>工程如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image15" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image15.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="配置域名"><a href="#配置域名" class="headerlink" title="配置域名"></a>配置域名</h3><p>学习中心的二级域名为 <code>ucenter.xuecheng.com</code>，我们在 <code>nginx</code> 中配置 <code>ucenter</code> 虚拟主机。</p>
+<div class="hljs"><pre><code class="hljs c">#学成网用户中心
+server &#123;
+    <span class="hljs-built_in">listen</span> <span class="hljs-number">80</span>;
+    server_name ucenter.xuecheng.com;
+    #个人中心
+    location / &#123;
+        proxy_pass http:<span class="hljs-comment">//ucenter_server_pool;</span>
+    &#125;
+&#125; 
+#前端ucenter
+upstream ucenter_server_pool&#123;
+    <span class="hljs-meta">#server 127.0.0.1:7081 weight=10;</span>
+    server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">13000</span> weight=<span class="hljs-number">10</span>;
+&#125;</code></pre></div>
+
+<p>在根服务下添加一个 <code>/plugins/</code> 站点</p>
+<div class="hljs"><pre><code class="hljs c"># 根服务
+server&#123;
+    <span class="hljs-built_in">listen</span>       <span class="hljs-number">80</span>;
+    server_name  www.xuecheng.com;
+    ssi on;
+    ssi_silent_errors on;
+    location /plugins/ &#123;      
+        # 跨域参数
+        alias  E:/Project/XueChengOnline/xcEduUI01/xc-ui-pc-<span class="hljs-keyword">static</span>-portal/plugins/;   
+        add_header Access-Control-Allow-Origin http:<span class="hljs-comment">//ucenter.xuecheng.com; </span>
+        add_header Access-Control-Allow-Credentials <span class="hljs-literal">true</span>;          
+        add_header Access-Control-Allow-Methods GET;        
+    &#125;
+    .....
+&#125;</code></pre></div>
+
+<h3 id="访问测试"><a href="#访问测试" class="headerlink" title="访问测试"></a>访问测试</h3><p>启动工程，看到下边的界面说明本工程创建完成</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image16" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image16.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="3-调试视频播放页面"><a href="#3-调试视频播放页面" class="headerlink" title="3. 调试视频播放页面"></a>3. 调试视频播放页面</h2><p>使用 <code>vue-video-player</code> 组件将 <code>video.js</code> 集成到 <code>vue.js</code> 中，本项目使用 <code>vue-video-player</code>实现<code>video.js</code> 播放。</p>
+<p>组件地址：<a href="https://github.com/surmon-china/vue-video-player" target="_blank" rel="noopener">https://github.com/surmon-china/vue-video-player</a></p>
+<p>上面的 <code>xc-ui-pc-learning</code> 工程已经添加 <code>vue-video-player</code> 组件，我们在 <code>vue</code> 页面直接使用即可。</p>
+<p>前边我们已经测试通过 <code>video.js</code>，下面我们直接在 <code>vue</code> 页面中使用 <code>vue-video-player</code> 完成视频播放。</p>
+<p>导入 <code>learning_video.vue</code> 页面到 <code>course</code> 模块下。</p>
+<p>配置路由</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">import</span> learning_video <span class="hljs-keyword">from</span> <span class="hljs-string">'@/module/course/page/learning_video.vue'</span>;
+&#123;
+    path: <span class="hljs-string">'/learning/:courseId/:chapter'</span>,
+    component: learning_video,
+    name: <span class="hljs-string">'录播视频学习'</span>,
+    hidden: <span class="hljs-literal">false</span>,
+    iconCls: <span class="hljs-string">'el‐icon‐document'</span>
+&#125;</code></pre></div>
+
+<p>预览效果</p>
+<p>请求：<a href="http://ucenter.xuecheng.com/#/learning/1/2" target="_blank" rel="noopener">http://ucenter.xuecheng.com/#/learning/1/2</a></p>
+<p>第一个参数：<code>courseId</code>，课程id，这里是测试页面效果随便输入一个 <code>ID</code> 即可，这里输入1</p>
+<p>第二个参数：<code>chapter</code>，课程计划id，这里是测试页面效果随便输入一个 <code>ID</code> 即可，这里输入2</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image17" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image17.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h1 id="五、媒资管理"><a href="#五、媒资管理" class="headerlink" title="五、媒资管理"></a>五、媒资管理</h1><p>前边章节完成在线视频播放，如何实现点击课程计划播放视频呢，课程视频如何管理呢？</p>
+<p>本节开始将对课程视频进行管理。</p>
+<h2 id="1-需求分析"><a href="#1-需求分析" class="headerlink" title="1. 需求分析"></a>1. 需求分析</h2><p>媒资管理系统是每个在线教育平台所必须具备的，百度百科对它的定义如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image18" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image18.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>每个教学机构都可以在媒资系统管理自己的教学资源，包括：视频、教案等文件。</p>
+<p>目前媒资管理的主要管理对象是课程录播视频，包括：媒资文件的查询、视频上传、视频删除、视频处理等。</p>
+<ul>
+<li>媒资查询：教学机构查询自己所拥有的媒体文件。</li>
+<li>视频上传：将用户线下录制的教学视频上传到媒资系统。</li>
+<li>视频处理：视频上传成功，系统自动对视频进行编码处理。</li>
+<li>视频删除 ：如果该视频已不再使用，可以从媒资系统删除。</li>
+</ul>
+<p>下边是媒资系统与其它系统的交互情况：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image19" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image19.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>1、上传媒资文件</p>
+<p>前端/客户端请求媒资系统上传文件。</p>
+<p>文件上传成功将文件存储到媒资服务器，将文件信息存储到数据库。</p>
+<p>2、使用媒资</p>
+<p>课程管理请求媒资系统查询媒资信息，将课程计划与媒资信息对应、存储。</p>
+<p>3、视频播放</p>
+<p>用户进入学习中心请求学习服务学习在线播放视频。</p>
+<p>学习服务校验用户资格通过后请求媒资系统获取视频地址。</p>
+<h2 id="2-开发环境搭建"><a href="#2-开发环境搭建" class="headerlink" title="2. 开发环境搭建"></a>2. 开发环境搭建</h2><h3 id="创建媒资数据库"><a href="#创建媒资数据库" class="headerlink" title="创建媒资数据库"></a>创建媒资数据库</h3><p>1、媒资文件信息</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.framework.domain.media;
+
+<span class="hljs-keyword">import</span> lombok.Data;
+<span class="hljs-keyword">import</span> lombok.ToString;
+<span class="hljs-keyword">import</span> org.springframework.data.annotation.Id;
+<span class="hljs-keyword">import</span> org.springframework.data.mongodb.core.mapping.Document;
+
+<span class="hljs-keyword">import</span> java.util.Date;
+
+<span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@ToString</span>
+<span class="hljs-meta">@Document</span>(collection = <span class="hljs-string">"media_file"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MediaFile</span> </span>&#123;
+    <span class="hljs-comment">/*</span>
+<span class="hljs-comment">    文件id、名称、大小、文件类型、文件状态（未上传、上传完成、上传失败）、上传时间、视频处理方式、视频处理状态、hls_m3u8,hls_ts_list、课程视频信息（课程id、章节id）</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-comment">//文件id</span>
+    <span class="hljs-keyword">private</span> String fileId;
+    <span class="hljs-comment">//文件名称</span>
+    <span class="hljs-keyword">private</span> String fileName;
+    <span class="hljs-comment">//文件原始名称</span>
+    <span class="hljs-keyword">private</span> String fileOriginalName;
+    <span class="hljs-comment">//文件路径</span>
+    <span class="hljs-keyword">private</span> String filePath;
+    <span class="hljs-comment">//文件url</span>
+    <span class="hljs-keyword">private</span> String fileUrl;
+    <span class="hljs-comment">//文件类型</span>
+    <span class="hljs-keyword">private</span> String fileType;
+    <span class="hljs-comment">//mimetype</span>
+    <span class="hljs-keyword">private</span> String mimeType;
+    <span class="hljs-comment">//文件大小</span>
+    <span class="hljs-keyword">private</span> Long fileSize;
+    <span class="hljs-comment">//文件状态</span>
+    <span class="hljs-keyword">private</span> String fileStatus;
+    <span class="hljs-comment">//上传时间</span>
+    <span class="hljs-keyword">private</span> Date uploadTime;
+    <span class="hljs-comment">//处理状态</span>
+    <span class="hljs-keyword">private</span> String processStatus;
+    <span class="hljs-comment">//hls处理</span>
+    <span class="hljs-keyword">private</span> MediaFileProcess_m3u8 mediaFileProcess_m3u8;
+
+    <span class="hljs-comment">//tag标签用于查询</span>
+    <span class="hljs-keyword">private</span> String tag;
+
+&#125;</code></pre></div>
+
+<p>2、创建 <code>xc_media</code> 数据库</p>
+<p>媒资系统使用 <code>mongodb</code> 数据库存储媒资信息，再创建集合 <code>media_file</code></p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image20" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image20.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="创建媒资服务工程"><a href="#创建媒资服务工程" class="headerlink" title="创建媒资服务工程"></a>创建媒资服务工程</h3><p>媒资管理的相关功能单独在媒资服务中开发，下边创建媒资服务工程（<code>xc-service-manage-media</code>）。<br>媒资服务的配置与 <code>cms</code> 类似，导入 <code>资料/xc-service-manage-media</code> 工程，工程结构如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image21" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image21.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="3-上传文件"><a href="#3-上传文件" class="headerlink" title="3. 上传文件"></a>3. 上传文件</h2><h3 id="断点续传解决方案"><a href="#断点续传解决方案" class="headerlink" title="断点续传解决方案"></a>断点续传解决方案</h3><p>通常视频文件都比较大，所以对于媒资系统上传文件的需求要满足<code>大文件</code> 的上传要求。<code>http</code> 协议本身对上传文件大小没有限制，但是客户的网络环境质量、电脑硬件环境等参差不齐，如果一个大文件快上传完了网断了，电断了没有上传完成，需要客户重新上传，这是致命的，所以对于大文件上传的要求最基本的是断点续传。</p>
+<p>什么是断点续传?</p>
+<p>引用百度百科：断点续传指的是在下载或上传时，将下载或上传任务（一个文件或一个压缩包）人为的划分为几个部分，每一个部分采用一个线程进行上传或下载，如果碰到网络故障，可以从已经上传或下载的部分开始继续上传下载未完成的部分，而没有必要从头开始上传下载，断点续传可以提高节省操作时间，提高用户体验性。</p>
+<p>如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image22" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image22.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>上传流程如下：</p>
+<p>1、上传前先把文件分成块</p>
+<p>2、一块一块的上传，上传中断后重新上传，已上传的分块则不用再上传</p>
+<p>3、各分块上传完成最后合并文件</p>
+<p>文件下载则同理。</p>
+<h3 id="文件分块与合并"><a href="#文件分块与合并" class="headerlink" title="文件分块与合并"></a>文件分块与合并</h3><p>为了更好的理解文件分块上传的原理，下边用java代码测试文件的分块与合并。</p>
+<h4 id="1、分块"><a href="#1、分块" class="headerlink" title="1、分块"></a>1、分块</h4><p>文件分块的流程如下：</p>
+<p>1、获取源文件长度</p>
+<p>2、根据设定的分块文件的大小计算出块数</p>
+<p>3、从源文件读数据，再依次向每一个块文件写入数据。</p>
+<p>单元测试代码如下</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 测试文件分块</span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testChunk</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    String chunkPath = <span class="hljs-string">"E:/Project/XueChengOnline/xcEduUI01/xuecheng/video/"</span>;
+    String fileName = <span class="hljs-string">"lucene.mp4"</span>;
+    File sourceFile = <span class="hljs-keyword">new</span> File(chunkPath + fileName);
+    File chunkFolder = <span class="hljs-keyword">new</span> File(chunkPath + fileName + <span class="hljs-string">".chunk"</span>);
+    <span class="hljs-keyword">if</span>(!chunkFolder.exists())&#123;
+        chunkFolder.mkdir();
+    &#125;
+
+    <span class="hljs-comment">//分块大小</span>
+    <span class="hljs-keyword">long</span> chunkSize = <span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">1</span>;
+    <span class="hljs-comment">//分块数量</span>
+    <span class="hljs-comment">//Math.ceil向上取整,例如 12.1=13,12.8=13</span>
+    <span class="hljs-keyword">long</span> chunkNum = (<span class="hljs-keyword">long</span>) Math.ceil((sourceFile.length() * <span class="hljs-number">1.0</span>) / chunkSize);
+    chunkNum = chunkNum &lt;= <span class="hljs-number">0</span> ? <span class="hljs-number">1</span> : chunkNum;
+    <span class="hljs-comment">//缓冲区大小</span>
+    <span class="hljs-keyword">byte</span>[] byte_cache = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];
+    <span class="hljs-comment">//使用RandomAccessFile访问文件</span>
+    RandomAccessFile rafRead = <span class="hljs-keyword">new</span> RandomAccessFile(sourceFile, <span class="hljs-string">"r"</span>);
+    <span class="hljs-comment">//分块</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; chunkNum; i++) &#123;
+        <span class="hljs-comment">//创建分块文件</span>
+        File chunkFile = <span class="hljs-keyword">new</span> File(chunkFolder.getPath() + <span class="hljs-string">"/"</span> + i);
+        <span class="hljs-keyword">boolean</span> newFile = chunkFile.createNewFile();
+        <span class="hljs-keyword">if</span> (newFile)&#123;
+            <span class="hljs-comment">//向分块文件中写入数据</span>
+            RandomAccessFile raf_write = <span class="hljs-keyword">new</span> RandomAccessFile(chunkFile, <span class="hljs-string">"rw"</span>);
+            <span class="hljs-keyword">int</span> len = -<span class="hljs-number">1</span>;
+            <span class="hljs-comment">//读取到-1则表示读取完成</span>
+            len = rafRead.read(byte_cache);
+            <span class="hljs-keyword">while</span> (len != -<span class="hljs-number">1</span>)&#123;
+                raf_write.write(byte_cache,<span class="hljs-number">0</span>, len);
+                <span class="hljs-comment">//读取到预期块大小时结束</span>
+                <span class="hljs-keyword">if</span> (chunkFile.length() &gt;= chunkSize)&#123;
+                    <span class="hljs-keyword">break</span>;
+                &#125;
+            &#125;
+            raf_write.close();
+        &#125;
+    &#125;
+    rafRead.close();
+&#125;</code></pre></div>
+
+<h4 id="2、合并"><a href="#2、合并" class="headerlink" title="2、合并"></a>2、合并</h4><p>文件合并流程：</p>
+<p>1、找到要合并的文件并按文件合并的先后进行排序。</p>
+<p>2、创建合并文件</p>
+<p>3、依次从合并的文件中读取数据向合并文件写入数</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//测试文件合并方法</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMerge</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+    <span class="hljs-comment">//块文件目录</span>
+    File chunkFolder = <span class="hljs-keyword">new</span> File(<span class="hljs-string">"F:/develop/ffmpeg/chunk/"</span>);
+    <span class="hljs-comment">//合并文件</span>
+    File mergeFile = <span class="hljs-keyword">new</span> File(<span class="hljs-string">"F:/develop/ffmpeg/lucene1.mp4"</span>);
+    <span class="hljs-keyword">if</span>(mergeFile.exists())&#123;
+        mergeFile.delete();
+    &#125; 
+    <span class="hljs-comment">//创建新的合并文件</span>
+    mergeFile.createNewFile();
+    <span class="hljs-comment">//用于写文件</span>
+    RandomAccessFile raf_write = <span class="hljs-keyword">new</span> RandomAccessFile(mergeFile, <span class="hljs-string">"rw"</span>);
+    <span class="hljs-comment">//指针指向文件顶端</span>
+    raf_write.seek(<span class="hljs-number">0</span>);
+    <span class="hljs-comment">//缓冲区</span>
+    <span class="hljs-keyword">byte</span>[] b = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];
+    <span class="hljs-comment">//分块列表</span>
+    File[] fileArray = chunkFolder.listFiles();
+    <span class="hljs-comment">// 转成集合，便于排序</span>
+    List&lt;File&gt; fileList = <span class="hljs-keyword">new</span> ArrayList&lt;File&gt;(Arrays.asList(fileArray));
+    <span class="hljs-comment">// 从小到大排序</span>
+    Collections.sort(fileList, <span class="hljs-keyword">new</span> Comparator&lt;File&gt;() &#123;
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(File o1, File o2)</span> </span>&#123;
+            <span class="hljs-keyword">if</span> (Integer.parseInt(o1.getName()) &lt; Integer.parseInt(o2.getName())) &#123;
+                <span class="hljs-keyword">return</span> ‐<span class="hljs-number">1</span>;
+            &#125; 
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125;
+    &#125;);
+    <span class="hljs-comment">//合并文件</span>
+    <span class="hljs-keyword">for</span>(File chunkFile:fileList)&#123;
+        RandomAccessFile raf_read = <span class="hljs-keyword">new</span> RandomAccessFile(chunkFile,<span class="hljs-string">"rw"</span>);
+        <span class="hljs-keyword">int</span> len = ‐<span class="hljs-number">1</span>;
+        <span class="hljs-keyword">while</span>((len=raf_read.read(b))!=‐<span class="hljs-number">1</span>)&#123;
+            raf_write.write(b,<span class="hljs-number">0</span>,len);
+        &#125; 
+        raf_read.close();
+    &#125; 
+    raf_write.close();
+&#125;</code></pre></div>
+
+<h3 id="前端页面"><a href="#前端页面" class="headerlink" title="前端页面"></a>前端页面</h3><p>上传文件的页面内容参考：<code>资料/upload.vue</code> 文件</p>
+<h4 id="1、WebUploader-介绍"><a href="#1、WebUploader-介绍" class="headerlink" title="1、WebUploader 介绍"></a>1、WebUploader 介绍</h4><p>如何在web页面实现断点续传？</p>
+<p>常见的方案有：</p>
+<p>1、通过 <code>Flash</code> 上传，比如 <code>SWFupload</code>、<code>Uploadify</code>。</p>
+<p>2、安装浏览器插件，变相的pc客户端，用的比较少。</p>
+<p>3、HTML5</p>
+<p>随着 <code>HTML5</code> 的流行，本项目采用 <code>HTML5</code> 完成文件分块上传。</p>
+<p>本项目使用 <code>WebUploader</code> 完成大文件上传功能的开发，<code>WebUploader</code> 官网地址：<br><a href="http://fexteam.gz01.bdysite.com/webuploader/" target="_blank" rel="noopener">http://fexteam.gz01.bdysite.com/webuploader/</a></p>
+<p><code>WebUploader</code> 简介</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image23" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image23.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p><code>WebUploader</code> 的特性</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image24" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image24.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>使用 <code>WebUploader</code> 的上传流程如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image25" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image25.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h4 id="2、钩子方法"><a href="#2、钩子方法" class="headerlink" title="2、钩子方法"></a>2、钩子方法</h4><p>在 <code>webuploader</code> 中提供很多钩子方法，下边列出一些重要的：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image26" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image26.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>本项目使用如下钩子方法：</p>
+<ul>
+<li><p><code>before-send-file</code></p>
+<p>在开始对文件分块儿之前调用，可以做一些上传文件前的准备工作，比如检查文件目录是否创建完成等</p>
+</li>
+<li><p><code>before-send</code></p>
+<p>在上传文件分块之前调用此方法，可以请求服务端检查分块是否存在，如果已存在则此分块儿不再上传。</p>
+</li>
+<li><p><code>after-send-file</code></p>
+<p>在所有分块上传完成后触发，可以请求服务端合并分块文件。</p>
+</li>
+</ul>
+<p>注册钩子方法源代码：</p>
+<div class="hljs"><pre><code class="hljs js">WebUploader.Uploader.register(&#123;
+    <span class="hljs-string">"before‐send‐file"</span>:<span class="hljs-string">"beforeSendFile"</span>,
+    <span class="hljs-string">"before‐send"</span>:<span class="hljs-string">"beforeSend"</span>,
+    <span class="hljs-string">"after‐send‐file"</span>:<span class="hljs-string">"afterSendFile"</span>
+&#125;</code></pre></div>
+
+<h4 id="3、构建-WebUploader"><a href="#3、构建-WebUploader" class="headerlink" title="3、构建 WebUploader"></a>3、构建 WebUploader</h4><p>使用 <code>webUploader</code> 前需要创建<code>webUploader</code> 对象。</p>
+<p>指定上传分块的地址：<code>/api/media/upload/uploadchunk</code></p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">// 创建uploader对象，配置参数</span>
+<span class="hljs-keyword">this</span>.uploader = WebUploader.create(
+    &#123;
+        swf:<span class="hljs-string">"/static/plugins/webuploader/dist/Uploader.swf"</span>,<span class="hljs-comment">//上传文件的flash文件，浏览器不支持h5时启动</span>
+        flash
+        server:<span class="hljs-string">"/api/media/upload/uploadchunk"</span>,<span class="hljs-comment">//上传分块的服务端地址，注意跨域问题</span>
+        fileVal:<span class="hljs-string">"file"</span>,<span class="hljs-comment">//文件上传域的name</span>
+        pick:<span class="hljs-string">"#picker"</span>,<span class="hljs-comment">//指定选择文件的按钮容器</span>
+        auto:<span class="hljs-literal">false</span>,<span class="hljs-comment">//手动触发上传</span>
+        disableGlobalDnd:<span class="hljs-literal">true</span>,<span class="hljs-comment">//禁掉整个页面的拖拽功能</span>
+        chunked:<span class="hljs-literal">true</span>,<span class="hljs-comment">// 是否分块上传</span>
+        chunkSize:<span class="hljs-number">1</span>*<span class="hljs-number">1024</span>*<span class="hljs-number">1024</span>, <span class="hljs-comment">// 分块大小（默认5M）</span>
+        threads:<span class="hljs-number">3</span>, <span class="hljs-comment">// 开启多个线程（默认3个）</span>
+        prepareNextFile:<span class="hljs-literal">true</span><span class="hljs-comment">// 允许在文件传输时提前把下一个文件准备好</span>
+    &#125;
+)</code></pre></div>
+
+<h4 id="3、before-send-file"><a href="#3、before-send-file" class="headerlink" title="3、before-send-file"></a>3、before-send-file</h4><p>文件开始上传前前端请求服务端准备上传工作。</p>
+<p>参考源代码如下：</p>
+<div class="hljs"><pre><code class="hljs js">type:<span class="hljs-string">"POST"</span>,
+url:<span class="hljs-string">"/api/media/upload/register"</span>,
+data:&#123;
+    <span class="hljs-comment">// 文件唯一表示</span>
+    fileMd5:<span class="hljs-keyword">this</span>.fileMd5,
+    fileName: file.name,
+    fileSize:file.size,
+    mimetype:file.type,
+    fileExt:file.ext
+&#125;</code></pre></div>
+
+<h4 id="4、before-send"><a href="#4、before-send" class="headerlink" title="4、before-send"></a>4、before-send</h4><p>上传分块前前端请求服务端校验分块是否存在。</p>
+<p>参考源代码如下：</p>
+<div class="hljs"><pre><code class="hljs js">type:<span class="hljs-string">"POST"</span>,
+url:<span class="hljs-string">"/api/media/upload/register"</span>,
+data:&#123;
+    <span class="hljs-comment">// 文件唯一表示</span>
+    fileMd5:<span class="hljs-keyword">this</span>.fileMd5,
+    fileName: file.name,
+    fileSize:file.size,
+    mimetype:file.type,
+    fileExt:file.ext
+&#125;</code></pre></div>
+
+<h4 id="5、after-send-file"><a href="#5、after-send-file" class="headerlink" title="5、after-send-file"></a>5、after-send-file</h4><p>在所有分块上传完成后触发，可以请求服务端合并分块文件</p>
+<p>参考代码如下：</p>
+<div class="hljs"><pre><code class="hljs js">type:<span class="hljs-string">"POST"</span>,
+url:<span class="hljs-string">"/api/media/upload/checkchunk"</span>,
+data:&#123;
+<span class="hljs-comment">// 文件唯一表示</span>
+fileMd5:<span class="hljs-keyword">this</span>.fileMd5,
+<span class="hljs-comment">// 当前分块下标</span>
+chunk:block.chunk,
+<span class="hljs-comment">// 当前分块大小</span>
+chunkSize:block.end‐block.start
+&#125;</code></pre></div>
+
+<h4 id="6、页面效果"><a href="#6、页面效果" class="headerlink" title="6、页面效果"></a>6、页面效果</h4><p><a href="https://qnoss.codeyee.com/20200704_13/image27" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image27.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>定义文件上传的Api接口，此接收是前端 <code>WebUploader</code> 调用服务端的接口。</p>
+<p>编写此接口需要参数前端 <code>WebUploader</code> 应用代码。</p>
+<h3 id="Api接口"><a href="#Api接口" class="headerlink" title="Api接口"></a>Api接口</h3><p>定义文件上传的 <code>Api</code> 接口，此接收是前端 <code>WebUploader</code> 调用服务端的接口。</p>
+<p>编写此接口需要参数前端 <code>WebUploader</code> 应用代码。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.api.media;
+
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.media.response.CheckChunkResult;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.ResponseResult;
+<span class="hljs-keyword">import</span> io.swagger.annotations.Api;
+<span class="hljs-keyword">import</span> io.swagger.annotations.ApiOperation;
+<span class="hljs-keyword">import</span> org.springframework.web.multipart.MultipartFile;
+
+<span class="hljs-meta">@Api</span>(value = <span class="hljs-string">"媒资管理接口"</span>, description = <span class="hljs-string">"媒资管理接口，提供文件上传，文件处理等接口"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MediaUploadControllerApi</span> </span>&#123;
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"文件上传注册"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">register</span><span class="hljs-params">(String fileMd5,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                   String fileName,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                   Long fileSize,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                   String mimetype,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                   String fileExt)</span></span>;
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"分块检查"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> CheckChunkResult <span class="hljs-title">checkchunk</span><span class="hljs-params">(String fileMd5,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                       Integer chunk,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                       Integer chunkSize)</span></span>;
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"上传分块"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">uploadchunk</span><span class="hljs-params">(MultipartFile file,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                      Integer chunk,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                      String fileMd5)</span></span>;
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"合并文件"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">mergechunks</span><span class="hljs-params">(String fileMd5,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                      String fileName,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                      Long fileSize,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                      String mimetype,</span></span>
+<span class="hljs-function"><span class="hljs-params">                                      String fileExt)</span></span>;
+&#125;</code></pre></div>
+
+<h3 id="媒资服务端编写"><a href="#媒资服务端编写" class="headerlink" title="媒资服务端编写"></a>媒资服务端编写</h3><h4 id="1、业务流程"><a href="#1、业务流程" class="headerlink" title="1、业务流程"></a>1、业务流程</h4><p>服务端需要实现如下功能：</p>
+<p>1）上传前检查上传环境</p>
+<p>检查文件是否上传，已上传则直接返回。</p>
+<p>检查文件上传路径是否存在，不存在则创建。</p>
+<p>2）分块检查</p>
+<p>检查分块文件是否上传，已上传则返回 <code>true</code></p>
+<p>未上传则检查上传路径是否存在，不存在则创建。</p>
+<p>3）分块上传</p>
+<p>将分块文件上传到指定的路径。</p>
+<p>4）合并分块</p>
+<p>将所有分块文件合并为一个文件，在数据库记录文件信息。</p>
+<h4 id="2、上传注册"><a href="#2、上传注册" class="headerlink" title="2、上传注册"></a>2、上传注册</h4><p>由于上传过程复杂，开发时按业务流程分别实现。</p>
+<p>1、配置</p>
+<p><code>application.yml</code> 配置上传文件的路径：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-string">xc‐service‐manage‐media:</span>
+  <span class="hljs-comment"># 媒体文件存放路径</span>
+  <span class="hljs-string">upload‐location:</span> <span class="hljs-string">F:/develop/video/</span></code></pre></div>
+
+<p>2、定义DAO</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MediaFileRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">MongoRepository</span>&lt;<span class="hljs-title">MediaFile</span>,<span class="hljs-title">String</span>&gt; </span>&#123;
+&#125;</code></pre></div>
+
+<p>3、编写Service</p>
+<p>功能：</p>
+<p>1）检查上传文件是否存在</p>
+<p>2）创建文件目录</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.manage_media.service.impl;
+
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.media.MediaFile;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.media.response.MediaCode;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.exception.ExceptionCast;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.CommonCode;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.ResponseResult;
+<span class="hljs-keyword">import</span> com.xuecheng.manage_media.controller.MediaUploadController;
+<span class="hljs-keyword">import</span> com.xuecheng.manage_media.dao.MediaFileRepository;
+<span class="hljs-keyword">import</span> com.xuecheng.manage_media.service.MediaUploadService;
+<span class="hljs-keyword">import</span> org.slf4j.Logger;
+<span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="hljs-keyword">import</span> java.io.File;
+<span class="hljs-keyword">import</span> java.util.Optional;
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MediaUploadServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MediaUploadService</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> Logger LOGGER = LoggerFactory.getLogger(MediaUploadController<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-meta">@Autowired</span>
+    MediaFileRepository mediaFileRepository;
+
+    <span class="hljs-comment">//上传文件根目录</span>
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;xc‐service‐manage‐media.upload‐location&#125;"</span>)
+    String uploadPath;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 检查文件信息是否已经存在本地以及mongodb内,其中一者不存在则重新注册</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件md5值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileExt 文件扩展名</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 文件路径</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">register</span><span class="hljs-params">(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt)</span> </span>&#123;
+        <span class="hljs-comment">//1.检查文件在磁盘上是否存在</span>
+        <span class="hljs-comment">//2.检查文件信息在mongodb上是否存在</span>
+
+        <span class="hljs-comment">//获取文件所属目录以及文件路径</span>
+        String fileFloderPath = <span class="hljs-keyword">this</span>.getFileFloderPath(fileMd5);
+        String filePath = <span class="hljs-keyword">this</span>.getFileFullPath(fileMd5, fileExt);
+        File file = <span class="hljs-keyword">new</span> File(filePath);
+        <span class="hljs-keyword">boolean</span> exists = file.exists();
+
+        <span class="hljs-comment">//查询mongodb上的文件信息</span>
+        Optional&lt;MediaFile&gt; optional = mediaFileRepository.findById(fileMd5);
+        <span class="hljs-keyword">if</span>(exists &amp;&amp; optional.isPresent())&#123;
+            ExceptionCast.cast(MediaCode.UPLOAD_FILE_REGISTER_EXIST);
+        &#125;
+        <span class="hljs-comment">//其中一者不存在则重新注册文件信息</span>
+        File fileFloder = <span class="hljs-keyword">new</span> File(fileFloderPath);
+        <span class="hljs-keyword">if</span>(!fileFloder.exists())&#123;
+            <span class="hljs-comment">//创建文件目录</span>
+            fileFloder.mkdirs();
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.SUCCESS);
+    &#125;
+
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据文件md5得到文件的所属目录</span>
+<span class="hljs-comment">     * 规则：</span>
+<span class="hljs-comment">     * 一级目录：md5的第一个字符</span>
+<span class="hljs-comment">     * 二级目录：md5的第二个字符</span>
+<span class="hljs-comment">     * 三级目录：md5</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFileFloderPath</span><span class="hljs-params">(String fileMd5)</span></span>&#123;
+        String floderPath = uploadPath + <span class="hljs-string">"/"</span> + fileMd5.substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>) + <span class="hljs-string">"/"</span> + fileMd5.substring(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) + <span class="hljs-string">"/"</span> + fileMd5  + <span class="hljs-string">"/"</span>;
+        <span class="hljs-keyword">return</span> floderPath;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取全文件路径</span>
+<span class="hljs-comment">     * 文件名：md5+文件扩展名</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFileFullPath</span><span class="hljs-params">(String fileMd5, String fileExt)</span></span>&#123;
+        String floderPath = <span class="hljs-keyword">this</span>.getFileFloderPath(fileMd5);
+        String filePath = floderPath + fileMd5 + <span class="hljs-string">"."</span> + fileExt;
+        <span class="hljs-keyword">return</span> filePath;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取文件路径</span>
+<span class="hljs-comment">     * 文件名：md5+文件扩展名</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFilePath</span><span class="hljs-params">(String fileMd5, String fileExt)</span></span>&#123;
+        String filePath = <span class="hljs-string">"/"</span> + fileMd5.substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>) + <span class="hljs-string">"/"</span> + fileMd5.substring(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) + <span class="hljs-string">"/"</span> + fileMd5 + <span class="hljs-string">"/"</span>;
+        <span class="hljs-keyword">return</span> filePath;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="3、分块检查"><a href="#3、分块检查" class="headerlink" title="3、分块检查"></a>3、分块检查</h4><p>在 Service 中定义分块检查方法</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 检查文件块是否存在</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> fileMd5 文件md5</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> chunk 块编号</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> chunkSize 块大小</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span> CheckChunkResult</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> CheckChunkResult <span class="hljs-title">checkChunk</span><span class="hljs-params">(String fileMd5, Integer chunk, Integer chunkSize)</span> </span>&#123;
+    <span class="hljs-comment">//获取文件块路径</span>
+    String chunkFloder = <span class="hljs-keyword">this</span>.getChunkFloderPath(fileMd5);
+    File chunkFile = <span class="hljs-keyword">new</span> File(chunkFloder + chunk);
+    <span class="hljs-keyword">if</span>(chunkFile.exists())&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CheckChunkResult(CommonCode.SUCCESS, <span class="hljs-keyword">true</span>);
+    &#125;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CheckChunkResult(CommonCode.SUCCESS, <span class="hljs-keyword">false</span>);
+&#125;
+
+<span class="hljs-comment">//获取文件块路径</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getChunkFloderPath</span><span class="hljs-params">(String fileMd5)</span> </span>&#123;
+    <span class="hljs-comment">//获取分块文件所属目录</span>
+    String fileFloderPath = <span class="hljs-keyword">this</span>.getFileFloderPath(fileMd5);
+    String chunkFloder = fileFloderPath + <span class="hljs-string">"chunk/"</span>;
+    File fileChunkFloder = <span class="hljs-keyword">new</span> File(chunkFloder);
+    <span class="hljs-comment">//如果分块所属目录不存在则创建</span>
+    <span class="hljs-keyword">if</span>(!fileChunkFloder.exists())&#123;
+        fileChunkFloder.mkdirs();
+    &#125;
+    <span class="hljs-keyword">return</span> chunkFloder;
+&#125;</code></pre></div>
+
+<h4 id="4、上传分块"><a href="#4、上传分块" class="headerlink" title="4、上传分块"></a>4、上传分块</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 上传分块文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> file 上传的文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> chunk 分块号</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件MD5</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">uploadChunk</span><span class="hljs-params">(MultipartFile file, Integer chunk, String fileMd5)</span> </span>&#123;
+    <span class="hljs-comment">//获取分块文件所属目录</span>
+    String chunkFloder = <span class="hljs-keyword">this</span>.getChunkFloderPath(fileMd5);
+    InputStream inputStream = <span class="hljs-keyword">null</span>;
+    FileOutputStream fileOutputStream = <span class="hljs-keyword">null</span>;
+    <span class="hljs-keyword">try</span> &#123;
+        inputStream = file.getInputStream();
+        fileOutputStream = <span class="hljs-keyword">new</span> FileOutputStream(chunkFloder + chunk);
+        IOUtils.copy(inputStream,fileOutputStream);
+    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+        <span class="hljs-comment">//文件保存失败</span>
+        e.printStackTrace();
+        LOGGER.error(<span class="hljs-string">"upload chunk file fail:&#123;&#125;"</span>,e.getMessage());
+        ExceptionCast.cast(MediaCode.CHUNK_FILE_UPLOAD_FAIL);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.SUCCESS);
+&#125;</code></pre></div>
+
+<h4 id="5、合并分块"><a href="#5、合并分块" class="headerlink" title="5、合并分块"></a>5、合并分块</h4><p>在 <code>Service</code> 中定义分块合并分块方法，功能如下：</p>
+<p>1）将块文件合并</p>
+<p>2）校验文件 <code>md5</code> 是否正确</p>
+<p>3）向 <code>Mongodb</code> 写入文件信息</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 合并文件块信息</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件MD5</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileName 文件名称</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileSize 文件大小</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> mimetype 文件类型</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileExt 文件拓展名</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> ResponseResult</span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">mergeChunks</span><span class="hljs-params">(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt)</span> </span>&#123;
+    <span class="hljs-comment">//获取文件块路径</span>
+    String chunkFloderPath = getChunkFloderPath(fileMd5);
+    <span class="hljs-comment">//合并文件路径</span>
+    String fileFullPath = <span class="hljs-keyword">this</span>.getFileFullPath(fileMd5, fileExt);
+    File mergeFile = <span class="hljs-keyword">new</span> File(fileFullPath);
+    <span class="hljs-comment">//创建合并文件,如果存在则先删除再创建</span>
+    <span class="hljs-keyword">if</span>(mergeFile.exists())&#123;
+        mergeFile.delete();
+    &#125;
+    <span class="hljs-keyword">boolean</span> newFile = <span class="hljs-keyword">false</span>;
+    <span class="hljs-keyword">try</span> &#123;
+        newFile = mergeFile.createNewFile();
+    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+        e.printStackTrace();
+        LOGGER.error(<span class="hljs-string">"mergechunks..create mergeFile fail:&#123;&#125;"</span>,e.getMessage());
+    &#125;
+    <span class="hljs-keyword">if</span>(!newFile)&#123;
+        <span class="hljs-comment">//文件创建失败</span>
+        ExceptionCast.cast(MediaCode.MERGE_FILE_CREATEFAIL);
+    &#125;
+
+    <span class="hljs-comment">//获取块文件列表,此列表是已经排序好的</span>
+    List&lt;File&gt; chunkFiles = <span class="hljs-keyword">this</span>.getChunkFiles(chunkFloderPath);
+
+    <span class="hljs-comment">//合并文件</span>
+    mergeFile = <span class="hljs-keyword">this</span>.mergeFile(mergeFile, chunkFiles);
+    <span class="hljs-keyword">if</span>(mergeFile == <span class="hljs-keyword">null</span>)&#123;
+        ExceptionCast.cast(MediaCode.MERGE_FILE_FAIL);
+    &#125;
+
+    <span class="hljs-comment">//校验文件</span>
+    <span class="hljs-keyword">boolean</span> checkResult = <span class="hljs-keyword">this</span>.checkFileMd5(mergeFile, fileMd5);
+    <span class="hljs-keyword">if</span>(!checkResult)&#123;
+        ExceptionCast.cast(MediaCode.MERGE_FILE_CHECKFAIL);
+    &#125;
+
+    <span class="hljs-comment">//将文件信息保存到数据库</span>
+    MediaFile mediaFile = <span class="hljs-keyword">new</span> MediaFile();
+    mediaFile.setFileId(fileMd5);
+    mediaFile.setFileName(fileMd5+<span class="hljs-string">"."</span>+fileExt);
+    mediaFile.setFileOriginalName(fileName);
+
+    <span class="hljs-comment">//文件路径保存相对路径</span>
+    String filePath = <span class="hljs-keyword">this</span>.getFilePath(fileMd5,fileExt);
+    mediaFile.setFilePath(<span class="hljs-keyword">this</span>.getFilePath(fileMd5,fileExt));
+    mediaFile.setFileUrl(filePath + fileName + <span class="hljs-string">"."</span> + fileExt);
+    mediaFile.setFileSize(fileSize);
+    mediaFile.setUploadTime(<span class="hljs-keyword">new</span> Date());
+    mediaFile.setMimeType(mimetype);
+    mediaFile.setFileType(fileExt);
+
+    <span class="hljs-comment">//状态为上传成功</span>
+    mediaFile.setFileStatus(<span class="hljs-string">"301002"</span>);
+    MediaFile save = mediaFileRepository.save(mediaFile);
+
+    <span class="hljs-comment">//向MQ发送视频处理消息</span>
+    <span class="hljs-keyword">this</span>.sendProcessVideoMsg(fileMd5);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.SUCCESS);
+
+&#125;
+
+<span class="hljs-comment">//校验文件MD5</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">checkFileMd5</span><span class="hljs-params">(File mergeFile, String fileMd5)</span> </span>&#123;
+    <span class="hljs-keyword">if</span>(mergeFile == <span class="hljs-keyword">null</span> || StringUtils.isEmpty(fileMd5))&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    &#125;
+    <span class="hljs-comment">//进行md5校验</span>
+    <span class="hljs-keyword">try</span> &#123;
+        FileInputStream fileInputStream = <span class="hljs-keyword">new</span> FileInputStream(mergeFile);
+        <span class="hljs-comment">//得到文件的MD5</span>
+        String md5Hex = DigestUtils.md5Hex(fileInputStream);
+        <span class="hljs-comment">//比较两个MD5值</span>
+        <span class="hljs-keyword">if</span>(md5Hex.equalsIgnoreCase(fileMd5))&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        &#125;
+    &#125; <span class="hljs-keyword">catch</span> (FileNotFoundException e) &#123;
+        e.printStackTrace();
+        LOGGER.error(<span class="hljs-string">"未找到该文件 &#123;&#125;"</span>,e.getMessage());
+    &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+        e.printStackTrace();
+    &#125;
+
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+&#125;
+
+<span class="hljs-comment">//合并文件</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> File <span class="hljs-title">mergeFile</span><span class="hljs-params">(File mergeFile, List&lt;File&gt; chunkFiles)</span> </span>&#123;
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-comment">//创建写文件对象</span>
+        RandomAccessFile raf_write = <span class="hljs-keyword">new</span> RandomAccessFile(mergeFile,<span class="hljs-string">"rw"</span>);
+        <span class="hljs-comment">//遍历分块文件开始合并</span>
+        <span class="hljs-comment">//读取文件缓冲区</span>
+        <span class="hljs-keyword">byte</span>[] b = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];
+        <span class="hljs-keyword">for</span>(File chunkFile:chunkFiles)&#123;
+            RandomAccessFile raf_read = <span class="hljs-keyword">new</span> RandomAccessFile(chunkFile,<span class="hljs-string">"r"</span>);
+            <span class="hljs-keyword">int</span> len = -<span class="hljs-number">1</span>;
+            <span class="hljs-comment">//读取分块文件</span>
+            <span class="hljs-keyword">while</span>((len = raf_read.read(b))!= -<span class="hljs-number">1</span>)&#123;
+                <span class="hljs-comment">//向合并文件中写数据</span>
+                raf_write.write(b,<span class="hljs-number">0</span>,len);
+            &#125; 
+            raf_read.close();
+        &#125; 
+        raf_write.close();
+    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+        e.printStackTrace();
+        LOGGER.error(<span class="hljs-string">"merge file error:&#123;&#125;"</span>,e.getMessage());
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125; 
+    <span class="hljs-keyword">return</span> mergeFile;
+&#125;
+
+<span class="hljs-comment">//获取块文件列表</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> List&lt;File&gt; <span class="hljs-title">getChunkFiles</span><span class="hljs-params">(String chunkFloderPath)</span> </span>&#123;
+    <span class="hljs-comment">//块文件目录</span>
+    File chunkFolder = <span class="hljs-keyword">new</span> File(chunkFloderPath);
+    <span class="hljs-comment">//分块文件列表</span>
+    File[] fileArray = chunkFolder.listFiles();
+    <span class="hljs-comment">//将分块列表转为集合,便于排序</span>
+    ArrayList&lt;File&gt; fileList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(fileArray));
+    <span class="hljs-comment">//从小到大排序,按名称升序</span>
+    Collections.sort(fileList, <span class="hljs-keyword">new</span> Comparator&lt;File&gt;() &#123;
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(File o1, File o2)</span> </span>&#123;
+            <span class="hljs-comment">//比较两个文件的名称</span>
+            <span class="hljs-keyword">if</span> (Integer.parseInt(o1.getName()) &lt; Integer.parseInt(o2.getName())) &#123;
+                <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+            &#125;
+            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+        &#125;
+    &#125;);
+    <span class="hljs-keyword">return</span> fileList;
+&#125;</code></pre></div>
+
+<h4 id="6、Controller"><a href="#6、Controller" class="headerlink" title="6、Controller"></a>6、Controller</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.manage_media.controller;
+
+<span class="hljs-keyword">import</span> com.xuecheng.api.media.MediaUploadControllerApi;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.media.response.CheckChunkResult;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.ResponseResult;
+<span class="hljs-keyword">import</span> com.xuecheng.manage_media.service.MediaUploadService;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.PostMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestParam;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;
+<span class="hljs-keyword">import</span> org.springframework.web.multipart.MultipartFile;
+
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/media/upload"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MediaUploadController</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MediaUploadControllerApi</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    MediaUploadService mediaUploadService;
+
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/register"</span>)
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">register</span><span class="hljs-params">(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> mediaUploadService.register(fileMd5,fileName,fileSize,mimetype,fileExt);
+    &#125;
+
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/checkchunk"</span>)
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> CheckChunkResult <span class="hljs-title">checkChunk</span><span class="hljs-params">(String fileMd5, Integer chunk, Integer chunkSize)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> mediaUploadService.checkChunk(fileMd5,chunk,chunkSize);
+    &#125;
+
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/uploadchunk"</span>)
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">uploadChunk</span><span class="hljs-params">(MultipartFile file, Integer chunk, String fileMd5)</span> </span>&#123;
+            <span class="hljs-keyword">return</span> mediaUploadService.uploadChunk(file, chunk, fileMd5);
+    &#125;
+
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/mergechunks"</span>)
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">mergeChunks</span><span class="hljs-params">(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> mediaUploadService.mergeChunks(fileMd5,fileName,fileSize,mimetype,fileExt);
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="7、测试"><a href="#7、测试" class="headerlink" title="7、测试"></a>7、测试</h4><p>建议第一次测试时使用调试模式，在每个模块下都打一个断点进行单步调试，逐步的执行代码，以便检查代码的逻辑。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image28" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image28.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>我们在前端工程选择一个文件进行上传，点击开始上传</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image29" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image29.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>开始上传后，我们可以看到文件所属的 <code>chunk</code> 目录下在不断的生成块文件</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image30" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image30.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>块文件全部生成后，会自动调用合并的接口，将所有块文件合并成单个文件</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image31" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image31.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>上传成功页面提示</p>
+<p><a href="https://qnoss.codeyee.com/20200704_13/image32" target="_blank" rel="noopener"><img src="/2020/08/21/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday13/image32.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="4-完整的代码"><a href="#4-完整的代码" class="headerlink" title="4. 完整的代码"></a>4. 完整的代码</h2><h3 id="MediaUploadService"><a href="#MediaUploadService" class="headerlink" title="MediaUploadService"></a>MediaUploadService</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.manage_media.service;
+
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.media.response.CheckChunkResult;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.ResponseResult;
+<span class="hljs-keyword">import</span> org.springframework.web.multipart.MultipartFile;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 媒体文件上传服务</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MediaUploadService</span> </span>&#123;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 文件信息校验并注册</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件md5值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileName 文件名称</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileSize 文件大小</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> mimetype 文件类型</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileExt 文件扩展名</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 通用的响应信息</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function">ResponseResult <span class="hljs-title">register</span><span class="hljs-params">(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt)</span></span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 检查文件块是否存在</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件md5</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> chunk 块编号</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> chunkSize 块大小</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 检查文件块信息的响应</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function">CheckChunkResult <span class="hljs-title">checkChunk</span><span class="hljs-params">(String fileMd5,Integer chunk,Integer chunkSize)</span></span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 上传分块文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> file 上传的文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> chunk 分块号</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件MD5</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> ResponseResult</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function">ResponseResult <span class="hljs-title">uploadChunk</span><span class="hljs-params">(MultipartFile file,Integer chunk,String fileMd5)</span></span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 合并文件块</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件MD5</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileName 文件名称</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileSize 文件大小</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> mimetype 文件类型</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileExt 文件拓展名</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> ResponseResult</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function">ResponseResult <span class="hljs-title">mergeChunks</span><span class="hljs-params">(String fileMd5,String fileName,Long fileSize,String mimetype,String fileExt)</span></span>;
+
+&#125;</code></pre></div>
+
+<h3 id="MediaUploadServiceImpl"><a href="#MediaUploadServiceImpl" class="headerlink" title="MediaUploadServiceImpl"></a>MediaUploadServiceImpl</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.manage_media.service.impl;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;
+<span class="hljs-keyword">import</span> com.netflix.discovery.converters.Auto;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.media.MediaFile;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.media.response.CheckChunkResult;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.media.response.MediaCode;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.exception.ExceptionCast;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.CommonCode;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.model.response.ResponseResult;
+<span class="hljs-keyword">import</span> com.xuecheng.manage_media.config.RabbitMQConfig;
+<span class="hljs-keyword">import</span> com.xuecheng.manage_media.controller.MediaUploadController;
+<span class="hljs-keyword">import</span> com.xuecheng.manage_media.dao.MediaFileRepository;
+<span class="hljs-keyword">import</span> com.xuecheng.manage_media.service.MediaUploadService;
+<span class="hljs-keyword">import</span> org.apache.commons.codec.digest.DigestUtils;
+<span class="hljs-keyword">import</span> org.apache.commons.io.IOUtils;
+<span class="hljs-keyword">import</span> org.apache.commons.lang3.StringUtils;
+<span class="hljs-keyword">import</span> org.slf4j.Logger;
+<span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;
+<span class="hljs-keyword">import</span> org.springframework.amqp.rabbit.core.RabbitTemplate;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+<span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;
+<span class="hljs-keyword">import</span> org.springframework.web.multipart.MultipartFile;
+
+<span class="hljs-keyword">import</span> javax.jws.Oneway;
+<span class="hljs-keyword">import</span> java.io.*;
+<span class="hljs-keyword">import</span> java.util.*;
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MediaUploadServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MediaUploadService</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> Logger LOGGER = LoggerFactory.getLogger(MediaUploadController<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-meta">@Autowired</span>
+    MediaFileRepository mediaFileRepository;
+
+    <span class="hljs-comment">//上传文件根目录</span>
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;xc-service-manage-media.upload-location&#125;"</span>)
+    String uploadPath;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 检查文件信息是否已经存在本地以及mongodb内,其中一者不存在则重新注册</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件md5值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileExt 文件扩展名</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 文件路径</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">register</span><span class="hljs-params">(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt)</span> </span>&#123;
+        <span class="hljs-comment">//1.检查文件在磁盘上是否存在</span>
+        <span class="hljs-comment">//2.检查文件信息在mongodb上是否存在</span>
+
+        <span class="hljs-comment">//获取文件所属目录以及文件路径</span>
+        String fileFloderPath = <span class="hljs-keyword">this</span>.getFileFloderPath(fileMd5);
+        String filePath = <span class="hljs-keyword">this</span>.getFileFullPath(fileMd5, fileExt);
+        File file = <span class="hljs-keyword">new</span> File(filePath);
+        <span class="hljs-keyword">boolean</span> exists = file.exists();
+
+        <span class="hljs-comment">//查询mongodb上的文件信息</span>
+        Optional&lt;MediaFile&gt; optional = mediaFileRepository.findById(fileMd5);
+        <span class="hljs-keyword">if</span>(exists &amp;&amp; optional.isPresent())&#123;
+            ExceptionCast.cast(MediaCode.UPLOAD_FILE_REGISTER_EXIST);
+        &#125;
+        <span class="hljs-comment">//其中一者不存在则重新注册文件信息</span>
+        File fileFloder = <span class="hljs-keyword">new</span> File(fileFloderPath);
+        <span class="hljs-keyword">if</span>(!fileFloder.exists())&#123;
+            <span class="hljs-comment">//创建文件目录</span>
+            fileFloder.mkdirs();
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.SUCCESS);
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 检查文件块是否存在</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件md5</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> chunk 块编号</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> chunkSize 块大小</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> CheckChunkResult</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> CheckChunkResult <span class="hljs-title">checkChunk</span><span class="hljs-params">(String fileMd5, Integer chunk, Integer chunkSize)</span> </span>&#123;
+        <span class="hljs-comment">//获取文件块路径</span>
+        String chunkFloder = <span class="hljs-keyword">this</span>.getChunkFloderPath(fileMd5);
+        File chunkFile = <span class="hljs-keyword">new</span> File(chunkFloder + chunk);
+        <span class="hljs-keyword">if</span>(chunkFile.exists())&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CheckChunkResult(CommonCode.SUCCESS, <span class="hljs-keyword">true</span>);
+        &#125;
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> CheckChunkResult(CommonCode.SUCCESS, <span class="hljs-keyword">false</span>);
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 上传分块文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> file 上传的文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> chunk 分块号</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件MD5</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">uploadChunk</span><span class="hljs-params">(MultipartFile file, Integer chunk, String fileMd5)</span> </span>&#123;
+        <span class="hljs-comment">//获取分块文件所属目录</span>
+        String chunkFloder = <span class="hljs-keyword">this</span>.getChunkFloderPath(fileMd5);
+        InputStream inputStream = <span class="hljs-keyword">null</span>;
+        FileOutputStream fileOutputStream = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            inputStream = file.getInputStream();
+            fileOutputStream = <span class="hljs-keyword">new</span> FileOutputStream(chunkFloder + chunk);
+            IOUtils.copy(inputStream,fileOutputStream);
+        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+            <span class="hljs-comment">//文件保存失败</span>
+            e.printStackTrace();
+            LOGGER.error(<span class="hljs-string">"upload chunk file fail:&#123;&#125;"</span>,e.getMessage());
+            ExceptionCast.cast(MediaCode.CHUNK_FILE_UPLOAD_FAIL);
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.SUCCESS);
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 合并文件块信息</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileMd5 文件MD5</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileName 文件名称</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileSize 文件大小</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> mimetype 文件类型</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> fileExt 文件拓展名</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> ResponseResult</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">mergeChunks</span><span class="hljs-params">(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt)</span> </span>&#123;
+        <span class="hljs-comment">//获取文件块路径</span>
+        String chunkFloderPath = getChunkFloderPath(fileMd5);
+        <span class="hljs-comment">//合并文件路径</span>
+        String fileFullPath = <span class="hljs-keyword">this</span>.getFileFullPath(fileMd5, fileExt);
+        File mergeFile = <span class="hljs-keyword">new</span> File(fileFullPath);
+        <span class="hljs-comment">//创建合并文件,如果存在则先删除再创建</span>
+        <span class="hljs-keyword">if</span>(mergeFile.exists())&#123;
+            mergeFile.delete();
+        &#125;
+        <span class="hljs-keyword">boolean</span> newFile = <span class="hljs-keyword">false</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            newFile = mergeFile.createNewFile();
+        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+            e.printStackTrace();
+            LOGGER.error(<span class="hljs-string">"mergechunks..create mergeFile fail:&#123;&#125;"</span>,e.getMessage());
+        &#125;
+        <span class="hljs-keyword">if</span>(!newFile)&#123;
+            <span class="hljs-comment">//文件创建失败</span>
+            ExceptionCast.cast(MediaCode.MERGE_FILE_CREATEFAIL);
+        &#125;
+
+        <span class="hljs-comment">//获取块文件列表,此列表是已经排序好的</span>
+        List&lt;File&gt; chunkFiles = <span class="hljs-keyword">this</span>.getChunkFiles(chunkFloderPath);
+
+        <span class="hljs-comment">//合并文件</span>
+        mergeFile = <span class="hljs-keyword">this</span>.mergeFile(mergeFile, chunkFiles);
+        <span class="hljs-keyword">if</span>(mergeFile == <span class="hljs-keyword">null</span>)&#123;
+            ExceptionCast.cast(MediaCode.MERGE_FILE_FAIL);
+        &#125;
+
+        <span class="hljs-comment">//校验文件</span>
+        <span class="hljs-keyword">boolean</span> checkResult = <span class="hljs-keyword">this</span>.checkFileMd5(mergeFile, fileMd5);
+        <span class="hljs-keyword">if</span>(!checkResult)&#123;
+            ExceptionCast.cast(MediaCode.MERGE_FILE_CHECKFAIL);
+        &#125;
+
+        <span class="hljs-comment">//将文件信息保存到数据库</span>
+        MediaFile mediaFile = <span class="hljs-keyword">new</span> MediaFile();
+        mediaFile.setFileId(fileMd5);
+        mediaFile.setFileName(fileMd5+<span class="hljs-string">"."</span>+fileExt);
+        mediaFile.setFileOriginalName(fileName);
+
+        <span class="hljs-comment">//文件路径保存相对路径</span>
+        String filePath = <span class="hljs-keyword">this</span>.getFilePath(fileMd5,fileExt);
+        mediaFile.setFilePath(<span class="hljs-keyword">this</span>.getFilePath(fileMd5,fileExt));
+        mediaFile.setFileUrl(filePath + fileName + <span class="hljs-string">"."</span> + fileExt);
+        mediaFile.setFileSize(fileSize);
+        mediaFile.setUploadTime(<span class="hljs-keyword">new</span> Date());
+        mediaFile.setMimeType(mimetype);
+        mediaFile.setFileType(fileExt);
+
+        <span class="hljs-comment">//状态为上传成功</span>
+        mediaFile.setFileStatus(<span class="hljs-string">"301002"</span>);
+        MediaFile save = mediaFileRepository.save(mediaFile);
+
+        <span class="hljs-comment">//向MQ发送视频处理消息</span>
+        <span class="hljs-keyword">this</span>.sendProcessVideoMsg(fileMd5);
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.SUCCESS);
+
+    &#125;
+
+    <span class="hljs-comment">//视频处理路由</span>
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;xc-service-manage-media.mq.routingkey-media-video&#125;"</span>)
+    <span class="hljs-keyword">public</span> String routingkey_media_video;
+
+    <span class="hljs-meta">@Autowired</span>
+    RabbitTemplate rabbitTemplate;
+
+    <span class="hljs-comment">//向MQ发送视频处理消息</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> ResponseResult <span class="hljs-title">sendProcessVideoMsg</span><span class="hljs-params">(String mediaId)</span></span>&#123;
+        Optional&lt;MediaFile&gt; optional = mediaFileRepository.findById(mediaId);
+        <span class="hljs-keyword">if</span>(!optional.isPresent())&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.FAIL);
+        &#125;
+        MediaFile mediaFile = optional.get();
+        <span class="hljs-comment">//发送视频处理消息</span>
+        Map&lt;String,String&gt; msgMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        msgMap.put(<span class="hljs-string">"mediaId"</span>,mediaId);
+        <span class="hljs-comment">//发送的消息</span>
+        String msg = JSON.toJSONString(msgMap);
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">this</span>.rabbitTemplate.convertAndSend(RabbitMQConfig.EX_MEDIA_PROCESSTASK,routingkey_media_video,msg);
+            LOGGER.info(<span class="hljs-string">"send media process task msg:&#123;&#125;"</span>,msg);
+        &#125;<span class="hljs-keyword">catch</span> (Exception e)&#123;
+            e.printStackTrace();
+            LOGGER.info(<span class="hljs-string">"send media process task error,msg is:&#123;&#125;,error:&#123;&#125;"</span>,msg,e.getMessage());
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.FAIL);
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.SUCCESS);
+    &#125;
+
+    <span class="hljs-comment">//校验文件MD5</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">checkFileMd5</span><span class="hljs-params">(File mergeFile, String fileMd5)</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(mergeFile == <span class="hljs-keyword">null</span> || StringUtils.isEmpty(fileMd5))&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        &#125;
+        <span class="hljs-comment">//进行md5校验</span>
+        <span class="hljs-keyword">try</span> &#123;
+            FileInputStream fileInputStream = <span class="hljs-keyword">new</span> FileInputStream(mergeFile);
+            <span class="hljs-comment">//得到文件的MD5</span>
+            String md5Hex = DigestUtils.md5Hex(fileInputStream);
+            <span class="hljs-comment">//比较两个MD5值</span>
+            <span class="hljs-keyword">if</span>(md5Hex.equalsIgnoreCase(fileMd5))&#123;
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (FileNotFoundException e) &#123;
+            e.printStackTrace();
+            LOGGER.error(<span class="hljs-string">"未找到该文件 &#123;&#125;"</span>,e.getMessage());
+        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;
+            e.printStackTrace();
+        &#125;
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    &#125;
+    <span class="hljs-comment">//合并文件</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> File <span class="hljs-title">mergeFile</span><span class="hljs-params">(File mergeFile, List&lt;File&gt; chunkFiles)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">//创建写文件对象</span>
+            RandomAccessFile raf_write = <span class="hljs-keyword">new</span> RandomAccessFile(mergeFile,<span class="hljs-string">"rw"</span>);
+            <span class="hljs-comment">//遍历分块文件开始合并</span>
+            <span class="hljs-comment">//读取文件缓冲区</span>
+            <span class="hljs-keyword">byte</span>[] b = <span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">1024</span>];
+            <span class="hljs-keyword">for</span>(File chunkFile:chunkFiles)&#123;
+                RandomAccessFile raf_read = <span class="hljs-keyword">new</span> RandomAccessFile(chunkFile,<span class="hljs-string">"r"</span>);
+                <span class="hljs-keyword">int</span> len = -<span class="hljs-number">1</span>;
+                <span class="hljs-comment">//读取分块文件</span>
+                <span class="hljs-keyword">while</span>((len = raf_read.read(b))!= -<span class="hljs-number">1</span>)&#123;
+                    <span class="hljs-comment">//向合并文件中写数据</span>
+                    raf_write.write(b,<span class="hljs-number">0</span>,len);
+                &#125; 
+                raf_read.close();
+            &#125; 
+            raf_write.close();
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+            LOGGER.error(<span class="hljs-string">"merge file error:&#123;&#125;"</span>,e.getMessage());
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125; 
+        <span class="hljs-keyword">return</span> mergeFile;
+    &#125;
+
+    <span class="hljs-comment">//获取块文件列表</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> List&lt;File&gt; <span class="hljs-title">getChunkFiles</span><span class="hljs-params">(String chunkFloderPath)</span> </span>&#123;
+        <span class="hljs-comment">//块文件目录</span>
+        File chunkFolder = <span class="hljs-keyword">new</span> File(chunkFloderPath);
+        <span class="hljs-comment">//分块文件列表</span>
+        File[] fileArray = chunkFolder.listFiles();
+        <span class="hljs-comment">//将分块列表转为集合,便于排序</span>
+        ArrayList&lt;File&gt; fileList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;(Arrays.asList(fileArray));
+        <span class="hljs-comment">//从小到大排序,按名称升序</span>
+        Collections.sort(fileList, <span class="hljs-keyword">new</span> Comparator&lt;File&gt;() &#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">compare</span><span class="hljs-params">(File o1, File o2)</span> </span>&#123;
+                <span class="hljs-comment">//比较两个文件的名称</span>
+                <span class="hljs-keyword">if</span> (Integer.parseInt(o1.getName()) &lt; Integer.parseInt(o2.getName())) &#123;
+                    <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+                &#125;
+                <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;
+            &#125;
+        &#125;);
+        <span class="hljs-keyword">return</span> fileList;
+    &#125;
+
+    <span class="hljs-comment">//获取文件块路径</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getChunkFloderPath</span><span class="hljs-params">(String fileMd5)</span> </span>&#123;
+        <span class="hljs-comment">//获取分块文件所属目录</span>
+        String fileFloderPath = <span class="hljs-keyword">this</span>.getFileFloderPath(fileMd5);
+        String chunkFloder = fileFloderPath + <span class="hljs-string">"chunk/"</span>;
+        File fileChunkFloder = <span class="hljs-keyword">new</span> File(chunkFloder);
+        <span class="hljs-comment">//如果分块所属目录不存在则创建</span>
+        <span class="hljs-keyword">if</span>(!fileChunkFloder.exists())&#123;
+            fileChunkFloder.mkdirs();
+        &#125;
+        <span class="hljs-keyword">return</span> chunkFloder;
+    &#125;
+
+
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据文件md5得到文件的所属目录</span>
+<span class="hljs-comment">     * 规则：</span>
+<span class="hljs-comment">     * 一级目录：md5的第一个字符</span>
+<span class="hljs-comment">     * 二级目录：md5的第二个字符</span>
+<span class="hljs-comment">     * 三级目录：md5</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFileFloderPath</span><span class="hljs-params">(String fileMd5)</span></span>&#123;
+            String floderPath = uploadPath + <span class="hljs-string">"/"</span> + fileMd5.substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>) + <span class="hljs-string">"/"</span> + fileMd5.substring(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) + <span class="hljs-string">"/"</span> +fileMd5  + <span class="hljs-string">"/"</span>;
+            <span class="hljs-keyword">return</span> floderPath;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取全文件路径</span>
+<span class="hljs-comment">     * 文件名：md5+文件扩展名</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFileFullPath</span><span class="hljs-params">(String fileMd5, String fileExt)</span></span>&#123;
+        String floderPath = <span class="hljs-keyword">this</span>.getFileFloderPath(fileMd5);
+        String filePath = floderPath + fileMd5 + <span class="hljs-string">"."</span> + fileExt;
+        <span class="hljs-keyword">return</span> filePath;
+    &#125;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取文件路径</span>
+<span class="hljs-comment">     * 文件名：md5+文件扩展名</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getFilePath</span><span class="hljs-params">(String fileMd5, String fileExt)</span></span>&#123;
+        String filePath = <span class="hljs-string">"/"</span> + fileMd5.substring(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>) + <span class="hljs-string">"/"</span> + fileMd5.substring(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>) + <span class="hljs-string">"/"</span> + fileMd5 + <span class="hljs-string">"/"</span>;
+        <span class="hljs-keyword">return</span> filePath;
+    &#125;
+&#125;</code></pre></div>
+
+<h1 id><a href="#" class="headerlink" title></a></h1>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BF/">学成在线</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/FFmpeg/">FFmpeg</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/19/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday12/">
+                        <span class="hidden-mobile">学成在线day12：基于 Nuxt.js 构建搜索前端工程</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "学成在线day13：使用FFmpeg进行格式转换以及m3u8文件生成、文件分块上传接口实现&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

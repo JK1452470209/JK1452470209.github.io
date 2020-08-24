@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>学成在线day16：基于Spring Security Oauth2开发认证服务 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-24 11:51">
+      2020-08-24
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      10.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      130
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="😎知识点概览"><a href="#😎知识点概览" class="headerlink" title="😎知识点概览"></a>😎知识点概览</h1><blockquote>
+<p>为了方便后续回顾该项目时能够清晰的知道本章节讲了哪些内容，并且能够从该章节的笔记中得到一些帮助，所以在完成本章节的学习后在此对本章节所涉及到的知识点进行总结概述。</p>
+</blockquote>
+<p>本章节为【学成在线】项目的 <code>day16</code> 的内容</p>
+<ul>
+<li>学习 Spring Security + Oauth2 基本概念以及实现过程。</li>
+<li>学习 <code>Oauth2</code> 的基本应用场景，这里主要是通过 <code>Oauth2</code> 的密码模式来实战。</li>
+<li>初识 <code>JWT</code> 令牌。</li>
+<li>本章节的最后通过 <code>Spring Security Oauth2</code> 完成了认证服务的基本实现，但授权还没做。</li>
+</ul>
+<h1 id="一、用户需求分析"><a href="#一、用户需求分析" class="headerlink" title="一、用户需求分析"></a>一、用户需求分析</h1><h2 id="1-用户认证与授权"><a href="#1-用户认证与授权" class="headerlink" title="1. 用户认证与授权"></a>1. 用户认证与授权</h2><p>截至目前，项目已经完成了在线学习功能，用户通过在线学习页面点播视频进行学习。</p>
+<p>如何去记录学生的学习过程呢？</p>
+<p>要想掌握学生的学习情况就需要知道用户的身份信息，记录哪个用户在什么时间学习什么课程；如果用户要购买课程也需要知道用户的身份信息。所以，去管理学生的学习过程最基本的要实现用户的身份认证。</p>
+<p>什么是用户身份认证？</p>
+<p>用户身份认证即用户去访问 <code>系统资源</code> 时系统要求验证用户的身份信息，身份合法方可继续访问。常见的用户身份认证表现形式有：用户名密码登录，指纹打卡等方式。</p>
+<p>什么是用户授权？</p>
+<p>用户认证通过后去访问系统的资源，系统会判断用户是否拥有访问资源的 <code>权限</code>，只允许访问有权限的系统资源，没有权限的资源将无法访问，这个过程叫用户授权。</p>
+<h2 id="2-单点登录需求"><a href="#2-单点登录需求" class="headerlink" title="2. 单点登录需求"></a>2. 单点登录需求</h2><p>本项目包括多个子项目，如：学习系统，教学管理中心、系统管理中心等，为了提高用户体验性需要实现用户只认证一次便可以在多个拥有访问权限的系统中访问，这个功能叫做单点登录。</p>
+<p>引用百度百科：单点登录（Single Sign On），简称为 <code>SSO</code>，是目前比较流行的企业业务整合的解决方案之一。</p>
+<p><code>SSO</code> 的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。<br>下图是 <code>SSO</code> 的示意图，用户登录学成网一次即可访问多个系统。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image1" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image1.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="3-第三方认证需求"><a href="#3-第三方认证需求" class="headerlink" title="3. 第三方认证需求"></a>3. 第三方认证需求</h2><p>作为互联网项目难免需要访问外部系统的资源，同样本 <code>服务</code> 也要访问 <code>其他服务</code> 的资源接口。</p>
+<p>一个微信用户没有在学成在线注册，本系统可以通过请求微信系统来验证该用户的身份，验证通过后该用户便可在本系统学习，它的基本流程如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image2" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image2.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>从上图可以看出，微信不属于本系统，本系统并没有存储微信用户的账号、密码等信息，本系统如果要获取该用户的基本信息则需要首先通过微信的认证系统（微信认证）进行认证，微信认证通过后本系统便可获取该微信用户的基本信息，从而在本系统将该微信用户的头像、昵称等信息显示出来，该用户便不用在本系统注册却可以直接学习。</p>
+<p>什么是第三方认证（跨平台认证）？</p>
+<p>当需要访问第三方系统的资源时需要首先通过第三方系统的认证（例如：微信认证），由第三方系统对用户认证通过，并授权资源的访问权限。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image3" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image3.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h1 id="二、用户认证技术方案"><a href="#二、用户认证技术方案" class="headerlink" title="二、用户认证技术方案"></a>二、用户认证技术方案</h1><h2 id="1-单点登录技术方案"><a href="#1-单点登录技术方案" class="headerlink" title="1. 单点登录技术方案"></a>1. 单点登录技术方案</h2><p>分布式系统要实现单点登录，通常将认证系统独立抽取出来，并且将用户身份信息存储在单独的存储介质，比如：<code>MySQL</code>、<code>Redis</code>，考虑性能要求，通常存储在 <code>Redis</code> 中，如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image4" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image4.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>单点登录的特点是：</p>
+<p>1、认证系统为独立的系统。</p>
+<p>2、各个 <code>子系统</code> 通过 <code>Http</code> 或其它协议与认证系统通信，完成用户认证。</p>
+<p>3、用户身份信息存储在 <code>Redis</code> 集群。</p>
+<p>Java 中有很多用户认证的框架都可以实现单点登录：</p>
+<p>1、Apache Shiro.</p>
+<p>2、CAS</p>
+<p>3、Spring security CAS</p>
+<h2 id="2-Oauth2认证"><a href="#2-Oauth2认证" class="headerlink" title="2. Oauth2认证"></a>2. Oauth2认证</h2><h3 id="认证流程"><a href="#认证流程" class="headerlink" title="认证流程"></a>认证流程</h3><p>第三方认证技术方案最主要是解决认证协议的通用标准 问题，因为要实现 跨系统认证，各系统之间要遵循一定的接口协议。</p>
+<p><code>OAUTH</code> 协议为用户资源的授权提供了一个安全的、开放而又简易的标准。同时，任何第三方都可以使用 <code>OAUTH</code> 认证服务，任何服务提供商都可以实现自身的 <code>OAUTH</code> 认证服务，因而 <code>OAUTH</code> 是开放的。业界提供了 <code>OAUTH</code> 的多种实现如 <code>PHP</code>、<code>JavaScript</code>，<code>Java</code>，<code>Ruby</code> 等各种语言开发包，大大节约了程序员的时间，因而 <code>OAUTH</code> 是简易的。互联网很多服务如 <code>Open API</code>，很多大公司如 <code>Google</code>，<code>Yahoo</code>，<code>Microsoft</code> 等都提供了 <code>OAUTH</code> 认证服务，这些都足以说明 <code>OAUTH</code> 标准逐渐成为开放资源授权的标准。</p>
+<p><code>Oauth</code> 协议目前发展到 <code>2.0</code> 版本，<code>1.0</code> 版本过于复杂，<code>2.0</code> 版本已得到广泛应用。</p>
+<p>参考：<a href="https://baike.baidu.com/item/oAuth/7153134?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/oAuth/7153134?fr=aladdin</a></p>
+<p>Oauth协议：<a href="https://tools.ietf.org/html/rfc6749" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc6749</a></p>
+<p>下边分析一个Oauth2认证的例子，黑马程序员网站使用微信认证的过程：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image5" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image5.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>从流程图可以看出，用户首先需要访问黑马程序员的登录页面，登录页面中会有一个第三方登录的选项，例如选择微信来进行登录。</p>
+<p>点击微信登录后，黑马程序员网站会向微信获取到一个认证授权的页面，并返回给客户端，客户端自动跳转到该 <code>认证授权页面</code> 进行微信的认证，当用户通过微信授权认证成功后，微信的认证服务器会返回一个授权码到客户端，客户端使用授权码向微信认证服务器申请 认证<code>token</code>，当用户获取到 <code>token</code> 后，会携带该 <code>token</code> 值去请求黑马程序员网站，黑马程序员通过该token向微信服务器获取到用户的微信信息后，黑马程序员网站才能确定该用户是可信的。</p>
+<p>具体流程演示如下：</p>
+<p>1、客户端请求第三方授权</p>
+<p>用户进入黑马程序的登录页面，点击微信的图标以微信账号登录系统，用户是自己在微信里信息的资源拥有者。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image6" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image6.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>点击“微信”出现一个二维码，此时用户扫描二维码，开始给黑马程序员授权。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image7" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image7.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>2、资源拥有者同意给客户端授权</p>
+<p>资源拥有者扫描二维码表示资源拥有者同意给客户端授权，微信会对资源拥有者的身份进行验证， 验证通过后，微信会询问用户是否给授权黑马程序员访问自己的微信数据，用户点击 “确认登录”表示同意授权，微信认证服务器会颁发一个授权码，并重定向到黑马程序员的网站。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image8" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image8.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>3、客户端获取到授权码，请求认证服务器申请令牌</p>
+<p>此过程用户看不到，客户端应用程序请求认证服务器，请求携带授权码。</p>
+<p>4、认证服务器向客户端响应令牌</p>
+<p>认证服务器验证了客户端请求的授权码，如果合法则给客户端颁发令牌，令牌是客户端访问资源的通行证。此交互过程用户看不到，当客户端拿到令牌后，用户在黑马程序员看到已经登录成功。</p>
+<p>5、客户端请求资源服务器的资源</p>
+<p>客户端携带令牌访问资源服务器的资源。黑马程序员网站携带令牌请求访问微信服务器获取用户的基本信息。</p>
+<p>6、资源服务器返回受保护资源</p>
+<p>资源服务器校验令牌的合法性，如果合法则向用户响应资源信息内容。<br>注意：资源服务器和认证服务器可以是一个服务也可以分开的服务，如果是分开的服务资源服务器通常要请求认证服务器来校验令牌的合法性。</p>
+<p><code>Oauth2.0</code> 认证流程如下：</p>
+<p>引自 <code>Oauth2.0</code> 协议 <code>rfc6749</code> <a href="https://tools.ietf.org/html/rfc6749" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc6749</a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image9" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image9.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>Oauth2包括以下角色：</p>
+<p>1、客户端</p>
+<p>本身不存储资源，需要通过资源拥有者的授权去请求资源服务器的资源，比如：学成在线Android客户端、学成在线Web客户端（浏览器端）、微信客户端等。</p>
+<p>2、资源拥有者</p>
+<p>通常为用户，也可以是应用程序，即该资源的拥有者。</p>
+<p>3、授权服务器（也称认证服务器）<br>用来对资源拥有的身份进行认证、对访问资源进行授权。客户端要想访问资源需要通过认证服务器由资源拥有者授权后方可访问。</p>
+<p>4、资源服务器<br>存储资源的服务器，比如，学成网用户管理服务器存储了学成网的用户信息，学成网学习服务器存储了学生的学习信息，微信的资源服务存储了微信的用户信息等。客户端最终访问资源服务器获取资源信息。</p>
+<h3 id="Oauth2在本项目的应用"><a href="#Oauth2在本项目的应用" class="headerlink" title="Oauth2在本项目的应用"></a>Oauth2在本项目的应用</h3><p>Oauth2是一个标准的开放的授权协议，应用程序可以根据自己的要求去使用 <code>Oauth2</code>，本项目使用 <code>Oauth2</code> 实现如下目标：</p>
+<p>1、学成在线访问第三方系统的资源</p>
+<p>2、外部系统访问学成在线的资源</p>
+<p>3、学成在线前端（客户端） 访问学成在线微服务的资源。</p>
+<p>4、学成在线微服务之间访问资源，例如：<code>微服务A</code> 访问 <code>微服务B</code> 的资源，<code>B</code> 访问 <code>A</code> 的资源。</p>
+<h2 id="3-Spring-Security-Oauth2-认证解决方案"><a href="#3-Spring-Security-Oauth2-认证解决方案" class="headerlink" title="3. Spring Security Oauth2 认证解决方案"></a>3. Spring Security Oauth2 认证解决方案</h2><p>本项目采用 <code>Spring security + Oauth2</code> 完成用户认证及用户授权，<code>Spring security</code> 是一个强大的和高度可定制的身份验证和访问控制框架，<code>Spring security</code> 框架集成了<code>Oauth2</code> 协议，下图是项目认证架构图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image10" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image10.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>1、用户请求认证服务完成认证。</p>
+<p>2、认证服务下发用户身份令牌，拥有身份令牌表示身份合法。</p>
+<p>3、用户携带令牌请求资源服务，请求资源服务必先经过网关。</p>
+<p>4、网关校验用户身份令牌的合法，不合法表示用户没有登录，如果合法则放行继续访问。</p>
+<p>5、资源服务获取令牌，根据令牌完成授权。</p>
+<p>6、资源服务完成授权则响应资源信息。</p>
+<h1 id="三、Spring-Security-Oauth2-研究"><a href="#三、Spring-Security-Oauth2-研究" class="headerlink" title="三、Spring Security Oauth2 研究"></a>三、Spring Security Oauth2 研究</h1><h2 id="1-目标"><a href="#1-目标" class="headerlink" title="1. 目标"></a>1. 目标</h2><p>本项目认证服务基于 <code>Spring Security Oauth2</code> 进行构建，并在其基础上作了一些扩展，采用 <code>JWT</code> 令牌机制，并自定义了用户身份信息的内容。 本教程的主要目标是学习在项目中集成<code>Spring Security Oauth2</code> 的方法和流程，通过 <code>Spring Security Oauth2</code> 的研究需要达到以下目标：</p>
+<p>1、理解 <code>Oauth2</code> 的授权码认证流程及密码认证的流程。</p>
+<p>2、理解 <code>Spring Security Oauth2</code> 的工作流程。</p>
+<p>3、掌握资源服务集成 <code>Spring Security</code> 框架完成 <code>Oauth2</code> 认证的流程。</p>
+<h2 id="2-搭建认证服务器"><a href="#2-搭建认证服务器" class="headerlink" title="2. 搭建认证服务器"></a>2. 搭建认证服务器</h2><h3 id="导入基础工程"><a href="#导入基础工程" class="headerlink" title="导入基础工程"></a>导入基础工程</h3><p>导入 <code>资料</code> 目录下的 <code>xc-service-ucenter-auth</code> 工程，该工程是基于<code>Spring Security Oauth2</code> 的一个二次封装的工程，导入此工程研究 <code>Oauth2</code> 认证流程。</p>
+<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><p>导入资料目录下的 <code>xc_user.sql</code>，创建用户数据库</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image11" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image11.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>以 <code>oauth_</code> 开头的表都是 <code>Spring Security</code> 自带的表。</p>
+<p>本项目中 Spring Security 主要使用 <code>oauth_client_details</code> 表：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image12" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image12.png" srcset="/img/loading.gif" alt="img"></a></p>
+<ul>
+<li>client_id：客户端id</li>
+<li>resource_ids：资源id（暂时不用）</li>
+<li>client_secret：客户端密码</li>
+<li>scope：范围</li>
+<li>access_token_validity：访问token的有效期（秒）</li>
+<li>refresh_token_validity：刷新token的有效期（秒）</li>
+<li>authorized_grant_type：授权类型，<ul>
+<li>authorization_code</li>
+<li>password</li>
+<li>refresh_token</li>
+<li>client_credentials</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-Oauth2授权码模式"><a href="#3-Oauth2授权码模式" class="headerlink" title="3. Oauth2授权码模式"></a>3. Oauth2授权码模式</h2><p>Oauth2 有以下授权模式：</p>
+<ul>
+<li>授权码模式（Authorization Code）</li>
+<li>隐式授权模式（Implicit）</li>
+<li>密码模式（Resource Owner PasswordCredentials）</li>
+<li>客户端模式（Client Credentials）</li>
+</ul>
+<p>其中授权码模式和密码模式应用较多，本小节介绍授权码模式。</p>
+<h3 id="授权码授权流程"><a href="#授权码授权流程" class="headerlink" title="授权码授权流程"></a>授权码授权流程</h3><p>上边例举的黑马程序员网站使用微信认证的过程就是授权码模式，流程如下：</p>
+<p>1、客户端请求第三方授权</p>
+<p>2、用户(资源拥有者)同意给客户端授权</p>
+<p>3、客户端获取到授权码，请求认证服务器申请令牌</p>
+<p>4、认证服务器向客户端响应令牌</p>
+<p>5、客户端请求资源服务器的资源，资源服务校验令牌合法性，完成授权</p>
+<p>6、资源服务器返回受保护资源</p>
+<h3 id="申请授权码"><a href="#申请授权码" class="headerlink" title="申请授权码"></a>申请授权码</h3><p>请求认证服务获取授权码：</p>
+<p>GET 请求：</p>
+<div class="hljs"><pre><code class="hljs c">localhost:<span class="hljs-number">40400</span>/auth/oauth/authorize?
+client_id=XcWebApp&amp;response_type=code&amp;scop=app&amp;redirect_uri=http:<span class="hljs-comment">//localhost</span></code></pre></div>
+
+<p>参数列表如下：</p>
+<ul>
+<li>client_id：客户端 <code>id</code>，和授权配置类中设置的客户端id一致。</li>
+<li>response_type：授权码模式固定为 <code>code</code></li>
+<li>scop：客户端范围，和授权配置类中设置的 <code>scop</code>一致。</li>
+<li>redirect_uri：跳转 <code>uri</code>，当授权码申请成功后会跳转到此地址，并在后边带上code参（授权码）。</li>
+</ul>
+<p>首次访问会跳转到登录页面：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image13" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image13.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>输入账号和密码，点击 Login。</p>
+<p><code>Spring Security</code> 接收到请求会调用 <code>UserDetailsService</code> 接口的 <code>loadUserByUsername</code> 方法查询用户正确的密码。</p>
+<p>在 <code>oauth_client_details</code> 表中配置认证的账号和密码，当然密码是加密后储存的，这里我们暂时先不关注，后面再讲解</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image14" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image14.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>账号密码为 <code>XcWebApp</code> 和 <code>XcWebApp</code></p>
+<p>接下来进入授权页面：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image15" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image15.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>点击 同意，接下来返回授权码：认证服务携带授权码跳转 <code>redirect_uri</code></p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image16" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image16.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="申请令牌"><a href="#申请令牌" class="headerlink" title="申请令牌"></a>申请令牌</h3><p>拿到授权码后，申请令牌。</p>
+<p>POST 请求：<a href="http://localhost:40400/auth/oauth/token" target="_blank" rel="noopener">http://localhost:40400/auth/oauth/token</a></p>
+<p>参数如下：</p>
+<ul>
+<li>grant_type：授权类型，填写authorization_code，表示授权码模式</li>
+<li>code：授权码，就是刚刚获取的授权码，注意：授权码只使用一次就无效了，需要重新申请。</li>
+<li>redirect_uri：申请授权码时的跳转url，一定和申请授权码时用的redirect_uri一致。</li>
+</ul>
+<p>此链接需要使用 http Basic认证。</p>
+<p>什么是 <code>http Basic</code>认证？</p>
+<p><code>http</code> 协议定义的一种认证方式，将客户端id和客户端密码按照 <code>客户端ID:客户端密码</code> 的格式拼接，并用 <code>base64</code> 编码，放在 <code>header</code> 中请求服务端，一个例子：</p>
+<p>Authorization：Basic WGNXZWJBcHA6WGNXZWJBcHA=</p>
+<p>WGNXZWJBcHA6WGNXZWJBcHA= 是 <code>用户名:密码</code> 的 base64 编码。</p>
+<p>如果认证失败服务端会返回 <code>401 Unauthorized</code></p>
+<p>以上测试使用 <code>postman</code> 完成。</p>
+<p>http basic认证：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image17" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image17.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>客户端 <code>Id</code> 和客户端密码会匹配数据库 <code>oauth_client_details</code> 表中的客户端 <code>id</code> 及客户端密码。</p>
+<p>POST 请求参数：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image18" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image18.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>点击发送：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image19" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image19.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>申请令牌成功。</p>
+<ul>
+<li>access_token：访问令牌，携带此令牌访问资源</li>
+<li>token_type：有 <code>MAC Token</code>与 <code>Bearer Token</code>两种类型，两种的校验算法不同，RFC 6750建议Oauth2采用 Bearer</li>
+<li>Token（<a href="http://www.rfcreader.com/#rfc6750%EF%BC%89%E3%80%82" target="_blank" rel="noopener">http://www.rfcreader.com/#rfc6750）。</a></li>
+<li>refresh_token：刷新令牌，使用此令牌可以延长访问令牌的过期时间。</li>
+<li>expires_in：过期时间，单位为秒。</li>
+<li>scope：范围，与定义的客户端范围一致。</li>
+</ul>
+<h3 id="资源服务授权"><a href="#资源服务授权" class="headerlink" title="资源服务授权"></a>资源服务授权</h3><h4 id="1）授权流程"><a href="#1）授权流程" class="headerlink" title="1）授权流程"></a>1）授权流程</h4><p>资源服务拥有要访问的受保护资源，客户端携带令牌访问资源服务，如果令牌合法则可成功访问资源服务中的资源，流程如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image20" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image20.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>上图的业务流程如下：</p>
+<p>1、客户端请求认证服务申请令牌</p>
+<p>2、认证服务生成令牌认证服务采用非对称加密算法，使用私钥生成令牌。</p>
+<p>3、客户端携带令牌访问资源服务客户端在 <code>Http header</code> 中添加： <code>Authorization：Bearer 令牌</code>。</p>
+<blockquote>
+<p>注意这里的Authorization字段的值为 Bearer + 空格 + 令牌</p>
+</blockquote>
+<p>4、资源服务请求认证服务校验令牌的有效性资源服务接收到令牌，使用公钥校验令牌的合法性。</p>
+<p>5、令牌有效，资源服务向客户端响应资源信息</p>
+<h4 id="2）授权配置"><a href="#2）授权配置" class="headerlink" title="2）授权配置"></a>2）授权配置</h4><p>基本上所有微服务都是资源服务，这里我们在 <code>课程管理服务</code> 上配置授权控制，当配置了授权控制后如要访问课程信息则必须提供令牌。</p>
+<p>在我们导入的 <code>auth</code> 工程的 <code>resources</code> 下可以看到一个 <code>xc.keystore</code> 文件，该文件是用于认证的一个私钥文件，用于生成我们的授权码，生成的授权码可以使用 <code>公钥</code> 文件来进行校验。下面我们来做一个简单的实验来了解整个校验的流程。</p>
+<p>1、配置公钥</p>
+<p>认证服务生成令牌采用非对称加密算法，认证服务采用私钥加密生成令牌，对外向资源服务提供公钥，资源服务使<br>用公钥 来校验令牌的合法性。</p>
+<p>将 <code>day16</code> 的 <code>资料</code> 下的公钥拷贝到 <code>publickey.txt</code> 文件中，将此文件拷贝到资源服务工程的 <code>classpath</code> 下</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image21" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image21.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>2、添加依赖</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--oatuh2--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-oauth2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>4、在 <code>config</code> 包下创建 ResourceServerConfig 类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.manage_course.config;
+
+<span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@EnableResourceServer</span>
+<span class="hljs-meta">@EnableGlobalMethodSecurity</span>(prePostEnabled = <span class="hljs-keyword">true</span>, securedEnabled = <span class="hljs-keyword">true</span>)<span class="hljs-comment">//激活方法上的PreAuthorize注解</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResourceServerConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ResourceServerConfigurerAdapter</span> </span>&#123;
+  <span class="hljs-comment">//公钥</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String PUBLIC_KEY = <span class="hljs-string">"publickey.txt"</span>;
+  <span class="hljs-comment">//定义JwtTokenStore，使用jwt令牌</span>
+  <span class="hljs-meta">@Bean</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> TokenStore <span class="hljs-title">tokenStore</span><span class="hljs-params">(JwtAccessTokenConverter jwtAccessTokenConverter)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> JwtTokenStore(jwtAccessTokenConverter);
+  &#125;
+  <span class="hljs-comment">//定义JJwtAccessTokenConverter，使用jwt令牌</span>
+  <span class="hljs-meta">@Bean</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> JwtAccessTokenConverter <span class="hljs-title">jwtAccessTokenConverter</span><span class="hljs-params">()</span> </span>&#123;
+    JwtAccessTokenConverter converter = <span class="hljs-keyword">new</span> JwtAccessTokenConverter();
+    converter.setVerifierKey(getPubKey());
+    <span class="hljs-keyword">return</span> converter;
+  &#125;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">      * 获取非对称加密公钥 Key</span>
+<span class="hljs-comment">      * <span class="hljs-doctag">@return</span> 公钥 Key</span>
+<span class="hljs-comment">      */</span>
+  <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getPubKey</span><span class="hljs-params">()</span> </span>&#123;
+    Resource resource = <span class="hljs-keyword">new</span> ClassPathResource(PUBLIC_KEY);
+    <span class="hljs-keyword">try</span> &#123;
+      InputStreamReader inputStreamReader = <span class="hljs-keyword">new</span>
+          InputStreamReader(resource.getInputStream());
+      BufferedReader br = <span class="hljs-keyword">new</span> BufferedReader(inputStreamReader);
+      <span class="hljs-keyword">return</span> br.lines().collect(Collectors.joining(<span class="hljs-string">"\n"</span>));
+    &#125; <span class="hljs-keyword">catch</span> (IOException ioe) &#123;
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+  &#125;
+  <span class="hljs-comment">//Http安全配置，对每个到达系统的http请求链接进行校验</span>
+  <span class="hljs-meta">@Override</span>
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    <span class="hljs-comment">//所有请求必须认证通过</span>
+    http.authorizeRequests().anyRequest().authenticated();
+  &#125;
+&#125;</code></pre></div>
+
+<h4 id="3）授权测试"><a href="#3）授权测试" class="headerlink" title="3）授权测试"></a>3）授权测试</h4><p>这里我们使用 <code>POSTMAN</code> 测试课程图片查询</p>
+<p>GET <a href="http://localhost:31200/course/coursepic/list/4028e58161bd3b380161bd3bcd2f0000" target="_blank" rel="noopener">http://localhost:31200/course/coursepic/list/4028e58161bd3b380161bd3bcd2f0000</a></p>
+<p>请求时没有携带令牌则报错：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+<span class="hljs-attr">"error"</span>: <span class="hljs-string">"unauthorized"</span>,
+<span class="hljs-attr">"error_description"</span>: <span class="hljs-string">"Full authentication is required to access this resource"</span>
+&#125;</code></pre></div>
+
+<p>请求时携带令牌：</p>
+<p>在 <code>http header</code> 中添加 <code>Authorization： Bearer</code> 令牌</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image22" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image22.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>当输入错误的令牌也无法正常访问资源。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image23" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image23.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h4 id="4）解决swagger-ui无法访问"><a href="#4）解决swagger-ui无法访问" class="headerlink" title="4）解决swagger-ui无法访问"></a>4）解决swagger-ui无法访问</h4><blockquote>
+<p>这个问题可以单独提取出来，发布到csdn上。</p>
+</blockquote>
+<p>当课程管理加了授权之后再访问 <code>swagger-ui</code> 则报错</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image24" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image24.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>修改授权配置类 <code>ResourceServerConfig</code> 的 <code>configure</code> 方法：</p>
+<p>针对 <code>swagger-ui</code> 的请求路径进行放行：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//Http安全配置，对每个到达系统的http请求链接进行校验</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    <span class="hljs-comment">//所有请求必须认证通过</span>
+    http.authorizeRequests()
+            <span class="hljs-comment">//下边的路径放行</span>
+            .antMatchers(<span class="hljs-string">"/v2/api-docs"</span>, <span class="hljs-string">"/swagger-resources/configuration/ui"</span>,
+                    <span class="hljs-string">"/swagger-resources"</span>,<span class="hljs-string">"/swagger-resources/configuration/security"</span>,
+                    <span class="hljs-string">"/swagger-ui.html"</span>,<span class="hljs-string">"/webjars/**"</span>).permitAll()
+            .anyRequest().authenticated();
+&#125;</code></pre></div>
+
+<p>注意：</p>
+<p>通过上边的配置虽然可以访问 <code>swagger-ui</code>，但是无法进行单元测试，除非去掉认证的配置或在上边配置中添加所有请求均放行（”/**”）。</p>
+<p>但是需要注意的是，虽说在开发环境下我们可与通过使用 <code>/**</code> 的方式来便于我们进行单元测试，但是难免会有疏漏的时候，如果在生产上线时没有及时改回来，那么后果不堪设想。</p>
+<p>所以我们可以考虑使用多环境配置的形式，将需要放行的 <code>url</code> 从配置文件 <code>application.yml</code> 中读取，而开发环境中，我们可以单独配置一个 <code>application-dev.yml</code> 作为我们的开发环境的配置，用于区别上线环境的配置。例如下面的例子</p>
+<p><code>application-dev.yml</code> 加入 <code>oauth2.urlMatchers</code> ，在该字段下指定我们无需授权访问的一些url地址，使用 <code>,</code> 进行分割</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">oauth2:</span>
+  <span class="hljs-attr">urlMatchers:</span> <span class="hljs-string">/v2/api-docs,/swagger-resources/configuration/ui,/swagger-resources,/swagger-resources/configuration/security,/swagger-ui.html,/webjars/**</span></code></pre></div>
+
+<p>而在生产环境中的配置 <code>application-dev.yml</code> 你可以不配置 urlMatchers 的值，这样所有的url都需要认证后才能访问，当然，你也可以添加一些例外。如下则是全部 <code>url</code> 都拦截的情况的配置，虽然没有值，但是我们也要在配置文件中写出这个 <code>urlMatchers</code> 字段，便于后面的拓展工作。</p>
+<div class="hljs"><pre><code class="hljs c">oauth2:
+  urlMatchers:</code></pre></div>
+
+<p>那么我们的配置类 <code>ResourceServerConfig</code> 就应该做出如下的修改：</p>
+<p>使用 <code>@Value</code> 注解获取配置文件中 <code>urlMatchers</code> 的值，在 <code>configure</code> 方法下做出相关的操作。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;oauth2.urlMatchers&#125;"</span>)
+String urlMatchers;
+
+<span class="hljs-comment">//Http安全配置，对每个到达系统的http请求链接进行校验</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    <span class="hljs-keyword">if</span>(urlMatchers.equals(<span class="hljs-string">""</span>))&#123;
+        <span class="hljs-comment">//如果urlMatchers未指定,则所有url都需要授权后才能被访问</span>
+        http.authorizeRequests().anyRequest().authenticated();
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        <span class="hljs-comment">//放行 urlMatchers 中指定的url条目, 未指定的url仍需授权后才能访问</span>
+        String[] split = urlMatchers.split(<span class="hljs-string">","</span>);
+        http.authorizeRequests()
+            <span class="hljs-comment">//下边的路径放行</span>
+            .antMatchers(split).permitAll()
+            .anyRequest().authenticated();
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="4-Oauth2密码模式认证"><a href="#4-Oauth2密码模式认证" class="headerlink" title="4. Oauth2密码模式认证"></a>4. Oauth2密码模式认证</h2><p>密码模式（Resource Owner Password Credentials）与授权码模式的区别是申请令牌不再使用授权码，而是直接<br>通过用户名和密码即可申请令牌。</p>
+<p>测试如下：</p>
+<p>POST 请求：<a href="http://localhost:40400/auth/oauth/token" target="_blank" rel="noopener">http://localhost:40400/auth/oauth/token</a></p>
+<p>参数：</p>
+<ul>
+<li>grant_type：密码模式授权填写password</li>
+<li>username：账号</li>
+<li>password：密码</li>
+</ul>
+<p>那么这个密码信息是从哪里获取到的？</p>
+<p>在我们的 auth 服务工程中可以看到，我们写了一个 <code>UserDetailsService</code> 的实现类。</p>
+<p>这个实现类中实现了 <code>loadUserByUsername</code> 方法，在该方法中，首先会验证提交请求中带有的 App 用户密码信息是否正确，也就是我们提交的 <code>http Basic</code> 认证信息，App的认证信息通过后，会出数据库获取用户的认证信息和权限信息进行设置，然后再根据我们提交的信息进行比对。但在当前的测试中，我们是直接在 <code>loadUserByUsername</code> 方法内自定义了一个账号和密码，便于我们测试，完整的认证授权流程会在后面的内容中讲到。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//设置用户的认证和权限信息</span>
+XcUserExt userext = <span class="hljs-keyword">new</span> XcUserExt();
+userext.setUsername(<span class="hljs-string">"mrt"</span>);
+userext.setPassword(<span class="hljs-keyword">new</span> BCryptPasswordEncoder().encode(<span class="hljs-string">"123"</span>));
+userext.setPermissions(<span class="hljs-keyword">new</span> ArrayList&lt;XcMenu&gt;());
+<span class="hljs-keyword">if</span>(userext == <span class="hljs-keyword">null</span>)&#123;
+<span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+&#125;</code></pre></div>
+
+<p>使用 <code>http Basic</code> 进行App的身份认证，这里我们的账号和密码都为 <code>XcWebApp</code>。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image25" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image25.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>上边参数使用 <code>x-www-form-urlencoded</code> 方式传输，使用postman测试如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image26" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image26.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>那么，授权码模式与密码模式，分别都适用于哪些场景？</p>
+<ul>
+<li>授权码模式一般适用于提供给第三方进行认证，例如在前面提到的在黑马程序员网站进行微信登录时，这里我们的角色就应该对应的是 <code>微信的认证服务器</code>，而黑马程序员网站属于第三方。</li>
+<li>密码模式在我们后续的开发中会经常用到，一般用于我们微服务间的认证以及用户的前台、后台权限管理等场景。</li>
+</ul>
+<h2 id="5-校验令牌"><a href="#5-校验令牌" class="headerlink" title="5. 校验令牌"></a>5. 校验令牌</h2><p>Spring Security Oauth2 提供校验令牌的端点，如下：</p>
+<p>GET: <a href="http://localhost:40400/auth/oauth/check_token?token=" target="_blank" rel="noopener">http://localhost:40400/auth/oauth/check_token?token=</a></p>
+<p>参数：</p>
+<ul>
+<li>token：令牌</li>
+</ul>
+<p>使用 <code>postman</code> 测试如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image27" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image27.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>结果如下：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"companyId"</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">"userpic"</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">"user_name"</span>: <span class="hljs-string">"itcast"</span>,
+    <span class="hljs-attr">"scope"</span>: [
+        <span class="hljs-string">"app"</span>
+    ],
+    <span class="hljs-attr">"name"</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">"utype"</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">"active"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"id"</span>: <span class="hljs-literal">null</span>,
+    <span class="hljs-attr">"exp"</span>: <span class="hljs-number">1590351690</span>,
+    <span class="hljs-attr">"jti"</span>: <span class="hljs-string">"ed441eb3-cd16-4e74-b598-484656a03287"</span>,
+    <span class="hljs-attr">"client_id"</span>: <span class="hljs-string">"XcWebApp"</span>
+&#125;</code></pre></div>
+
+<ul>
+<li>exp：过期时间，long类型，距离1970年的秒数（new Date().getTime()可得到当前时间距离1970年的毫秒数）。</li>
+<li>user_name： 用户名</li>
+<li>client_id：客户端Id，在oauth_client_details中配置</li>
+<li>scope：客户端范围，在oauth_client_details表中配置</li>
+<li>jti：与令牌对应的唯一标识</li>
+<li>companyId、userpic、name、utype、id：这些字段是本认证服务在Spring Security基础上扩展的用户身份信息</li>
+</ul>
+<p>我们可以根据这些数据进行一些相关的操作。</p>
+<h2 id="6-刷新令牌"><a href="#6-刷新令牌" class="headerlink" title="6. 刷新令牌"></a>6. 刷新令牌</h2><p>刷新令牌是当令牌快过期时重新生成一个令牌，它于授权码授权和密码授权生成令牌不同，刷新令牌不需要授权码<br>也不需要账号和密码，只需要一个 <code>刷新令牌</code>、<code>客户端id</code> 和 <code>客户端密码</code>。</p>
+<p>测试如下：</p>
+<p>POST：<a href="http://localhost:40400/auth/oauth/token" target="_blank" rel="noopener">http://localhost:40400/auth/oauth/token</a></p>
+<p>参数：</p>
+<ul>
+<li>grant_type： 固定为 refresh_token</li>
+<li>refresh_token：刷新令牌（注意不是 <code>access_token</code>，而是 <code>refresh_token</code>）</li>
+</ul>
+<p>刷新令牌成功，会重生成新的访问令牌和刷新令牌，令牌的有效期也比旧令牌长。</p>
+<p>刷新令牌通常是在令牌快过期时进行刷新。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image28" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image28.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h2 id="7-JWT研究"><a href="#7-JWT研究" class="headerlink" title="7. JWT研究"></a>7. JWT研究</h2><h3 id="JWT介绍"><a href="#JWT介绍" class="headerlink" title="JWT介绍"></a>JWT介绍</h3><p>在介绍JWT之前先看一下传统校验令牌的方法，如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image29" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image29.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>问题：</p>
+<p>传统授权方法的问题是用户每次请求资源服务，资源服务都需要携带令牌访问认证服务去校验令牌的合法性，并根<br>据令牌获取用户的相关信息，性能低下。</p>
+<p>解决：</p>
+<p>使用 <code>JWT</code> 的思路是，用户认证通过会得到一个 <code>JWT</code> 令牌，<code>JWT</code> 令牌中已经包括了用户相关的信息，客户端只需要携带 <code>JWT</code> 访问资源服务，资源服务根据事先约定的算法自行完成令牌校验，无需每次都请求认证服务完成授权。<code>JWT</code> 令牌授权过程如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image30" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image30.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>什么是 <code>JWT</code> ？</p>
+<p>JSON Web Token（JWT）是一个开放的行业标准（RFC 7519），它定义了一种简介的、自包含的协议格式，用于<br>在通信双方传递json对象，传递的信息经过数字签名可以被验证和信任。<code>JWT</code> 可以使用 <code>HMAC</code> 算法或使用 <code>RSA</code>的公钥/私钥对来签名，防止被篡改。</p>
+<p>官网：<a href="https://jwt.io/" target="_blank" rel="noopener">https://jwt.io/</a></p>
+<p>标准：<a href="https://tools.ietf.org/html/rfc7519" target="_blank" rel="noopener">https://tools.ietf.org/html/rfc7519</a></p>
+<p><code>JWT</code> 令牌的优点：</p>
+<p>1、jwt基于 <code>json</code>，非常方便解析。</p>
+<p>2、可以在令牌中自定义丰富的内容，易扩展。</p>
+<p>3、通过非对称加密算法及数字签名技术，<code>JWT</code> 防止篡改，安全性高。</p>
+<p>4、资源服务使用JWT可不依赖认证服务即可完成授权。</p>
+<p>缺点：JWT令牌较长，占存储空间比较大。</p>
+<h4 id="令牌结构"><a href="#令牌结构" class="headerlink" title="令牌结构"></a>令牌结构</h4><p>通过学习JWT令牌结构为自定义 <code>jwt</code> 令牌打好基础。</p>
+<p>JWT 令牌由三部分组成，每部分中间使用点（.）分隔，比如：xxxxx.yyyyy.zzzzz</p>
+<p><strong>1、Header</strong></p>
+<p>头部包括令牌的类型（即JWT）及使用的哈希算法（如HMAC SHA256或RSA）<br>下边是Header部分的内容</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"alg"</span>: <span class="hljs-string">"HS256"</span>,
+    <span class="hljs-attr">"typ"</span>: <span class="hljs-string">"JWT"</span>
+&#125;</code></pre></div>
+
+<p><strong>2、Payload</strong></p>
+<p>第二部分是用于储存一些有效信息，内容也是一个 <code>json</code>对象，它可以存放 <code>jwt</code> 提供的现成字段，比如：<code>iss</code>（签发者）,<code>exp</code>（过期时间戳）, <code>sub</code>（面向的用户）等，也可自定义字段。</p>
+<p>此部分不建议存放敏感信息，因为此部分可以解码还原原始内容。</p>
+<p>最后将第二部分负载使用 <code>Base64Url</code> 编码，得到一个字符串就是JWT令牌的第二部分。</p>
+<p>一个例子 ：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"sub"</span>: <span class="hljs-string">"1234567890"</span>,
+    <span class="hljs-attr">"name"</span>: <span class="hljs-string">"456"</span>,
+    <span class="hljs-attr">"admin"</span>: <span class="hljs-literal">true</span>
+&#125;</code></pre></div>
+
+<p><strong>3、Signature</strong></p>
+<p>第三部分是签名，此部分用于防止jwt内容被篡改。</p>
+<p>这个部分使用 <code>base64url</code> 将前两部分进行编码，编码后使用点（.）连接组成字符串，最后使用header中声明<br>签名算法进行签名。</p>
+<p>一个例子：</p>
+<div class="hljs"><pre><code class="hljs lisp">HMACSHA256(<span class="hljs-name">base64UrlEncode</span>(<span class="hljs-name">header</span>) + <span class="hljs-string">"."</span> +base64UrlEncode(<span class="hljs-name">payload</span>),secret)</code></pre></div>
+
+<ul>
+<li>base64UrlEncode(header)：jwt令牌的第一部分。</li>
+<li>base64UrlEncode(payload)：jwt令牌的第二部分。</li>
+<li>secret：签名所使用的密钥。</li>
+</ul>
+<p><a href="https://codeyee.com/?p=69" target="_blank" rel="noopener"><img src="https://codeyee.com/?p=69" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="JWT入门"><a href="#JWT入门" class="headerlink" title="JWT入门"></a>JWT入门</h3><p>Spring Security 提供对 <code>JWT</code> 的支持，本节我们使用 <code>Spring Security</code> 提供的 <code>JwtHelper</code> 来创建JWT令牌，校验JWT令牌等操作。</p>
+<h4 id="生成私钥和公钥"><a href="#生成私钥和公钥" class="headerlink" title="生成私钥和公钥"></a>生成私钥和公钥</h4><p>JWT令牌生成采用非对称加密算法</p>
+<p>1、生成密钥证书</p>
+<p>下边命令生成密钥证书，采用RSA 算法每个证书包含公钥和私钥</p>
+<div class="hljs"><pre><code class="hljs shell">keytool -genkeypair -alias xckey -keyalg RSA -keypass xuecheng -keystore xc.keystore -storepass xuechengkeystore</code></pre></div>
+
+<p><code>Keytool</code> 是一个 <code>java</code> 提供的证书管理工具，以下是参数的说明</p>
+<ul>
+<li>-alias：密钥的别名</li>
+<li>-keyalg：使用的hash算法</li>
+<li>-keypass：密钥的访问密码</li>
+<li>-keystore：密钥库文件名，xc.keystore保存了生成的证书</li>
+<li>-storepass：密钥库的访问密码</li>
+</ul>
+<p>查询证书信息：</p>
+<div class="hljs"><pre><code class="hljs applescript">keytool -<span class="hljs-built_in">list</span> -keystore xc.keystore</code></pre></div>
+
+<p><a href="https://qnoss.codeyee.com/20200704_16/image31" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image31.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>删除别名：</p>
+<div class="hljs"><pre><code class="hljs d">keytool -<span class="hljs-keyword">delete</span> -<span class="hljs-keyword">alias</span> xckey -keystore xc.keystore</code></pre></div>
+
+<p>2、导出公钥</p>
+<p><code>openssl</code> 是一个加解密工具包，这里使用openssl来导出公钥信息。</p>
+<p>安装 openssl：<a href="http://slproweb.com/products/Win32OpenSSL.html" target="_blank" rel="noopener">http://slproweb.com/products/Win32OpenSSL.html</a></p>
+<p>安装完成后，配置 <code>openssl</code> 的 <code>path</code> 环境变量，本教程配置在 <code>D:\OpenSSL-Win64\bin</code></p>
+<p>在命令行进入 <code>xc.keystore</code> 文件所在目录执行如下命令：</p>
+<div class="hljs"><pre><code class="hljs applescript">keytool -<span class="hljs-built_in">list</span> -rfc <span class="hljs-comment">--keystore xc.keystore | openssl x509 -inform pem -pubkey</span></code></pre></div>
+
+<p>输入密钥库密码，如下图：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image32" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image32.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>复制生成出来的公钥数据</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image33" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image33.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>将上边的公钥拷贝到文本文件中，<code>合并为一行</code>，换行会有换行符，所以尽可能的避免一些我的发生 ，可以用<code>notepad++</code> 直接替换换行符 <code>\n</code> 如下图，当然你也可以手动的合并成一行。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image34" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image34.png" srcset="/img/loading.gif" alt="img"></a></p>
+<div class="hljs"><pre><code class="hljs jboss-cli"><span class="hljs-params">-----BEGIN</span> PUBLIC KEY<span class="hljs-params">-----MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAi1pGvYqLcTG2dcKhrtisQgkB90iWaCwE4OriDwCLMdiUV2NViEn</span>+r/jMbuIFCBtnB21yWZlIPnXjzcre/8HIUJy2dMWqP9NUhzoCzwdC1I9clZRVHTpe1H0eiaQY4BLxz5EScBZdr5u4Q0hT+t6D3t7qQg1MHxLBaFy2<span class="hljs-keyword">cd</span>HQbmz5Ly/1mmnWBHmFgjbbNG7gfaO3jRCl7RbNVUfSjb6gN+MfpyLk/iXr5S8Qhc2X07hvtm09QEk3cl14tQkZkXAUk7rAl9kgPSKoKr4MAdiYEsVNplKd4LMs4S2AC0dYrhdIX754eo6u4Ehpe6v5hSsF2d3ZpuV7nJ6JDCNxo7tU9wIDAQAB<span class="hljs-params">-----END</span> PUBLIC KEY<span class="hljs-params">-----</span></code></pre></div>
+
+<h4 id="生成jwt令牌"><a href="#生成jwt令牌" class="headerlink" title="生成jwt令牌"></a>生成jwt令牌</h4><p>在认证工程创建测试类，测试jwt令牌的生成与验证。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.auth;
+
+<span class="hljs-keyword">import</span> com.alibaba.fastjson.JSON;
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.junit.runner.RunWith;
+<span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;
+<span class="hljs-keyword">import</span> org.springframework.core.io.ClassPathResource;
+<span class="hljs-keyword">import</span> org.springframework.security.jwt.Jwt;
+<span class="hljs-keyword">import</span> org.springframework.security.jwt.JwtHelper;
+<span class="hljs-keyword">import</span> org.springframework.security.jwt.crypto.sign.RsaSigner;
+<span class="hljs-keyword">import</span> org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
+<span class="hljs-keyword">import</span> org.springframework.test.context.junit4.SpringRunner;
+
+<span class="hljs-keyword">import</span> java.security.KeyPair;
+<span class="hljs-keyword">import</span> java.security.interfaces.RSAPrivateKey;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-meta">@SpringBootTest</span>
+<span class="hljs-meta">@RunWith</span>(SpringRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">JwtTest</span> </span>&#123;
+    <span class="hljs-comment">//生成一个jwt令牌</span>
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testCreateJwt</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-comment">//证书文件</span>
+        String key_location = <span class="hljs-string">"xc.keystore"</span>;
+        <span class="hljs-comment">//密钥库密码</span>
+        String keystore_password = <span class="hljs-string">"xuechengkeystore"</span>;
+        <span class="hljs-comment">//访问证书路径</span>
+        ClassPathResource resource = <span class="hljs-keyword">new</span> ClassPathResource(key_location);
+        <span class="hljs-comment">//密钥工厂</span>
+        KeyStoreKeyFactory keyStoreKeyFactory = <span class="hljs-keyword">new</span> KeyStoreKeyFactory(resource, keystore_password.toCharArray());
+        <span class="hljs-comment">//密钥的密码，此密码和别名要匹配</span>
+        String keypassword = <span class="hljs-string">"xuecheng"</span>;
+        <span class="hljs-comment">//密钥别名</span>
+        String alias = <span class="hljs-string">"xckey"</span>;
+        <span class="hljs-comment">//密钥对（密钥和公钥）</span>
+        KeyPair keyPair = keyStoreKeyFactory.getKeyPair(alias,keypassword.toCharArray());
+        <span class="hljs-comment">//私钥</span>
+        RSAPrivateKey aPrivate = (RSAPrivateKey) keyPair.getPrivate();
+        <span class="hljs-comment">//定义payload信息</span>
+        Map&lt;String, Object&gt; tokenMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        tokenMap.put(<span class="hljs-string">"id"</span>, <span class="hljs-string">"123"</span>);
+        tokenMap.put(<span class="hljs-string">"name"</span>, <span class="hljs-string">"mrt"</span>);
+        tokenMap.put(<span class="hljs-string">"roles"</span>, <span class="hljs-string">"r01,r02"</span>);
+        tokenMap.put(<span class="hljs-string">"ext"</span>, <span class="hljs-string">"1"</span>);
+        <span class="hljs-comment">//生成jwt令牌</span>
+        Jwt jwt = JwtHelper.encode(JSON.toJSONString(tokenMap), <span class="hljs-keyword">new</span> RsaSigner(aPrivate));
+        <span class="hljs-comment">//取出jwt令牌</span>
+        String token = jwt.getEncoded();
+        System.out.println(token);
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="验证jwt令牌"><a href="#验证jwt令牌" class="headerlink" title="验证jwt令牌"></a>验证jwt令牌</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//资源服务使用公钥验证jwt的合法性，并对jwt解码</span>
+<span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testVerify</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-comment">//jwt令牌</span>
+    String token =<span class="hljs-string">""</span>;
+    <span class="hljs-comment">//公钥</span>
+    String publickey = <span class="hljs-string">""</span>;
+    <span class="hljs-comment">//校验jwt</span>
+    Jwt jwt = JwtHelper.decodeAndVerify(token, <span class="hljs-keyword">new</span> RsaVerifier(publickey));
+    <span class="hljs-comment">//获取jwt原始内容</span>
+    String claims = jwt.getClaims();
+    System.out.println(claims);
+    <span class="hljs-comment">//jwt令牌</span>
+    String encoded = jwt.getEncoded();
+    System.out.println(encoded);
+&#125;</code></pre></div>
+
+<h1 id="四、认证服务开发"><a href="#四、认证服务开发" class="headerlink" title="四、认证服务开发"></a>四、认证服务开发</h1><h2 id="1-需求分析"><a href="#1-需求分析" class="headerlink" title="1. 需求分析"></a>1. 需求分析</h2><p>用户登录的流程图如下</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image35" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image35.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>执行流程：</p>
+<p>1、用户登录，请求认证服务</p>
+<p>2、认证服务认证通过，生成 <code>jwt</code> 令牌，将 <code>jwt</code> 令牌及相关信息写入 <code>Redis</code>，并且将身份令牌写入 <code>cookie</code></p>
+<p>3、用户访问资源页面，带着 <code>cookie</code> 到网关</p>
+<p>4、网关从 <code>cookie</code> 获取 <code>token</code>，并查询 <code>Redis</code> 校验 <code>token</code>,如果 <code>token</code> 不存在则拒绝访问，否则放行</p>
+<p>5、用户退出，请求认证服务，清除 <code>redis</code> 中的 <code>token</code>，并且删除 <code>cookie</code> 中的 <code>token</code></p>
+<p>使用 <code>redis</code> 存储用户的身份令牌有以下作用：</p>
+<p>1、实现用户退出注销功能，服务端清除令牌后，即使客户端请求携带 <code>token</code> 也是无效的。</p>
+<p>2、由于 <code>jwt</code> 令牌过长，不宜存储在 cookie 中，所以将 jwt 的 <code>身份令牌</code> 存储在 <code>redis</code>，客户端请求服务端时附带这个 <code>身份令牌</code>，服务端根据身份令牌到 <code>redis</code> 中取出身份令牌对应的 jwt 令牌。</p>
+<h2 id="2-Redis配置"><a href="#2-Redis配置" class="headerlink" title="2. Redis配置"></a>2. Redis配置</h2><h3 id="安装Redis服务"><a href="#安装Redis服务" class="headerlink" title="安装Redis服务"></a>安装Redis服务</h3><p>下载Windows版本的redis：<a href="https://github.com/MicrosoftArchive/redis/tags" target="_blank" rel="noopener">https://github.com/MicrosoftArchive/redis/tags</a></p>
+<p>下载 <code>msi</code> 安装包进行安装</p>
+<p>刷新服务，会看到多了一个 <code>redis</code> 服务。</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image36" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image36.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>如果下载的是zip包</p>
+<p>运行</p>
+<div class="hljs"><pre><code class="hljs css"><span class="hljs-selector-tag">redis</span>‐<span class="hljs-selector-tag">server</span> <span class="hljs-selector-tag">redis</span><span class="hljs-selector-class">.windows</span><span class="hljs-selector-class">.conf</span></code></pre></div>
+
+<p>注册为服务：</p>
+<div class="hljs"><pre><code class="hljs cmd">redis‐server ‐‐service‐install redis.windows‐service.conf ‐‐loglevel verbose</code></pre></div>
+
+<p>常用的 redis 服务命令如下：</p>
+<p>卸载服务：<code>sc delete Redis</code></p>
+<p>开启服务：<code>net start Redis</code></p>
+<p>停止服务：<code>net stop Redis</code></p>
+<p>下载 windows 版本的redis客户端：<a href="https://redisdesktop.com/download" target="_blank" rel="noopener">https://redisdesktop.com/download</a></p>
+<p>下载 redis-desktop-manager-0.9.2.806.exe</p>
+<p>安装后启动 <code>redis</code> 客户端：</p>
+<p>配置 <code>redis</code> 链接：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image37" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image37.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>连接成功</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image38" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image38.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="redis连接配置"><a href="#redis连接配置" class="headerlink" title="redis连接配置"></a>redis连接配置</h3><p>在认证服务的 <code>application.yml</code> 文件中添加如下配置：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+	<span class="hljs-attr">name:</span> <span class="hljs-string">xc‐service‐ucenter‐auth</span>
+  <span class="hljs-attr">redis:</span>
+    <span class="hljs-attr">host:</span> <span class="hljs-string">$&#123;REDIS_HOST:127.0.0.1&#125;</span>
+    <span class="hljs-attr">port:</span> <span class="hljs-string">$&#123;REDIS_PORT:6379&#125;</span>
+    <span class="hljs-attr">timeout:</span> <span class="hljs-number">5000</span> <span class="hljs-comment">#连接超时 毫秒</span>
+    <span class="hljs-attr">jedis:</span>
+   	  <span class="hljs-attr">pool:</span>
+        <span class="hljs-attr">maxActive:</span> <span class="hljs-number">3</span>
+        <span class="hljs-attr">maxIdle:</span> <span class="hljs-number">3</span>
+        <span class="hljs-attr">minIdle:</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">maxWait:</span> <span class="hljs-string">‐1</span> <span class="hljs-comment">#连接池最大等行时间 ‐1没有限制</span></code></pre></div>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootTest</span>
+<span class="hljs-meta">@RunWith</span>(SpringRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">RedisTest</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> StringRedisTemplate stringRedisTemplate;
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testRedis</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-comment">//定义key</span>
+        String key = <span class="hljs-string">"user_token:9734b68f‐cf5e‐456f‐9bd6‐df578c711390"</span>;
+        <span class="hljs-comment">//定义Map</span>
+        Map&lt;String,String&gt; mapValue = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        mapValue.put(<span class="hljs-string">"id"</span>,<span class="hljs-string">"101"</span>);
+        mapValue.put(<span class="hljs-string">"username"</span>,<span class="hljs-string">"itcast"</span>);
+        String value = JSON.toJSONString(mapValue);
+        <span class="hljs-comment">//向redis中存储字符串</span>
+        stringRedisTemplate.boundValueOps(key).set(value,<span class="hljs-number">60</span>, TimeUnit.SECONDS);
+        <span class="hljs-comment">//读取过期时间，已过期返回‐2</span>
+        Long expire = stringRedisTemplate.getExpire(key);
+        <span class="hljs-comment">//根据key获取value</span>
+        String s = stringRedisTemplate.opsForValue().get(key);
+        System.out.println(s);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="3-认证服务"><a href="#3-认证服务" class="headerlink" title="3. 认证服务"></a>3. 认证服务</h2><h3 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h3><p>认证服务需要实现的功能如下：</p>
+<p>1、登录接口</p>
+<p>前端post提交账号、密码等，用户身份校验通过，生成令牌，并将令牌存储到redis。<br>将令牌写入cookie。</p>
+<p>2、退出接口</p>
+<p>校验当前用户的身份为合法并且为已登录状态。</p>
+<p>将令牌从redis删除。</p>
+<p>删除cookie中的令牌。</p>
+<p>业务流程如下：</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image39" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image39.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="Api接口"><a href="#Api接口" class="headerlink" title="Api接口"></a>Api接口</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Api</span>(value = <span class="hljs-string">"用户认证"</span>,description = <span class="hljs-string">"用户认证接口"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AuthControllerApi</span> </span>&#123;
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"登录"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> LoginResult <span class="hljs-title">login</span><span class="hljs-params">(LoginRequest loginRequest)</span></span>;
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"退出"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">logout</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
+
+<h3 id="配置参数"><a href="#配置参数" class="headerlink" title="配置参数"></a>配置参数</h3><p>在 <code>application.yml</code> 中配置参数</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">auth:</span>
+  <span class="hljs-attr">tokenValiditySeconds:</span> <span class="hljs-number">1200</span> <span class="hljs-comment">#token存储到redis的过期时间</span>
+  <span class="hljs-attr">clientId:</span> <span class="hljs-string">XcWebApp</span>
+  <span class="hljs-attr">clientSecret:</span> <span class="hljs-string">XcWebApp</span>
+  <span class="hljs-attr">cookieDomain:</span> <span class="hljs-string">localhost</span>
+  <span class="hljs-attr">cookieMaxAge:</span> <span class="hljs-string">‐1</span></code></pre></div>
+
+<h3 id="申请令牌测试"><a href="#申请令牌测试" class="headerlink" title="申请令牌测试"></a>申请令牌测试</h3><p>为了不破坏 <code>Spring Security</code> 的代码，我们在 <code>Service</code> 方法中通过 <code>RestTemplate</code> 请求 <code>Spring Security</code> 所暴露的申请令<br>牌接口来申请令牌，下边是测试代码：</p>
+<div class="hljs"><pre><code class="hljs java">
+<span class="hljs-meta">@SpringBootTest</span>
+<span class="hljs-meta">@RunWith</span>(SpringRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">TestClient</span> </span>&#123;
+
+    <span class="hljs-comment">//Eureka负载均衡客户端</span>
+    <span class="hljs-meta">@Autowired</span>
+    LoadBalancerClient loadBalancerClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    RestTemplate restTemplate;
+
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testClient</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-comment">//采用客户端负载均衡的方式从eureka获取认证服务的ip和端口</span>
+        ServiceInstance serviceInstance = loadBalancerClient.choose(<span class="hljs-string">"XC-SERVICE-UCENTER-AUTH"</span>);
+        URI uri = serviceInstance.getUri();
+        String authUrl = uri + <span class="hljs-string">"/auth/oauth/token"</span>;
+
+        <span class="hljs-comment">//使用LinkedMultiValueMap储存多个header信息</span>
+        LinkedMultiValueMap&lt;String, String&gt; headers = <span class="hljs-keyword">new</span> LinkedMultiValueMap&lt;&gt;();
+        <span class="hljs-comment">//设置basic认证信息</span>
+        String basicAuth = <span class="hljs-keyword">this</span>.getHttpBasic(<span class="hljs-string">"XcWebApp"</span>, <span class="hljs-string">"XcWebApp"</span>);
+        headers.add(<span class="hljs-string">"Authorization"</span>,basicAuth);
+
+        <span class="hljs-comment">//设置请求中的body信息</span>
+        LinkedMultiValueMap&lt;String, String&gt; body = <span class="hljs-keyword">new</span> LinkedMultiValueMap&lt;&gt;();
+        body.add(<span class="hljs-string">"grant_type"</span>,<span class="hljs-string">"password"</span>);
+        body.add(<span class="hljs-string">"username"</span>,<span class="hljs-string">"itcast"</span>);
+        body.add(<span class="hljs-string">"password"</span>,<span class="hljs-string">"12322"</span>);
+        HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt; httpEntity = <span class="hljs-keyword">new</span> HttpEntity&lt;&gt;(body, headers);
+
+        <span class="hljs-comment">//凭证信息错误时候, 指定restTemplate当遇到400或401响应时候也不要抛出异常，也要正常返回值</span>
+        restTemplate.setErrorHandler(<span class="hljs-keyword">new</span> DefaultResponseErrorHandler()&#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleError</span><span class="hljs-params">(ClientHttpResponse response)</span> <span class="hljs-keyword">throws</span> IOException</span>&#123;
+                <span class="hljs-comment">//当响应的值为400或者401时也要正常响应,不要抛出异常</span>
+                <span class="hljs-keyword">if</span>(response.getRawStatusCode()!=<span class="hljs-number">400</span> &amp;&amp; response.getRawStatusCode()!=<span class="hljs-number">401</span>)&#123;
+                    <span class="hljs-keyword">super</span>.handleError(response);
+                &#125;
+            &#125;
+        &#125;);
+
+        <span class="hljs-comment">//远程调用令牌</span>
+        ResponseEntity&lt;Map&gt; responseEntity = restTemplate.exchange(authUrl, HttpMethod.POST, httpEntity, Map<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        Map responseBody = responseEntity.getBody();
+        System.out.println(responseBody);
+    &#125;
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getHttpBasic</span><span class="hljs-params">(String clientId,String clientSecret)</span></span>&#123;
+        <span class="hljs-comment">//将客户端id和客户端密码拼接，按“客户端id:客户端密码”</span>
+        String string = clientId+<span class="hljs-string">":"</span>+clientSecret;
+        <span class="hljs-comment">//进行base64编码</span>
+        <span class="hljs-keyword">byte</span>[] encode = Base64.encode(string.getBytes());
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"Basic "</span>+<span class="hljs-keyword">new</span> String(encode);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="Dao"><a href="#Dao" class="headerlink" title="Dao"></a>Dao</h3><p>暂时使用静态数据，待用户登录调通再连接数据库校验用户信息。</p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>调用认证服务申请令牌，并将令牌存储到 <code>redis</code>。</p>
+<p>1、AuthToken</p>
+<p>创建 <code>AuthToken</code> 模型类，存储申请的令牌，包括身份令牌、刷新令牌、jwt令牌</p>
+<p>身份令牌：用于校验用户是否认证</p>
+<p>刷新令牌：jwt令牌快过期时执行刷新令牌</p>
+<p>jwt令牌：用于授权</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.framework.domain.ucenter.ext;
+
+<span class="hljs-keyword">import</span> lombok.Data;
+<span class="hljs-keyword">import</span> lombok.NoArgsConstructor;
+<span class="hljs-keyword">import</span> lombok.ToString;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Created by mrt on 2018/5/21.</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@ToString</span>
+<span class="hljs-meta">@NoArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthToken</span> </span>&#123;
+    String access_token;<span class="hljs-comment">//访问token</span>
+    String refresh_token;<span class="hljs-comment">//刷新token</span>
+    String jwt_token;<span class="hljs-comment">//jwt令牌</span>
+&#125;</code></pre></div>
+
+<p><strong>申请令牌的 service 方法如下</strong></p>
+<p>这里要注意一点的就是，原视频和讲义中将用户凭证储存到 <code>redis</code> 的方法是直接储存 <code>access_token</code> 作为 <code>key</code>，如果 access_token 作为key储存的话，用户在发送认证请求的时候就需要提供 <code>access_token</code>，也意味着 access_token 需要暴露给用户。</p>
+<ul>
+<li>直接暴露 access_token 会有一定的安全风险</li>
+<li>access_token 长度太大，不适合储存在cookie</li>
+</ul>
+<p>前面的时候该课程的老师也讲到了这个问题，但是后面还是犯了这个错误（至少我认为这是不应该的），所以 key 应该使用 <code>jti</code> 的值作为储存 ，value 为 <code>access_token</code> + <code>refresh_token</code> 储存到 <code>map</code> 转换成<code>json</code>后的字符串。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.auth.service.impl;
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AuthService</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(AuthService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;auth.tokenValiditySeconds&#125;"</span>)
+    <span class="hljs-keyword">int</span> tokenValiditySeconds;
+    <span class="hljs-comment">//Eureka负载均衡客户端</span>
+    <span class="hljs-meta">@Autowired</span>
+    LoadBalancerClient loadBalancerClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    RestTemplate restTemplate;
+
+    <span class="hljs-meta">@Autowired</span>
+    StringRedisTemplate stringRedisTemplate;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 用户登陆认证实现</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> username 用户名</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> password 密码</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> clientId 客户端id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> clientSecret 客户端凭证</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> AuthToken</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> AuthToken <span class="hljs-title">login</span><span class="hljs-params">(String username, String password, String clientId, String clientSecret)</span> </span>&#123;
+        <span class="hljs-comment">//申请令牌</span>
+        AuthToken authToken = <span class="hljs-keyword">this</span>.appleToken(username, password, clientId, clientSecret);
+        <span class="hljs-keyword">if</span>(authToken == <span class="hljs-keyword">null</span>)&#123;
+            ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLYTOKEN_FAIL);
+        &#125;
+        <span class="hljs-comment">//保存令牌到redis</span>
+        <span class="hljs-keyword">boolean</span> saveToken = <span class="hljs-keyword">this</span>.saveToken(authToken, tokenValiditySeconds);
+        <span class="hljs-keyword">if</span>(!saveToken)&#123;
+            ExceptionCast.cast(AuthCode.AUTH_LOGIN_TOKEN_SAVEFAIL);
+        &#125;
+        <span class="hljs-keyword">return</span> authToken;
+    &#125;
+
+    <span class="hljs-comment">//储存令牌到redis</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">saveToken</span><span class="hljs-params">(AuthToken authToken, <span class="hljs-keyword">long</span> ttl)</span></span>&#123;
+        <span class="hljs-comment">//储存到redis的key</span>
+        String key = <span class="hljs-string">"user_token:"</span> + authToken.getJwt_token();
+        Map&lt;String,String&gt; valueMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        <span class="hljs-comment">//拼装value</span>
+        valueMap.put(<span class="hljs-string">"access_token"</span>,authToken.getAccess_token());
+        valueMap.put(<span class="hljs-string">"refresh_token"</span>,authToken.getRefresh_token());
+        String valueJson = JSON.toJSONString(valueMap);
+        <span class="hljs-comment">//保存到令牌到redis</span>
+        stringRedisTemplate.boundValueOps(key).set(valueJson,ttl, TimeUnit.SECONDS);
+        <span class="hljs-comment">//获取过期时间</span>
+        Long expire = stringRedisTemplate.getExpire(key);
+        <span class="hljs-comment">//大于0则返回true</span>
+        <span class="hljs-keyword">return</span> expire&gt;<span class="hljs-number">0</span>;
+    &#125;
+
+    <span class="hljs-comment">//向Oauth2服务申请令牌</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> AuthToken <span class="hljs-title">appleToken</span><span class="hljs-params">(String username, String password, String clientId, String clientSecret)</span></span>&#123;
+        <span class="hljs-comment">//采用客户端负载均衡的方式从eureka获取认证服务的ip和端口</span>
+        ServiceInstance serviceInstance = loadBalancerClient.choose(<span class="hljs-string">"XC-SERVICE-UCENTER-AUTH"</span>);
+        URI uri = serviceInstance.getUri();
+        String authUrl = uri + <span class="hljs-string">"/auth/oauth/token"</span>;
+
+        <span class="hljs-comment">//使用LinkedMultiValueMap储存多个header信息</span>
+        LinkedMultiValueMap&lt;String, String&gt; headers = <span class="hljs-keyword">new</span> LinkedMultiValueMap&lt;&gt;();
+        <span class="hljs-comment">//设置basic认证信息</span>
+        String basicAuth = <span class="hljs-keyword">this</span>.getHttpBasic(clientId, clientSecret);
+        headers.add(<span class="hljs-string">"Authorization"</span>,basicAuth);
+
+        <span class="hljs-comment">//设置请求中的body信息</span>
+        LinkedMultiValueMap&lt;String, String&gt; body = <span class="hljs-keyword">new</span> LinkedMultiValueMap&lt;&gt;();
+        body.add(<span class="hljs-string">"grant_type"</span>,<span class="hljs-string">"password"</span>);
+        body.add(<span class="hljs-string">"username"</span>,username);
+        body.add(<span class="hljs-string">"password"</span>,password);
+        HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt; httpEntity = <span class="hljs-keyword">new</span> HttpEntity&lt;&gt;(body, headers);
+
+        <span class="hljs-comment">//凭证信息错误时候, 指定restTemplate当遇到400或401响应时候也不要抛出异常，也要正常返回值</span>
+        restTemplate.setErrorHandler(<span class="hljs-keyword">new</span> DefaultResponseErrorHandler()&#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleError</span><span class="hljs-params">(ClientHttpResponse response)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+                <span class="hljs-comment">//当响应的值为400或者401时也要正常响应,不要抛出异常</span>
+                <span class="hljs-keyword">if</span>(response.getRawStatusCode()!=<span class="hljs-number">400</span> &amp;&amp; response.getRawStatusCode()!=<span class="hljs-number">401</span>)&#123;
+                    <span class="hljs-keyword">super</span>.handleError(response);
+                &#125;
+            &#125;
+        &#125;);
+
+        Map map = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">//http请求spring security的申请令牌接口</span>
+            ResponseEntity&lt;Map&gt; mapResponseEntity = restTemplate.exchange(authUrl, HttpMethod.POST,
+                    <span class="hljs-keyword">new</span> HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt;(body, headers), Map<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+            map = mapResponseEntity.getBody();
+        &#125; <span class="hljs-keyword">catch</span> (RestClientException e) &#123;
+            e.printStackTrace();
+            LOGGER.error(<span class="hljs-string">"request oauth_token_password error: &#123;&#125;"</span>,e.getMessage());
+            e.printStackTrace();
+            ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLYTOKEN_FAIL);
+        &#125;
+        <span class="hljs-comment">//校验获取到的jwt是否完成</span>
+        <span class="hljs-keyword">if</span>(map == <span class="hljs-keyword">null</span> ||
+                map.get(<span class="hljs-string">"access_token"</span>) == <span class="hljs-keyword">null</span> ||
+                map.get(<span class="hljs-string">"refresh_token"</span>) == <span class="hljs-keyword">null</span> ||
+                map.get(<span class="hljs-string">"jti"</span>) == <span class="hljs-keyword">null</span>)&#123;<span class="hljs-comment">//jti是jwt令牌的唯一标识作为用户身份令牌</span>
+            ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLYTOKEN_FAIL);
+        &#125;
+
+        <span class="hljs-comment">//拼装authToken并返回</span>
+        AuthToken authToken = <span class="hljs-keyword">new</span> AuthToken();
+        <span class="hljs-comment">//访问令牌(jwt)</span>
+        String access_token = (String) map.get(<span class="hljs-string">"access_token"</span>);
+        <span class="hljs-comment">//刷新令牌(jwt)</span>
+        String refresh_token = (String) map.get(<span class="hljs-string">"refresh_token"</span>);
+        <span class="hljs-comment">//jti，作为用户的身份标识,也就是后面我们用于返回给到用户前端的凭证</span>
+        String jwt_token = (String) map.get(<span class="hljs-string">"jti"</span>);
+
+        authToken.setAccess_token(access_token);
+        authToken.setRefresh_token(refresh_token);
+        authToken.setJwt_token(jwt_token);
+        <span class="hljs-keyword">return</span> authToken;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getHttpBasic</span><span class="hljs-params">(String clientId, String clientSecret)</span></span>&#123;
+        <span class="hljs-comment">//将客户端id和客户端密码拼接，按“客户端id:客户端密码”</span>
+        String string = clientId+<span class="hljs-string">":"</span>+clientSecret;
+        <span class="hljs-comment">//进行base64编码</span>
+        <span class="hljs-keyword">byte</span>[] encode = Base64.encode(string.getBytes());
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"Basic "</span>+<span class="hljs-keyword">new</span> String(encode);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.auth.controller;
+
+<span class="hljs-comment">//在配置文件中设置了context-path: /auth 所以这里我们就不用再配置RequestMapping</span>
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthController</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">AuthControllerApi</span> </span>&#123;
+
+    <span class="hljs-comment">//客户端认证信息</span>
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;auth.clientId&#125;"</span>)
+    String clientId;
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;auth.clientSecret&#125;"</span>)
+    String clientSecret;
+
+    <span class="hljs-comment">//cookie域</span>
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;auth.cookieDomain&#125;"</span>)
+    String cookieDomain;
+    <span class="hljs-comment">//cookie生命周期</span>
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;auth.cookieMaxAge&#125;"</span>)
+    <span class="hljs-keyword">int</span> cookieMaxAge;
+
+    <span class="hljs-comment">//生命周期</span>
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;auth.tokenValiditySeconds&#125;"</span>)
+    <span class="hljs-keyword">int</span> tokenValiditySeconds;
+
+    <span class="hljs-meta">@Autowired</span>
+    AuthService authService;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 用户登陆接口</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> loginRequest 登陆参数</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> LoginResult</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/userlogin"</span>)
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> LoginResult <span class="hljs-title">login</span><span class="hljs-params">(LoginRequest loginRequest)</span> </span>&#123;
+        <span class="hljs-comment">//校验账号是否输入</span>
+        <span class="hljs-keyword">if</span>(loginRequest == <span class="hljs-keyword">null</span> || StringUtils.isEmpty(loginRequest.getUsername()))&#123;
+            ExceptionCast.cast(AuthCode.AUTH_USERNAME_NONE);
+        &#125;
+        <span class="hljs-comment">//校验密码是否输入</span>
+        <span class="hljs-keyword">if</span>(StringUtils.isEmpty(loginRequest.getPassword()))&#123;
+            ExceptionCast.cast(AuthCode.AUTH_PASSWORD_NONE);
+        &#125;
+        <span class="hljs-comment">//获取用户token信息并且保存到redis内</span>
+        AuthToken authToken = authService.login(
+                loginRequest.getUsername(),loginRequest.getPassword(), clientId, clientSecret);
+        <span class="hljs-comment">//将用户token写入cookie</span>
+        String jtw_token = authToken.getJwt_token();
+        <span class="hljs-comment">//将访问令牌存储到cookie</span>
+        <span class="hljs-keyword">this</span>.saveCookie(jtw_token);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> LoginResult(CommonCode.SUCCESS,jtw_token);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">logout</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+
+    <span class="hljs-comment">//将令牌保存到cookie</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveCookie</span><span class="hljs-params">(String token)</span></span>&#123;
+        HttpServletResponse response = ((ServletRequestAttributes)
+                RequestContextHolder.getRequestAttributes()).getResponse();
+        <span class="hljs-comment">//添加cookie 认证令牌，最后一个参数设置为false，表示允许浏览器获取</span>
+        CookieUtil.addCookie(response, cookieDomain, <span class="hljs-string">"/"</span>, <span class="hljs-string">"uid"</span>, token, cookieMaxAge, <span class="hljs-keyword">false</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="登录url放行"><a href="#登录url放行" class="headerlink" title="登录url放行"></a>登录url放行</h3><p>认证服务默认都要校验用户的身份信息，这里需要将登录url放行。</p>
+<p>在 <code>WebSecurityConfig</code> 类中重写 configure(WebSecurity web)方法，如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(WebSecurity web)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+web.ignoring().antMatchers(<span class="hljs-string">"/userlogin"</span>);
+&#125;</code></pre></div>
+
+<h3 id="测试认证接口"><a href="#测试认证接口" class="headerlink" title="测试认证接口"></a>测试认证接口</h3><p>使用 <code>postman</code> 测试：</p>
+<p>POST 请求：<a href="http://localhost:40400/auth/userlogin" target="_blank" rel="noopener">http://localhost:40400/auth/userlogin</a></p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image40" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image40.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h3 id="测试写入Cookie"><a href="#测试写入Cookie" class="headerlink" title="测试写入Cookie"></a>测试写入Cookie</h3><p>cookie最终会写到 <code>xuecheng.com</code> 域名下，可通过 <code>nginx</code> 代理进行认证，测试cookie是否写成功。</p>
+<p><strong>1、配置nginx代理</strong></p>
+<p>在<code>ucenter.xuecheng.com</code>下配置代理路径</p>
+<div class="hljs"><pre><code class="hljs c">#认证
+location ^~ /openapi/auth/ &#123;
+    proxy_pass http:<span class="hljs-comment">//auth_server_pool/auth/;</span>
+&#125;</code></pre></div>
+
+<p>添加</p>
+<div class="hljs"><pre><code class="hljs c">#认证服务
+upstream auth_server_pool&#123;
+    server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">40400</span> weight=<span class="hljs-number">10</span>;
+&#125;</code></pre></div>
+
+<p>2、检查我们的配置文件中<code>domain</code>的配置</p>
+<p>domain 设置为我们学成的主站域名，<code>xuecheng.com</code></p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">auth:</span>
+  <span class="hljs-attr">tokenValiditySeconds:</span> <span class="hljs-number">1200</span>  <span class="hljs-comment">#token存储到redis的过期时间</span>
+  <span class="hljs-attr">clientId:</span> <span class="hljs-string">XcWebApp</span>
+  <span class="hljs-attr">clientSecret:</span> <span class="hljs-string">XcWebApp</span>
+  <span class="hljs-attr">cookieDomain:</span> <span class="hljs-string">xuecheng.com</span>
+  <span class="hljs-attr">cookieMaxAge:</span> <span class="hljs-number">-1</span></code></pre></div>
+
+<p><strong>3、请求测试</strong></p>
+<p><a href="http://ucenter.xuecheng.com/openapi/auth/userlogin" target="_blank" rel="noopener">http://ucenter.xuecheng.com/openapi/auth/userlogin</a></p>
+<p>观察 <code>cookie</code> 写入结果</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image41" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image41.png" srcset="/img/loading.gif" alt="img"></a></p>
+<p>请求成功，cookie也成功拿到</p>
+<p><a href="https://qnoss.codeyee.com/20200704_16/image42" target="_blank" rel="noopener"><img src="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/image42.png" srcset="/img/loading.gif" alt="img"></a></p>
+<h1 id="五、一些需要注意的问题"><a href="#五、一些需要注意的问题" class="headerlink" title="五、一些需要注意的问题"></a>五、一些需要注意的问题</h1><h2 id="通用工程的依赖继承的问题"><a href="#通用工程的依赖继承的问题" class="headerlink" title="通用工程的依赖继承的问题"></a>通用工程的依赖继承的问题</h2><p><code>model</code> 工程中构建 UserJwt 实体时候需要引入 <code>oauth2</code> 的依赖，所以在引入依赖时需要注意使用 <code>optional</code> 标签防止其他服务工程继承到 model 工程下的 <code>oauth2</code> 依赖。</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-oauth2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>    <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>如果不配置 <code>&lt;optional&gt;true&lt;/optional&gt;</code> 会导致暂时无需认证的服务也会被动的开启了认证，并导致所有的接口都被认证拦截。</p>
+<p>并且 model 、api 、common 这三个通用工程在引入本工程需要用到的一些依赖时，也务必加上<code>&lt;optional&gt;true&lt;/optional&gt;</code> 这个标签，防止依赖继承导致的一些问题的出现。</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BF/">学成在线</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring-Security/">Spring Security</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Oauth2/">Oauth2</a>
+                    
+                      <a class="hover-with-bg" href="/tags/JWT/">JWT</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/23/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday15/">
+                        <span class="hidden-mobile">学成在线day15：媒资管理系统集成</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "学成在线day16：基于Spring Security Oauth2开发认证服务&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

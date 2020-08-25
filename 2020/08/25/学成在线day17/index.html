@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>学成在线day17：基于Zuul网关实现路由转发、过滤器 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-08-25 11:24">
+      2020-08-25
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      117
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="😎知识点概览"><a href="#😎知识点概览" class="headerlink" title="😎知识点概览"></a>😎知识点概览</h1><blockquote>
+<p>为了方便后续回顾该项目时能够清晰的知道本章节讲了哪些内容，并且能够从该章节的笔记中得到一些帮助，所以在完成本章节的学习后在此对本章节所涉及到的知识点进行总结概述。</p>
+</blockquote>
+<p>本章节为【学成在线】项目的 <code>day17</code> 的内容</p>
+<ul>
+<li>构建用户中心服务，并基于 <code>Spring Security Oauth2</code> 以及 <code>jwt</code> 令牌实现用户认证的完整流程。</li>
+<li>完成门户网站的用户登入、登出接口、前端页面的开发以及调试。</li>
+<li>基于 Zuul 构建网关服务，以及使用 Zuul 网关实现基本的路由转发、过滤器、身份校验等功能</li>
+</ul>
+<h1 id="一、用户认证"><a href="#一、用户认证" class="headerlink" title="一、用户认证"></a>一、用户认证</h1><h2 id="1-用户认证流程分析"><a href="#1-用户认证流程分析" class="headerlink" title="1. 用户认证流程分析"></a>1. 用户认证流程分析</h2><p>用户认证流程如下：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image1.png" srcset="/img/loading.gif" alt="image-20200527083511311"></p>
+<p>业务流程说明如下：</p>
+<p><strong>1、客户端请求认证服务进行认证。</strong></p>
+<p><strong>2、认证服务认证通过向浏览器 cookie 写入 token (身份令牌)</strong></p>
+<p>认证服务请求用户中心查询用户信息。</p>
+<p>认证服务请求 <code>Spring Security</code> 申请令牌。</p>
+<p>认证服务将 <code>token</code> (身份令牌)和 <code>jwt</code> 令牌存储至 <code>redis</code> 中。</p>
+<p>认证服务向cookie写入 <code>token</code> (身份令牌)。</p>
+<p>3<strong>、前端携带</strong>token<strong>请求认证服务获取</strong>jwt令牌</p>
+<p>前端获取到 <code>jwt</code> 令牌并存储在 <code>sessionStorage</code>。</p>
+<p>前端从jwt令牌中解析中用户信息并显示在页面。</p>
+<blockquote>
+<p>前端如何解析？还是认证服务返回明文数据</p>
+</blockquote>
+<p>4<strong>、前端携带</strong>cookie<strong>中的</strong>token<strong>身份令牌及</strong>jwt<strong>令牌访问资源服务</strong></p>
+<p>前端请求资源服务需要携带两个token，一个是cookie中的身份令牌，一个是http header中的jwt令牌</p>
+<p>前端请求资源服务前在http header上添加jwt请求资源</p>
+<p><strong>5、网关校验 token的合法性</strong></p>
+<p>用户请求必须携带 <code>token</code> 身份令牌和jwt令牌</p>
+<p>网关校验redis中 <code>token</code> 是否合法，已过期则要求用户重新登录</p>
+<p><strong>6、资源服务校验jwt的合法性并完成授权</strong></p>
+<p>资源服务校验jwt令牌，完成授权，拥有权限的方法正常执行，没有权限的方法将拒绝访问。</p>
+<h2 id="2-认证服务查询数据库"><a href="#2-认证服务查询数据库" class="headerlink" title="2. 认证服务查询数据库"></a>2. 认证服务查询数据库</h2><h3 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h3><ul>
+<li>认证服务根据数据库中的用户信息去校验用户的身份，即校验账号和密码是否匹配。</li>
+<li>认证服务不直接连接数据库，而是通过用户中心服务去查询用户中心数据库。</li>
+</ul>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image2.png" srcset="/img/loading.gif" alt="image-20200527083511311"></p>
+<p>完整的流程图如下：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image3.png" srcset="/img/loading.gif" alt="image-20200527084051627"></p>
+<h3 id="搭建环境"><a href="#搭建环境" class="headerlink" title="搭建环境"></a>搭建环境</h3><p>1、创建用户中心数据库</p>
+<p>用户中心负责用户管理，包括：用户信息管理、角色管理、权限管理等。</p>
+<p>创建 <code>xc_user</code> 数据库（MySQL）</p>
+<p>导入 <code>xc_user.sql</code> (已导入不用重复导入)</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image4.png" srcset="/img/loading.gif" alt="image-20200527084200019"></p>
+<p>2、创建用户中心工程</p>
+<p>导入“资料”-》xc-service-ucenter.zip</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image5.png" srcset="/img/loading.gif" alt="image-20200527084302385"></p>
+<p>完成用户中心根据账号查询用户信息接口功能。</p>
+<h3 id="查询用户接口开发"><a href="#查询用户接口开发" class="headerlink" title="查询用户接口开发"></a>查询用户接口开发</h3><h4 id="1、Api接口"><a href="#1、Api接口" class="headerlink" title="1、Api接口"></a>1、Api接口</h4><p>用户中心对外提供如下接口</p>
+<p>1）响应数据类型</p>
+<p>此接口将来被用来查询用户信息及用户权限信息，所以这里定义扩展类型</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.framework.domain.ucenter.response.ext;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.ucenter.XcMenu;
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.ucenter.XcUser;
+<span class="hljs-keyword">import</span> lombok.Data;
+<span class="hljs-keyword">import</span> lombok.ToString;
+ 
+<span class="hljs-keyword">import</span> java.util.List;
+ 
+<span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@ToString</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">XcUserExt</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">XcUser</span> </span>&#123;
+    <span class="hljs-comment">//权限信息</span>
+    <span class="hljs-keyword">private</span> List&lt;XcMenu&gt; permissions;
+    <span class="hljs-comment">//企业信息</span>
+    <span class="hljs-keyword">private</span> String companyId;
+&#125;</code></pre></div>
+
+<p>2）根据账号查询用户信息</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.xuecheng.api.ucenter;
+ 
+<span class="hljs-keyword">import</span> com.xuecheng.framework.domain.ucenter.response.ext.XcUserExt;
+<span class="hljs-keyword">import</span> io.swagger.annotations.Api;
+<span class="hljs-keyword">import</span> io.swagger.annotations.ApiOperation;
+ 
+<span class="hljs-meta">@Api</span>(value = <span class="hljs-string">"用户中心"</span>,description = <span class="hljs-string">"用户中心管理"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UcenterControllerApi</span> </span>&#123;
+    
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"获取用户信息"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> XcUserExt <span class="hljs-title">getUserext</span><span class="hljs-params">(String username)</span></span>;
+&#125;</code></pre></div>
+
+<h4 id="2、DAO"><a href="#2、DAO" class="headerlink" title="2、DAO"></a>2、DAO</h4><p>添加 <code>XcUser</code>、<code>XcCompantUser</code> 两个表的Dao ，对于一些简单的sql操作，我们使用 Spring Data JPA 实现</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">XcUserRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">JpaRepository</span>&lt;<span class="hljs-title">XcUser</span>, <span class="hljs-title">String</span>&gt; </span>&#123;
+    <span class="hljs-function">XcUser <span class="hljs-title">findXcUserByUsername</span><span class="hljs-params">(String username)</span></span>;
+&#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">XcCompanyUserRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">JpaRepository</span>&lt;<span class="hljs-title">XcCompanyUser</span>,<span class="hljs-title">String</span>&gt; </span>&#123;
+    <span class="hljs-comment">//根据用户id查询所属企业id</span>
+    <span class="hljs-function">XcCompanyUser <span class="hljs-title">findByUserId</span><span class="hljs-params">(String userId)</span></span>;
+&#125;</code></pre></div>
+
+<h4 id="3、Service"><a href="#3、Service" class="headerlink" title="3、Service"></a>3、Service</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserService</span> </span>&#123;
+ 
+    <span class="hljs-comment">//对xc_user表的相关操作</span>
+    <span class="hljs-meta">@Autowired</span>
+    XcUserRepository xcUserRepository;
+ 
+    <span class="hljs-comment">//对xc_company_user表的相关操作</span>
+    <span class="hljs-meta">@Autowired</span>
+    XcCompanyUserRepository xcCompanyUserRepository;
+ 
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据用户名查询用户信息的实现</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> username</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> XcUser <span class="hljs-title">findXcUserByUsername</span><span class="hljs-params">(String username)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> xcUserRepository.findXcUserByUsername(username);
+    &#125;
+ 
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据用户名获取用户权限的实现</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> username 用户名</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> XcUserExt <span class="hljs-title">getUserExt</span><span class="hljs-params">(String username)</span> </span>&#123;
+        <span class="hljs-comment">//查询用户信息</span>
+        XcUser xcUser = <span class="hljs-keyword">this</span>.findXcUserByUsername(username);
+        <span class="hljs-keyword">if</span>(xcUser ==<span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+ 
+        XcUserExt xcUserExt = <span class="hljs-keyword">new</span> XcUserExt();
+        BeanUtils.copyProperties(xcUser,xcUserExt);
+ 
+        <span class="hljs-comment">//根据用户id查询用所属公司</span>
+        String xcUserId = xcUser.getId();
+        XcCompanyUser xcCompanyUser = xcCompanyUserRepository.findByUserId(xcUserId);
+        <span class="hljs-keyword">if</span>(xcCompanyUser!=<span class="hljs-keyword">null</span>)&#123;
+            String companyId = xcCompanyUser.getCompanyId();
+            xcUserExt.setCompanyId(companyId);
+        &#125;
+ 
+        <span class="hljs-comment">//返回XcUserExt对象</span>
+        <span class="hljs-keyword">return</span> xcUserExt;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="4、Controller"><a href="#4、Controller" class="headerlink" title="4、Controller"></a>4、Controller</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/ucenter"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UcenterController</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UcenterControllerApi</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    UserService userService;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/getuserext"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> XcUserExt <span class="hljs-title">getUserext</span><span class="hljs-params">(@RequestParam(<span class="hljs-string">"username"</span>)</span> String username) </span>&#123;
+        XcUserExt xcUser = userService.getUserExt(username);
+        <span class="hljs-keyword">return</span> xcUser;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="5、可能出现的一些问题"><a href="#5、可能出现的一些问题" class="headerlink" title="5、可能出现的一些问题"></a>5、可能出现的一些问题</h4><p>如果 <code>ucenter</code> 服务出现接口需要认证才能访问的情况，考虑可能是继承了 <code>model</code> 工程的 <code>oauth2</code> 依赖导致开启了认证拦截。</p>
+<p>解决方案：在 model 工程下的 <code>oauth2</code> 依赖加上 <code>&lt;optional&gt;true&lt;/optional&gt;</code> 标签，该标签可以防止本工程下的依赖包传递到其他工程。</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-oauth2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">optional</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">optional</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<h4 id="6、测试"><a href="#6、测试" class="headerlink" title="6、测试"></a>6、测试</h4><p>使用 <code>Swagger-ui</code> 或 <code>postman</code> 测试用户信息查询接口</p>
+<p>GET <a href="http://localhost:40300/ucenter/getuserext" target="_blank" rel="noopener">http://localhost:40300/ucenter/getuserext</a></p>
+<p>参数为 username</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image6.png" srcset="/img/loading.gif" alt="img"></p>
+<h4 id="7、思考一些问题"><a href="#7、思考一些问题" class="headerlink" title="7、思考一些问题"></a>7、思考一些问题</h4><p>在上述测试过程中，通过 GET 请求调用 <a href="http://localhost:40300/ucenter/getuserext" target="_blank" rel="noopener">http://localhost:40300/ucenter/getuserext</a> 接口可以获取到一个用户的详细信息，但是考虑到用户数据的安全问题，这个接口不应该直接暴露给普通的用户，只适合服务间的调用，并需要经过授权的服务才可以调用。</p>
+<p>答：后期配置微服务间认证后可以解决上述的问题。</p>
+<h3 id="调用查询用户的接口"><a href="#调用查询用户的接口" class="headerlink" title="调用查询用户的接口"></a>调用查询用户的接口</h3><h4 id="1、创建-client"><a href="#1、创建-client" class="headerlink" title="1、创建 client"></a>1、创建 client</h4><p>认证服务需要远程调用用户中心服务查询用户，在 <code>认证服务</code> 中创建Feign客户端</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = XcServiceList.XC_SERVICE_UCENTER)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserClient</span> </span>&#123;
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/ucenter/getuserext"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> XcUserExt <span class="hljs-title">getUserext</span><span class="hljs-params">(@RequestParam(<span class="hljs-string">"username"</span>)</span> String username)</span>
+<span class="hljs-function">&#125;</span></code></pre></div>
+
+<h4 id="2、UserDetailsService"><a href="#2、UserDetailsService" class="headerlink" title="2、UserDetailsService"></a>2、UserDetailsService</h4><p>认证服务调用 <code>spring security</code> 接口申请令牌，<code>spring security</code> 接口会调用 <code>UserDetailsServiceImpl</code> 从数据库查询用户，如果查询不到则返回 <code>NULL</code>，表示不存在；在<code>UserDetailsServiceImpl</code> 中将正确的密码返回， <code>spring security</code> 会自动去比对输入密码的正确性。</p>
+<p>修改 UserDetailsServiceImpl 的 <code>loadUserByUsername</code> 方法，调用 Ucenter服务的查询用户接口</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserDetailsServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">UserDetailsService</span> </span>&#123;
+ 
+    <span class="hljs-meta">@Autowired</span>
+    ClientDetailsService clientDetailsService;
+ 
+    <span class="hljs-comment">//用户中心服务客户端</span>
+    <span class="hljs-meta">@Autowired</span>
+    UserClient userClient;
+ 
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> UserDetails <span class="hljs-title">loadUserByUsername</span><span class="hljs-params">(String username)</span> <span class="hljs-keyword">throws</span> UsernameNotFoundException </span>&#123;
+        <span class="hljs-comment">//取出身份，如果身份为空说明没有认证</span>
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        <span class="hljs-comment">//没有认证统一采用httpbasic认证，httpbasic中存储了client_id和client_secret</span>
+        <span class="hljs-comment">//开始认证client_id和client_secret</span>
+        <span class="hljs-keyword">if</span>(authentication==<span class="hljs-keyword">null</span>)&#123;
+            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(username);
+            <span class="hljs-keyword">if</span>(clientDetails!=<span class="hljs-keyword">null</span>)&#123;
+                <span class="hljs-comment">//密码</span>
+                String clientSecret = clientDetails.getClientSecret();
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> User(username,clientSecret,AuthorityUtils.commaSeparatedStringToAuthorityList(<span class="hljs-string">""</span>));
+            &#125;
+        &#125;
+        <span class="hljs-keyword">if</span> (StringUtils.isEmpty(username)) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+ 
+        <span class="hljs-comment">//请求ucenter查询用户</span>
+        XcUserExt userext = userClient.getUserext(username);
+        <span class="hljs-keyword">if</span>(userext == <span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>; <span class="hljs-comment">//如果获取到的用信息为空,则返回null,spring security则会抛出异常</span>
+ 
+        <span class="hljs-comment">//设置用户的认证和权限信息</span>
+        userext.setUsername(<span class="hljs-string">"itcast"</span>);
+        userext.setPassword(<span class="hljs-keyword">new</span> BCryptPasswordEncoder().encode(<span class="hljs-string">"123"</span>));
+        userext.setPermissions(<span class="hljs-keyword">new</span> ArrayList&lt;XcMenu&gt;());  <span class="hljs-comment">//这里授权部分还没完成,所以先填写静态的</span>
+        <span class="hljs-keyword">if</span>(userext == <span class="hljs-keyword">null</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+ 
+        <span class="hljs-comment">//从数据库查询用户正确的密码，Spring Security会去比对输入密码的正确性</span>
+        String password = userext.getPassword();
+        String user_permission_string = <span class="hljs-string">""</span>;
+ 
+        <span class="hljs-comment">//设置用户信息到userDetails对象</span>
+        UserJwt userDetails = <span class="hljs-keyword">new</span> UserJwt(
+                username,
+                password,
+                AuthorityUtils.commaSeparatedStringToAuthorityList(user_permission_string));
+        <span class="hljs-comment">//用户id</span>
+        userDetails.setId(userext.getId());
+        <span class="hljs-comment">//用户名称</span>
+        userDetails.setName(userext.getName());
+        <span class="hljs-comment">//用户头像</span>
+        userDetails.setUserpic(userext.getUserpic());
+        <span class="hljs-comment">//用户所属企业id</span>
+        userDetails.setCompanyId(userext.getCompanyId());
+ 
+        <span class="hljs-comment">//返回用信息给到Spring Security进行处理</span>
+        <span class="hljs-keyword">return</span> userDetails;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="3、BCryptPaswordEncoder"><a href="#3、BCryptPaswordEncoder" class="headerlink" title="3、BCryptPaswordEncoder"></a>3、BCryptPaswordEncoder</h4><p>早期使用md5对密码进行编码，每次算出的md5值都一样，这样非常不安全，Spring Security推荐使用<br>BCryptPasswordEncoder对密码加随机盐，每次的Hash值都不一样，安全性高 。</p>
+<p>1）BCryptPasswordEncoder测试程序如下</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testPasswrodEncoder</span><span class="hljs-params">()</span></span>&#123;
+    String password = <span class="hljs-string">"111111"</span>;
+    PasswordEncoder passwordEncoder = <span class="hljs-keyword">new</span> BCryptPasswordEncoder();
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">10</span>;i++) &#123;
+        <span class="hljs-comment">//每个计算出的Hash值都不一样</span>
+        String hashPass = passwordEncoder.encode(password);
+        System.out.println(hashPass);
+        <span class="hljs-comment">//虽然每次计算的密码Hash值不一样但是校验是通过的</span>
+        <span class="hljs-keyword">boolean</span> f = passwordEncoder.matches(password, hashPass);
+        System.out.println(f);
+    &#125;
+&#125;</code></pre></div>
+
+<p>2）在 <code>AuthorizationServerConfig</code> 配置类中配置 BCryptPasswordEncoder</p>
+<blockquote>
+<p>原教程中已经在 WebSecurityConfig 中进行了配置，这个在哪里配置都无所谓，本质上都是向spring注入一个bean</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//采用bcrypt对密码进行Hash</span>
+<span class="hljs-meta">@Bean</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> PasswordEncoder <span class="hljs-title">passwordEncoder</span><span class="hljs-params">()</span> </span>&#123;
+	<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BCryptPasswordEncoder();
+&#125;</code></pre></div>
+
+<p>3）测试</p>
+<p>请求 <a href="http://localhost:40400/auth/userlogin%EF%BC%8C%E8%BE%93%E5%85%A5%E6%AD%A3%E5%B8%B8%E7%9A%84%E8%B4%A6%E5%8F%B7%E5%92%8C%E5%AF%86%E7%A0%81%E8%BF%9B%E8%A1%8C%E6%B5%8B%E8%AF%95" target="_blank" rel="noopener">http://localhost:40400/auth/userlogin，输入正常的账号和密码进行测试</a></p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image7.png" srcset="/img/loading.gif" alt="image-20200529102941282"></p>
+<h4 id="4、解析申请令牌错误信息"><a href="#4、解析申请令牌错误信息" class="headerlink" title="4、解析申请令牌错误信息"></a>4、解析申请令牌错误信息</h4><p>当账号输入错误应该返回用户不存在的信息，当密码错误要返回用户名或密码错误信息，业务流程图如下：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image8.png" srcset="/img/loading.gif" alt="image-20200527103015749"></p>
+<p>修改申请令牌的程序解析返回的错误:</p>
+<p>由于 <code>restTemplate</code> 收到400或401的错误会抛出异常，而 <code>spring security</code> 针对账号不存在及密码错误会返回 <code>400</code> 及 <code>401</code>，所以在代码中控制针对 <code>400</code> 或 <code>401</code> 的响应不要抛出异常。</p>
+<p>修改 <code>AuthServiceImpl</code> 的 appleToken 方法</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//向Oauth2服务申请令牌</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> AuthToken <span class="hljs-title">appleToken</span><span class="hljs-params">(String username, String password, String clientId, String clientSecret)</span></span>&#123;
+    <span class="hljs-comment">//采用客户端负载均衡的方式从eureka获取认证服务的ip和端口</span>
+    ServiceInstance serviceInstance = loadBalancerClient.choose(<span class="hljs-string">"XC-SERVICE-UCENTER-AUTH"</span>);
+    URI uri = serviceInstance.getUri();
+    String authUrl = uri + <span class="hljs-string">"/auth/oauth/token"</span>;
+ 
+    <span class="hljs-comment">//使用LinkedMultiValueMap储存多个header信息</span>
+    LinkedMultiValueMap&lt;String, String&gt; headers = <span class="hljs-keyword">new</span> LinkedMultiValueMap&lt;&gt;();
+    <span class="hljs-comment">//设置basic认证信息</span>
+    String basicAuth = <span class="hljs-keyword">this</span>.getHttpBasic(clientId, clientSecret);
+    headers.add(<span class="hljs-string">"Authorization"</span>,basicAuth);
+ 
+    <span class="hljs-comment">//设置请求中的body信息</span>
+    LinkedMultiValueMap&lt;String, String&gt; body = <span class="hljs-keyword">new</span> LinkedMultiValueMap&lt;&gt;();
+    body.add(<span class="hljs-string">"grant_type"</span>,<span class="hljs-string">"password"</span>);
+    body.add(<span class="hljs-string">"username"</span>,username);
+    body.add(<span class="hljs-string">"password"</span>,password);
+    HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt; httpEntity = <span class="hljs-keyword">new</span> HttpEntity&lt;&gt;(body, headers);
+ 
+    <span class="hljs-comment">//凭证信息错误时候, 指定restTemplate当遇到400或401响应时候也不要抛出异常，也要正常返回值</span>
+    restTemplate.setErrorHandler(<span class="hljs-keyword">new</span> DefaultResponseErrorHandler()&#123;
+        <span class="hljs-meta">@Override</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleError</span><span class="hljs-params">(ClientHttpResponse response)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+            <span class="hljs-comment">//当响应的值为400或者401时也要正常响应,不要抛出异常</span>
+            <span class="hljs-keyword">if</span>(response.getRawStatusCode()!=<span class="hljs-number">400</span> &amp;&amp; response.getRawStatusCode()!=<span class="hljs-number">401</span>)&#123;
+                <span class="hljs-keyword">super</span>.handleError(response);
+            &#125;
+        &#125;
+    &#125;);
+ 
+    Map map = <span class="hljs-keyword">null</span>;
+    <span class="hljs-keyword">try</span> &#123;
+        ((RestTemplate) restTemplate).setErrorHandler(<span class="hljs-keyword">new</span> DefaultResponseErrorHandler() &#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleError</span><span class="hljs-params">(ClientHttpResponse response)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+                <span class="hljs-comment">// 设置 当响应400和401时照常响应数据，不要报错</span>
+                <span class="hljs-keyword">if</span> (response.getRawStatusCode() != <span class="hljs-number">400</span> &amp;&amp; response.getRawStatusCode() != <span class="hljs-number">401</span> ) &#123;
+                    <span class="hljs-keyword">super</span>.handleError(response);
+                &#125;
+            &#125;
+        &#125;);
+ 
+        <span class="hljs-comment">//http请求spring security的申请令牌接口</span>
+        ResponseEntity&lt;Map&gt; mapResponseEntity = restTemplate.exchange(authUrl, HttpMethod.POST, <span class="hljs-keyword">new</span>
+                                                                      HttpEntity&lt;MultiValueMap&lt;String, String&gt;&gt;(body, headers), Map<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        map = mapResponseEntity.getBody();
+    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+        e.printStackTrace();
+        LOGGER.error(<span class="hljs-string">"request oauth_token_password error: &#123;&#125;"</span>,e.getMessage());
+        e.printStackTrace();
+        ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLYTOKEN_FAIL);
+    &#125;
+    <span class="hljs-keyword">if</span>(map == <span class="hljs-keyword">null</span> ||map.get(<span class="hljs-string">"access_token"</span>) == <span class="hljs-keyword">null</span> ||
+       map.get(<span class="hljs-string">"refresh_token"</span>) == <span class="hljs-keyword">null</span> ||
+       map.get(<span class="hljs-string">"jti"</span>) == <span class="hljs-keyword">null</span>)&#123;<span class="hljs-comment">//jti是jwt令牌的唯一标识作为用户身份令牌</span>
+        <span class="hljs-comment">//获取spring security返回的错误信息</span>
+        String error_description = (String) map.get(<span class="hljs-string">"error_description"</span>);
+        <span class="hljs-keyword">if</span>(StringUtils.isNotEmpty(error_description))&#123;
+            <span class="hljs-keyword">if</span>(error_description.equals(<span class="hljs-string">"坏的凭证"</span>))&#123;
+                ExceptionCast.cast(AuthCode.AUTH_CREDENTIAL_ERROR);
+            &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(error_description.indexOf(<span class="hljs-string">"UserDetailsService returned null"</span>)&gt;=<span class="hljs-number">0</span>)&#123;
+                ExceptionCast.cast(AuthCode.AUTH_ACCOUNT_NOTEXISTS);
+            &#125;
+        &#125; ExceptionCast.cast(AuthCode.AUTH_LOGIN_APPLYTOKEN_FAIL);
+    &#125;
+ 
+    <span class="hljs-comment">//拼装authToken并返回</span>
+    AuthToken authToken = <span class="hljs-keyword">new</span> AuthToken();
+    <span class="hljs-comment">//访问令牌(jwt)</span>
+    String access_token = (String) map.get(<span class="hljs-string">"access_token"</span>);
+    <span class="hljs-comment">//刷新令牌(jwt)</span>
+    String refresh_token = (String) map.get(<span class="hljs-string">"refresh_token"</span>);
+    <span class="hljs-comment">//jti，作为用户的身份标识,也就是后面我们用于返回给到用户前端的凭证</span>
+    String jwt_token = (String) map.get(<span class="hljs-string">"jti"</span>);
+ 
+    authToken.setAccess_token(access_token);
+    authToken.setRefresh_token(refresh_token);
+    authToken.setJwt_token(jwt_token);
+    <span class="hljs-keyword">return</span> authToken;
+&#125;</code></pre></div>
+
+<p>用户不存在：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image9.png" srcset="/img/loading.gif" alt="image-20200527103916066"></p>
+<p>密码错误：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image10.png" srcset="/img/loading.gif" alt="image-20200527103926094"></p>
+<h4 id="5、测试"><a href="#5、测试" class="headerlink" title="5、测试"></a><strong>5、测试</strong></h4><p>使用postman请求<a href="http://localhost:40400/auth/userlogin" target="_blank" rel="noopener">http://localhost:40400/auth/userlogin</a></p>
+<p>1、输入正确的账号和密码进行测试</p>
+<p>从数据库找到测试账号，本课程所提供的用户信息初始密码统一为123</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image11.png" srcset="/img/loading.gif" alt="image-20200529104816836"></p>
+<p>2、输入错误的账号和密码进行测试</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image12.png" srcset="/img/loading.gif" alt="image-20200529104802458"></p>
+<h2 id="3-用户登录前端"><a href="#3-用户登录前端" class="headerlink" title="3. 用户登录前端"></a>3. 用户登录前端</h2><h3 id="需求分析-1"><a href="#需求分析-1" class="headerlink" title="需求分析"></a>需求分析</h3><p>点击用户登录固定跳转到用户中心前端的登录页面，如下：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image13.png" srcset="/img/loading.gif" alt="image-20200527085248145"></p>
+<p>输入账号和密码，登录成功，跳转到首页。</p>
+<p>用户中心前端（<code>xc-ui-pc-learning</code>工程）提供登录页面，所有子系统连接到此页面。</p>
+<p>说明：</p>
+<ul>
+<li>页面有 “登录|注册” 链接的前端系统有：门户系统、搜索系统、用户中心。</li>
+<li>本小节修改门户系统的页头，其它三处可参考门户修改。</li>
+</ul>
+<h3 id="Api方法"><a href="#Api方法" class="headerlink" title="Api方法"></a>Api方法</h3><p>在 <code>xc-ui-pc-leanring/src/base/api/login.js</code> 下配置该api方法，用于请求后端登录接口</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/*登陆*/</span>
+export <span class="hljs-keyword">const</span> login = params =&gt; &#123;
+    <span class="hljs-comment">//let loginRequest = querystring.stringify(params)</span>
+    let loginRequest = qs.stringify(params);
+    <span class="hljs-keyword">return</span> http.requestPostForm(<span class="hljs-string">'/openapi/auth/userlogin'</span>,loginRequest);
+&#125;</code></pre></div>
+
+<h3 id="页面"><a href="#页面" class="headerlink" title="页面"></a>页面</h3><p><strong>1、登录页面</strong></p>
+<p>进入用户中心前端 <code>xc-ui-pc-leanring/src/module/home/page/</code>，找到登录页面 <code>loginpage.vue</code>：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image14.png" srcset="/img/loading.gif" alt="image-20200527085434263"></p>
+<p>loginpage.vue 导入了 <code>loginForm.vue</code> 组件，<code>loginForm.vue</code> 页面包括了登录表单</p>
+<div class="hljs"><pre><code class="hljs js">&lt;template&gt;
+  &lt;div&gt;
+    &lt;p-head&gt;&lt;<span class="hljs-regexp">/p-head&gt;</span>
+<span class="hljs-regexp"> </span>
+<span class="hljs-regexp">    &lt;login-form&gt;&lt;/</span>login-form&gt;
+ 
+    &lt;p-foot&gt;&lt;<span class="hljs-regexp">/p-foot&gt;</span>
+<span class="hljs-regexp">  &lt;/</span>div&gt;
+&lt;<span class="hljs-regexp">/template&gt;</span>
+<span class="hljs-regexp">&lt;script&gt;</span>
+<span class="hljs-regexp">import PHead from '@/</span>base/components/head.vue<span class="hljs-string">';</span>
+<span class="hljs-string">import PFoot from '</span>@/base/components/foot.vue<span class="hljs-string">';</span>
+<span class="hljs-string">import loginForm from '</span>@/base/components/loginForm.vue<span class="hljs-string">';</span>
+<span class="hljs-string">...</span></code></pre></div>
+
+<p>在 <code>xc-ui-pc-leanring/src/base/components</code> 下我们可以看到一个 <code>loginForm.vue</code> 的页面文件，主要为登录表单的页面实现，部分页面代码如下</p>
+<div class="hljs"><pre><code class="hljs js">&lt;template&gt;
+  &lt;div&gt;
+        &lt;el-row <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"container"</span> style=<span class="hljs-string">"width: 470px"</span>&gt;
+          &lt;div id=<span class="hljs-string">"body"</span>&gt;
+            &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"g-center login-page"</span> @keyup.enter=<span class="hljs-string">"login"</span>&gt;
+              &lt;el-tabs v-model=<span class="hljs-string">"activeName"</span> &gt;
+                &lt;el-tab-pane label=<span class="hljs-string">"用户登陆"</span> name=<span class="hljs-string">"login"</span>&gt;
+              &lt;el-form :model=<span class="hljs-string">"loginForm"</span> label-width=<span class="hljs-string">"80px"</span> :rules=<span class="hljs-string">"loginRules"</span> ref=<span class="hljs-string">"loginForm"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"login-form"</span>&gt;
+                &lt;el-form-item label=<span class="hljs-string">"账号"</span> prop=<span class="hljs-string">"username"</span>&gt;
+                  &lt;el-input v-model=<span class="hljs-string">"loginForm.username"</span> auto-complete=<span class="hljs-string">"off"</span> &gt;&lt;<span class="hljs-regexp">/el-input&gt;</span>
+<span class="hljs-regexp">                &lt;/</span>el-form-item&gt;
+                &lt;el-form-item label=<span class="hljs-string">"密码"</span> prop=<span class="hljs-string">"password"</span>&gt;
+                  &lt;el-input v-model=<span class="hljs-string">"loginForm.password"</span> auto-complete=<span class="hljs-string">"off"</span> &gt;&lt;<span class="hljs-regexp">/el-input&gt;</span>
+<span class="hljs-regexp">                &lt;/</span>el-form-item&gt;
+                &lt;el-form-item &gt;
+                  &lt;el-button type=<span class="hljs-string">"primary"</span>  @click.native=<span class="hljs-string">"login"</span> :loading=<span class="hljs-string">"editLoading"</span>&gt;登陆&lt;<span class="hljs-regexp">/el-button&gt;</span>
+<span class="hljs-regexp">                  &lt;el-button type="primary"  @click="resetForm('loginForm')"&gt;重置&lt;/</span>el-button&gt;
+                &lt;<span class="hljs-regexp">/el-form-item&gt;</span>
+<span class="hljs-regexp">              &lt;/</span>el-form&gt;
+                &lt;<span class="hljs-regexp">/el-tab-pane&gt;</span>
+<span class="hljs-regexp">                &lt;el-tab-pane label="用户注册" name="register"&gt;</span>
+<span class="hljs-regexp">                  建设中..</span>
+<span class="hljs-regexp">                &lt;/</span>el-tab-pane&gt;
+              &lt;<span class="hljs-regexp">/el-tabs&gt;</span>
+<span class="hljs-regexp">            &lt;/</span>div&gt;
+
+        &lt;<span class="hljs-regexp">/div&gt;</span>
+<span class="hljs-regexp">        &lt;/</span>el-row&gt;
+  &lt;<span class="hljs-regexp">/div&gt;</span>
+<span class="hljs-regexp">&lt;/</span>template&gt;</code></pre></div>
+
+<p><strong>2、路由配置</strong></p>
+<p>来到 <code>xc-ui-pc-leanring/src/module/home/router</code> 下配置home模块的路由：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">import</span> Home <span class="hljs-keyword">from</span> <span class="hljs-string">'@/module/home/page/home.vue'</span>;
+<span class="hljs-keyword">import</span> Login <span class="hljs-keyword">from</span> <span class="hljs-string">'@/module/home/page/loginpage.vue'</span>;
+<span class="hljs-keyword">import</span> Denied <span class="hljs-keyword">from</span> <span class="hljs-string">'@/module/home/page/denied.vue'</span>;
+<span class="hljs-keyword">import</span> Logout <span class="hljs-keyword">from</span> <span class="hljs-string">'@/module/home/page/logout.vue'</span>;
+<span class="hljs-keyword">import</span> order_pay <span class="hljs-keyword">from</span> <span class="hljs-string">'@/module/order/page/order_pay.vue'</span>;
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> [&#123;
+    path: <span class="hljs-string">'/'</span>,
+    component: Home,
+    name: <span class="hljs-string">'个人中心'</span>,
+    hidden: <span class="hljs-literal">true</span>
+&#125;,
+&#123;
+	path: <span class="hljs-string">'/login'</span>,
+	component: Login,
+	name: <span class="hljs-string">'Login'</span>,
+ 	hidden: <span class="hljs-literal">true</span>
+&#125;,
+   .....</code></pre></div>
+
+<p><strong>3、登录后跳转</strong></p>
+<p>请求登录页面需携带 <code>returnUrl</code> 参数，要求此参数使用 <code>Base64</code> 编码。</p>
+<p>登录成功后将跳转到 <code>returnUrl</code>，<code>loginForm.vue</code> 组件的登录方法如下：</p>
+<div class="hljs"><pre><code class="hljs js">login: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">this</span>.$refs.loginForm.validate(<span class="hljs-function">(<span class="hljs-params">valid</span>) =&gt;</span> &#123;
+        <span class="hljs-keyword">if</span> (valid) &#123;
+            <span class="hljs-keyword">this</span>.editLoading = <span class="hljs-literal">true</span>;
+            <span class="hljs-keyword">let</span> para = <span class="hljs-built_in">Object</span>.assign(&#123;&#125;, <span class="hljs-keyword">this</span>.loginForm);
+            loginApi.login(para).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;
+                <span class="hljs-keyword">this</span>.editLoading = <span class="hljs-literal">false</span>;
+                <span class="hljs-keyword">if</span>(res.success)&#123;
+                    <span class="hljs-keyword">this</span>.$message(<span class="hljs-string">'登陆成功'</span>);
+                    <span class="hljs-comment">//刷新 当前页面</span>
+                    <span class="hljs-comment">// alert(this.returnUrl)</span>
+                    <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">this</span>.returnUrl)
+                    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.returnUrl!=<span class="hljs-string">'undefined'</span> &amp;&amp; <span class="hljs-keyword">this</span>.returnUrl!=<span class="hljs-string">''</span>
+                       &amp;&amp; !<span class="hljs-keyword">this</span>.returnUrl.includes(<span class="hljs-string">"/userlogout"</span>)
+                       &amp;&amp; !<span class="hljs-keyword">this</span>.returnUrl.includes(<span class="hljs-string">"/userlogin"</span>))&#123;
+                        <span class="hljs-built_in">window</span>.location.href = <span class="hljs-keyword">this</span>.returnUrl;
+                    &#125;<span class="hljs-keyword">else</span>&#123;
+                        <span class="hljs-comment">//跳转到首页</span>
+                        <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">'http://www.xuecheng.com/'</span>
+                    &#125;
+                &#125;<span class="hljs-keyword">else</span>&#123;
+                    <span class="hljs-keyword">if</span>(res.message)&#123;
+                        <span class="hljs-keyword">this</span>.$message.error(res.message);
+                    &#125;<span class="hljs-keyword">else</span>&#123;
+                        <span class="hljs-keyword">this</span>.$message.error(<span class="hljs-string">'登陆失败'</span>);
+                    &#125;
+                &#125;
+            &#125;,
+                                      (res) =&gt; &#123;
+                <span class="hljs-keyword">this</span>.editLoading = <span class="hljs-literal">false</span>;
+            &#125;);
+        &#125;
+    &#125;);
+&#125;,</code></pre></div>
+
+<h3 id="点击登录页面"><a href="#点击登录页面" class="headerlink" title="点击登录页面"></a>点击登录页面</h3><p>在门户的页头点击“登录|注册”连接到用户中心的登录页面，并且携带 <code>returnUrl</code>。<br>修改门户的 <code>header.html</code>，代码如下：</p>
+<div class="hljs"><pre><code class="hljs js">&lt;a href=<span class="hljs-string">"javascript:;"</span> @click=<span class="hljs-string">"showlogin"</span> v-<span class="hljs-keyword">if</span>=<span class="hljs-string">"logined == false"</span>&gt;登陆&amp;nbsp;|&amp;nbsp;注册&lt;<span class="hljs-regexp">/a&gt;</span></code></pre></div>
+
+<p>配置 showlogin 方法</p>
+<div class="hljs"><pre><code class="hljs js">showlogin: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
+    <span class="hljs-comment">//this.loginFormVisible = true;</span>
+    <span class="hljs-built_in">window</span>.location = <span class="hljs-string">"http://ucenter.xuecheng.com/#/login?returnUrl="</span>+
+        Base64.encode(<span class="hljs-built_in">window</span>.location)
+&#125;</code></pre></div>
+
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>测试之前修改认证服务的配置：</p>
+<p>修改 <code>application.yml</code> 中 cookie 域名</p>
+<div class="hljs"><pre><code class="hljs c">cookieDomain: xuecheng.com</code></pre></div>
+
+<p>测试流程如下：</p>
+<p>1、输入<a href="http://www.xuecheng.xn--com%28hosts%29-9m4pn7u58t0o1c6r8djlgzpcd80fthza2bger7a/" target="_blank" rel="noopener">www.xuecheng.com进入系统（需要在hosts文件配置）</a></p>
+<p>2、输入正确的账号和密码，提交</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image15.png" srcset="/img/loading.gif" alt="image-20200529111655698"></p>
+<p>3、输入错误的账号和密码，提交</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image16.png" srcset="/img/loading.gif" alt="image-20200529111704463"></p>
+<p>登录成功，观察 <code>cookie</code> 是否存储成功：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image17.png" srcset="/img/loading.gif" alt="image-20200527085814933"></p>
+<h1 id="二、前端显示当前用户"><a href="#二、前端显示当前用户" class="headerlink" title="二、前端显示当前用户"></a>二、前端显示当前用户</h1><h2 id="1-需求分析"><a href="#1-需求分析" class="headerlink" title="1. 需求分析"></a>1. 需求分析</h2><p>用户登录成功在页头显示当前登录的用户名称。</p>
+<p>数据流程如下图：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image18.png" srcset="/img/loading.gif" alt="image-20200529113051020"></p>
+<p>1、用户请求认证服务，登录成功。</p>
+<p>2、用户登录成功，认证服务向 <code>cookie</code> 写入身份令牌，向 <code>redis</code> 写入 <code>user_token</code>（身份令牌及授权jwt授权令牌）</p>
+<p>3、客户端携带 <code>cookie</code> 中的身份令牌请求认证服务获取 <code>jwt</code> 令牌。</p>
+<p>4、客户端解析 <code>jwt</code> 令牌，并将解析的用户信息存储到 <code>sessionStorage</code> 中。jwt令牌中包括了用户的基本信息，客户端解析jwt令牌即可获取用户信息。</p>
+<p>5、客户端从<code>sessionStorage</code>中读取用户信息，并在页头显示。</p>
+<blockquote>
+<p>sessionStorage 是H5的一个会话存储对象，在 SessionStorage中保存的数据只在同一窗口或同一标签页中有效，在关闭窗口之后将会删除SessionStorage中的数据。seesionStorage 的存储方式采用key/value的方式，可保存5M左右的数据（不同的浏览器会有区别）</p>
+</blockquote>
+<p>sessionStorage 是H5的一个会话存储对象，在 SessionStorage中保存的数据只在同一窗口或同一标签页中有效，<br>在关闭窗口之后将会删除SessionStorage中的数据。</p>
+<p>seesionStorage的存储方式采用key/value的方式，可保存5M左右的数据（不同的浏览器会有区别）</p>
+<h2 id="2-jwt查询接口"><a href="#2-jwt查询接口" class="headerlink" title="2. jwt查询接口"></a>2. jwt查询接口</h2><p>该接口我们在 <code>ucenter-auth</code> 服务下进行开发</p>
+<h3 id="需求分析-2"><a href="#需求分析-2" class="headerlink" title="需求分析"></a>需求分析</h3><p>认证服务对外提供jwt查询接口，流程如下：</p>
+<p>1、客户端携带 <code>cookie</code> 中的身份令牌请求认证服务获取 <code>jwt</code></p>
+<p>2、认证服务根据身份令牌从 <code>redis</code> 中查询 <code>jwt</code> 令牌并返回给客户端。</p>
+<h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><p>在认证模块定义 <code>jwt</code> 查询接口：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Api</span>(value = <span class="hljs-string">"jwt查询接口"</span>,description = <span class="hljs-string">"客户端查询jwt令牌内容"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AuthControllerApi</span> </span>&#123;
+    <span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"查询userjwt令牌"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> JwtResult <span class="hljs-title">userjwt</span><span class="hljs-params">()</span></span>;
+    ....</code></pre></div>
+
+<h3 id="Dao"><a href="#Dao" class="headerlink" title="Dao"></a>Dao</h3><p>无</p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>在AuthService中定义方法如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">//从redis查询令牌</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> AuthToken <span class="hljs-title">getUserToken</span><span class="hljs-params">(String token)</span></span>&#123;
+    String userToken = <span class="hljs-string">"user_token:"</span>+token;
+    String userTokenString = stringRedisTemplate.opsForValue().get(userToken);
+    <span class="hljs-keyword">if</span>(userToken!=<span class="hljs-keyword">null</span>)&#123;
+        AuthToken authToken = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            authToken = JSON.parseObject(userTokenString, AuthToken<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            LOGGER.error(<span class="hljs-string">"getUserToken from redis and execute JSON.parseObject error&#123;&#125;"</span>,e.getMessage());
+            e.printStackTrace();
+        &#125; 
+        <span class="hljs-keyword">return</span> authToken;
+    &#125; 
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+&#125;</code></pre></div>
+
+<h3 id="Controller"><a href="#Controller" class="headerlink" title="Controller"></a>Controller</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/userjwt"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> JwtResult <span class="hljs-title">userjwt</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-comment">//获取cookie中的令牌</span>
+    String access_token = getTokenFormCookie();
+    <span class="hljs-comment">//根据令牌从redis查询jwt</span>
+    AuthToken authToken = authService.getUserToken(access_token);
+    <span class="hljs-keyword">if</span>(authToken == <span class="hljs-keyword">null</span>)&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> JwtResult(CommonCode.FAIL,<span class="hljs-keyword">null</span>);
+    &#125; 
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> JwtResult(CommonCode.SUCCESS,authToken.getJwt_token());
+&#125; 
+<span class="hljs-comment">//从cookie中读取访问令牌</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">getTokenFormCookie</span><span class="hljs-params">()</span></span>&#123;
+    Map&lt;String, String&gt; cookieMap = CookieUtil.readCookie(request, <span class="hljs-string">"uid"</span>);
+    String access_token = cookieMap.get(<span class="hljs-string">"uid"</span>);
+    <span class="hljs-keyword">return</span> access_token;
+&#125;</code></pre></div>
+
+<p>WebSecurityConfig 配置放行 <code>userjwt</code></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WebSecurityConfig</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">WebSecurityConfigurerAdapter</span> </span>&#123;
+ 
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(WebSecurity web)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        web.ignoring().antMatchers(<span class="hljs-string">"/userlogin"</span>,<span class="hljs-string">"/userlogout"</span>,<span class="hljs-string">"/getjwt"</span>,<span class="hljs-string">"/swagger-ui.html"</span>);
+    &#125;</code></pre></div>
+
+<h3 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h3><p>使用 <code>postman</code> 测试</p>
+<p>1、请求 /auth/userlogin</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image19.png" srcset="/img/loading.gif" alt="image-20200530091705402"></p>
+<p>观察 <code>cookie</code> 是否已存入用户身份令牌</p>
+<p>2、get请求jwt</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image20.png" srcset="/img/loading.gif" alt="image-20200529114126146"></p>
+<h2 id="3-前端请求jwt"><a href="#3-前端请求jwt" class="headerlink" title="3. 前端请求jwt"></a>3. 前端请求jwt</h2><h3 id="需求分析-3"><a href="#需求分析-3" class="headerlink" title="需求分析"></a>需求分析</h3><p>前端需求如下：</p>
+<p>用户登录成功，前端请求认证服务获取jwt令牌。</p>
+<p>前端解析jwt令牌的内容，得到用户信息，并将用户信息存储到 sessionStorage。</p>
+<p>从 sessionStorage 取出用户信息在页头显示用户名称。</p>
+<p>以下操作我们在门户工程进行</p>
+<h3 id="API方法"><a href="#API方法" class="headerlink" title="API方法"></a>API方法</h3><p>在login.js中定义getjwt方法：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/*获取jwt令牌*/</span>
+<span class="hljs-keyword">const</span> getjwt = () =&gt; &#123;
+	<span class="hljs-keyword">return</span> requestGet(<span class="hljs-string">'/openapi/auth/userjwt'</span>);
+&#125;</code></pre></div>
+
+<h3 id="页面-1"><a href="#页面-1" class="headerlink" title="页面"></a>页面</h3><p>修改 <code>include/header.html</code></p>
+<p>1、页面视图</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"logined == true"</span>&gt;</span>欢迎&#123;&#123;this.user.username&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"javascript:;"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"logout"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"logined == true"</span>&gt;</span>退出<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://ucenter.xuecheng.com/"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"personal"</span> <span class="hljs-attr">target</span>=<span class="hljs-string">"_blank"</span>&gt;</span>我的学习<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"javascript:;"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"showlogin"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"logined == false"</span>&gt;</span>登陆<span class="hljs-symbol">&amp;nbsp;</span>|<span class="hljs-symbol">&amp;nbsp;</span>注册<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://teacher.xuecheng.com/"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"personal"</span> <span class="hljs-attr">target</span>=<span class="hljs-string">"_blank"</span>&gt;</span>教学提供方<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"http://system.xuecheng.com/"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"personal"</span> <span class="hljs-attr">target</span>=<span class="hljs-string">"_blank"</span>&gt;</span>系统后台<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></div>
+
+<p>用户登录成功设置数据对象 <code>logined</code> 为 <code>true</code>，设置数据对象 <code>user</code> 为当前用户信息。</p>
+<p>数据对象定义如下</p>
+<div class="hljs"><pre><code class="hljs js">user:&#123;
+    userid:<span class="hljs-string">''</span>,
+    username: <span class="hljs-string">''</span>,
+    userpic: <span class="hljs-string">''</span>
+&#125;,
+logined:<span class="hljs-literal">false</span></code></pre></div>
+
+<p>2、解析jwt令牌</p>
+<p>在 <code>util.js</code> 中定义解析jwt令牌方法：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">//解析jwt令牌，获取用户信息</span>
+<span class="hljs-keyword">var</span> getUserInfoFromJwt = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">jwt</span>) </span>&#123;
+    <span class="hljs-keyword">if</span>(!jwt)&#123;
+        <span class="hljs-keyword">return</span> ;
+    &#125; 
+    <span class="hljs-keyword">var</span> jwtDecodeVal = jwt_decode(jwt);
+    <span class="hljs-keyword">if</span> (!jwtDecodeVal) &#123;
+        <span class="hljs-keyword">return</span> ;
+    &#125; 
+    <span class="hljs-keyword">let</span> activeUser=&#123;&#125;
+    <span class="hljs-comment">//console.log(jwtDecodeVal)</span>
+    activeUser.utype = jwtDecodeVal.utype || <span class="hljs-string">''</span>;
+    activeUser.username = jwtDecodeVal.name || <span class="hljs-string">''</span>;
+    activeUser.userpic = jwtDecodeVal.userpic || <span class="hljs-string">''</span>;
+    activeUser.userid = jwtDecodeVal.userid || <span class="hljs-string">''</span>;
+    activeUser.authorities = jwtDecodeVal.authorities || <span class="hljs-string">''</span>;
+    activeUser.uid = jwtDecodeVal.jti || <span class="hljs-string">''</span>;
+    activeUser.jwt = jwt;
+    <span class="hljs-keyword">return</span> activeUser;
+&#125;</code></pre></div>
+
+<p>3、refresh_user()</p>
+<p>在 <code>mounted</code> 钩子方法中调用 <code>refresh_user</code> 获取当前用户信息，并将用户信息存储到 <code>sessionStorage</code></p>
+<div class="hljs"><pre><code class="hljs js">mounted()&#123;
+<span class="hljs-comment">//刷新当前用户</span>
+<span class="hljs-keyword">this</span>.refresh_user()
+&#125;</code></pre></div>
+
+<p>refresh_user() 方法如下：</p>
+<div class="hljs"><pre><code class="hljs js">refresh_user:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>&#123;
+    <span class="hljs-comment">//从sessionStorage中取出当前用户</span>
+    <span class="hljs-keyword">let</span> activeUser= getActiveUser();
+    <span class="hljs-comment">//取出cookie中的令牌</span>
+    <span class="hljs-keyword">let</span> uid = getCookie(<span class="hljs-string">"uid"</span>)
+        <span class="hljs-comment">//console.log(activeUser)</span>
+        <span class="hljs-keyword">if</span>(activeUser &amp;&amp; uid &amp;&amp; uid == activeUser.uid)&#123;
+            <span class="hljs-keyword">this</span>.logined = <span class="hljs-literal">true</span>
+                <span class="hljs-keyword">this</span>.user = activeUser;
+        &#125;<span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-keyword">if</span>(!uid)&#123;
+                <span class="hljs-keyword">return</span> ;
+            &#125; 
+            <span class="hljs-comment">//请求查询jwt</span>
+            getjwt().then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;
+                <span class="hljs-keyword">if</span>(res.success)&#123;
+                    <span class="hljs-keyword">let</span> jwt = res.jwt;
+                    <span class="hljs-keyword">let</span> activeUser = getUserInfoFromJwt(jwt)
+                        <span class="hljs-keyword">if</span>(activeUser)&#123;
+                            <span class="hljs-keyword">this</span>.logined = <span class="hljs-literal">true</span>
+                                <span class="hljs-keyword">this</span>.user = activeUser;
+                            setUserSession(<span class="hljs-string">"activeUser"</span>,<span class="hljs-built_in">JSON</span>.stringify(activeUser))
+                        &#125;
+                &#125;
+            &#125;)
+        &#125;
+&#125;</code></pre></div>
+
+<h3 id="配置代理转发"><a href="#配置代理转发" class="headerlink" title="配置代理转发"></a>配置代理转发</h3><p>上边实现在首页显示当前用户信息，首页需要通过 <code>Nginx</code> 代理请求认证服务，所以需要在 <code>www</code> 域下的虚拟主机上配置代理路径：</p>
+<div class="hljs"><pre><code class="hljs c">#认证
+location ^~ /openapi/auth/ &#123;
+	proxy_pass http:<span class="hljs-comment">//auth_server_pool/auth/;</span>
+&#125;</code></pre></div>
+
+<p>注意：其它前端系统要接入认证要请求认证服务也需要配置上边的代理路径。</p>
+<h3 id="测试-2"><a href="#测试-2" class="headerlink" title="测试"></a>测试</h3><p>登录成功后自动跳转回到门户主站，并显示用户的信息</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image21.png" srcset="/img/loading.gif" alt="img"></p>
+<h1 id="三、用户退出"><a href="#三、用户退出" class="headerlink" title="三、用户退出"></a>三、用户退出</h1><h2 id="1-需求分析-1"><a href="#1-需求分析-1" class="headerlink" title="1. 需求分析"></a>1. 需求分析</h2><p>操作流程如下：</p>
+<p>1、用户点击退出，弹出退出确认窗口，点击确定</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image22.png" srcset="/img/loading.gif" alt="image-20200530095137916"></p>
+<p>2、退出成功</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image23.png" srcset="/img/loading.gif" alt="image-20200530095144891"></p>
+<p>用户退出要完成以下动作：</p>
+<p>1、删除 <code>redis</code> 中的 <code>token</code></p>
+<p>2、删除 <code>cookie</code> 中的 <code>token</code></p>
+<h2 id="2-API"><a href="#2-API" class="headerlink" title="2. API"></a>2. API</h2><p>认证服务对外提供退出接口。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ApiOperation</span>(<span class="hljs-string">"退出"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">logout</span><span class="hljs-params">()</span></span>;</code></pre></div>
+
+<h2 id="3-服务端"><a href="#3-服务端" class="headerlink" title="3. 服务端"></a>3. 服务端</h2><p>认证服务提供退出接口。</p>
+<h3 id="DAO"><a href="#DAO" class="headerlink" title="DAO"></a>DAO</h3><p>无</p>
+<h3 id="Service-1"><a href="#Service-1" class="headerlink" title="Service"></a>Service</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 删除指定usertoken在redis中的jwt信息</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> uid usertoken</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">delToken</span><span class="hljs-params">(String uid)</span> </span>&#123;
+    String key = <span class="hljs-string">"user_token:"</span> + uid;
+    Boolean delete = stringRedisTemplate.delete(key);
+    <span class="hljs-keyword">return</span> delete;
+&#125;</code></pre></div>
+
+<h3 id="Controller-1"><a href="#Controller-1" class="headerlink" title="Controller"></a>Controller</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/userlogout"</span>)
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseResult <span class="hljs-title">logout</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-comment">// 取出用户身份令牌</span>
+    String uid = getTokenFormCookie();
+    <span class="hljs-comment">//删除用户在redis中的身份信息</span>
+    Boolean delToken = authService.delToken(uid);
+    <span class="hljs-comment">//通过修改返回的response来实现用户前端收到响应后删除浏览器的cookie信息</span>
+    clearCookie(uid);
+    <span class="hljs-keyword">if</span>(delToken)&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.SUCCESS);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseResult(CommonCode.FAIL);
+&#125;
+ 
+<span class="hljs-comment">//清除cookie</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clearCookie</span><span class="hljs-params">(String token)</span></span>&#123;
+    HttpServletResponse response = ((ServletRequestAttributes)
+                                    RequestContextHolder.getRequestAttributes()).getResponse();
+    <span class="hljs-comment">// 设置maxAge为实现删除cookie</span>
+    CookieUtil.addCookie(response, cookieDomain, <span class="hljs-string">"/"</span>, <span class="hljs-string">"uid"</span>, token, <span class="hljs-number">0</span>, <span class="hljs-keyword">false</span>);
+&#125;</code></pre></div>
+
+<h3 id="退出URL放行"><a href="#退出URL放行" class="headerlink" title="退出URL放行"></a>退出URL放行</h3><p>认证服务默认都要校验用户的身份信息，这里需要将退出url放行。</p>
+<p>在 <code>WebSecurityConfig</code> 类中重写 <code>configure</code> (WebSecurity web)方法，如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(WebSecurity web)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    web.ignoring().antMatchers(<span class="hljs-string">"/userlogin"</span>,<span class="hljs-string">"/userlogout"</span>,<span class="hljs-string">"/userjwt"</span>,<span class="hljs-string">"/swagger-ui.html"</span>);
+&#125;</code></pre></div>
+
+<h2 id="4-前端"><a href="#4-前端" class="headerlink" title="4. 前端"></a>4. 前端</h2><h3 id="需求分析-4"><a href="#需求分析-4" class="headerlink" title="需求分析"></a>需求分析</h3><p>在用户中心前端工程（xc-ui-pc-learning）开发退出页面。</p>
+<h3 id="Api方法定义"><a href="#Api方法定义" class="headerlink" title="Api方法定义"></a>Api方法定义</h3><p>在用户中心工程增加退出的 <code>api</code> 方法</p>
+<p>在 <code>base</code> 模块的 <code>login.js</code> 增加方法如下：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">/*退出*/</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> logout = <span class="hljs-function"><span class="hljs-params">params</span> =&gt;</span> &#123;
+    <span class="hljs-keyword">return</span> http.requestPost(<span class="hljs-string">'/openapi/auth/userlogout'</span>);
+&#125;</code></pre></div>
+
+<h3 id="退出页面"><a href="#退出页面" class="headerlink" title="退出页面"></a>退出页面</h3><p>1、在用户中心工程创建退出页面</p>
+<p>参考： <code>xc-ui-pc-leanring/src/module/home/page/logout.vue</code></p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image24.png" srcset="/img/loading.gif" alt="image-20200530095510125"></p>
+<p>2、路由配置</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">import</span> Logout <span class="hljs-keyword">from</span> <span class="hljs-string">'@/module/home/page/logout.vue'</span>;
+<span class="hljs-keyword">import</span> order_pay <span class="hljs-keyword">from</span> <span class="hljs-string">'@/module/order/page/order_pay.vue'</span>;
+<span class="hljs-comment">// import LoginMini from '@/module/home/page/login_mini.vue';</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> [&#123;
+    path: <span class="hljs-string">'/'</span>,
+    component: Home,
+    name: <span class="hljs-string">'个人中心'</span>,
+    hidden: <span class="hljs-literal">true</span>
+&#125;,
+&#123;
+    path: <span class="hljs-string">'/login'</span>,
+    component: Login,
+    name: <span class="hljs-string">'Login'</span>,
+    hidden: <span class="hljs-literal">true</span>
+&#125;,
+&#123;
+    path: <span class="hljs-string">'/logout'</span>,
+    component: Logout,
+    name: <span class="hljs-string">'Logout'</span>,
+    hidden: <span class="hljs-literal">true</span>
+&#125;,
+....</code></pre></div>
+
+<p>3、退出方法</p>
+<p>退出成功清除页面的 <code>sessionStorage</code></p>
+<p>参考 <code>logout.vue</code></p>
+<p>在 <code>created</code> 钩子方法请求退出方法</p>
+<div class="hljs"><pre><code class="hljs js">created()&#123;
+    loginApi.logout(&#123;&#125;).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;
+        <span class="hljs-keyword">if</span>(res.success)&#123;
+            sessionStorage.removeItem(<span class="hljs-string">'activeUser'</span>);
+            <span class="hljs-keyword">this</span>.$message(<span class="hljs-string">'退出成功'</span>);
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">true</span>
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(res.code == <span class="hljs-number">11111</span>)&#123;
+            <span class="hljs-comment">// 用户的登录信息已在redis过期</span>
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+            <span class="hljs-keyword">this</span>.$message(<span class="hljs-string">'用户凭证过期, 在这之前已经退出登陆'</span>);
+        &#125; <span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+        &#125;
+        <span class="hljs-comment">//清空用户的缓存信息</span>
+        sessionStorage.clear()
+    &#125;,
+                             (res) =&gt; &#123;
+        <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+    &#125;);
+&#125;,</code></pre></div>
+
+<h3 id="链接到退出页面"><a href="#链接到退出页面" class="headerlink" title="链接到退出页面"></a>链接到退出页面</h3><p>修改门户主站 xc-ui-pc-static-portal 的 <code>include/header.html</code></p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"javascript:;"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"logout"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"logined == true"</span>&gt;</span>退出<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></div>
+
+<p>在 <code>include/header.html</code> 中添加 <code>element-ui</code> 库，将此js加到 <code>head</code> 的最下边</p>
+<blockquote>
+<p>否则可能会出现无法加载element-ui组件的问题</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/css/el/index.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre></div>
+
+<p><code>logout</code> 方法如下：</p>
+<div class="hljs"><pre><code class="hljs js">logout: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+    <span class="hljs-keyword">this</span>.$confirm(<span class="hljs-string">'确认退出吗?'</span>, <span class="hljs-string">'提示'</span>, &#123;
+    &#125;).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+        <span class="hljs-comment">//跳转到用户中心的登出页面</span>
+        <span class="hljs-built_in">window</span>.location = <span class="hljs-string">"http://ucenter.xuecheng.com/#/logout"</span>
+    &#125;).catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+        
+    &#125;);
+&#125;,</code></pre></div>
+
+<h3 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h3><p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image25.png" srcset="/img/loading.gif" alt="image-20200530111647702"></p>
+<h3 id="一些问题"><a href="#一些问题" class="headerlink" title="一些问题"></a>一些问题</h3><blockquote>
+<p>下述的一些问题在我上面的代码中其实已经修复，但部分读者可能跳过了上述的步骤，仍然使用的是原教程中所给到的代码案例，所以这里的一些问题我单独列出来。</p>
+</blockquote>
+<p>1、用户的登录信息已在redis过期，返回操作的状态码，前端没有识别为已登出的状态</p>
+<p>增加对 <code>11111</code> 状态码的判断</p>
+<div class="hljs"><pre><code class="hljs js">created()&#123;
+    loginApi.logout(&#123;&#125;).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;
+        <span class="hljs-keyword">if</span>(res.success)&#123;
+            sessionStorage.removeItem(<span class="hljs-string">'activeUser'</span>);
+            <span class="hljs-keyword">this</span>.$message(<span class="hljs-string">'退出成功'</span>);
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">true</span>
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(res.code == <span class="hljs-number">11111</span>)&#123;
+            <span class="hljs-comment">// 用户的登录信息已在redis过期</span>
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+            <span class="hljs-keyword">this</span>.$message(<span class="hljs-string">'用户凭证过期, 在这之前已经退出登陆'</span>);
+        &#125; <span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+        &#125;
+    &#125;,
+                             (res) =&gt; &#123;
+        <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+    &#125;);
+&#125;,</code></pre></div>
+
+<p>2、登出成功后，返回主页后仍然显示用户的信息</p>
+<p>在发送登出请求后，使用 <code>sessionStorage.clear()</code> 清空用户的缓存信息</p>
+<div class="hljs"><pre><code class="hljs js">created()&#123;
+    loginApi.logout(&#123;&#125;).then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> &#123;
+        <span class="hljs-keyword">if</span>(res.success)&#123;
+            sessionStorage.removeItem(<span class="hljs-string">'activeUser'</span>);
+            <span class="hljs-keyword">this</span>.$message(<span class="hljs-string">'退出成功'</span>);
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">true</span>
+        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(res.code == <span class="hljs-number">11111</span>)&#123;
+            <span class="hljs-comment">// 用户的登录信息已在redis过期</span>
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+            <span class="hljs-keyword">this</span>.$message(<span class="hljs-string">'用户凭证过期, 在这之前已经退出登陆'</span>);
+        &#125; <span class="hljs-keyword">else</span>&#123;
+            <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+        &#125;
+        <span class="hljs-comment">//清空用户的缓存信息</span>
+        sessionStorage.clear()
+    &#125;,
+                             (res) =&gt; &#123;
+        <span class="hljs-keyword">this</span>.logoutsuccess = <span class="hljs-literal">false</span>
+    &#125;);
+&#125;,</code></pre></div>
+
+<h1 id="四、Zuul-网关"><a href="#四、Zuul-网关" class="headerlink" title="四、Zuul 网关"></a>四、Zuul 网关</h1><h2 id="1-需求分析-2"><a href="#1-需求分析-2" class="headerlink" title="1. 需求分析"></a>1. 需求分析</h2><p>网关的作用相当于一个过虑器、拦截器，它可以拦截多个系统的请求。</p>
+<p>本章节要使用网关校验用户的身份是否合法。</p>
+<h2 id="2-Zuul-介绍"><a href="#2-Zuul-介绍" class="headerlink" title="2. Zuul 介绍"></a>2. Zuul 介绍</h2><p>什么是Zuul？</p>
+<p>Spring Cloud Zuul 是整合 <code>Netflix</code> 公司的 <code>Zuul</code> 开源项目实现的微服务网关，它实现了 <code>请求路由</code>、<code>负载均衡</code>、<code>校验过虑</code> 等功能。</p>
+<p>官方：<a href="https://github.com/Netflix/zuul" target="_blank" rel="noopener">https://github.com/Netflix/zuul</a></p>
+<p>什么是网关？</p>
+<p>服务网关是在微服务前边设置一道屏障，请求先到服务网关，网关会对请求进行 <code>过虑</code>、<code>校验</code>、<code>路由</code> 等处理。有了服务网关可以提高微服务的安全性，网关校验请求的合法性，请求不合法将被拦截，拒绝访问。</p>
+<p>Zuul 与 <code>Nginx</code> 怎么配合使用？</p>
+<p>Zuul与 <code>Nginx</code> 在实际项目中需要配合使用，如下图，<code>Nginx</code> 的作用是反向代理、负载均衡，<code>Zuul</code> 的作用是保障微服务的安全访问，拦截微服务请求，校验合法性及负载均衡。</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image26.png" srcset="/img/loading.gif" alt="image-20200531170255074"></p>
+<h2 id="3-搭建网关工程"><a href="#3-搭建网关工程" class="headerlink" title="3.搭建网关工程"></a>3.搭建网关工程</h2><p>创建网关工程（xc-govern-gateway）：</p>
+<p><strong>1、创建 xc-govern-gateway 工程</strong></p>
+<p>导入 <code>资料/xc-govern-gateway.zip</code></p>
+<p><strong>2、@EnableZulProxy</strong></p>
+<p>注意在启动类上使用 <code>@EnableZuulProxy</code> 注解标识此工程为 <code>Zuul</code> 网关，启动类代码如下：</p>
+<div class="hljs"><pre><code class="hljs less"><span class="hljs-variable">@SpringBootApplication</span>
+<span class="hljs-variable">@EnableZuulProxy</span>
+public class GatewayApplication &#123;
+    <span class="hljs-selector-tag">public</span> <span class="hljs-selector-tag">static</span> <span class="hljs-selector-tag">void</span> <span class="hljs-selector-tag">main</span>(String[] args) &#123;
+        <span class="hljs-selector-tag">SpringApplication</span><span class="hljs-selector-class">.run</span>(GatewayApplication.class, args);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="4-路由配置"><a href="#4-路由配置" class="headerlink" title="4. 路由配置"></a>4. 路由配置</h2><h3 id="需求分析-5"><a href="#需求分析-5" class="headerlink" title="需求分析"></a>需求分析</h3><p>Zuul 网关具有代理的功能，根据请求的url转发到微服务，如下图：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image27.png" srcset="/img/loading.gif" alt="image-20200531170704355"></p>
+<ul>
+<li>客户端请求网关 <code>/api/learning</code>，通过路由转发到 <code>/learning</code></li>
+<li>客户端请求网关 <code>/api/course</code>，通过路由转发到 <code>/course</code></li>
+</ul>
+<h3 id="路由配置"><a href="#路由配置" class="headerlink" title="路由配置"></a>路由配置</h3><p>在 <code>appcation.yml</code> 中配置：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">zuul:</span>
+  <span class="hljs-attr">routes:</span>
+	<span class="hljs-attr">manage-course:</span> <span class="hljs-comment">#路由名称，名称任意，保持所有路由名称唯一</span>
+      <span class="hljs-attr">path:</span> <span class="hljs-string">/course/**</span>
+      <span class="hljs-attr">serviceId:</span> <span class="hljs-string">xc-service-manage-course</span> <span class="hljs-comment">#指定服务id，从Eureka中找到服务的ip和端口</span>
+      <span class="hljs-comment">#url: http://localhost:31200 #也可指定url</span>
+      <span class="hljs-attr">strip-prefix:</span> <span class="hljs-literal">false</span> <span class="hljs-comment">#true：代理转发时去掉前缀，false:代理转发时不去掉前缀</span>
+      <span class="hljs-attr">sensitiveHeaders:</span> <span class="hljs-comment">#默认zuul会屏蔽cookie，cookie不会传到下游服务，这里设置为空则取消默认的黑名单，如果设置了具体的头信息则不会传到下游服务</span>
+	  <span class="hljs-comment"># ignoredHeaders: Authorization</span></code></pre></div>
+
+<ul>
+<li><p><strong>serviceId</strong>：推荐使用 <code>serviceId</code>，zuul会从 <code>Eureka</code> 中找到服务 <code>id</code> 对应的 <code>ip</code> 和端口。</p>
+</li>
+<li><p><strong>strip-prefix</strong>: false或者true，设置为 <code>true</code> 时代理转发时去掉前缀，<code>false</code> 则代理转发时不去掉前缀</p>
+<p>例如，设置为 <code>true</code> 请求 <code>/course/coursebase/get/..</code> ，代理转发到 <code>/coursebase/get/</code>，如果为false则代理直接转发到原来的url</p>
+</li>
+<li><p><strong>sensitiveHeaders</strong>：敏感头设置，默认会过虑掉cookie，这里设置为空表示不过虑</p>
+</li>
+<li><p><strong>ignoredHeaders</strong>：可以设置过虑的头信息，默认为空表示不过虑任何头</p>
+</li>
+</ul>
+<h3 id="测试-3"><a href="#测试-3" class="headerlink" title="测试"></a>测试</h3><p><a href="http://localhost:50201/api" target="_blank" rel="noopener">http://localhost:50201/api</a> 是网关地址，通过路由转发到 <code>xc-service-manage-course</code> 服务。</p>
+<p>打算使用课程图片信息获取的 API 进行测试我，这里的课程图片信息获取的URL为 <code>/course/coursepic/get</code> ，所以由于课程管理已经添加了授课拦截，这里为了测试网关功能暂时将 url <code>/course/coursepic/get</code>排除认证。在课程管理服务的 <code>ResourceServerConfig</code> 类中添加 <code>&quot;/course/coursepic/get/*&quot;</code> 代码如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    <span class="hljs-comment">//所有请求必须认证通过</span>
+    http.authorizeRequests()
+        <span class="hljs-comment">//下边的路径放行</span>
+        .antMatchers(<span class="hljs-string">"/v2/api-docs"</span>, <span class="hljs-string">"/swagger-resources/configuration/ui"</span>,
+                     <span class="hljs-string">"/swagger-resources"</span>,<span class="hljs-string">"/swagger-resources/configuration/security"</span>,
+                     <span class="hljs-string">"/swagger-ui.html"</span>,<span class="hljs-string">"/course/coursepic/list/*"</span>)
+        .permitAll()
+        .anyRequest().authenticated();
+&#125;</code></pre></div>
+
+<p>而我之前的课程中将需要排除的 <code>url</code> 改写成了从配置文件中读取，如下代码，如果是按原教程的配置的，可以忽略下述的代码， 直接阅读测试的环节。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;oauth2.urlMatchers&#125;"</span>)
+String urlMatchers;
+ 
+<span class="hljs-comment">//Http安全配置，对每个到达系统的http请求链接进行校验</span>
+<span class="hljs-meta">@Override</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    <span class="hljs-keyword">if</span>(urlMatchers.equals(<span class="hljs-string">""</span>))&#123;
+        <span class="hljs-comment">//如果urlMatchers未指定,则所有url都需要授权后才能被访问</span>
+        http.authorizeRequests().anyRequest().authenticated();
+    &#125;<span class="hljs-keyword">else</span>&#123;
+        <span class="hljs-comment">//放行 urlMatchers 中指定的url条目, 未指定的url仍需授权后才能访问</span>
+        String[] split = urlMatchers.split(<span class="hljs-string">","</span>);
+        http.authorizeRequests()
+            <span class="hljs-comment">//下边的路径放行</span>
+            .antMatchers(split).permitAll()
+            .anyRequest().authenticated();
+    &#125;
+&#125;</code></pre></div>
+
+<p>在 <code>appliaction.yml</code> 中配置 oauth2.urlMatchers</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">oauth2:</span>
+  <span class="hljs-attr">urlMatchers:</span> <span class="hljs-string">/v2/api-docs,/swagger-resources/configuration/ui,/swagger-resources,/swagger-resources/configuration/security,/swagger-ui.html,/webjars/**,"/course/coursepic/get/*"</span></code></pre></div>
+
+<p>请求请求到如下连接，进行 查询课程图片信息</p>
+<p>GET：<a href="http://localhost:50201/api/course/coursepic/list/4028e58161bd22e60161bd23672a0001" target="_blank" rel="noopener">http://localhost:50201/api/course/coursepic/list/4028e58161bd22e60161bd23672a0001</a></p>
+<p>测试结果如下</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image28.png" srcset="/img/loading.gif" alt="image-20200531175205607"></p>
+<h3 id="完整的路由配置"><a href="#完整的路由配置" class="headerlink" title="完整的路由配置"></a>完整的路由配置</h3><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">zuul:</span>
+  <span class="hljs-attr">routes:</span>
+    <span class="hljs-attr">xc-service-learning:</span> <span class="hljs-comment">#路由名称，名称任意，保持所有路由名称唯一</span>
+      <span class="hljs-attr">path:</span> <span class="hljs-string">/learning/**</span>
+      <span class="hljs-attr">serviceId:</span> <span class="hljs-string">xc-service-learning</span> <span class="hljs-comment">#指定服务id，从Eureka中找到服务的ip和端口</span>
+      <span class="hljs-attr">strip-prefix:</span> <span class="hljs-literal">false</span>
+      <span class="hljs-attr">sensitiveHeaders:</span>
+    <span class="hljs-attr">manage-course:</span>
+      <span class="hljs-attr">path:</span> <span class="hljs-string">/course/**</span>
+      <span class="hljs-attr">serviceId:</span> <span class="hljs-string">xc-service-manage-course</span>
+      <span class="hljs-attr">strip-prefix:</span> <span class="hljs-literal">false</span>
+      <span class="hljs-attr">sensitiveHeaders:</span>
+    <span class="hljs-attr">manage-cms:</span>
+      <span class="hljs-attr">path:</span> <span class="hljs-string">/cms/**</span>
+      <span class="hljs-attr">serviceId:</span> <span class="hljs-string">xc-service-manage-cms</span>
+      <span class="hljs-attr">strip-prefix:</span> <span class="hljs-literal">false</span>
+    	<span class="hljs-attr">sensitiveHeaders:</span>
+    <span class="hljs-attr">manage-sys:</span>
+      <span class="hljs-attr">path:</span> <span class="hljs-string">/sys/**</span>
+      <span class="hljs-attr">serviceId:</span> <span class="hljs-string">xc-service-manage-cms</span>
+      <span class="hljs-attr">strip-prefix:</span> <span class="hljs-literal">false</span>
+      <span class="hljs-attr">sensitiveHeaders:</span>
+    <span class="hljs-attr">service-ucenter:</span>
+    	<span class="hljs-attr">path:</span> <span class="hljs-string">/ucenter/**</span>
+      <span class="hljs-attr">serviceId:</span> <span class="hljs-string">xc-service-ucenter</span>
+      <span class="hljs-attr">sensitiveHeaders:</span>
+      <span class="hljs-attr">strip-prefix:</span> <span class="hljs-literal">false</span>
+    <span class="hljs-attr">xc-service-manage-order:</span>
+      <span class="hljs-attr">path:</span> <span class="hljs-string">/order/**</span>
+      <span class="hljs-attr">serviceId:</span> <span class="hljs-string">xc-service-manage-order</span>
+      <span class="hljs-attr">sensitiveHeaders:</span>
+      <span class="hljs-attr">strip-prefix:</span> <span class="hljs-literal">false</span></code></pre></div>
+
+<h2 id="5-过滤器"><a href="#5-过滤器" class="headerlink" title="5. 过滤器"></a>5. 过滤器</h2><p>Zuul的核心就是过虑器，通过过虑器实现请求过虑，身份校验等</p>
+<h3 id="配置ZuulFilter"><a href="#配置ZuulFilter" class="headerlink" title="配置ZuulFilter"></a>配置ZuulFilter</h3><p>自定义过虑器需要继承 <code>ZuulFilter</code>，ZuulFilter 是一个抽象类，需要覆盖它的四个方法，如下：</p>
+<ul>
+<li>shouldFilter：返回一个 Boolean 值，判断该过滤器是否需要执行。返回true表示要执行此过虑器，否则不执<br>行。</li>
+<li>run：过滤器的业务逻辑。</li>
+<li>filterType：返回字符串代表过滤器的类型，如下<ul>
+<li><code>pre</code>：请求在被路由之前执行</li>
+<li><code>routing</code>：在路由请求时调用</li>
+<li><code>post</code>：在 routing 和 errror 过滤器之后调用</li>
+<li><code>error</code>：处理请求时发生错误调用</li>
+</ul>
+</li>
+<li>filterOrder：此方法返回整型数值，通过此数值来定义过滤器的执行顺序，数字越小优先级越高。</li>
+</ul>
+<h3 id="测试-4"><a href="#测试-4" class="headerlink" title="测试"></a>测试</h3><p>过虑所有请求，判断头部信息是否有 <code>Authorization</code>，如果没有则拒绝访问，否则转发到微服务。</p>
+<p>定义过虑器，使用 <code>@Component</code> 标识为 bean。</p>
+<p>在网关工程下构建一个 <code>filter</code> 包，创建一个 LoginFilterTest 并继承于 <code>ZuulFilter</code></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginFilterTest</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ZuulFilter</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOG = LoggerFactory.getLogger(LoginFilterTest<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">filterType</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"pre"</span>;
+    &#125;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">filterOrder</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>;<span class="hljs-comment">//int值来定义过滤器的执行顺序，数值越小优先级越高</span>
+    &#125;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">shouldFilter</span><span class="hljs-params">()</span> </span>&#123;<span class="hljs-comment">// 该过滤器需要执行</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
+        RequestContext requestContext = RequestContext.getCurrentContext();
+        HttpServletResponse response = requestContext.getResponse();         <span class="hljs-comment">//获取响应对象</span>
+        HttpServletRequest request = requestContext.getRequest();           <span class="hljs-comment">//获取请求对象</span>
+        <span class="hljs-comment">//取出头部信息Authorization</span>
+        String authorization = request.getHeader(<span class="hljs-string">"Authorization"</span>);
+        <span class="hljs-comment">//判断用户的请求中是否带有 Authorization 字段,如果没有则表示未认证用户</span>
+        <span class="hljs-keyword">if</span>(StringUtils.isEmpty(authorization))&#123;
+            requestContext.setSendZuulResponse(<span class="hljs-keyword">false</span>);<span class="hljs-comment">// 拒绝访问</span>
+            requestContext.setResponseStatusCode(<span class="hljs-number">200</span>);<span class="hljs-comment">// 设置响应状态码</span>
+            ResponseResult unauthenticated = <span class="hljs-keyword">new</span> ResponseResult(CommonCode.UNAUTHENTICATED);
+            String jsonString = JSON.toJSONString(unauthenticated);
+            requestContext.setResponseBody(jsonString);
+            requestContext.getResponse().setContentType(<span class="hljs-string">"application/json;charset=UTF-8"</span>);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>测试请求：</p>
+<p><a href="http://localhost:50201/api/course/coursebase/get/4028e581617f945f01617f9dabc40000" target="_blank" rel="noopener">http://localhost:50201/api/course/coursebase/get/4028e581617f945f01617f9dabc40000</a> 查询课程信息</p>
+<p>1、Header 中不设置 Authorization</p>
+<p>响应结果：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image29.png" srcset="/img/loading.gif" alt="image-20200531184006794"></p>
+<p>2、Header 中设置 <code>Authorization</code></p>
+<p>成功响应课程信息。</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image30.png" srcset="/img/loading.gif" alt="image-20200531183942639"></p>
+<h1 id="五、身份校验"><a href="#五、身份校验" class="headerlink" title="五、身份校验"></a>五、身份校验</h1><h2 id="1-需求分析-3"><a href="#1-需求分析-3" class="headerlink" title="1. 需求分析"></a>1. 需求分析</h2><p>本小节实现网关连接 <code>Redis</code> 校验令牌：</p>
+<p>1、从 <code>cookie</code> 查询用户身份令牌是否存在，不存在则拒绝访问</p>
+<p>2、从 <code>http header</code> 查询jwt令牌是否存在，不存在则拒绝访问</p>
+<p>3、从 <code>Redis</code> 查询 <code>user_token</code> 令牌是否过期，过期则拒绝访问</p>
+<h2 id="2-业务实现"><a href="#2-业务实现" class="headerlink" title="2. 业务实现"></a>2. 业务实现</h2><p>1、配置 application.yml</p>
+<p>配置 redis链接参数：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">xc‐govern‐gateway</span>
+  <span class="hljs-attr">redis:</span>
+    <span class="hljs-attr">host:</span> <span class="hljs-string">$&#123;REDIS_HOST:127.0.0.1&#125;</span>
+    <span class="hljs-attr">port:</span> <span class="hljs-string">$&#123;REDIS_PORT:6379&#125;</span>
+    <span class="hljs-attr">timeout:</span> <span class="hljs-number">5000</span> <span class="hljs-comment">#连接超时 毫秒</span>
+    <span class="hljs-attr">jedis:</span>
+      <span class="hljs-attr">pool:</span>
+        <span class="hljs-attr">maxActive:</span> <span class="hljs-number">3</span>
+        <span class="hljs-attr">maxIdle:</span> <span class="hljs-number">3</span>
+        <span class="hljs-attr">minIdle:</span> <span class="hljs-number">1</span>
+        <span class="hljs-attr">maxWait:</span> <span class="hljs-string">‐1</span>  <span class="hljs-comment">#连接池最大等行时间 ‐1没有限制</span></code></pre></div>
+
+<p>2、使用 StringRedisTemplate 查询 <code>key</code> 的有效期</p>
+<p>在 <code>service</code> 包下定义 <code>AuthService</code> 类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthService</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    StringRedisTemplate stringRedisTemplate;
+    <span class="hljs-comment">//查询身份令牌</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getTokenFromCookie</span><span class="hljs-params">(HttpServletRequest request)</span></span>&#123;
+        Map&lt;String, String&gt; cookieMap = CookieUtil.readCookie(request, <span class="hljs-string">"uid"</span>);
+        String access_token = cookieMap.get(<span class="hljs-string">"uid"</span>);
+        <span class="hljs-keyword">if</span>(StringUtils.isEmpty(access_token))&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125; 
+        <span class="hljs-keyword">return</span> access_token;
+    &#125; 
+    <span class="hljs-comment">//从header中查询jwt令牌</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getJwtFromHeader</span><span class="hljs-params">(HttpServletRequest request)</span></span>&#123;
+        String authorization = request.getHeader(<span class="hljs-string">"Authorization"</span>);
+        <span class="hljs-keyword">if</span>(StringUtils.isEmpty(authorization))&#123;
+            <span class="hljs-comment">//拒绝访问</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+        <span class="hljs-keyword">if</span>(!authorization.startsWith(<span class="hljs-string">"Bearer "</span>))&#123;
+            <span class="hljs-comment">//拒绝访问</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125; 
+        <span class="hljs-keyword">return</span> authorization;
+    &#125; 
+    <span class="hljs-comment">//查询令牌的有效期</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getExpire</span><span class="hljs-params">(String access_token)</span> </span>&#123;
+        <span class="hljs-comment">//token在redis中的key</span>
+        String key = <span class="hljs-string">"user_token:"</span>+access_token;
+        Long expire = stringRedisTemplate.getExpire(key);
+        <span class="hljs-keyword">return</span> expire;
+    &#125;
+&#125;</code></pre></div>
+
+<p>3、定义LoginFilter</p>
+<h2 id="3-测试"><a href="#3-测试" class="headerlink" title="3. 测试"></a>3. 测试</h2><p>1、配置代理</p>
+<p>通过 <code>nginx</code> 转发到 <code>gateway</code>，在 <a href="http://www.xuecheng.com/" target="_blank" rel="noopener">www.xuecheng.com</a> 虚拟主机来配置</p>
+<div class="hljs"><pre><code class="hljs c">#微服务网关
+upstream api_server_pool&#123;
+	server <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">50201</span> weight=<span class="hljs-number">10</span>;
+&#125; 
+#微服务网关
+location /api &#123;
+	proxy_pass http:<span class="hljs-comment">//api_server_pool;</span>
+&#125;</code></pre></div>
+
+<p>使用 <code>postman</code> 测试：</p>
+<p>GET 请求：<a href="http://www.xuecheng.com/api/course/coursepic/get/4028e581617f945f01617f9dabc40000" target="_blank" rel="noopener">http://www.xuecheng.com/api/course/coursepic/get/4028e581617f945f01617f9dabc40000</a></p>
+<p>注意：这里通过网关请求了 <code>course/coursepic/get</code> 地址，课程管理 <code>url</code> 根据自己的开发情况去配置放行。</p>
+<h3 id="正常流程测试"><a href="#正常流程测试" class="headerlink" title="正常流程测试"></a>正常流程测试</h3><p>1、执行登录使之向 <code>cookie</code> 写入身份令牌 <code>uid</code></p>
+<p>Post请求：<a href="http://ucenter.xuecheng.com/openapi/auth/userlogin" target="_blank" rel="noopener">http://ucenter.xuecheng.com/openapi/auth/userlogin</a></p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image31.png" srcset="/img/loading.gif" alt="image-20200531190540813"></p>
+<p>并从redis获取jwt令牌的内容</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image32.png" srcset="/img/loading.gif" alt="image-20200531182147472"></p>
+<p>2、手动在postman添加header</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image33.png" srcset="/img/loading.gif" alt="image-20200531201049165"></p>
+<p>成功查询：</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image34.png" srcset="/img/loading.gif" alt="image-20200531201107131"></p>
+<blockquote>
+<p>这里要注意的是，如果这里出现 token验证失败，那就是你的课程管理管理服务的 resources 下的公钥文件于认证服务的私钥不匹配</p>
+</blockquote>
+<h3 id="异常流程测试"><a href="#异常流程测试" class="headerlink" title="异常流程测试"></a>异常流程测试</h3><p>手动删除 <code>header</code> 或清除 <code>cookie</code> 观察测试结果。</p>
+<p><img src="/2020/08/25/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday17/image35.png" srcset="/img/loading.gif" alt="image-20200531201145872"></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BF/">学成在线</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring-Security/">Spring Security</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Oauth2/">Oauth2</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Zuul/">Zuul</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/08/24/%E5%AD%A6%E6%88%90%E5%9C%A8%E7%BA%BFday16/">
+                        <span class="hidden-mobile">学成在线day16：基于Spring Security Oauth2开发认证服务</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证123456号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备12345678号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "学成在线day17：基于Zuul网关实现路由转发、过滤器&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

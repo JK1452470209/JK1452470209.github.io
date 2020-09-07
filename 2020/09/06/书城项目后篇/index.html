@@ -1084,7 +1084,7 @@ location.href = <span class="hljs-string">"http://localhost:8080/book/cartServle
 &#125;</code></pre></div>
 
 <h2 id="3、使用-Filter-和-ThreadLocal-组合管理事务"><a href="#3、使用-Filter-和-ThreadLocal-组合管理事务" class="headerlink" title="3、使用 Filter 和 ThreadLocal 组合管理事务"></a>3、使用 Filter 和 ThreadLocal 组合管理事务</h2><h3 id="3-1、使用-ThreadLocal来确保所有-dao-操作都在同一个-Connection-连接对象中完成"><a href="#3-1、使用-ThreadLocal来确保所有-dao-操作都在同一个-Connection-连接对象中完成" class="headerlink" title="3.1、使用 ThreadLocal来确保所有 dao 操作都在同一个 Connection 连接对象中完成"></a>3.1、使用 ThreadLocal来确保所有 dao 操作都在同一个 Connection 连接对象中完成</h3><p>原理分析图：</p>
-<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/C:%5CUsers%5CMI%5CAppData%5CLocal%5CTemp%5C1599443937060.png" srcset="/img/loading.gif" alt="59944393706"></p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599443937060.png" srcset="/img/loading.gif" alt="59944393706"></p>
 <p>JdbcUtils 工具类的修改：</p>
 <div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
 <span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
@@ -1308,7 +1308,7 @@ location.href = <span class="hljs-string">"http://localhost:8080/book/cartServle
 &#125;</code></pre></div>
 
 <h3 id="3-2、使用-Filter-过滤器统一给所有的-Service-方法都加上-try-catch。来进行实现的管理"><a href="#3-2、使用-Filter-过滤器统一给所有的-Service-方法都加上-try-catch。来进行实现的管理" class="headerlink" title="3.2、使用 Filter 过滤器统一给所有的 Service 方法都加上 try-catch。来进行实现的管理"></a>3.2、使用 Filter 过滤器统一给所有的 Service 方法都加上 try-catch。来进行实现的管理</h3><p>原理分析图：</p>
-<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/C:%5CUsers%5CMI%5CAppData%5CLocal%5CTemp%5C1599444024722.png" srcset="/img/loading.gif" alt="59944402472"></p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599444024722.png" srcset="/img/loading.gif" alt="59944402472"></p>
 <p>Filter 类代码：</p>
 <div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
 <span class="hljs-comment"> * 为所有工程统一加上try catch</span>
@@ -1438,7 +1438,7 @@ location.href = <span class="hljs-string">"http://localhost:8080/book/cartServle
     resp.getWriter().write(json);
 &#125;</code></pre></div>
 
-<h2 id="2、Ajax-修改购物车模块—添加商品—修改数量"><a href="#2、Ajax-修改购物车模块—添加商品—修改数量" class="headerlink" title="2、Ajax 修改购物车模块—添加商品—修改数量"></a>2、Ajax 修改购物车模块—添加商品—修改数量</h2><p>以 Ajax 请求的方式修改购物车的模块。我们修改的功能有，添加到购物车，修改数量，以及删除商品，和清空购物车。我们以添加购物车和修改商品数量为例给大家演示。</p>
+<h2 id="2、Ajax-修改购物车模块—添加商品—修改数量"><a href="#2、Ajax-修改购物车模块—添加商品—修改数量" class="headerlink" title="2、Ajax 修改购物车模块—添加商品—修改数量"></a>2、Ajax 修改购物车模块—添加商品—修改数量</h2><p>以 Ajax 请求的方式修改购物车的模块。我们修改的功能有，添加到购物车，修改数量，以及删除商品，和清空购物车。我们以添加购物车和修改商品数量为例给大家演示</p>
 <h3 id="2-1、添加商品"><a href="#2-1、添加商品" class="headerlink" title="2.1、添加商品"></a>2.1、添加商品</h3><p>添加商品到购物车。首先我们要把商品的编号，以 Ajax 的方式传到服务器。然后器添加成功后把购物车的数量，最后一本书的名字返回，给用户显示。</p>
 <h4 id="2-1-1、修改"><a href="#2-1-1、修改" class="headerlink" title="2.1.1、修改"></a>2.1.1、修改</h4><p> pages/client/index.jsp 页面，添加购物车的 a 标签代码</p>
 <div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"book_add"</span>&gt;</span>

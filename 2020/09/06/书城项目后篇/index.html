@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>书城项目后篇 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-06 20:36">
+      2020-09-06
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      8.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      108
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="书城项目"><a href="#书城项目" class="headerlink" title="书城项目"></a>书城项目</h1><blockquote>
+<p>几个月前刚接触JavaWeb的项目，现在回过头来对所学知识进行总结</p>
+</blockquote>
+<h1 id="第六阶段–购物车"><a href="#第六阶段–购物车" class="headerlink" title="第六阶段–购物车"></a>第六阶段–购物车</h1><h2 id="1、购物车模块分析"><a href="#1、购物车模块分析" class="headerlink" title="1、购物车模块分析"></a>1、购物车模块分析</h2><p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599396185136.png" srcset="/img/loading.gif" alt="59939618513"></p>
+<h2 id="2、购物车模型编写"><a href="#2、购物车模型编写" class="headerlink" title="2、购物车模型编写"></a>2、购物车模型编写</h2><h3 id="2-1、购物车模型："><a href="#2-1、购物车模型：" class="headerlink" title="2.1、购物车模型："></a>2.1、购物车模型：</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 购物车的商品项</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-08  19:50</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CartItem</span> </span>&#123;
+    <span class="hljs-keyword">private</span> Integer id;
+    <span class="hljs-keyword">private</span> String name;
+    <span class="hljs-keyword">private</span> Integer count;
+    <span class="hljs-keyword">private</span> BigDecimal price;
+    <span class="hljs-keyword">private</span> BigDecimal totalPrice;
+    
+    get,set...省略
+&#125;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 购物车对象</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-08  19:57</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cart</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * key是商品编号，</span>
+<span class="hljs-comment">     * value是商品信息</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> Map&lt;Integer,CartItem&gt; items = <span class="hljs-keyword">new</span> LinkedHashMap&lt;Integer,CartItem&gt;();
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 增加商品项</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> cartItem</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addItem</span><span class="hljs-params">(CartItem cartItem)</span></span>&#123;
+        <span class="hljs-comment">//先查看购物车是否已经添加过此商品，如果已添加，则数量累加，总金额更新，</span>
+        <span class="hljs-comment">//如果没有添加过，直接放到集合中</span>
+        CartItem item = items.get(cartItem.getId());
+        <span class="hljs-keyword">if</span> (item == <span class="hljs-keyword">null</span>)&#123;
+            <span class="hljs-comment">//之前没有添加过此商品</span>
+            items.put(cartItem.getId(),cartItem);
+        &#125;<span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-comment">//已经添加过的情况</span>
+            item.setCount(item.getCount() + <span class="hljs-number">1</span>);<span class="hljs-comment">//数量累加</span>
+            item.setTotalPrice(item.getPrice().multiply(<span class="hljs-keyword">new</span> BigDecimal(item.getCount())));<span class="hljs-comment">//得到总金额</span>
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 删除商品项</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteItem</span><span class="hljs-params">(Integer id)</span></span>&#123;
+        items.remove(id);
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 清空购物车</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span></span>&#123;
+        items.clear();
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> count</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateCount</span><span class="hljs-params">(Integer id,Integer count)</span></span>&#123;
+        <span class="hljs-comment">//先查看购物车中是否有此商品，如果有，修改商品数量，更新总金额</span>
+        CartItem cartItem = items.get(id);
+        <span class="hljs-keyword">if</span> (cartItem != <span class="hljs-keyword">null</span>)&#123;
+            cartItem.setCount(count);<span class="hljs-comment">//修改商品数量</span>
+            cartItem.setTotalPrice(cartItem.getPrice().multiply(<span class="hljs-keyword">new</span> BigDecimal(cartItem.getCount())));<span class="hljs-comment">//得到总金额</span>
+
+        &#125;
+    &#125;
+
+
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Cart</span><span class="hljs-params">()</span> </span>&#123;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Cart</span><span class="hljs-params">(Map&lt;Integer,CartItem&gt; items)</span> </span>&#123;
+
+        <span class="hljs-keyword">this</span>.items = items;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"Cart&#123;"</span> +
+                <span class="hljs-string">"totalCount="</span> + getTotalCount() +
+                <span class="hljs-string">", totalPrice="</span> + getTotalPrice() +
+                <span class="hljs-string">", items="</span> + items +
+                <span class="hljs-string">'&#125;'</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Integer <span class="hljs-title">getTotalCount</span><span class="hljs-params">()</span> </span>&#123;
+        Integer totalCount = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;Integer,CartItem&gt;entry : items.entrySet())&#123;
+            totalCount += entry.getValue().getCount();
+        &#125;
+        <span class="hljs-keyword">return</span> totalCount;
+    &#125;
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> BigDecimal <span class="hljs-title">getTotalPrice</span><span class="hljs-params">()</span> </span>&#123;
+        BigDecimal totalPrice = <span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">0</span>);
+
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;Integer,CartItem&gt;entry : items.entrySet())&#123;
+            totalPrice = totalPrice.add(entry.getValue().getTotalPrice());
+        &#125;
+
+        <span class="hljs-keyword">return</span> totalPrice;
+    &#125;
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Map&lt;Integer,CartItem&gt; <span class="hljs-title">getItems</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> items;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setItems</span><span class="hljs-params">(Map&lt;Integer,CartItem&gt; items)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.items = items;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="2-2、购物车的测试："><a href="#2-2、购物车的测试：" class="headerlink" title="2.2、购物车的测试："></a>2.2、购物车的测试：</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-08  20:30</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CartTest</span> </span>&#123;
+    <span class="hljs-keyword">private</span> Cart cart = <span class="hljs-keyword">new</span> Cart();
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addItem</span><span class="hljs-params">()</span> </span>&#123;
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">2</span>,<span class="hljs-string">"数据结构"</span>,<span class="hljs-number">2</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">200</span>)));
+        System.out.println(cart);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">delete</span><span class="hljs-params">()</span> </span>&#123;
+        Cart cart = <span class="hljs-keyword">new</span> Cart();
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">2</span>,<span class="hljs-string">"数据结构"</span>,<span class="hljs-number">2</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">200</span>)));
+        cart.deleteItem(<span class="hljs-number">1</span>);
+        System.out.println(cart);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">()</span> </span>&#123;
+        Cart cart = <span class="hljs-keyword">new</span> Cart();
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">2</span>,<span class="hljs-string">"数据结构"</span>,<span class="hljs-number">2</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">200</span>)));
+        cart.clear();
+        System.out.println(cart);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateCount</span><span class="hljs-params">()</span> </span>&#123;
+        Cart cart = <span class="hljs-keyword">new</span> Cart();
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.clear();
+
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">2</span>,<span class="hljs-string">"数据结构"</span>,<span class="hljs-number">2</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">200</span>)));
+        cart.updateCount(<span class="hljs-number">2</span>,<span class="hljs-number">8</span>);
+        System.out.println(cart);
+    &#125;
+&#125;</code></pre></div>
+
+<h2 id="3、加入购物车功能的实现"><a href="#3、加入购物车功能的实现" class="headerlink" title="3、加入购物车功能的实现"></a>3、加入购物车功能的实现</h2><p>CartServlet 程序中的代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 加入购物车</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> req</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> resp</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> ServletException</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addItem</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+
+<span class="hljs-comment">//        System.out.println("加入购物车");</span>
+<span class="hljs-comment">//        System.out.println("商品编号：" + req.getParameter("id"));</span>
+
+        <span class="hljs-comment">//获取请求的参数 商品编号</span>
+        <span class="hljs-keyword">int</span> id = WebUtils.parseInt(req.getParameter(<span class="hljs-string">"id"</span>),<span class="hljs-number">0</span>);
+        <span class="hljs-comment">//调用bookServlet.queryBookById(id):Book得到图书的信息</span>
+        Book book = bookService.queryBookById(id);
+        <span class="hljs-comment">//把图书信息，转换称为CartItem商品项</span>
+        CartItem cartItem = <span class="hljs-keyword">new</span> CartItem(book.getId(), book.getName(), <span class="hljs-number">1</span>, book.getPrice(), book.getPrice());
+        <span class="hljs-comment">//调用Cart.addItem(CartItem);添加商品下个</span>
+        Cart cart = (Cart) req.getSession().getAttribute(<span class="hljs-string">"cart"</span>);
+        <span class="hljs-keyword">if</span> (cart == <span class="hljs-keyword">null</span>)&#123;
+            cart = <span class="hljs-keyword">new</span> Cart();
+            req.getSession().setAttribute(<span class="hljs-string">"cart"</span>,cart);
+        &#125;
+        cart.addItem(cartItem);
+
+        System.out.println(cart);
+        System.out.println(<span class="hljs-string">"请求头Referer的值："</span> + req.getHeader(<span class="hljs-string">"Referer"</span>));
+
+        <span class="hljs-comment">//最后一个添加的商品的名称</span>
+        req.getSession().setAttribute(<span class="hljs-string">"lastName"</span>,cartItem.getName());
+
+        <span class="hljs-comment">//重定向回商品列表页面</span>
+        resp.sendRedirect(req.getHeader(<span class="hljs-string">"Referer"</span>));
+
+
+    &#125;</code></pre></div>
+
+<p>index.jsp 页面 js 的代码：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599396752750.png" srcset="/img/loading.gif" alt="59939675275"></p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span>
+<span class="javascript">		$(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span>
+<span class="javascript">			$(<span class="hljs-string">"button.addToCart"</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;</span>
+
+<span class="javascript">				<span class="hljs-keyword">var</span> bookId = $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">"bookId"</span>);</span>
+<span class="actionscript">				location.href = <span class="hljs-string">"http://localhost:8080/book/cartServlet?action=addItem&amp;id="</span> + bookId;				</span>
+			&#125;);
+		&#125;);
+
+	<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre></div>
+
+<p>图解说明，如何跳回添加商品的页面：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599396962915.png" srcset="/img/loading.gif" alt="59939696291"></p>
+<h2 id="4、购物车的展示"><a href="#4、购物车的展示" class="headerlink" title="4、购物车的展示"></a>4、购物车的展示</h2><div class="hljs"><pre><code class="hljs jsp">&lt;%@ taglib prefix=<span class="hljs-string">"c"</span> uri=<span class="hljs-string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;
+&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+&lt;title&gt;购物车&lt;/title&gt;
+
+	&lt;%--  静态包含base标签,css样式,jQuery文件 --%&gt;
+	&lt;%<span class="hljs-meta">@include</span> file=<span class="hljs-string">"/pages/common/head.jsp"</span>%&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+	
+	&lt;div id=<span class="hljs-string">"header"</span>&gt;
+			&lt;img <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"logo_img"</span> alt=<span class="hljs-string">""</span> src=<span class="hljs-string">"static/img/logo.gif"</span> &gt;
+			&lt;span class="wel_word"&gt;购物车&lt;/span&gt;
+
+		&lt;%-- 静态包含，登录成功之后的菜单--%&gt;
+		&lt;%<span class="hljs-meta">@include</span> file=<span class="hljs-string">"/pages/common/login_success_menu.jsp"</span>%&gt;
+        &lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
+            $(function () &#123;
+                <span class="hljs-comment">//给【删除】绑定单击事件</span>
+                $(<span class="hljs-string">"a.deleteItem"</span>).click(function () &#123;
+                    <span class="hljs-keyword">return</span> confirm(<span class="hljs-string">"你确定要删除【"</span> + $(<span class="hljs-keyword">this</span>).parent().parent().find(<span class="hljs-string">"td:first"</span>).text() +<span class="hljs-string">"】吗?"</span>)
+                &#125;);
+
+                <span class="hljs-comment">//给清空购物车绑定单击事件</span>
+                $(<span class="hljs-string">"#clearCart"</span>).click(function () &#123;
+                    <span class="hljs-keyword">return</span> confirm(<span class="hljs-string">"你确定要清空购物车嘛？"</span>);
+                &#125;);
+
+                <span class="hljs-comment">//给输入框绑定失去焦点事件 ==change内容发生改变事件</span>
+                $(<span class="hljs-string">".updateCount"</span>).change(function () &#123;
+
+                    <span class="hljs-comment">//获取商品名称</span>
+                    <span class="hljs-keyword">var</span> name = $(<span class="hljs-keyword">this</span>).parent().parent().find(<span class="hljs-string">"td:first"</span>).text();
+                    <span class="hljs-keyword">var</span> id  = $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">'bookId'</span>);
+                    <span class="hljs-comment">//获取商品数量</span>
+                    <span class="hljs-keyword">var</span> count = <span class="hljs-keyword">this</span>.value;
+
+                    <span class="hljs-keyword">if</span>(confirm(<span class="hljs-string">"你确定要将【"</span> + name + <span class="hljs-string">"】商品修改数量为："</span> + count + <span class="hljs-string">"嘛？"</span>))&#123;
+                        <span class="hljs-comment">//发起请求，给服务器保存修改</span>
+						location.href = <span class="hljs-string">"http://localhost:8080/book/cartServlet?action=updateCount&amp;count="</span> + count +<span class="hljs-string">"&amp;id="</span> + id;
+
+                    &#125;<span class="hljs-keyword">else</span> &#123;
+                        <span class="hljs-comment">//defaultValue属性是表单项Dom对象的属性值，他表示默认的value属性值</span>
+                        <span class="hljs-keyword">this</span>.value = <span class="hljs-keyword">this</span>.defaultValue;
+                    &#125;
+                &#125;);
+            &#125;);
+        &lt;/script&gt;
+
+	&lt;/div&gt;
+	
+	&lt;div id=<span class="hljs-string">"main"</span>&gt;
+	
+		&lt;table&gt;
+			&lt;tr&gt;
+				&lt;td&gt;商品名称&lt;/td&gt;
+				&lt;td&gt;数量&lt;/td&gt;
+				&lt;td&gt;单价&lt;/td&gt;
+				&lt;td&gt;金额&lt;/td&gt;
+				&lt;td&gt;操作&lt;/td&gt;
+			&lt;/tr&gt;
+			&lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">"$&#123;empty sessionScope.cart.items&#125;"</span>&gt;
+				&lt;%--如果购物车空的情况--%&gt;
+
+				&lt;tr&gt;
+					&lt;td colspan="5"&gt;&lt;a href="index.jsp"&gt;亲，当前购物车为空!快跟小伙伴们去浏览商品吧！！&lt;/a&gt;&lt;/td&gt;
+				&lt;/tr&gt;
+
+			&lt;/c:if&gt;
+			&lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">"$&#123;not empty sessionScope.cart.items&#125;"</span>&gt;
+				&lt;%--如果购物车非空的情况--%&gt;
+				&lt;c:forEach items=<span class="hljs-string">"$&#123;sessionScope.cart.items&#125;"</span> <span class="hljs-keyword">var</span>=<span class="hljs-string">"entry"</span>&gt;
+					&lt;tr&gt;
+						&lt;td&gt;$&#123;entry.value.name&#125;&lt;/td&gt;
+						&lt;td&gt;
+                            &lt;input <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"updateCount"</span> style=<span class="hljs-string">"width: 50px"</span>
+                                   bookId=<span class="hljs-string">"$&#123;entry.value.id&#125;"</span>
+                                   type=<span class="hljs-string">"text"</span> value=<span class="hljs-string">"$&#123;entry.value.count&#125;"</span>&gt;
+                        &lt;/td&gt;
+						&lt;td&gt;$&#123;entry.value.price&#125;&lt;/td&gt;
+						&lt;td&gt;$&#123;entry.value.totalPrice&#125;&lt;/td&gt;
+						&lt;td&gt;&lt;a class="deleteItem" href="cartServlet?action=deleteItem&amp;id=$&#123;entry.value.id&#125;"&gt;删除&lt;/a&gt;&lt;/td&gt;
+					&lt;/tr&gt;
+				&lt;/c:forEach&gt;
+			&lt;/c:if&gt;
+
+			
+		&lt;/table&gt;
+		&lt;%--如果购物车非空才输出页面的内容 --%&gt;
+		&lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">"$&#123;not empty sessionScope.cart.items&#125;"</span>&gt;
+			&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"cart_info"</span>&gt;
+				&lt;span class="cart_span"&gt;购物车中共有&lt;span class="b_count"&gt;$&#123;sessionScope.cart.totalCount&#125;&lt;/span&gt;件商品&lt;/span&gt;
+				&lt;span class="cart_span"&gt;总金额&lt;span class="b_price"&gt;$&#123;sessionScope.cart.totalPrice&#125;&lt;/span&gt;元&lt;/span&gt;
+				&lt;span class="cart_span"&gt;&lt;a id="clearCart" href="cartServlet?action=clear"&gt;清空购物车&lt;/a&gt;&lt;/span&gt;
+				&lt;span class="cart_span"&gt;&lt;a href="orderServlet?action=createorder"&gt;去结账&lt;/a&gt;&lt;/span&gt;
+			&lt;/div&gt;
+		&lt;/c:if&gt;
+	
+	&lt;/div&gt;
+
+
+	&lt;%--	静态包含页脚内容--%&gt;
+	&lt;%<span class="hljs-meta">@include</span> file=<span class="hljs-string">"/pages/common/footer.jsp"</span>%&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+
+<h2 id="5、删除购物车商品项"><a href="#5、删除购物车商品项" class="headerlink" title="5、删除购物车商品项"></a>5、删除购物车商品项</h2><p>CartServlet 程序：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 删除商品项</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> req</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> resp</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> ServletException</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteItem</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+    <span class="hljs-comment">//获取商品编号</span>
+    <span class="hljs-keyword">int</span> id = WebUtils.parseInt(req.getParameter(<span class="hljs-string">"id"</span>),<span class="hljs-number">0</span>);
+    <span class="hljs-comment">//获取购物车对象</span>
+    Cart cart = (Cart)req.getSession().getAttribute(<span class="hljs-string">"cart"</span>);
+
+    <span class="hljs-keyword">if</span> (cart != <span class="hljs-keyword">null</span>)&#123;
+        <span class="hljs-comment">//删除了购物车商品项</span>
+        cart.deleteItem(id);
+        <span class="hljs-comment">//重定向回购物车展示页面</span>
+        resp.sendRedirect(req.getHeader(<span class="hljs-string">"Referer"</span>));
+    &#125;
+    
+&#125;</code></pre></div>
+
+<p>购物车/pages/cart/cart.jsp 页面的代码：</p>
+<p>删除的请求地址：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599397125599.png" srcset="/img/loading.gif" alt="59939712559"></p>
+<p>删除的确认提示操作：</p>
+<div class="hljs"><pre><code class="hljs jsp">&lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
+    $(function () &#123;
+        <span class="hljs-comment">//给【删除】绑定单击事件</span>
+        $(<span class="hljs-string">"a.deleteItem"</span>).click(function () &#123;
+            <span class="hljs-keyword">return</span> confirm(<span class="hljs-string">"你确定要删除【"</span> + $(<span class="hljs-keyword">this</span>).parent().parent().find(<span class="hljs-string">"td:first"</span>).text() +<span class="hljs-string">"】吗?"</span>)
+        &#125;);
+        
+&lt;/script&gt;</code></pre></div>
+
+<h2 id="6、清空购物车"><a href="#6、清空购物车" class="headerlink" title="6、清空购物车"></a>6、清空购物车</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 清空购物车</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> req</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> resp</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> ServletException</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">clear</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+    <span class="hljs-comment">//1.获取购物车对象</span>
+    Cart cart = (Cart) req.getSession().getAttribute(<span class="hljs-string">"cart"</span>);
+    <span class="hljs-keyword">if</span> (cart != <span class="hljs-keyword">null</span>)&#123;
+        <span class="hljs-comment">//清空购物车</span>
+        cart.clear();
+        <span class="hljs-comment">//重定向回购物车展示页面</span>
+        resp.sendRedirect(req.getHeader(<span class="hljs-string">"Referer"</span>));
+    &#125;
+
+&#125;</code></pre></div>
+
+<p>cart.jsp 页面的内容</p>
+<p>给清空购物车添加请求地址，和添加 id 属性：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599397258023.png" srcset="/img/loading.gif" alt="59939725802"></p>
+<p>清空的确认提示操作：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">// 给清空购物车绑定单击事件</span>
+$(<span class="hljs-string">"#clearCart"</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+	<span class="hljs-keyword">return</span> confirm(<span class="hljs-string">"你确定要清空购物车吗?"</span>);
+&#125;)</code></pre></div>
+
+<h2 id="7、修改购物车商品数量"><a href="#7、修改购物车商品数量" class="headerlink" title="7、修改购物车商品数量"></a>7、修改购物车商品数量</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 修改商品数量</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> req</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> resp</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> ServletException</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateCount</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+    <span class="hljs-keyword">int</span> id = WebUtils.parseInt(req.getParameter(<span class="hljs-string">"id"</span>),<span class="hljs-number">0</span>);
+    <span class="hljs-keyword">int</span> count = WebUtils.parseInt(req.getParameter(<span class="hljs-string">"count"</span>),<span class="hljs-number">0</span>);
+    <span class="hljs-comment">//获取Cart购物车对象</span>
+    Cart cart = (Cart) req.getSession().getAttribute(<span class="hljs-string">"cart"</span>);
+
+    <span class="hljs-keyword">if</span> (cart != <span class="hljs-keyword">null</span>)&#123;
+        cart.updateCount(id,count);
+        <span class="hljs-comment">//重定向回购物车展示页面</span>
+        resp.sendRedirect(req.getHeader(<span class="hljs-string">"Referer"</span>));
+    &#125;
+&#125;</code></pre></div>
+
+<p>修改 pages/cart/cart.jsp 购物车页面：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599397340396.png" srcset="/img/loading.gif" alt="59939734039"></p>
+<p>修改商品数量 js 代码：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">//给输入框绑定失去焦点事件 ==change内容发生改变事件</span>
+          $(<span class="hljs-string">".updateCount"</span>).change(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+
+              <span class="hljs-comment">//获取商品名称</span>
+              <span class="hljs-keyword">var</span> name = $(<span class="hljs-keyword">this</span>).parent().parent().find(<span class="hljs-string">"td:first"</span>).text();
+              <span class="hljs-keyword">var</span> id  = $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">'bookId'</span>);
+              <span class="hljs-comment">//获取商品数量</span>
+              <span class="hljs-keyword">var</span> count = <span class="hljs-keyword">this</span>.value;
+
+              <span class="hljs-keyword">if</span>(confirm(<span class="hljs-string">"你确定要将【"</span> + name + <span class="hljs-string">"】商品修改数量为："</span> + count + <span class="hljs-string">"嘛？"</span>))&#123;
+                  <span class="hljs-comment">//发起请求，给服务器保存修改</span>
+location.href = <span class="hljs-string">"http://localhost:8080/book/cartServlet?action=updateCount&amp;count="</span> + count +<span class="hljs-string">"&amp;id="</span> + id;
+
+              &#125;<span class="hljs-keyword">else</span> &#123;
+                  <span class="hljs-comment">//defaultValue属性是表单项Dom对象的属性值，他表示默认的value属性值</span>
+                  <span class="hljs-keyword">this</span>.value = <span class="hljs-keyword">this</span>.defaultValue;
+              &#125;
+          &#125;);</code></pre></div>
+
+<h2 id="8、首页，购物车数据回显"><a href="#8、首页，购物车数据回显" class="headerlink" title="8、首页，购物车数据回显"></a>8、首页，购物车数据回显</h2><p>在添加商品到购物车的时候，保存最后一个添加的商品名称：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599397411740.png" srcset="/img/loading.gif" alt="59939741174"></p>
+<p>在 pages/client/index.jsp 页面中输出购物车信息：</p>
+<div class="hljs"><pre><code class="hljs jsp">&lt;div style=<span class="hljs-string">"text-align: center"</span>&gt;
+            &lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">"$&#123;not empty sessionScope.cart.items&#125;"</span>&gt;
+               &lt;%--                    购物车非空--%&gt;
+               &lt;span id="cartTotalCount"&gt;您的购物车中有$&#123;sessionScope.cart.totalCount&#125;件商品&lt;/span&gt;
+               &lt;div&gt;
+                  您刚刚将&lt;span style="color: red" id="cartLastName"&gt;$&#123;sessionScope.lastName&#125;&lt;/span&gt;加入到了购物车中
+               &lt;/div&gt;
+            &lt;/c:if&gt;
+                &lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">"$&#123;empty sessionScope.cart.items&#125;"</span>&gt;
+&lt;%--                    购物车为空--%&gt;
+                    &lt;span id="cartTotalCount"&gt;&lt;/span&gt;
+                    &lt;div&gt;
+                        &lt;span  style="color: red" id="cartLastName" &gt;当前购物车为空&lt;/span&gt;
+                    &lt;/div&gt;
+
+                &lt;/c:if&gt;
+
+
+         &lt;/div&gt;</code></pre></div>
+
+<h1 id="第七阶段–订单"><a href="#第七阶段–订单" class="headerlink" title="第七阶段–订单"></a>第七阶段–订单</h1><h2 id="1、订单模块的分析："><a href="#1、订单模块的分析：" class="headerlink" title="1、订单模块的分析："></a>1、订单模块的分析：</h2><p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599397796975.png" srcset="/img/loading.gif" alt="59939779697"></p>
+<h2 id="2、订单模块的实现"><a href="#2、订单模块的实现" class="headerlink" title="2、订单模块的实现"></a>2、订单模块的实现</h2><h3 id="2-1、创建订单模块的数据库表"><a href="#2-1、创建订单模块的数据库表" class="headerlink" title="2.1、创建订单模块的数据库表"></a>2.1、创建订单模块的数据库表</h3><div class="hljs"><pre><code class="hljs sql"><span class="hljs-keyword">use</span> book;
+
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> t_order(
+	<span class="hljs-string">`order_id`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>) primary <span class="hljs-keyword">key</span>, <span class="hljs-string">`create_time`</span> datetime,
+	<span class="hljs-string">`price`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">11</span>,<span class="hljs-number">2</span>), <span class="hljs-string">`status`</span> <span class="hljs-built_in">int</span>,
+	<span class="hljs-string">`user_id`</span> <span class="hljs-built_in">int</span>,
+	<span class="hljs-keyword">foreign</span> <span class="hljs-keyword">key</span>(<span class="hljs-string">`user_id`</span>) <span class="hljs-keyword">references</span> t_user(<span class="hljs-string">`id`</span>)
+);
+
+<span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> t_order_item(
+	<span class="hljs-string">`id`</span> <span class="hljs-built_in">int</span> primary <span class="hljs-keyword">key</span> auto_increment, <span class="hljs-string">`name`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">100</span>),
+	<span class="hljs-string">`count`</span> <span class="hljs-built_in">int</span>,
+	<span class="hljs-string">`price`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">11</span>,<span class="hljs-number">2</span>), <span class="hljs-string">`total_price`</span> <span class="hljs-built_in">decimal</span>(<span class="hljs-number">11</span>,<span class="hljs-number">2</span>),
+	<span class="hljs-string">`order_id`</span> <span class="hljs-built_in">varchar</span>(<span class="hljs-number">50</span>),
+	<span class="hljs-keyword">foreign</span> <span class="hljs-keyword">key</span>(<span class="hljs-string">`order_id`</span>) <span class="hljs-keyword">references</span> t_order(<span class="hljs-string">`order_id`</span>)
+);</code></pre></div>
+
+<h3 id="2-2、创建订单模块的数据模型"><a href="#2-2、创建订单模块的数据模型" class="headerlink" title="2.2、创建订单模块的数据模型"></a>2.2、创建订单模块的数据模型</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 订单</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-09  14:21</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Order</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> String orderId;
+    <span class="hljs-keyword">private</span> Date createTime;
+    <span class="hljs-keyword">private</span> BigDecimal price;
+    <span class="hljs-comment">//0未发货，1已发货，2表示已签收</span>
+    <span class="hljs-keyword">private</span> Integer status = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">private</span> Integer userId;
+    get,set省略
+&#125;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 订单项</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-09  14:23</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderItem</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> Integer id;
+    <span class="hljs-keyword">private</span> String name;
+    <span class="hljs-keyword">private</span> Integer count;
+    <span class="hljs-keyword">private</span> BigDecimal price;
+    <span class="hljs-keyword">private</span> BigDecimal totalPrice;
+    <span class="hljs-keyword">private</span> String orderId;
+
+&#125;</code></pre></div>
+
+<h3 id="2-3、编写订单模块的-Dao-程序和测试"><a href="#2-3、编写订单模块的-Dao-程序和测试" class="headerlink" title="2.3、编写订单模块的 Dao 程序和测试"></a>2.3、编写订单模块的 Dao 程序和测试</h3><p>OrderDao 接口</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OrderDao</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">saveOrder</span><span class="hljs-params">(Order order)</span></span>;
+&#125;</code></pre></div>
+
+<p>OrderDao 实现</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderDaoImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseDao</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderDao</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">saveOrder</span><span class="hljs-params">(Order order)</span> </span>&#123;
+    String sql = <span class="hljs-string">"insert into t_order(`order_id`,`create_time`,`price`,`status`,`user_id`)</span>
+<span class="hljs-string">    values(?,?,?,?,?)"</span>;
+ 	<span class="hljs-keyword">return</span> update(sql,order.getOrderId(),order.getCreateTime(),order.getPrice(),order.getStatus(),order.<span class="hljs-function">getUs <span class="hljs-title">erId</span><span class="hljs-params">()</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>OrderItemDao 接口</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OrderItemDao</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">saveOrderItem</span><span class="hljs-params">(OrderItem orderItem)</span></span>;
+&#125;</code></pre></div>
+
+<p>OrderItemDao 实现</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderItemDaoImpl</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseDao</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderItemDao</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">saveOrderItem</span><span class="hljs-params">(OrderItem orderItem)</span> </span>&#123;
+    String sql = <span class="hljs-string">"insert into t_order_item(`name`,`count`,`price`,`total_price`,`order_id`)</span>
+<span class="hljs-string">    values(?,?,?,?,?)"</span>;
+    <span class="hljs-keyword">return</span> update(sql,orderItem.getName(),orderItem.getCount(),orderItem.getPrice(),orderItem.getTotalPrice(), orderItem.getOrderId());
+    &#125;
+&#125;</code></pre></div>
+
+<p>测试</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-09  15:18</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderDaoImplTest</span> </span>&#123;
+    OrderDao orderDao = <span class="hljs-keyword">new</span> OrderDaoImpl();
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveOrder</span><span class="hljs-params">()</span> </span>&#123;
+
+        orderDao.saveOrder(<span class="hljs-keyword">new</span> Order(<span class="hljs-string">"123456789"</span>,<span class="hljs-keyword">new</span> Date(),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-number">0</span>,<span class="hljs-number">1</span>));
+    &#125;
+
+&#125;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-09  15:22</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderItemDaoImplTest</span> </span>&#123;
+    OrderItemDao orderItemDao = <span class="hljs-keyword">new</span> OrderItemDaoImpl();
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveOrderItem</span><span class="hljs-params">()</span> </span>&#123;
+
+        orderItemDao.saveOrderItem(<span class="hljs-keyword">new</span> OrderItem(<span class="hljs-keyword">null</span>,<span class="hljs-string">"java从入门到精通"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-string">"123456789"</span>));
+        orderItemDao.saveOrderItem(<span class="hljs-keyword">new</span> OrderItem(<span class="hljs-keyword">null</span>,<span class="hljs-string">"c从入门到精通"</span>,<span class="hljs-number">2</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">200</span>),<span class="hljs-string">"123456789"</span>));
+        orderItemDao.saveOrderItem(<span class="hljs-keyword">new</span> OrderItem(<span class="hljs-keyword">null</span>,<span class="hljs-string">"c++从入门到精通"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-string">"123456789"</span>));
+    &#125;
+
+&#125;</code></pre></div>
+
+<p>2.4、编写订单模块的 Service 和测试</p>
+<p>OrderService 接口</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OrderService</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">createOrder</span><span class="hljs-params">(Cart cart,Integer userId)</span></span>;
+&#125;</code></pre></div>
+
+<p>OrderService 实现类</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-09  15:31</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> OrderDao orderDao = <span class="hljs-keyword">new</span> OrderDaoImpl();
+    <span class="hljs-keyword">private</span> OrderItemDao orderItemDao = <span class="hljs-keyword">new</span> OrderItemDaoImpl();
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">createOrder</span><span class="hljs-params">(Cart cart, Integer userId)</span> </span>&#123;
+        <span class="hljs-comment">//订单号==唯一性</span>
+        String orderId = System.currentTimeMillis() + <span class="hljs-string">""</span> + userId;
+        <span class="hljs-comment">//创建一个订单对象</span>
+        Order order = <span class="hljs-keyword">new</span> Order(orderId,<span class="hljs-keyword">new</span> Date(),cart.getTotalPrice(),<span class="hljs-number">0</span>,userId);
+
+        <span class="hljs-comment">//保存订单</span>
+        orderDao.saveOrder(order);
+
+        <span class="hljs-comment">//制造错误500</span>
+        <span class="hljs-comment">//int i = 12 / 0;</span>
+
+        <span class="hljs-comment">//遍历购物车中每一个商品项转换称为订单项保存到数据库</span>
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;Integer, CartItem&gt;entry:cart.getItems().entrySet())&#123;
+            <span class="hljs-comment">//获取每一个购物车中的商品项</span>
+            CartItem cartItem = entry.getValue();
+            <span class="hljs-comment">//转换为每一个订单项</span>
+            OrderItem orderItem = <span class="hljs-keyword">new</span> OrderItem(<span class="hljs-keyword">null</span>,cartItem.getName(),cartItem.getCount(),cartItem.getPrice(),cartItem.getTotalPrice(),orderId);
+            <span class="hljs-comment">//保存订单项到数据库</span>
+            orderItemDao.saveOrderItem(orderItem);
+        &#125;
+
+        <span class="hljs-comment">//清空购物车</span>
+        cart.clear();
+
+        <span class="hljs-keyword">return</span> orderId;
+    &#125;
+&#125;</code></pre></div>
+
+<p>测试</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-09  15:43</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImplTest</span> </span>&#123;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createOrder</span><span class="hljs-params">()</span> </span>&#123;
+        Cart cart = <span class="hljs-keyword">new</span> Cart();
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">1</span>,<span class="hljs-string">"java"</span>,<span class="hljs-number">1</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>)));
+        cart.addItem(<span class="hljs-keyword">new</span> CartItem(<span class="hljs-number">2</span>,<span class="hljs-string">"数据结构"</span>,<span class="hljs-number">2</span>,<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">100</span>),<span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">200</span>)));
+
+        OrderService orderService = <span class="hljs-keyword">new</span> OrderServiceImpl();
+        System.out.println(<span class="hljs-string">"订单号为："</span> + orderService.createOrder(cart, <span class="hljs-number">1</span>));
+    &#125;
+&#125;</code></pre></div>
+
+<p>2.5、编写订单模块的 web 层和页面联调</p>
+<p>修改 OrderService 程序：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-09  15:31</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">OrderService</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> OrderDao orderDao = <span class="hljs-keyword">new</span> OrderDaoImpl();
+    <span class="hljs-keyword">private</span> OrderItemDao orderItemDao = <span class="hljs-keyword">new</span> OrderItemDaoImpl();
+    <span class="hljs-keyword">private</span> BookDao bookDao = <span class="hljs-keyword">new</span> BookDaoImpl();
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">createOrder</span><span class="hljs-params">(Cart cart, Integer userId)</span> </span>&#123;
+        <span class="hljs-comment">//订单号==唯一性</span>
+        String orderId = System.currentTimeMillis() + <span class="hljs-string">""</span> + userId;
+        <span class="hljs-comment">//创建一个订单对象</span>
+        Order order = <span class="hljs-keyword">new</span> Order(orderId,<span class="hljs-keyword">new</span> Date(),cart.getTotalPrice(),<span class="hljs-number">0</span>,userId);
+
+        <span class="hljs-comment">//保存订单</span>
+        orderDao.saveOrder(order);
+
+        <span class="hljs-comment">//制造错误500</span>
+        <span class="hljs-comment">//int i = 12 / 0;</span>
+
+        <span class="hljs-comment">//遍历购物车中每一个商品项转换称为订单项保存到数据库</span>
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;Integer, CartItem&gt;entry:cart.getItems().entrySet())&#123;
+            <span class="hljs-comment">//获取每一个购物车中的商品项</span>
+            CartItem cartItem = entry.getValue();
+            <span class="hljs-comment">//转换为每一个订单项</span>
+            OrderItem orderItem = <span class="hljs-keyword">new</span> OrderItem(<span class="hljs-keyword">null</span>,cartItem.getName(),cartItem.getCount(),cartItem.getPrice(),cartItem.getTotalPrice(),orderId);
+            <span class="hljs-comment">//保存订单项到数据库</span>
+            orderItemDao.saveOrderItem(orderItem);
+
+            <span class="hljs-comment">//更新库存和销量</span>
+            Book book = bookDao.queryBookById(cartItem.getId());
+            book.setSales(book.getSales() + cartItem.getCount());
+            book.setStock(book.getStock() - cartItem.getCount());
+            bookDao.updateBook(book);
+        &#125;
+
+        <span class="hljs-comment">//清空购物车</span>
+        cart.clear();
+
+        <span class="hljs-keyword">return</span> orderId;
+    &#125;
+&#125;</code></pre></div>
+
+<p> OrderServlet 程序：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-09  15:47</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BaseServlet</span> </span>&#123;
+    
+    <span class="hljs-keyword">private</span> OrderService orderService = <span class="hljs-keyword">new</span> OrderServiceImpl();
+    
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 生产订单</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> req</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> resp</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createorder</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> Exception</span>&#123;
+        <span class="hljs-comment">//先获取Cart购物车对象</span>
+        Cart cart = (Cart)req.getSession().getAttribute(<span class="hljs-string">"cart"</span>);
+        <span class="hljs-comment">//获取用户信息，获取UserId</span>
+        User loginuser = (User) req.getSession().getAttribute(<span class="hljs-string">"user"</span>);
+
+        <span class="hljs-keyword">if</span> (loginuser == <span class="hljs-keyword">null</span>)&#123;
+            req.getRequestDispatcher(<span class="hljs-string">"/pages/user/login.jsp"</span>).forward(req,resp);
+            <span class="hljs-keyword">return</span>;
+        &#125;
+
+        Integer userId = loginuser.getId();
+        <span class="hljs-comment">//调用orderService.createOrder(Cart,Userid);,生产订单</span>
+        String orderId = orderService.createOrder(cart, userId);
+
+
+
+        <span class="hljs-comment">//req.setAttribute("orderId",orderId);</span>
+        <span class="hljs-comment">//请求转发</span>
+        <span class="hljs-comment">//req.getRequestDispatcher("/pages/cart/checkout.jsp").forward(req,resp);</span>
+
+        req.getSession().setAttribute(<span class="hljs-string">"orderId"</span>,orderId);
+
+        resp.sendRedirect(req.getContextPath()+<span class="hljs-string">"/pages/cart/checkout.jsp"</span>);
+    &#125;
+&#125;</code></pre></div>
+
+<p>修改 pages/cart/cart.jsp 页面，结账的请求地址：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599398521313.png" srcset="/img/loading.gif" alt="59939852131"></p>
+<p>修改 pages/cart/checkout.jsp 页面，输出订单号：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/1599398536347.png" srcset="/img/loading.gif" alt="59939853634"></p>
+<h1 id="第八阶段–过滤器"><a href="#第八阶段–过滤器" class="headerlink" title="第八阶段–过滤器"></a>第八阶段–过滤器</h1><h2 id="1、使用-Filter-过滤器拦截-pages-manager-所有内容，实现权限检查"><a href="#1、使用-Filter-过滤器拦截-pages-manager-所有内容，实现权限检查" class="headerlink" title="1、使用 Filter 过滤器拦截/pages/manager/所有内容，实现权限检查"></a>1、使用 Filter 过滤器拦截/pages/manager/所有内容，实现权限检查</h2><p>Filter 代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-10  9:26</span>
+<span class="hljs-comment"> * 拦截未登录进入后台</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ManagerFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Filter</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException </span>&#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doFilter</span><span class="hljs-params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException </span>&#123;
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+
+        Object user = httpServletRequest.getSession().getAttribute(<span class="hljs-string">"user"</span>);
+        <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>)&#123;
+            httpServletRequest.getRequestDispatcher(<span class="hljs-string">"/pages/user/login.jsp"</span>).forward(servletRequest,servletResponse);
+        &#125;<span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-comment">//放行</span>
+            filterChain.doFilter(servletRequest,servletResponse);
+        &#125;
+
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroy</span><span class="hljs-params">()</span> </span>&#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>web.xml中的配置</p>
+<div class="hljs"><pre><code class="hljs xml">web.xml 中的配置：
+
+<span class="hljs-tag">&lt;<span class="hljs-name">filter</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>ManagerFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-class</span>&gt;</span>com.atguigu.filter.ManagerFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-class</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span> 
+    <span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>ManagerFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/pages/manager/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/manager/bookServlet<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span></code></pre></div>
+
+<h2 id="2、ThreadLocal-的使用"><a href="#2、ThreadLocal-的使用" class="headerlink" title="2、ThreadLocal 的使用"></a>2、ThreadLocal 的使用</h2><p>ThreadLocal 的作用，它可以解决多线程的数据安全问题。</p>
+<p>ThreadLocal 它可以给当前线程关联一个数据（可以是普通变量，可以是对象，也可以是数组，集合）</p>
+<p>ThreadLocal 的特点：</p>
+<p>1、ThreadLocal 可以为当前线程关联一个数据。（它可以像 Map 一样存取数据，key 为当前线程）</p>
+<p>2、每一个 ThreadLocal 对象，只能为当前线程关联一个数据，如果要为当前线程关联多个数据，就需要使用多个ThreadLocal 对象实例。</p>
+<p>3、每个 ThreadLocal 对象实例定义的时候，一般都是 static 类型</p>
+<p>4、ThreadLocal 中保存数据，在线程销毁后。会由 JVM 虚拟自动释放。</p>
+<p>测试类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderService</span> </span>&#123;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createOrder</span><span class="hljs-params">()</span></span>&#123;
+    String name = Thread.currentThread().getName(); System.out.println(<span class="hljs-string">"OrderService 当前线程["</span> + name + <span class="hljs-string">"]中保存的数据是："</span> +
+    ThreadLocalTest.threadLocal.get());
+    <span class="hljs-keyword">new</span> OrderDao().saveOrder();
+    &#125;
+&#125;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderDao</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveOrder</span><span class="hljs-params">()</span></span>&#123;
+    String name = Thread.currentThread().getName(); System.out.println(<span class="hljs-string">"OrderDao 当前线程["</span> + name + <span class="hljs-string">"]中保存的数据是："</span> +
+    ThreadLocalTest.threadLocal.get());
+    &#125;
+&#125;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadLocalTest</span> </span>&#123;
+ 
+<span class="hljs-comment">//public static Map&lt;String,Object&gt; data = new Hashtable&lt;String,Object&gt;(); </span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> ThreadLocal&lt;Object&gt; threadLocal = <span class="hljs-keyword">new</span> ThreadLocal&lt;Object&gt;();
+	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Random random = <span class="hljs-keyword">new</span> Random();
+ 
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Task</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Runnable</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-comment">// 在Run 方法中，随机生成一个变量（线程要关联的数据），然后以当前线程名为key 保存到map 中</span>
+    Integer i = random.nextInt(<span class="hljs-number">1000</span>); <span class="hljs-comment">// 获取当前线程名</span>
+    String name = Thread.currentThread().getName(); System.out.println(<span class="hljs-string">"线程["</span>+name+<span class="hljs-string">"]生成的随机数是："</span> + i);
+
+    <span class="hljs-comment">//data.put(name,i);</span>
+    threadLocal.set(i);
+
+    <span class="hljs-keyword">try</span> &#123;
+    Thread.sleep(<span class="hljs-number">3000</span>);
+    &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
+    e.printStackTrace();
+    &#125;
+    <span class="hljs-keyword">new</span> OrderService().createOrder();
+
+    <span class="hljs-comment">// 在Run 方法结束之前，以当前线程名获取出数据并打印。查看是否可以取出操作</span>
+
+    <span class="hljs-comment">//Object o = data.get(name);</span>
+    Object o = threadLocal.get();
+    System.out.println(<span class="hljs-string">"在线程["</span>+name+<span class="hljs-string">"]快结束时取出关联的数据是："</span> + o);
+
+    &#125;
+ 
+&#125;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">3</span>; i++)&#123;
+        	<span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Task()).start();
+        &#125;
+	&#125;
+ 
+&#125;</code></pre></div>
+
+<h2 id="3、使用-Filter-和-ThreadLocal-组合管理事务"><a href="#3、使用-Filter-和-ThreadLocal-组合管理事务" class="headerlink" title="3、使用 Filter 和 ThreadLocal 组合管理事务"></a>3、使用 Filter 和 ThreadLocal 组合管理事务</h2><h3 id="3-1、使用-ThreadLocal来确保所有-dao-操作都在同一个-Connection-连接对象中完成"><a href="#3-1、使用-ThreadLocal来确保所有-dao-操作都在同一个-Connection-连接对象中完成" class="headerlink" title="3.1、使用 ThreadLocal来确保所有 dao 操作都在同一个 Connection 连接对象中完成"></a>3.1、使用 ThreadLocal来确保所有 dao 操作都在同一个 Connection 连接对象中完成</h3><p>原理分析图：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/C:%5CUsers%5CMI%5CAppData%5CLocal%5CTemp%5C1599443937060.png" srcset="/img/loading.gif" alt="59944393706"></p>
+<p>JdbcUtils 工具类的修改：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-03  20:52</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JdbcUtils</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> DruidDataSource dataSource;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ThreadLocal&lt;Connection&gt; conns = <span class="hljs-keyword">new</span> ThreadLocal&lt;&gt;();
+
+    <span class="hljs-keyword">static</span> &#123;
+
+        <span class="hljs-keyword">try</span> &#123;
+            Properties properties = <span class="hljs-keyword">new</span> Properties();
+            <span class="hljs-comment">//读取jdbc.properties属性配置文件</span>
+            InputStream inputStream = JdbcUtils.class.getClassLoader().getResourceAsStream("jdbc.properties");
+            <span class="hljs-comment">//从流中加载数据</span>
+            properties.load(inputStream);
+            <span class="hljs-comment">//创建 数据库连接池</span>
+            dataSource = (DruidDataSource) DruidDataSourceFactory.createDataSource(properties);
+
+            <span class="hljs-comment">//测试代码</span>
+            <span class="hljs-comment">//System.out.println(dataSource.getConnection());</span>
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 获取数据库连接池中的连接</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 返回null, 说明获取连接失败，有值就是获取连接成功</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> Connection <span class="hljs-title">getConnection</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">//同一个线程获取</span>
+        Connection conn = conns.get();
+
+        <span class="hljs-keyword">if</span> (conn == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">try</span> &#123;
+                <span class="hljs-comment">//从数据库连接池获取连接</span>
+                conn = dataSource.getConnection();
+                conns.set(conn);<span class="hljs-comment">//保存到ThreadLocal对象中，供后面jdbc使用</span>
+
+                conn.setAutoCommit(<span class="hljs-keyword">false</span>);<span class="hljs-comment">//设置为手动管理</span>
+            &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                e.printStackTrace();
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> conn;
+
+
+        <span class="hljs-comment">//        Connection conn = null;</span>
+
+<span class="hljs-comment">//        try &#123;</span>
+<span class="hljs-comment">//            conn = dataSource.getConnection();</span>
+<span class="hljs-comment">//        &#125; catch (SQLException e) &#123;</span>
+<span class="hljs-comment">//            e.printStackTrace();</span>
+<span class="hljs-comment">//        &#125; finally &#123;</span>
+<span class="hljs-comment">//        &#125;</span>
+<span class="hljs-comment">//        return conn;</span>
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 提交事务，并关闭释放连接</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">commitAndClose</span><span class="hljs-params">()</span></span>&#123;
+        Connection conn = conns.get();
+        <span class="hljs-keyword">if</span> (conn != <span class="hljs-keyword">null</span>)&#123;<span class="hljs-comment">//如果不等于null，说明之前使用过数据库</span>
+            <span class="hljs-keyword">try</span> &#123;
+                conn.commit();<span class="hljs-comment">//提交事务</span>
+
+            &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                e.printStackTrace();
+            &#125; <span class="hljs-keyword">finally</span> &#123;
+                <span class="hljs-keyword">try</span> &#123;
+                    conn.close();<span class="hljs-comment">//关闭连接，释放资源</span>
+                &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;
+
+        &#125;
+        <span class="hljs-comment">//一定要执行remove操作，否则就会出错，（因为Tomcat底层使用了线程池技术</span>
+        conns.remove();
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 回滚事务，并关闭释放连接</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">rollbackAdnClose</span><span class="hljs-params">()</span></span>&#123;
+        Connection conn = conns.get();
+        <span class="hljs-keyword">if</span> (conn != <span class="hljs-keyword">null</span>)&#123;<span class="hljs-comment">//如果不等于null，说明之前使用过数据库</span>
+            <span class="hljs-keyword">try</span> &#123;
+                conn.rollback();<span class="hljs-comment">//回滚事务</span>
+
+            &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                e.printStackTrace();
+            &#125; <span class="hljs-keyword">finally</span> &#123;
+                <span class="hljs-keyword">try</span> &#123;
+                    conn.close();<span class="hljs-comment">//关闭连接，释放资源</span>
+                &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;
+
+        &#125;
+        <span class="hljs-comment">//一定要执行remove操作，否则就会出错，（因为Tomcat底层使用了线程池技术</span>
+        conns.remove();
+    &#125;
+
+
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 关闭连接，放回数据库连接池</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">    public static void close(Connection conn) &#123;</span>
+<span class="hljs-comment">        if (conn != null) &#123;</span>
+<span class="hljs-comment">            try &#123;</span>
+<span class="hljs-comment">                conn.close();</span>
+<span class="hljs-comment">            &#125; catch (SQLException e) &#123;</span>
+<span class="hljs-comment">                e.printStackTrace();</span>
+<span class="hljs-comment">            &#125;</span>
+<span class="hljs-comment">        &#125;</span>
+<span class="hljs-comment">    &#125;</span>
+<span class="hljs-comment">     */</span>
+&#125;</code></pre></div>
+
+<p>修改 BaseDao</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.dao.impl;
+
+<span class="hljs-keyword">import</span> com.utils.JdbcUtils;
+
+<span class="hljs-keyword">import</span> org.apache.commons.dbutils.QueryRunner;
+<span class="hljs-keyword">import</span> org.apache.commons.dbutils.handlers.BeanHandler;
+<span class="hljs-keyword">import</span> org.apache.commons.dbutils.handlers.BeanListHandler;
+<span class="hljs-keyword">import</span> org.apache.commons.dbutils.handlers.ScalarHandler;
+
+<span class="hljs-keyword">import</span> java.sql.Connection;
+<span class="hljs-keyword">import</span> java.sql.SQLException;
+<span class="hljs-keyword">import</span> java.util.List;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-03  21:17</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseDao</span> </span>&#123;
+
+    <span class="hljs-comment">//使用DbUtils操作数据库</span>
+    <span class="hljs-keyword">private</span> QueryRunner queryRunner = <span class="hljs-keyword">new</span> QueryRunner();
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * update()方法用来执行，Insert/Update/Delete语句</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 如果返回-1，说明执行失败 返回其他表示影响的行数</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">update</span><span class="hljs-params">(String sql,Object ...args)</span></span>&#123;
+        Connection connection = JdbcUtils.getConnection();
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">return</span> queryRunner.update(connection,sql,args);
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e);
+        &#125;
+
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 查询返回一个javaBean的sql语句</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> type 返回的对象类型</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sql   执行的sql语句</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> args  sql对应的参数值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &lt;T&gt;   返回的类型的泛型</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">T  <span class="hljs-title">queryForOne</span><span class="hljs-params">(Class&lt;T&gt; type,String sql,Object ...args)</span></span>&#123;
+        Connection connection = JdbcUtils.getConnection();
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">return</span> queryRunner.query(connection,sql,<span class="hljs-keyword">new</span> BeanHandler&lt;T&gt;(type),args);
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e);
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 查询返回多个javaBean的sql语句</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> type 返回的对象类型</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sql   执行的sql语句</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> args  sql对应的参数值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> &lt;T&gt;   返回的类型的泛型</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">public</span> &lt;T&gt; <span class="hljs-function">List&lt;T&gt; <span class="hljs-title">queryForList</span><span class="hljs-params">(Class&lt;T&gt; type,String sql,Object ...args)</span> </span>&#123;
+        Connection connection = JdbcUtils.getConnection();
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">return</span> queryRunner.query(connection, sql, <span class="hljs-keyword">new</span> BeanListHandler&lt;T&gt;(type), args);
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e) &#123;
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e);
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 执行返回一行一列的sql语句</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> sql   执行的sql语句</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> args  sql对应的参数值</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">queryForSingleValue</span><span class="hljs-params">(String sql,Object ...args)</span></span>&#123;
+        Connection connection = JdbcUtils.getConnection();
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">return</span> queryRunner.query(connection,sql,<span class="hljs-keyword">new</span> ScalarHandler(),args);
+        &#125; <span class="hljs-keyword">catch</span> (SQLException e)&#123;
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e);
+        &#125;
+    &#125;
+
+
+&#125;</code></pre></div>
+
+<h3 id="3-2、使用-Filter-过滤器统一给所有的-Service-方法都加上-try-catch。来进行实现的管理"><a href="#3-2、使用-Filter-过滤器统一给所有的-Service-方法都加上-try-catch。来进行实现的管理" class="headerlink" title="3.2、使用 Filter 过滤器统一给所有的 Service 方法都加上 try-catch。来进行实现的管理"></a>3.2、使用 Filter 过滤器统一给所有的 Service 方法都加上 try-catch。来进行实现的管理</h3><p>原理分析图：</p>
+<p><img src="/2020/09/06/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%90%8E%E7%AF%87/C:%5CUsers%5CMI%5CAppData%5CLocal%5CTemp%5C1599444024722.png" srcset="/img/loading.gif" alt="59944402472"></p>
+<p>Filter 类代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 为所有工程统一加上try catch</span>
+<span class="hljs-comment"> * 并把异常都抛给Tomcat服务器处理</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-10  13:25</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TransactionFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Filter</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(FilterConfig filterConfig)</span> <span class="hljs-keyword">throws</span> ServletException </span>&#123;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doFilter</span><span class="hljs-params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="hljs-keyword">throws</span> IOException, ServletException </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            filterChain.doFilter(servletRequest,servletResponse);
+            JdbcUtils.commitAndClose();<span class="hljs-comment">//提交事务</span>
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            JdbcUtils.rollbackAdnClose();<span class="hljs-comment">//回滚事务</span>
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e);<span class="hljs-comment">//把异常抛给Tomcat管理展示友好错误页面</span>
+        &#125;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroy</span><span class="hljs-params">()</span> </span>&#123;
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>在 web.xml 中的配置：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">filter</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>TransactionFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">filter-class</span>&gt;</span>com.atguigu.filter.TransactionFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-class</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span> 
+<span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>TransactionFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span> <span class="hljs-comment">&lt;!-- /* 表示当前工程下所有请求 --&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span></code></pre></div>
+
+<p>一定要记得把 BaseServlet 中的异常往外抛给 Filter 过滤器</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-04-05  18:01</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseServlet</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpServlet</span> </span>&#123;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doGet</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+        doPost(req, resp);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doPost</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+        req.setCharacterEncoding(<span class="hljs-string">"UTF-8"</span>);<span class="hljs-comment">//关键 解决post乱码问题</span>
+        <span class="hljs-comment">//解决响应的中文乱码</span>
+        resp.setContentType(<span class="hljs-string">"text/html; charset=UTF-8"</span>);
+        String action = req.getParameter(<span class="hljs-string">"action"</span>);
+
+        <span class="hljs-keyword">try</span> &#123;
+            Method method = <span class="hljs-keyword">this</span>.getClass().getDeclaredMethod(action,HttpServletRequest<span class="hljs-class">.<span class="hljs-keyword">class</span>,<span class="hljs-title">HttpServletResponse</span>.<span class="hljs-title">class</span>)</span>;
+
+            method.invoke(<span class="hljs-keyword">this</span>,req,resp);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(e);<span class="hljs-comment">//把异常抛给Filter过滤器</span>
+    &#125;
+
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="3-3、将所有异常都统一交给-Tomcat，让-Tomcat-展示友好的错误信息页面"><a href="#3-3、将所有异常都统一交给-Tomcat，让-Tomcat-展示友好的错误信息页面" class="headerlink" title="3.3、将所有异常都统一交给 Tomcat，让 Tomcat 展示友好的错误信息页面"></a>3.3、将所有异常都统一交给 Tomcat，让 Tomcat 展示友好的错误信息页面</h3><p>在 web.xml 中我们可以通过错误页面配置来进行管理</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--error-page 标签配置，服务器出错之后，自动跳转的页面--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">error-page</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--error-code 是错误类型--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">error-code</span>&gt;</span>500<span class="hljs-tag">&lt;/<span class="hljs-name">error-code</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--location 标签表示。要跳转去的页面路径--&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">location</span>&gt;</span>/pages/error/error500.jsp<span class="hljs-tag">&lt;/<span class="hljs-name">location</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">error-page</span>&gt;</span>
+
+<span class="hljs-comment">&lt;!--error-page 标签配置，服务器出错之后，自动跳转的页面--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">error-page</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--error-code 是错误类型--&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">error-code</span>&gt;</span>404<span class="hljs-tag">&lt;/<span class="hljs-name">error-code</span>&gt;</span>
+    <span class="hljs-comment">&lt;!--location 标签表示。要跳转去的页面路径--&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">location</span>&gt;</span>/pages/error/error404.jsp<span class="hljs-tag">&lt;/<span class="hljs-name">location</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">error-page</span>&gt;</span></code></pre></div>
+
+<h1 id="第九阶段–Ajax"><a href="#第九阶段–Ajax" class="headerlink" title="第九阶段–Ajax"></a>第九阶段–Ajax</h1><h2 id="1、Ajax-验证用户名是否可用"><a href="#1、Ajax-验证用户名是否可用" class="headerlink" title="1、Ajax 验证用户名是否可用"></a>1、Ajax 验证用户名是否可用</h2><p>使用 Ajax 验证用户名是否可用。我们需要在页面端，给用户名输入框添加一个失去焦点事件。当用户名输入框失去</p>
+<p>焦点的时候，触发事件。获取输入的用户名。然后发送 Ajax 请求到服务器諯去验证。</p>
+<p>然后服务器通过 json 数据，返回是否存在，result  为 0  表示 不存在，result 为 1 表示存在。当然我们还要做一个用户名不为空的简单验证。才能让请求发送到服务器端。</p>
+<h3 id="1-1、修改pages-user-regist-jsp-页面。给用户名输入框添加失去焦点事件"><a href="#1-1、修改pages-user-regist-jsp-页面。给用户名输入框添加失去焦点事件" class="headerlink" title="1.1、修改pages/user/regist.jsp 页面。给用户名输入框添加失去焦点事件"></a>1.1、修改pages/user/regist.jsp 页面。给用户名输入框添加失去焦点事件</h3><div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">//页面加载完成后</span>
+        $(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+
+            $(<span class="hljs-string">"#username"</span>).blur(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+               <span class="hljs-comment">//1 获取用户名</span>
+               <span class="hljs-keyword">var</span> username = <span class="hljs-keyword">this</span>.value;
+
+               $.getJSON(<span class="hljs-string">"http://localhost:8080/book/userServlet"</span>,<span class="hljs-string">"action=ajaxExistsUsername&amp;username="</span> + username,<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>&#123;
+                    <span class="hljs-comment">// console.log(data)</span>
+                   <span class="hljs-keyword">if</span> (data.existUsername)&#123;
+                       $(<span class="hljs-string">"span.errorMsg"</span>).text(<span class="hljs-string">"用户名已存在！"</span>);
+                   &#125;<span class="hljs-keyword">else</span> &#123;
+                       $(<span class="hljs-string">"span.errorMsg"</span>).text(<span class="hljs-string">"用户名可用！"</span>);
+                   &#125;
+               &#125;);
+
+            &#125;);</code></pre></div>
+
+<h3 id="1-2、修改-UserServlet-类，添加检查用户名是否存在的方法："><a href="#1-2、修改-UserServlet-类，添加检查用户名是否存在的方法：" class="headerlink" title="1.2、修改 UserServlet 类，添加检查用户名是否存在的方法："></a>1.2、修改 UserServlet 类，添加检查用户名是否存在的方法：</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 用ajax验证用户是否存在，并将数据传输到客户端</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> req</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> resp</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> ServletException</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ajaxExistsUsername</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+    <span class="hljs-comment">//获取请求的参数username</span>
+    String username = req.getParameter(<span class="hljs-string">"username"</span>);
+    <span class="hljs-comment">//调用userService.existUsername</span>
+    <span class="hljs-keyword">boolean</span> existUsername = userService.existUsername(username);
+    <span class="hljs-comment">//把返回的结果封装成为map对象</span>
+    Map&lt;String,Object&gt; resultMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+    resultMap.put(<span class="hljs-string">"existUsername"</span>,existUsername);
+
+    Gson gson = <span class="hljs-keyword">new</span> Gson();
+    String json = gson.toJson(resultMap);
+    resp.getWriter().write(json);
+&#125;</code></pre></div>
+
+<h2 id="2、Ajax-修改购物车模块—添加商品—修改数量"><a href="#2、Ajax-修改购物车模块—添加商品—修改数量" class="headerlink" title="2、Ajax 修改购物车模块—添加商品—修改数量"></a>2、Ajax 修改购物车模块—添加商品—修改数量</h2><p>以 Ajax 请求的方式修改购物车的模块。我们修改的功能有，添加到购物车，修改数量，以及删除商品，和清空购物车。我们以添加购物车和修改商品数量为例给大家演示。</p>
+<h3 id="2-1、添加商品"><a href="#2-1、添加商品" class="headerlink" title="2.1、添加商品"></a>2.1、添加商品</h3><p>添加商品到购物车。首先我们要把商品的编号，以 Ajax 的方式传到服务器。然后器添加成功后把购物车的数量，最后一本书的名字返回，给用户显示。</p>
+<h4 id="2-1-1、修改"><a href="#2-1-1、修改" class="headerlink" title="2.1.1、修改"></a>2.1.1、修改</h4><p> pages/client/index.jsp 页面，添加购物车的 a 标签代码</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"book_add"</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">bookId</span>=<span class="hljs-string">"$&#123;book.id&#125;"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"addToCart"</span>&gt;</span>加入购物车<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<h4 id="2-1-2、添加-Ajax-请求的-js-代码"><a href="#2-1-2、添加-Ajax-请求的-js-代码" class="headerlink" title="2.1.2、添加 Ajax 请求的 js 代码"></a>2.1.2、添加 Ajax 请求的 js 代码</h4><div class="hljs"><pre><code class="hljs js">$(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+   $(<span class="hljs-string">"button.addToCart"</span>).click(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>&#123;
+
+      <span class="hljs-keyword">var</span> bookId = $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">"bookId"</span>);
+      <span class="hljs-comment">//location.href = "http://localhost:8080/book/cartServlet?action=addItem&amp;id=" + bookId;</span>
+
+      $.getJSON(<span class="hljs-string">"http://localhost:8080/book/cartServlet"</span>,<span class="hljs-string">"action=ajaxAddItem&amp;id="</span> + bookId,<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>&#123;
+         $(<span class="hljs-string">"#cartTotalCount"</span>).text(<span class="hljs-string">"您的购物车中有"</span>+ data.totalCount +<span class="hljs-string">"件商品"</span>);
+         $(<span class="hljs-string">"#cartLastName"</span>).text(data.lastName);
+      &#125;);
+      <span class="hljs-comment">//未解之谜，无刷新出问题，刷新一次俩次出问题，刷新三次正常</span>
+      <span class="hljs-built_in">window</span>.location.reload();
+      <span class="hljs-built_in">window</span>.location.reload();
+      <span class="hljs-built_in">window</span>.location.reload();
+   &#125;);
+   <span class="hljs-comment">//window.location.reload();</span>
+&#125;);</code></pre></div>
+
+<h4 id="2-1-3、修改添加购物车后。搜索下方的购物车显示"><a href="#2-1-3、修改添加购物车后。搜索下方的购物车显示" class="headerlink" title="2.1.3、修改添加购物车后。搜索下方的购物车显示"></a>2.1.3、修改添加购物车后。搜索下方的购物车显示</h4><div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"text-align: center"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">c:if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">"$&#123;not empty sessionScope.cart.items&#125;"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">%--</span>                    购物车非空<span class="hljs-attr">--</span>%&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cartTotalCount"</span>&gt;</span>您的购物车中有$&#123;sessionScope.cart.totalCount&#125;件商品<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                您刚刚将<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color: red"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cartLastName"</span>&gt;</span>$&#123;sessionScope.lastName&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>加入到了购物车中
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+     <span class="hljs-tag">&lt;/<span class="hljs-name">c:if</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">c:if</span> <span class="hljs-attr">test</span>=<span class="hljs-string">"$&#123;empty sessionScope.cart.items&#125;"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">%--</span>                    购物车为空<span class="hljs-attr">--</span>%&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cartTotalCount"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>  <span class="hljs-attr">style</span>=<span class="hljs-string">"color: red"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"cartLastName"</span> &gt;</span>当前购物车为空<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+        <span class="hljs-tag">&lt;/<span class="hljs-name">c:if</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<h4 id="2-1-4、CartServlet-中添加-Ajax-版的添加购物车代码"><a href="#2-1-4、CartServlet-中添加-Ajax-版的添加购物车代码" class="headerlink" title="2.1.4、CartServlet 中添加 Ajax 版的添加购物车代码"></a>2.1.4、CartServlet 中添加 Ajax 版的添加购物车代码</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 使用ajax异步添加购物车</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> req</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> resp</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> ServletException</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ajaxAddItem</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+
+<span class="hljs-comment">//        System.out.println("加入购物车");</span>
+<span class="hljs-comment">//        System.out.println("商品编号：" + req.getParameter("id"));</span>
+
+        <span class="hljs-comment">//获取请求的参数 商品编号</span>
+        <span class="hljs-keyword">int</span> id = WebUtils.parseInt(req.getParameter(<span class="hljs-string">"id"</span>),<span class="hljs-number">0</span>);
+        <span class="hljs-comment">//调用bookServlet.queryBookById(id):Book得到图书的信息</span>
+        Book book = bookService.queryBookById(id);
+        <span class="hljs-comment">//把图书信息，转换称为CartItem商品项</span>
+        CartItem cartItem = <span class="hljs-keyword">new</span> CartItem(book.getId(), book.getName(), <span class="hljs-number">1</span>, book.getPrice(), book.getPrice());
+        <span class="hljs-comment">//调用Cart.addItem(CartItem);添加商品下个</span>
+        Cart cart = (Cart) req.getSession().getAttribute(<span class="hljs-string">"cart"</span>);
+        <span class="hljs-keyword">if</span> (cart == <span class="hljs-keyword">null</span>)&#123;
+            cart = <span class="hljs-keyword">new</span> Cart();
+            req.getSession().setAttribute(<span class="hljs-string">"cart"</span>,cart);
+        &#125;
+        cart.addItem(cartItem);
+
+        System.out.println(cart);
+        System.out.println(<span class="hljs-string">"请求头Referer的值："</span> + req.getHeader(<span class="hljs-string">"Referer"</span>));
+
+        <span class="hljs-comment">//最后一个添加的商品的名称</span>
+        req.getSession().setAttribute(<span class="hljs-string">"lastName"</span>,cartItem.getName());
+
+       Map&lt;String,Object&gt; resultMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+
+       resultMap.put(<span class="hljs-string">"totalCount"</span>,cart.getTotalCount());
+       resultMap.put(<span class="hljs-string">"lastName"</span>,cartItem.getName());
+
+        Gson gson = <span class="hljs-keyword">new</span> Gson();
+        String resultMapJsonString = gson.toJson(resultMap);
+        resp.getWriter().write(resultMapJsonString);
+    &#125;</code></pre></div>
+
+<h3 id="2-2、修改数量"><a href="#2-2、修改数量" class="headerlink" title="2.2、修改数量"></a>2.2、修改数量</h3><p>修改购物车数量，我们要把修改的商品编号和数量发送到服务器。然后服务器把修改后商品的总价 item_totalMoney，购物车的总数量 cart_totalCount，以及购物车的总金额 cart_totalMoney 返回用于前端的修改</p>
+<h4 id="2-2-1、修改原来购物车更新数量的方法，返回修改后商品的总金额"><a href="#2-2-1、修改原来购物车更新数量的方法，返回修改后商品的总金额" class="headerlink" title="2.2.1、修改原来购物车更新数量的方法，返回修改后商品的总金额"></a>2.2.1、修改原来购物车更新数量的方法，返回修改后商品的总金额</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> *  更新商品数量</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> count</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateCount</span><span class="hljs-params">(Integer id,Integer count)</span></span>&#123;
+    <span class="hljs-comment">//先查看购物车中是否有此商品，如果有，修改商品数量，更新总金额</span>
+    CartItem cartItem = items.get(id);
+    <span class="hljs-keyword">if</span> (cartItem != <span class="hljs-keyword">null</span>)&#123;
+        cartItem.setCount(count);<span class="hljs-comment">//修改商品数量</span>
+        cartItem.setTotalPrice(cartItem.getPrice().multiply(<span class="hljs-keyword">new</span> BigDecimal(cartItem.getCount())));<span class="hljs-comment">//得到总金额</span>
+
+    &#125;
+&#125;</code></pre></div>
+
+<p>修改为：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> *  更新商品数量，带返回值</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> count</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> BigDecimal <span class="hljs-title">updateCount</span><span class="hljs-params">(Integer id,Integer count)</span></span>&#123;
+    <span class="hljs-comment">//先查看购物车中是否有此商品，如果有，修改商品数量，更新总金额</span>
+    CartItem cartItem = items.get(id);
+    <span class="hljs-keyword">if</span> (cartItem != <span class="hljs-keyword">null</span>)&#123;
+        cartItem.setCount(count);<span class="hljs-comment">//修改商品数量</span>
+        cartItem.setTotalPrice(cartItem.getPrice().multiply(<span class="hljs-keyword">new</span> BigDecimal(cartItem.getCount())));<span class="hljs-comment">//得到总金额</span>
+        <span class="hljs-keyword">return</span> cartItem.getTotalPrice();
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> BigDecimal(<span class="hljs-number">0</span>);
+&#125;</code></pre></div>
+
+<h4 id="2-2-2、修改-pages-cart-cart-jsp-页面中的内容"><a href="#2-2-2、修改-pages-cart-cart-jsp-页面中的内容" class="headerlink" title="2.2.2、修改 pages/cart/cart.jsp 页面中的内容"></a>2.2.2、修改 pages/cart/cart.jsp 页面中的内容</h4><div class="hljs"><pre><code class="hljs jsp">&lt;%@ taglib prefix=<span class="hljs-string">"c"</span> uri=<span class="hljs-string">"http://java.sun.com/jsp/jstl/core"</span> %&gt;
+&lt;%@ page contentType=<span class="hljs-string">"text/html;charset=UTF-8"</span> language=<span class="hljs-string">"java"</span> %&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=<span class="hljs-string">"UTF-8"</span>&gt;
+&lt;title&gt;购物车&lt;/title&gt;
+
+   &lt;%--  静态包含base标签,css样式,jQuery文件 --%&gt;
+   &lt;%<span class="hljs-meta">@include</span> file=<span class="hljs-string">"/pages/common/head.jsp"</span>%&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+   
+   &lt;div id=<span class="hljs-string">"header"</span>&gt;
+         &lt;img <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"logo_img"</span> alt=<span class="hljs-string">""</span> src=<span class="hljs-string">"static/img/logo.gif"</span> &gt;
+         &lt;span class="wel_word"&gt;购物车&lt;/span&gt;
+
+      &lt;%-- 静态包含，登录成功之后的菜单--%&gt;
+      &lt;%<span class="hljs-meta">@include</span> file=<span class="hljs-string">"/pages/common/login_success_menu.jsp"</span>%&gt;
+        &lt;script type=<span class="hljs-string">"text/javascript"</span>&gt;
+            $(function () &#123;
+                <span class="hljs-comment">//给【删除】绑定单击事件</span>
+                $(<span class="hljs-string">"a.deleteItem"</span>).click(function () &#123;
+                    <span class="hljs-keyword">return</span> confirm(<span class="hljs-string">"你确定要删除【"</span> + $(<span class="hljs-keyword">this</span>).parent().parent().find(<span class="hljs-string">"td:first"</span>).text() +<span class="hljs-string">"】吗?"</span>)
+                &#125;);
+
+                <span class="hljs-comment">//给清空购物车绑定单击事件</span>
+                $(<span class="hljs-string">"#clearCart"</span>).click(function () &#123;
+                    <span class="hljs-keyword">return</span> confirm(<span class="hljs-string">"你确定要清空购物车嘛？"</span>);
+                &#125;);
+
+                <span class="hljs-comment">//给输入框绑定失去焦点事件 ==change内容发生改变事件</span>
+                $(<span class="hljs-string">".updateCount"</span>).change(function () &#123;
+
+                    <span class="hljs-comment">//获取商品名称</span>
+                    <span class="hljs-keyword">var</span> name = $(<span class="hljs-keyword">this</span>).parent().parent().find(<span class="hljs-string">"td:first"</span>).text();
+                    <span class="hljs-keyword">var</span> id  = $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">'bookId'</span>);
+                    <span class="hljs-comment">//获取商品数量</span>
+                    <span class="hljs-keyword">var</span> count = <span class="hljs-keyword">this</span>.value;
+
+                    <span class="hljs-keyword">if</span>(confirm(<span class="hljs-string">"你确定要将【"</span> + name + <span class="hljs-string">"】商品修改数量为："</span> + count + <span class="hljs-string">"嘛？"</span>))&#123;
+                        <span class="hljs-comment">//发起请求，给服务器保存修改</span>
+                  <span class="hljs-comment">//location.href = "http://localhost:8080/book/cartServlet?action=updateCount&amp;count=" + count +"&amp;id=" + id;</span>
+
+                  <span class="hljs-keyword">var</span> id = $(<span class="hljs-keyword">this</span>).attr(<span class="hljs-string">"data"</span>); <span class="hljs-comment">// 修改请求为 Ajax</span>
+                  $.getJSON(<span class="hljs-string">"cartServlet?action=ajaxUpdateItem&amp;id="</span> + id +
+                        <span class="hljs-string">"&amp;count="</span> + count,
+                        function(data)&#123;
+
+                           alert( JSON.stringify(data) );
+                           <span class="hljs-comment">//$("#item_totalMoney_" + id).html(data.item_totalMoney);</span>
+                           <span class="hljs-comment">//$("#cart_totalCount").html(data.cart_totalCount);</span>
+                           <span class="hljs-comment">//$("#cart_totalMoney").html(data.cart_totalMoney);</span>
+
+                        &#125;);
+
+
+               &#125;<span class="hljs-keyword">else</span> &#123;
+                        <span class="hljs-comment">//defaultValue属性是表单项Dom对象的属性值，他表示默认的value属性值</span>
+                        <span class="hljs-keyword">this</span>.value = <span class="hljs-keyword">this</span>.defaultValue;
+                    &#125;
+                &#125;);
+            &#125;);
+        &lt;/script&gt;
+
+   &lt;/div&gt;
+   
+   &lt;div id=<span class="hljs-string">"main"</span>&gt;
+   
+      &lt;table&gt;
+         &lt;tr&gt;
+            &lt;td&gt;商品名称&lt;/td&gt;
+            &lt;td&gt;数量&lt;/td&gt;
+            &lt;td&gt;单价&lt;/td&gt;
+            &lt;td&gt;金额&lt;/td&gt;
+            &lt;td&gt;操作&lt;/td&gt;
+         &lt;/tr&gt;
+         &lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">"$&#123;empty sessionScope.cart.items&#125;"</span>&gt;
+            &lt;%--如果购物车空的情况--%&gt;
+
+            &lt;tr&gt;
+               &lt;td colspan="5"&gt;&lt;a href="index.jsp"&gt;亲，当前购物车为空!快跟小伙伴们去浏览商品吧！！&lt;/a&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+
+         &lt;/c:if&gt;
+         &lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">"$&#123;not empty sessionScope.cart.items&#125;"</span>&gt;
+            &lt;%--如果购物车非空的情况--%&gt;
+            &lt;c:forEach items=<span class="hljs-string">"$&#123;sessionScope.cart.items&#125;"</span> <span class="hljs-keyword">var</span>=<span class="hljs-string">"entry"</span>&gt;
+               &lt;tr&gt;
+                  &lt;td&gt;$&#123;entry.value.name&#125;&lt;/td&gt;
+                  &lt;td&gt;
+                            &lt;input <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"updateCount"</span> style=<span class="hljs-string">"width: 50px"</span>
+                                   bookId=<span class="hljs-string">"$&#123;entry.value.id&#125;"</span>
+                                   type=<span class="hljs-string">"text"</span> value=<span class="hljs-string">"$&#123;entry.value.count&#125;"</span>&gt;
+                        &lt;/td&gt;
+                  &lt;td&gt;$&#123;entry.value.price&#125;&lt;/td&gt;
+                  &lt;td id="item_totalMoney_$&#123; cartItem.id &#125;"&gt;$&#123;entry.value.totalPrice&#125;&lt;/td&gt;
+                  &lt;td&gt;&lt;a class="deleteItem" href="cartServlet?action=deleteItem&amp;id=$&#123;entry.value.id&#125;"&gt;删除&lt;/a&gt;&lt;/td&gt;
+               &lt;/tr&gt;
+            &lt;/c:forEach&gt;
+         &lt;/c:if&gt;
+
+         
+      &lt;/table&gt;
+      &lt;%--如果购物车非空才输出页面的内容 --%&gt;
+      &lt;c:<span class="hljs-keyword">if</span> test=<span class="hljs-string">"$&#123;not empty sessionScope.cart.items&#125;"</span>&gt;
+         &lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"cart_info"</span>&gt;
+            &lt;span class="cart_span"&gt;购物车中共有&lt;span id="cart_totalCount" class="b_count"&gt;$&#123;sessionScope.cart.totalCount&#125;&lt;/span&gt;件商品&lt;/span&gt;
+            &lt;span class="cart_span"&gt;总金额&lt;span id="cart_totalMoney" class="b_price"&gt;$&#123;sessionScope.cart.totalPrice&#125;&lt;/span&gt;元&lt;/span&gt;
+            &lt;span class="cart_span"&gt;&lt;a id="clearCart" href="cartServlet?action=clear"&gt;清空购物车&lt;/a&gt;&lt;/span&gt;
+            &lt;span class="cart_span"&gt;&lt;a href="orderServlet?action=createorder"&gt;去结账&lt;/a&gt;&lt;/span&gt;
+         &lt;/div&gt;
+      &lt;/c:if&gt;
+   
+   &lt;/div&gt;
+
+
+   &lt;%--   静态包含页脚内容--%&gt;
+   &lt;%<span class="hljs-meta">@include</span> file=<span class="hljs-string">"/pages/common/footer.jsp"</span>%&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre></div>
+
+<h4 id="2-2-3、添加-CartServlet-中-ajaxUpdateItem-方法实现-Ajax-请求的修改购物车商品数量"><a href="#2-2-3、添加-CartServlet-中-ajaxUpdateItem-方法实现-Ajax-请求的修改购物车商品数量" class="headerlink" title="2.2.3、添加 CartServlet 中 ajaxUpdateItem 方法实现 Ajax 请求的修改购物车商品数量"></a>2.2.3、添加 CartServlet 中 ajaxUpdateItem 方法实现 Ajax 请求的修改购物车商品数量</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * ajax版 -- 修改商品数量</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> req</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> resp</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> ServletException</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> IOException</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">ajaxUpdateCount</span><span class="hljs-params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="hljs-keyword">throws</span> ServletException, IOException </span>&#123;
+        <span class="hljs-keyword">int</span> id = WebUtils.parseInt(req.getParameter(<span class="hljs-string">"id"</span>),<span class="hljs-number">0</span>);
+        <span class="hljs-keyword">int</span> count = WebUtils.parseInt(req.getParameter(<span class="hljs-string">"count"</span>),<span class="hljs-number">1</span>);
+        <span class="hljs-comment">//获取Cart购物车对象</span>
+        Cart cart = (Cart) req.getSession().getAttribute(<span class="hljs-string">"cart"</span>);
+        <span class="hljs-keyword">if</span> (cart == <span class="hljs-keyword">null</span>)&#123;
+            <span class="hljs-comment">//生成一个新的购物车存放到Session对象中</span>
+            cart = <span class="hljs-keyword">new</span> Cart();
+            req.getSession().setAttribute(<span class="hljs-string">"cart"</span>,cart);
+        &#125;
+        <span class="hljs-comment">//更新商品</span>
+        BigDecimal totalMoney = cart.updateCount(id, count);
+        <span class="hljs-comment">//创建一个Map返回要显示的内容</span>
+        Map&lt;String,Object&gt; result = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        result.put(<span class="hljs-string">"item_totalMoney"</span>,<span class="hljs-string">""</span> + totalMoney);
+        result.put(<span class="hljs-string">"cart_totalMoney"</span>,cart.getTotalPrice());
+        result.put(<span class="hljs-string">"cart_totalCount"</span>,cart.getTotalCount());
+
+        Gson gson = <span class="hljs-keyword">new</span> Gson();
+        resp.getWriter().write(gson.toJson(result));
+
+
+        <span class="hljs-comment">//重定向回购物车展示页面</span>
+<span class="hljs-comment">//        resp.sendRedirect(req.getHeader("Referer"));</span>
+
+    &#125;</code></pre></div>
+
+
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">项目笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/05/%E4%B9%A6%E5%9F%8E%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AF%87/">
+                        <span class="hidden-mobile">书城项目前篇</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "书城项目后篇&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

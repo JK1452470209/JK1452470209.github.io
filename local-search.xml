@@ -466,9 +466,9 @@
     
     <tags>
       
-      <tag>RabbitMQ</tag>
-      
       <tag>GridFS</tag>
+      
+      <tag>RabbitMQ</tag>
       
     </tags>
     

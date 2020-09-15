@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>权限管理、旅游系统后篇 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-15 14:53">
+      2020-09-15
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.7k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      58
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="权限管理、旅游系统后篇"><a href="#权限管理、旅游系统后篇" class="headerlink" title="权限管理、旅游系统后篇"></a>权限管理、旅游系统后篇</h1><h1 id="SSM权限操作"><a href="#SSM权限操作" class="headerlink" title="SSM权限操作"></a>SSM权限操作</h1><h2 id="1-数据库与表结构"><a href="#1-数据库与表结构" class="headerlink" title="1.数据库与表结构"></a>1.数据库与表结构</h2><h3 id="1-1-用户表"><a href="#1-1-用户表" class="headerlink" title="1.1 用户表"></a>1.1 用户表</h3><h4 id="1-1-1-用户表信息描述users"><a href="#1-1-1-用户表信息描述users" class="headerlink" title="1.1.1 用户表信息描述users"></a>1.1.1 用户表信息描述users</h4><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>id</td>
+<td>varchar2</td>
+<td>无意义，主键uuid</td>
+</tr>
+<tr>
+<td>2</td>
+<td>email</td>
+<td>varchar2</td>
+<td>非空，唯一</td>
+</tr>
+<tr>
+<td>3</td>
+<td>username</td>
+<td>varchar2</td>
+<td>用户名</td>
+</tr>
+<tr>
+<td>5</td>
+<td>password</td>
+<td>varchar2</td>
+<td>密码（加密）</td>
+</tr>
+<tr>
+<td>6</td>
+<td>phoneNum</td>
+<td>varchar2</td>
+<td>电话</td>
+</tr>
+<tr>
+<td>7</td>
+<td>status</td>
+<td>int</td>
+<td>状态0 未开启 1 开启</td>
+</tr>
+</tbody></table>
+<h4 id="1-1-2-sql语句"><a href="#1-1-2-sql语句" class="headerlink" title="1.1.2 sql语句"></a>1.1.2 sql语句</h4><div class="hljs"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">users</span>(
+	<span class="hljs-keyword">id</span> <span class="hljs-built_in">varchar2</span>(<span class="hljs-number">32</span>) <span class="hljs-keyword">default</span> SYS_GUID() PRIMARY <span class="hljs-keyword">KEY</span>, 
+    email <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>,
+    username <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>), 
+    <span class="hljs-keyword">PASSWORD</span> <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>), 
+    phoneNum <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">20</span>), 
+    <span class="hljs-keyword">STATUS</span> <span class="hljs-built_in">INT</span>
+)</code></pre></div>
+
+<h4 id="1-1-3-实体类"><a href="#1-1-3-实体类" class="headerlink" title="1.1.3 实体类"></a>1.1.3 实体类</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-05-02  15:32</span>
+<span class="hljs-comment"> * 与数据库中的users对应</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserInfo</span> </span>&#123;
+    <span class="hljs-keyword">private</span> String id;
+    <span class="hljs-keyword">private</span> String username;
+    <span class="hljs-keyword">private</span> String email;
+    <span class="hljs-keyword">private</span> String password;
+    <span class="hljs-keyword">private</span> String phoneNum;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> status;
+    <span class="hljs-keyword">private</span> String statusStr;
+    <span class="hljs-keyword">private</span> List&lt;Role&gt; roles;
+&#125;</code></pre></div>
+
+<h3 id="1-2-角色表"><a href="#1-2-角色表" class="headerlink" title="1.2 角色表"></a>1.2 角色表</h3><h4 id="1-2-1-角色表信息描述role"><a href="#1-2-1-角色表信息描述role" class="headerlink" title="1.2.1 角色表信息描述role"></a>1.2.1 角色表信息描述role</h4><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>id</td>
+<td>varchar2</td>
+<td>无意义，主键uuid</td>
+</tr>
+<tr>
+<td>2</td>
+<td>roleName</td>
+<td>varchar2</td>
+<td>角色名</td>
+</tr>
+<tr>
+<td>3</td>
+<td>roleDesc</td>
+<td>varchar2</td>
+<td>角色描述</td>
+</tr>
+</tbody></table>
+<h4 id="1-2-2-sql语句"><a href="#1-2-2-sql语句" class="headerlink" title="1.2.2 sql语句"></a>1.2.2 sql语句</h4><div class="hljs"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">role</span>(
+	<span class="hljs-keyword">id</span> <span class="hljs-built_in">varchar2</span>(<span class="hljs-number">32</span>) <span class="hljs-keyword">default</span> SYS_GUID() PRIMARY <span class="hljs-keyword">KEY</span>, 
+    roleName <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>) ,
+	roleDesc <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>)
+)</code></pre></div>
+
+<h4 id="1-2-3-实体类"><a href="#1-2-3-实体类" class="headerlink" title="1.2.3 实体类"></a>1.2.3 实体类</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Role</span> </span>&#123;
+	<span class="hljs-keyword">private</span> String id; 
+    <span class="hljs-keyword">private</span> String roleName; 
+    <span class="hljs-keyword">private</span> String roleDesc;
+	<span class="hljs-keyword">private</span> List&lt;Permission&gt; permissions; 
+    <span class="hljs-keyword">private</span> List&lt;User&gt; users;
+&#125;</code></pre></div>
+
+<h4 id="1-2-4-用户与角色关联关系"><a href="#1-2-4-用户与角色关联关系" class="headerlink" title="1.2.4 用户与角色关联关系"></a>1.2.4 用户与角色关联关系</h4><p>用户与角色之间是多对多关系，我们通过user_role表来描述其关联，在实体类中User中存在List，在Role中有List.而角色与权限之间也存在关系，我们会在后面介绍。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function">CREATE TABLE <span class="hljs-title">users_role</span><span class="hljs-params">( </span></span>
+<span class="hljs-function"><span class="hljs-params">    userId varchar2(<span class="hljs-number">32</span>)</span>, </span>
+<span class="hljs-function">    roleId <span class="hljs-title">varchar2</span><span class="hljs-params">(<span class="hljs-number">32</span>)</span>,</span>
+<span class="hljs-function">	PRIMARY <span class="hljs-title">KEY</span><span class="hljs-params">(userId,roleId)</span>,</span>
+<span class="hljs-function">	FOREIGN <span class="hljs-title">KEY</span> <span class="hljs-params">(userId)</span> REFERENCES <span class="hljs-title">users</span><span class="hljs-params">(id)</span>, </span>
+<span class="hljs-function">    FOREIGN <span class="hljs-title">KEY</span> <span class="hljs-params">(roleId)</span> REFERENCES <span class="hljs-title">role</span><span class="hljs-params">(id)</span></span>
+<span class="hljs-function">)</span></code></pre></div>
+
+<h3 id="1-3-资源权限表"><a href="#1-3-资源权限表" class="headerlink" title="1.3 资源权限表"></a>1.3 资源权限表</h3><h4 id="1-3-1-权限资源表描述permission"><a href="#1-3-1-权限资源表描述permission" class="headerlink" title="1.3.1 权限资源表描述permission"></a>1.3.1 权限资源表描述permission</h4><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>id</td>
+<td>varchar2</td>
+<td>无意义，主键uuid</td>
+</tr>
+<tr>
+<td>2</td>
+<td>permissionName</td>
+<td>varchar2</td>
+<td>权限名</td>
+</tr>
+<tr>
+<td>3</td>
+<td>url</td>
+<td>varchar2</td>
+<td>资源路径</td>
+</tr>
+</tbody></table>
+<h4 id="1-3-2-sql语句"><a href="#1-3-2-sql语句" class="headerlink" title="1.3.2 sql语句"></a>1.3.2 sql语句</h4><div class="hljs"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> permission(
+	<span class="hljs-keyword">id</span> <span class="hljs-built_in">varchar2</span>(<span class="hljs-number">32</span>) <span class="hljs-keyword">default</span> SYS_GUID() PRIMARY <span class="hljs-keyword">KEY</span>, 
+    permissionName <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>) ,
+	<span class="hljs-keyword">url</span> <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>)
+)</code></pre></div>
+
+<h4 id="1-3-3-实体类"><a href="#1-3-3-实体类" class="headerlink" title="1.3.3 实体类"></a>1.3.3 实体类</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Permission</span> </span>&#123;
+    <span class="hljs-keyword">private</span> String id;
+    <span class="hljs-keyword">private</span> String permissionName; <span class="hljs-keyword">private</span> String url;
+    <span class="hljs-keyword">private</span> List&lt;Role&gt; roles;
+&#125;</code></pre></div>
+
+<h4 id="1-3-4-权限资源与角色关联关系"><a href="#1-3-4-权限资源与角色关联关系" class="headerlink" title="1.3.4.权限资源与角色关联关系"></a>1.3.4.权限资源与角色关联关系</h4><p>权限资源与角色是多对多关系，我们使用role_permission表来描述。在实体类Permission中存在List,在Role类中有List</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function">CREATE TABLE <span class="hljs-title">role_permission</span><span class="hljs-params">( </span></span>
+<span class="hljs-function"><span class="hljs-params">    permissionId varchar2(<span class="hljs-number">32</span>)</span>, </span>
+<span class="hljs-function">    roleId <span class="hljs-title">varchar2</span><span class="hljs-params">(<span class="hljs-number">32</span>)</span>,</span>
+<span class="hljs-function">	PRIMARY <span class="hljs-title">KEY</span><span class="hljs-params">(permissionId,roleId)</span>,</span>
+<span class="hljs-function">	FOREIGN <span class="hljs-title">KEY</span> <span class="hljs-params">(permissionId)</span> REFERENCES <span class="hljs-title">permission</span><span class="hljs-params">(id)</span>, </span>
+<span class="hljs-function">    FOREIGN <span class="hljs-title">KEY</span> <span class="hljs-params">(roleId)</span> REFERENCES <span class="hljs-title">role</span><span class="hljs-params">(id)</span></span>
+<span class="hljs-function">)</span></code></pre></div>
+
+<h2 id="2-用户管理"><a href="#2-用户管理" class="headerlink" title="2.用户管理"></a>2.用户管理</h2><h3 id="2-1-用户登录"><a href="#2-1-用户登录" class="headerlink" title="2.1 用户登录"></a>2.1 用户登录</h3><p>spring security的配置</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">security:authentication-manager</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">security:authentication-provider</span> <span class="hljs-attr">user-service-ref</span>=<span class="hljs-string">"userService"</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- 配置加密的方式</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">        &lt;security:password-encoder ref="passwordEncoder"/&gt; --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">security:authentication-provider</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">security:authentication-manager</span>&gt;</span></code></pre></div>
+
+<h4 id="2-1-1-登录页面login-jsp"><a href="#2-1-1-登录页面login-jsp" class="headerlink" title="2.1.1.登录页面login.jsp"></a>2.1.1.登录页面login.jsp</h4><p>详细页面请查看资料</p>
+<h4 id="2-1-2-Service"><a href="#2-1-2-Service" class="headerlink" title="2.1.2.Service"></a>2.1.2.Service</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IUserService</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">UserDetailsService</span></span>&#123;
+
+&#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs java">
+<span class="hljs-meta">@Service</span>(<span class="hljs-string">"userService"</span>)
+<span class="hljs-meta">@Transactional</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IUserService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IUserDao userDao;
+    
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> UserDetails <span class="hljs-title">loadUserByUsername</span><span class="hljs-params">(String username)</span> <span class="hljs-keyword">throws</span> UsernameNotFoundException </span>&#123;
+        UserInfo userInfo = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            userInfo = userDao.findByUsername(username);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+        <span class="hljs-comment">//处理自己的用户对象封装成UserDetails</span>
+        User user = <span class="hljs-keyword">new</span> User(userInfo.getUsername(),userInfo.getPassword(),userInfo.getStatus()== <span class="hljs-number">0</span>?<span class="hljs-keyword">false</span>:<span class="hljs-keyword">true</span>,<span class="hljs-keyword">true</span>,<span class="hljs-keyword">true</span>,<span class="hljs-keyword">true</span>, getAuthority(userInfo.getRoles()));
+        <span class="hljs-keyword">return</span> user;
+    &#125;
+    <span class="hljs-comment">//作用就是返回一个List集合，集合中装入的是角色描述</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;SimpleGrantedAuthority&gt; <span class="hljs-title">getAuthority</span><span class="hljs-params">(List&lt;Role&gt; roles)</span></span>&#123;
+        List&lt;SimpleGrantedAuthority&gt; list = <span class="hljs-keyword">new</span> ArrayList&lt;SimpleGrantedAuthority&gt;();
+        <span class="hljs-keyword">for</span> (Role role : roles)&#123;
+            list.add(<span class="hljs-keyword">new</span> SimpleGrantedAuthority(<span class="hljs-string">"ROLE_"</span> + role.getRoleName()));
+        &#125;
+
+        <span class="hljs-keyword">return</span> list;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="2-1-3-IUserDao"><a href="#2-1-3-IUserDao" class="headerlink" title="2.1.3.IUserDao"></a>2.1.3.IUserDao</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-05-02  15:32</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">IUserDao</span> </span>&#123;
+
+    <span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from users where username=#&#123;username&#125;"</span>)
+    <span class="hljs-meta">@Results</span>(&#123;
+            <span class="hljs-meta">@Result</span>(id = <span class="hljs-keyword">true</span>,property = <span class="hljs-string">"id"</span>,column = <span class="hljs-string">"id"</span>),
+            <span class="hljs-meta">@Result</span>(property = <span class="hljs-string">"username"</span>,column = <span class="hljs-string">"username"</span>),
+            <span class="hljs-meta">@Result</span>(property = <span class="hljs-string">"email"</span>,column = <span class="hljs-string">"email"</span>),
+            <span class="hljs-meta">@Result</span>(property = <span class="hljs-string">"password"</span>,column = <span class="hljs-string">"password"</span>),
+            <span class="hljs-meta">@Result</span>(property = <span class="hljs-string">"phoneNum"</span>,column = <span class="hljs-string">"phoneNum"</span>),
+            <span class="hljs-meta">@Result</span>(property = <span class="hljs-string">"status"</span>,column = <span class="hljs-string">"status"</span>),
+            <span class="hljs-meta">@Result</span>(property = <span class="hljs-string">"roles"</span>,column = <span class="hljs-string">"id"</span>,javaType = java.util.List<span class="hljs-class">.<span class="hljs-keyword">class</span>,<span class="hljs-title">many</span> </span>= <span class="hljs-meta">@Many</span>(select = <span class="hljs-string">"com.jk.ssm.dao.IRoleDao.findRoleByUserId"</span>))
+    &#125;)
+    <span class="hljs-function">UserInfo <span class="hljs-title">findByUsername</span><span class="hljs-params">(String username)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+&#125;</code></pre></div>
+
+<h3 id="2-2-用户退出"><a href="#2-2-用户退出" class="headerlink" title="2.2 用户退出"></a>2.2 用户退出</h3><p>使用spring security完成用户退出，非常简单</p>
+<p>配置</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">security:logout</span> <span class="hljs-attr">invalidate-session</span>=<span class="hljs-string">"true"</span> <span class="hljs-attr">logout-url</span>=<span class="hljs-string">"/logout.do"</span> <span class="hljs-attr">logout-success-</span> <span class="hljs-attr">url</span>=<span class="hljs-string">"/login.jsp"</span> /&gt;</span></code></pre></div>
+
+<p>页面中</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"$&#123;pageContext.request.contextPath&#125;/logout.do"</span></span>
+<span class="hljs-tag"><span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-default btn-flat"</span>&gt;</span>注销<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></div>
+
+<h3 id="2-3-用户查询"><a href="#2-3-用户查询" class="headerlink" title="2.3 用户查询"></a>2.3 用户查询</h3><h4 id="2-3-1-用户查询页面-user-list-jsp"><a href="#2-3-1-用户查询页面-user-list-jsp" class="headerlink" title="2.3.1.用户查询页面 user-list.jsp"></a>2.3.1.用户查询页面 user-list.jsp</h4><p>请在资料中查看具体代码</p>
+<h4 id="2-3-2-UserController"><a href="#2-3-2-UserController" class="headerlink" title="2.3.2.UserController"></a>2.3.2.UserController</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span> <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/user"</span>) 
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserControlller</span> </span>&#123;
+
+    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/findAll.do"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findAll</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123; 
+        List&lt;UserInfo&gt; users = userService.findAll(); 
+        ModelAndView mv = <span class="hljs-keyword">new</span> ModelAndView(); 
+        mv.addObject(<span class="hljs-string">"userlist"</span>, users); 
+        mv.setViewName(<span class="hljs-string">"user-list"</span>);
+    	<span class="hljs-keyword">return</span> mv;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="2-3-3-Dao"><a href="#2-3-3-Dao" class="headerlink" title="2.3.3.Dao"></a>2.3.3.Dao</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from user"</span>) 
+<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;UserInfo&gt; <span class="hljs-title">findAll</span><span class="hljs-params">()</span></span>;</code></pre></div>
+
+<h3 id="2-4-用户添加"><a href="#2-4-用户添加" class="headerlink" title="2.4 用户添加"></a>2.4 用户添加</h3><h4 id="2-4-1-用户添加页面-user-add-jsp"><a href="#2-4-1-用户添加页面-user-add-jsp" class="headerlink" title="2.4.1.用户添加页面 user-add.jsp"></a>2.4.1.用户添加页面 user-add.jsp</h4><p>请在资料中查看具体页面码</p>
+<h4 id="2-4-2-UserController"><a href="#2-4-2-UserController" class="headerlink" title="2.4.2.UserController"></a>2.4.2.UserController</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span> <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/user"</span>) 
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserControlller</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IUserService userService;
+
+    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/save.do"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">save</span><span class="hljs-params">(UserInfo user)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        userService.save(user);
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"redirect:findAll.do"</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>2.4.3.Service</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>(<span class="hljs-string">"userService"</span>)
+<span class="hljs-meta">@Transactional</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">IUserService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IUserDao userDao;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> PasswordEncoder passwordEncoder;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(UserInfo user)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123; user.setPassword(passwordEncoder.encode(user.getPassword())); userDao.save(user);
+    &#125;
+&#125;</code></pre></div>
+
+<p>前期我们的用户密码没有加密，现在添加用户时，我们需要对用户密码进行加密</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!-- 配置加密类 --&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"passwordEncoder"</span></span>
+<span class="hljs-tag"><span class="hljs-attr">class</span>=<span class="hljs-string">"org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"</span>/&gt;</span></code></pre></div>
+
+<h4 id="2-4-4-Dao"><a href="#2-4-4-Dao" class="headerlink" title="2.4.4.Dao"></a>2.4.4.Dao</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Insert</span>(<span class="hljs-string">"insert into user(email,username,password,phoneNum,status) value(#&#123;email&#125;,#</span>
+<span class="hljs-string">&#123;username&#125;,#&#123;password&#125;,#&#123;phoneNum&#125;,#&#123;status&#125;)"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(UserInfo user)</span> <span class="hljs-keyword">throws</span> Exception</span>;</code></pre></div>
+
+<h3 id="2-5-用户详情"><a href="#2-5-用户详情" class="headerlink" title="2.5 用户详情"></a>2.5 用户详情</h3><h4 id="3-5-1-用户详情页面user-show-jsp"><a href="#3-5-1-用户详情页面user-show-jsp" class="headerlink" title="3.5.1.用户详情页面user-show.jsp"></a>3.5.1.用户详情页面user-show.jsp</h4><p>请在资料中查看页面详细代码</p>
+<p>注意：需要添加js</p>
+<div class="hljs"><pre><code class="hljs js">$(<span class="hljs-string">"#collapse-table"</span>).treetable(&#123; 
+    expandable : <span class="hljs-literal">true</span>
+&#125;);</code></pre></div>
+
+<h4 id="3-5-2-UserController"><a href="#3-5-2-UserController" class="headerlink" title="3.5.2.UserController"></a>3.5.2.UserController</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span> <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/user"</span>) 
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserControlller</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IUserService userService; <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/findById.do"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findById</span><span class="hljs-params">(@RequestParam(name = <span class="hljs-string">"id"</span>, required = <span class="hljs-keyword">true</span>)</span> Long id) <span class="hljs-keyword">throws</span></span>
+<span class="hljs-function">    Exception </span>&#123;
+    	UserInfo user = userService.findById(id); 
+        ModelAndView mv = <span class="hljs-keyword">new</span> ModelAndView(); 
+        mv.addObject(<span class="hljs-string">"user"</span>, user); 
+        mv.setViewName(<span class="hljs-string">"user-show"</span>);
+    	<span class="hljs-keyword">return</span> mv;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="3-5-3-Dao"><a href="#3-5-3-Dao" class="headerlink" title="3.5.3.Dao"></a>3.5.3.Dao</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from user where id=#&#123;id&#125;"</span>)
+<span class="hljs-meta">@Results</span>(&#123; <span class="hljs-meta">@Result</span>(id = <span class="hljs-keyword">true</span>, property = <span class="hljs-string">"id"</span>, column = <span class="hljs-string">"id"</span>), <span class="hljs-meta">@Result</span>(column = <span class="hljs-string">"username"</span>, property = <span class="hljs-string">"username"</span>),
+<span class="hljs-meta">@Result</span>(column = <span class="hljs-string">"email"</span>, property = <span class="hljs-string">"email"</span>), <span class="hljs-meta">@Result</span>(column =
+<span class="hljs-string">"password"</span>, property = <span class="hljs-string">"password"</span>),
+<span class="hljs-meta">@Result</span>(column = <span class="hljs-string">"phoneNum"</span>, property = <span class="hljs-string">"phoneNum"</span>), <span class="hljs-meta">@Result</span>(column =
+<span class="hljs-string">"status"</span>, property = <span class="hljs-string">"status"</span>),
+<span class="hljs-meta">@Result</span>(column = <span class="hljs-string">"id"</span>, property = <span class="hljs-string">"roles"</span>, javaType = List<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">many</span> </span>=
+<span class="hljs-meta">@Many</span>(select = <span class="hljs-string">"com.itheima.ssm.dao.IRoleDao.findRoleByUserId"</span>)) &#125;)
+<span class="hljs-function"><span class="hljs-keyword">public</span> UserInfo <span class="hljs-title">findById</span><span class="hljs-params">(Long id)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+
+<span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from role where id in( select roleId from user_role where userId=#&#123;userId&#125;)"</span>)
+<span class="hljs-meta">@Results</span>(
+&#123;
+<span class="hljs-meta">@Result</span>(id=<span class="hljs-keyword">true</span>,column=<span class="hljs-string">"id"</span>,property=<span class="hljs-string">"id"</span>), <span class="hljs-meta">@Result</span>(column=<span class="hljs-string">"roleName"</span>,property=<span class="hljs-string">"roleName"</span>), <span class="hljs-meta">@Result</span>(column=<span class="hljs-string">"roleDesc"</span>,property=<span class="hljs-string">"roleDesc"</span>),
+
+<span class="hljs-meta">@Result</span>(column=<span class="hljs-string">"id"</span>,property=<span class="hljs-string">"permissions"</span>,javaType=List<span class="hljs-class">.<span class="hljs-keyword">class</span>,<span class="hljs-title">many</span></span>=<span class="hljs-meta">@Many</span>(select=<span class="hljs-string">"com.itheima.ssm</span>
+<span class="hljs-string">.dao.IPermissionDao.findByRoleId"</span>))
+&#125;)
+<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Role&gt; <span class="hljs-title">findRoleByUserId</span><span class="hljs-params">(Long userId)</span></span>;</code></pre></div>
+
+<p>我们需要将用户的所有角色及权限查询出来所以需要调用IRoleDao中的findRoleByUserId,而在IRoleDao中需要调用IPermissionDao的findByRoleId</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from permission where id in (select permissionId from role_permission where</span>
+<span class="hljs-string">roleId=#&#123;roleId&#125;)"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Permission&gt; <span class="hljs-title">findByRoleId</span><span class="hljs-params">(Long roleId)</span></span>;</code></pre></div>
+
+<h2 id="3-角色管理"><a href="#3-角色管理" class="headerlink" title="3.角色管理"></a>3.角色管理</h2><h3 id="3-1-角色查询"><a href="#3-1-角色查询" class="headerlink" title="3.1 角色查询"></a>3.1 角色查询</h3><h4 id="3-1-1-角色页面role-list-jsp"><a href="#3-1-1-角色页面role-list-jsp" class="headerlink" title="3.1.1.角色页面role-list.jsp"></a>3.1.1.角色页面role-list.jsp</h4><p>请在资料中查看页面详细代码</p>
+<h4 id="3-1-2-RoleControlller"><a href="#3-1-2-RoleControlller" class="headerlink" title="3.1.2.RoleControlller"></a>3.1.2.RoleControlller</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/role"</span>)
+<span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RoleController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IRoleService roleService;
+
+    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/findAll.do"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findAll</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123; 
+        List&lt;Role&gt; roleList = roleService.findAll(); 
+        ModelAndView mv = <span class="hljs-keyword">new</span> ModelAndView(); 
+        mv.addObject(<span class="hljs-string">"roleList"</span>, roleList); 
+        mv.setViewName(<span class="hljs-string">"role-list"</span>);
+   	 	<span class="hljs-keyword">return</span> mv;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="3-1-3-Dao"><a href="#3-1-3-Dao" class="headerlink" title="3.1.3.Dao"></a>3.1.3.Dao</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from role"</span>) 
+<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Role&gt; <span class="hljs-title">findAll</span><span class="hljs-params">()</span></span>;</code></pre></div>
+
+<h3 id="3-2-角色添加"><a href="#3-2-角色添加" class="headerlink" title="3.2 角色添加"></a>3.2 角色添加</h3><h4 id="3-2-1-角色添加页面role-add-jsp"><a href="#3-2-1-角色添加页面role-add-jsp" class="headerlink" title="3.2.1.角色添加页面role-add.jsp"></a>3.2.1.角色添加页面role-add.jsp</h4><p>请在页面中查看详细代码</p>
+<h4 id="3-2-2-RoleControlller"><a href="#3-2-2-RoleControlller" class="headerlink" title="3.2.2.RoleControlller"></a>3.2.2.RoleControlller</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/role"</span>)
+<span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RoleController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IRoleService roleService;
+
+    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/save.do"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">save</span><span class="hljs-params">(Role role)</span> </span>&#123;
+    roleService.save(role);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"redirect:findAll.do"</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="3-2-3-Dao"><a href="#3-2-3-Dao" class="headerlink" title="3.2.3.Dao"></a>3.2.3.Dao</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Insert</span>(<span class="hljs-string">"insert into role(roleName,roleDesc) value(#&#123;roleName&#125;,#&#123;roleDesc&#125;)"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(Role role)</span></span>;</code></pre></div>
+
+<h2 id="4-资源权限管理"><a href="#4-资源权限管理" class="headerlink" title="4.资源权限管理"></a>4.资源权限管理</h2><h3 id="4-1-资源权限查询"><a href="#4-1-资源权限查询" class="headerlink" title="4.1 资源权限查询"></a>4.1 资源权限查询</h3><h4 id="4-1-1-权限资源页面permission-list-jsp"><a href="#4-1-1-权限资源页面permission-list-jsp" class="headerlink" title="4.1.1.权限资源页面permission-list.jsp"></a>4.1.1.权限资源页面permission-list.jsp</h4><p>请在资料中查看详细代码</p>
+<h4 id="4-1-2-PermissionController"><a href="#4-1-2-PermissionController" class="headerlink" title="4.1.2.PermissionController"></a>4.1.2.PermissionController</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/permission"</span>)
+<span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PermissionController</span> </span>&#123;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IPermissionService permissionService;
+
+    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/findAll.do"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findAll</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    	List&lt;Permission&gt; permissionList = permissionService.findAll(); 
+        ModelAndView mv = <span class="hljs-keyword">new</span> ModelAndView(); 
+        mv.addObject(<span class="hljs-string">"permissionList"</span>, permissionList); 
+        mv.setViewName(<span class="hljs-string">"permission-list"</span>);
+    	<span class="hljs-keyword">return</span> mv;
+    &#125;
+ 
+&#125;</code></pre></div>
+
+<h4 id="4-1-3-Dao"><a href="#4-1-3-Dao" class="headerlink" title="4.1.3.Dao"></a>4.1.3.Dao</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from permission"</span>) 
+<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Permission&gt; <span class="hljs-title">findAll</span><span class="hljs-params">()</span></span>;</code></pre></div>
+
+<h3 id="4-2-资源权限添加"><a href="#4-2-资源权限添加" class="headerlink" title="4.2 资源权限添加"></a>4.2 资源权限添加</h3><h4 id="4-2-1-权限资源添加页面permission-add-jsp"><a href="#4-2-1-权限资源添加页面permission-add-jsp" class="headerlink" title="4.2.1.权限资源添加页面permission-add.jsp"></a>4.2.1.权限资源添加页面permission-add.jsp</h4><p>请在资料中查看页面详细代码</p>
+<h4 id="4-2-2-PermissionController"><a href="#4-2-2-PermissionController" class="headerlink" title="4.2.2.PermissionController"></a>4.2.2.PermissionController</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/permission"</span>)
+<span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PermissionController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IPermissionService permissionService;
+
+    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/save.do"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">save</span><span class="hljs-params">(Permission p)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    permissionService.save(p);
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"redirect:findAll.do"</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="4-2-3-Dao"><a href="#4-2-3-Dao" class="headerlink" title="4.2.3.Dao"></a>4.2.3.Dao</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Insert</span>(<span class="hljs-string">"insert into permission(permissionName,url) value(#&#123;permissionName&#125;,#&#123;url&#125;)"</span>) 
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(Permission p)</span></span>;</code></pre></div>
+
+<h2 id="5-权限关联与控制"><a href="#5-权限关联与控制" class="headerlink" title="5.权限关联与控制"></a>5.权限关联与控制</h2><h3 id="5-1-用户角色关联"><a href="#5-1-用户角色关联" class="headerlink" title="5.1 用户角色关联"></a>5.1 用户角色关联</h3><p>用户与角色之间是多对多关系，我们要建立它们之间的关系，只需要在中间表user_role插入数据即可。</p>
+<h4 id="5-1-1-用户角色关联相关页面"><a href="#5-1-1-用户角色关联相关页面" class="headerlink" title="5.1.1. 用户角色关联相关页面"></a>5.1.1. 用户角色关联相关页面</h4><p>在user-list.jsp页面上添加链接</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"$&#123;pageContext.request.contextPath&#125;/user/findUserByIdAndAllRole.do?id=$&#123;user.id&#125;"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn bg-olive btn-xs"</span>&gt;</span>添加角色<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></div>
+
+<p>展示可以添加角色的页面user-roe-add.jsp</p>
+<p>请在资料中查看页面详细代码</p>
+<h4 id="5-1-2-UserController"><a href="#5-1-2-UserController" class="headerlink" title="5.1.2.UserController"></a>5.1.2.UserController</h4><p>findUserByIdAndAllRole(Long id)方法</p>
+<p>此方法用于查找要操作的用户及可以添加的角色，参数是要操作的用户id</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/findUserByIdAndAllRole.do"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findUserByIdAndAllRole</span><span class="hljs-params">(Long id)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+	UserInfo user = userService.findById(id);
+	List&lt;Role&gt; roleList = roleService.findOtherRole(id); 
+    ModelAndView mv = <span class="hljs-keyword">new</span> ModelAndView(); 
+    mv.addObject(<span class="hljs-string">"user"</span>, user);
+	mv.addObject(<span class="hljs-string">"roleList"</span>, roleList); 
+    mv.setViewName(<span class="hljs-string">"user-role-add"</span>); 
+    <span class="hljs-keyword">return</span> mv;
+&#125;</code></pre></div>
+
+<p>调用IUserService的findById方法获取要操作的User</p>
+<p>调用IRoleService的findOtherRole方法用于获取可以添加的角色信息</p>
+<p>addRoleToUser(Long userId,Long[] ids)方法</p>
+<p>些方法用于在用户与角色之间建立关系，参数userId代表要操作的用户id,参数ids代表的是角色id数组</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/addRoleToUser.do"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">addRoleToUser</span><span class="hljs-params">(Long userId, Long[] ids)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+    userService.addRoleToUser(userId,ids);
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"redirect:findAll.do"</span>;
+&#125;</code></pre></div>
+
+<h4 id="5-1-3-Dao"><a href="#5-1-3-Dao" class="headerlink" title="5.1.3.Dao"></a>5.1.3.Dao</h4><p>IRoleDao</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from role where id not in( select roleId from user_role where userId=# &#123;id&#125;)"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Role&gt; <span class="hljs-title">findOtherRole</span><span class="hljs-params">(Long id)</span></span>;</code></pre></div>
+
+<p>用于查找可以添加的角色</p>
+<p>IUserDao</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Insert</span>(<span class="hljs-string">"insert into user_role(userId,roleId) value(#&#123;userId&#125;,#&#123;roleId&#125;)"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addRoleToUser</span><span class="hljs-params">(@Param(<span class="hljs-string">"userId"</span>)</span> Long userId, @<span class="hljs-title">Param</span><span class="hljs-params">(<span class="hljs-string">"roleId"</span>)</span> Long roleId)</span>;</code></pre></div>
+
+<p>用于添加用户与角色关系</p>
+<h3 id="5-2-角色权限关联"><a href="#5-2-角色权限关联" class="headerlink" title="5.2 角色权限关联"></a>5.2 角色权限关联</h3><p>角色权限之间是多对多关系，我们要建立它们之间的关系，只需要在中间表role_permission插入数据即可。</p>
+<h4 id="5-2-1-角色权限关联相关页面"><a href="#5-2-1-角色权限关联相关页面" class="headerlink" title="5.2.1. 角色权限关联相关页面"></a>5.2.1. 角色权限关联相关页面</h4><p>在role-list.jsp页面上添加链接</p>
+<div class="hljs"><pre><code class="hljs html">a href="$&#123;pageContext.request.contextPath&#125;/role/findRoleByIdAndAllPermission.do?
+id=$&#123;role.id&#125;" class="btn bg-olive btn-xs"&gt;添加权限<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span></code></pre></div>
+
+<p>展示可以添加权限的页面roe-permission-add.jsp</p>
+<p>请在资料中查看页面详细代码</p>
+<h4 id="5-2-2-RoleController"><a href="#5-2-2-RoleController" class="headerlink" title="5.2.2.RoleController"></a>5.2.2.RoleController</h4><p>findRoleByIdAndAllPermission(Long roleId)方法</p>
+<p>此方法用于查找要操作的角色及可以添加的权限，参数是要操作的角色id</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/findRoleByIdAndAllPermission.do"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findRoleByIdAndAllPermission</span><span class="hljs-params">(@RequestParam(name = <span class="hljs-string">"id"</span>, required = <span class="hljs-keyword">true</span>)</span> Long roleid) <span class="hljs-keyword">throws</span> Exception </span>&#123;
+	ModelAndView mv = <span class="hljs-keyword">new</span> ModelAndView();
+	Role role = roleService.findById(roleid); 
+    mv.addObject(<span class="hljs-string">"role"</span>, role); 
+    List&lt;Permission&gt; permissionList =permissionService.findOtherPermission(roleid); 			mv.addObject(<span class="hljs-string">"permissionList"</span>, permissionList); 
+    mv.setViewName(<span class="hljs-string">"role-permission-add"</span>);
+	<span class="hljs-keyword">return</span> mv;
+&#125;</code></pre></div>
+
+<p>调用IRoleService的findById方法获取要操作的Role</p>
+<p>调用IPermissionService的findOtherPermission方法用于获取可以添加的权限信息</p>
+<p>addPermissionToRole(Long roleId,Long[] ids)方法</p>
+<p>些方法用于在角色与权限之间建立关系，参数roleId代表要操作的角色id,参数permissionIds代表的是权限id数组</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/addPermissionToRole.do"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">addPermissionToRole</span><span class="hljs-params">(@RequestParam(name = <span class="hljs-string">"roleId"</span>)</span> Long roleId, @<span class="hljs-title">RequestParam</span><span class="hljs-params">(name = <span class="hljs-string">"ids"</span>)</span> Long[] permissionIds) <span class="hljs-keyword">throws</span> Exception </span>&#123; 
+    roleService.addPermissionToRole(roleId, permissionIds);
+<span class="hljs-keyword">return</span> <span class="hljs-string">"redirect:findAll.do"</span>;
+&#125;</code></pre></div>
+
+<h4 id="5-2-3-Dao"><a href="#5-2-3-Dao" class="headerlink" title="5.2.3.Dao"></a>5.2.3.Dao</h4><p>IPermissionDao</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from permission where id not in (select permissionId from role_permission where roleId=#&#123;roleId&#125;)"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Permission&gt; <span class="hljs-title">findOtherPermission</span><span class="hljs-params">(Long roleid)</span></span>;</code></pre></div>
+
+<p>用于查找可以添加的权限</p>
+<p>IRoleDao</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Insert</span>(<span class="hljs-string">"insert into role_permission (roleId,permissionId) value (#&#123;roleId&#125;,# &#123;permissionId&#125;)"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addPermissionToRole</span><span class="hljs-params">(@Param(<span class="hljs-string">"roleId"</span>)</span> Long roleId, @<span class="hljs-title">Param</span><span class="hljs-params">(<span class="hljs-string">"permissionId"</span>)</span> Long permissionId)</span>;</code></pre></div>
+
+<p>用于绑定角色与权限的关系</p>
+<h3 id="5-3-服务器端方法级权限控制"><a href="#5-3-服务器端方法级权限控制" class="headerlink" title="5.3 服务器端方法级权限控制"></a>5.3 服务器端方法级权限控制</h3><p>在服务器端我们可以通过Spring security提供的注解对方法来进行权限控制。Spring Security在方法的权限控制上支持三种类型的注解，JSR-250注解、@Secured注解和支持表达式的注解，这三种注解默认都是没有启用的，需要单独通过global-method-security元素的对应属性进行启用</p>
+<h4 id="5-3-1-开启注解使用"><a href="#5-3-1-开启注解使用" class="headerlink" title="5.3.1.开启注解使用"></a>5.3.1.开启注解使用</h4><p>配置文件</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">security:global-method-security</span> <span class="hljs-attr">jsr250-annotations</span>=<span class="hljs-string">"enabled"</span>/&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">security:global-method-security</span> <span class="hljs-attr">secured-annotations</span>=<span class="hljs-string">"enabled"</span>/&gt;</span> <span class="hljs-tag">&lt;<span class="hljs-name">security:global-method-security</span> <span class="hljs-attr">pre-post-annotations</span>=<span class="hljs-string">"disabled"</span>/&gt;</span></code></pre></div>
+
+
+
+<p>注解开启</p>
+<p>@EnableGlobalMethodSecurity ：Spring Security默认是禁用注解的，要想开启注解，需要在继承WebSecurityConfigurerAdapter的类上加@EnableGlobalMethodSecurity注解，并在该类中将AuthenticationManager定义为Bean。</p>
+<h4 id="5-3-2-JSR-250注解"><a href="#5-3-2-JSR-250注解" class="headerlink" title="5.3.2.JSR-250注解"></a>5.3.2.JSR-250注解</h4><p>@RolesAllowed表示访问对应方法时所应该具有的角色</p>
+<div class="hljs"><pre><code class="hljs xml">示例：
+@RolesAllowed(&#123;"USER", "ADMIN"&#125;) 该方法只要具有"USER", "ADMIN"任意一种权限就可以访问。这里可以省略前缀ROLE_，实际的权限可能是ROLE_ADMIN</code></pre></div>
+
+<p>@PermitAll表示允许所有的角色进行访问，也就是说不进行权限控制@DenyAll是和PermitAll相反的，表示无论什么角色都不能访问</p>
+<h4 id="5-3-3-支持表达式的注解"><a href="#5-3-3-支持表达式的注解" class="headerlink" title="5.3.3.支持表达式的注解"></a>5.3.3.支持表达式的注解</h4><p>@PreAuthorize 在方法调用之前,基于表达式的计算结果来限制对方法的访问</p>
+ <div class="hljs"><pre><code class="hljs java">示例：
+
+<span class="hljs-meta">@PreAuthorize</span>(<span class="hljs-string">"#userId == authentication.principal.userId or hasAuthority(‘ADMIN’)"</span>)
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">changePassword</span><span class="hljs-params">(@P(<span class="hljs-string">"userId"</span>)</span> <span class="hljs-keyword">long</span> userId )</span>&#123; &#125;
+这里表示在changePassword方法执行之前，判断方法参数userId的值是否等于principal中保存的当前用户的userId，或者当前用户是否具有ROLE_ADMIN权限，两种符合其一，就可以访问该方法。</code></pre></div>
+
+<p>@PostAuthorize 允许方法调用,但是如果表达式计算结果为false,将抛出一个安全性异常</p>
+<div class="hljs"><pre><code class="hljs java">示例：
+
+<span class="hljs-meta">@PostAuthorize</span>
+<span class="hljs-function">User <span class="hljs-title">getUser</span><span class="hljs-params">(<span class="hljs-string">"returnObject.userId == authentication.principal.userId or hasPermission(returnObject, 'ADMIN')"</span>)</span></span>;</code></pre></div>
+
+<p>@PostFilter 允许方法调用,但必须按照表达式来过滤方法的结果</p>
+<p>@PreFilter 允许方法调用,但必须在进入方法之前过滤输入值</p>
+<h4 id="5-3-4-Secured注解"><a href="#5-3-4-Secured注解" class="headerlink" title="5.3.4.@Secured注解"></a>5.3.4.@Secured注解</h4><p>@Secured注解标注的方法进行权限控制的支持，其值默认为disabled。</p>
+ <div class="hljs"><pre><code class="hljs java">示例：<span class="hljs-meta">@Secured</span>(<span class="hljs-string">"IS_AUTHENTICATED_ANONYMOUSLY"</span>) <span class="hljs-function"><span class="hljs-keyword">public</span> Account <span class="hljs-title">readAccount</span><span class="hljs-params">(Long id)</span></span>; <span class="hljs-meta">@Secured</span>(<span class="hljs-string">"ROLE_TELLER"</span>)</code></pre></div>
+
+<h3 id="5-4-页面端标签控制权限"><a href="#5-4-页面端标签控制权限" class="headerlink" title="5.4 页面端标签控制权限"></a>5.4 页面端标签控制权限</h3><p>在jsp页面中我们可以使用spring security提供的权限标签来进行权限控制</p>
+<h4 id="5-4-1-导入"><a href="#5-4-1-导入" class="headerlink" title="5.4.1.导入"></a>5.4.1.导入</h4><p>maven导入</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.security<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-security-taglibs<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>version<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>页面导入</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">%@taglib</span> <span class="hljs-attr">uri</span>=<span class="hljs-string">"http://www.springframework.org/security/tags"</span> <span class="hljs-attr">prefix</span>=<span class="hljs-string">"security"</span>%&gt;</span></code></pre></div>
+
+<h4 id="5-4-2-常用标签"><a href="#5-4-2-常用标签" class="headerlink" title="5.4.2.常用标签"></a>5.4.2.常用标签</h4><p>在jsp中我们可以使用以下三种标签，其中authentication代表的是当前认证对象，可以获取当前认证对象信息，例如用户名。其它两个标签我们可以用于权限控制</p>
+<h5 id="5-4-2-1-authentication"><a href="#5-4-2-1-authentication" class="headerlink" title="5.4.2.1 authentication"></a>5.4.2.1 authentication</h5><div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">security:authentication</span> <span class="hljs-attr">property</span>=<span class="hljs-string">""</span> <span class="hljs-attr">htmlEscape</span>=<span class="hljs-string">""</span> <span class="hljs-attr">scope</span>=<span class="hljs-string">""</span> <span class="hljs-attr">var</span>=<span class="hljs-string">""</span>/&gt;</span></code></pre></div>
+
+<p>property：只允许指定Authentication所拥有的属性，可以进行属性的级联获取，如“principle.username”，不允许直接通过方法进行调用</p>
+<p>htmlEscape：表示是否需要将html进行转义。默认为true。</p>
+<p>scope：与var属性一起使用，用于指定存放获取的结果的属性名的作用范围，默认我pageContext。Jsp中拥有的作用范围都进行进行指定</p>
+<p>var：用于指定一个属性名，这样当获取到了authentication的相关信息后会将其以var指定的属性名进行存放，默认是存放在pageConext中</p>
+<h5 id="5-4-2-2-authorize"><a href="#5-4-2-2-authorize" class="headerlink" title="5.4.2.2 authorize"></a>5.4.2.2 authorize</h5><p>authorize是用来判断普通权限的，通过判断用户是否具有对应的权限而控制其所包含内容的显示</p>
+<div class="hljs"><pre><code class="hljs java">&lt;security:authorize access="" method="" url="" var=""&gt;&lt;/security:authorize&gt;</code></pre></div>
+
+<p>access： 需要使用表达式来判断权限，当表达式的返回结果为true时表示拥有对应的权限</p>
+<p>method：method属性是配合url属性一起使用的，表示用户应当具有指定url指定method访问的权限，method的默认值为GET，可选值为http请求的7种方法</p>
+<p>url：url表示如果用户拥有访问指定url的权限即表示可以显示authorize标签包含的内容var：用于指定将权限鉴定的结果存放在pageContext的哪个属性中</p>
+<h5 id="5-4-2-3-accesscontrollist"><a href="#5-4-2-3-accesscontrollist" class="headerlink" title="5.4.2.3 accesscontrollist"></a>5.4.2.3 accesscontrollist</h5><p>accesscontrollist标签是用于鉴定ACL权限的。其一共定义了三个属性：hasPermission、domainObject和var，其中前两个是必须指定的</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">security:accesscontrollist</span> <span class="hljs-attr">hasPermission</span>=<span class="hljs-string">""</span> <span class="hljs-attr">domainObject</span>=<span class="hljs-string">""</span> <span class="hljs-attr">var</span>=<span class="hljs-string">""</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">security:accesscontrollist</span>&gt;</span></code></pre></div>
+
+<p>hasPermission：hasPermission属性用于指定以逗号分隔的权限列表</p>
+<p>domainObject：domainObject用于指定对应的域对象</p>
+<p>var：var则是用以将鉴定的结果以指定的属性名存入pageContext中，以供同一页面的其它地方使用</p>
+<h1 id="SSMAOP日志"><a href="#SSMAOP日志" class="headerlink" title="SSMAOP日志"></a>SSMAOP日志</h1><h2 id="1-数据库与表结构-1"><a href="#1-数据库与表结构-1" class="headerlink" title="1.数据库与表结构"></a>1.数据库与表结构</h2><h3 id="1-1-日志表信息描述sysLog"><a href="#1-1-日志表信息描述sysLog" class="headerlink" title="1.1.日志表信息描述sysLog"></a>1.1.日志表信息描述sysLog</h3><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>字段名称</th>
+<th>字段类型</th>
+<th>字段描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>id</td>
+<td>VARCHAR2</td>
+<td>主键 无意义uuid</td>
+</tr>
+<tr>
+<td>2</td>
+<td>visitTime</td>
+<td>timestamp</td>
+<td>访问时间</td>
+</tr>
+<tr>
+<td>3</td>
+<td>username</td>
+<td>VARCHAR2</td>
+<td>操作者用户名</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ip</td>
+<td>VARCHAR2</td>
+<td>访问ip</td>
+</tr>
+<tr>
+<td>5</td>
+<td>url</td>
+<td>VARCHAR2</td>
+<td>访问资源url</td>
+</tr>
+<tr>
+<td>6</td>
+<td>executionTime</td>
+<td>int</td>
+<td>执行时长</td>
+</tr>
+<tr>
+<td>7</td>
+<td>method</td>
+<td>VARCHAR</td>
+<td>访问方法</td>
+</tr>
+</tbody></table>
+<h3 id="1-2-sql语句"><a href="#1-2-sql语句" class="headerlink" title="1.2.sql语句"></a>1.2.sql语句</h3><div class="hljs"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> sysLog(
+	<span class="hljs-keyword">id</span> <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">32</span>) <span class="hljs-keyword">default</span> SYS_GUID() PRIMARY <span class="hljs-keyword">KEY</span>, 
+    visitTime <span class="hljs-built_in">timestamp</span>,
+	username <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>), ip <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">30</span>),
+	<span class="hljs-keyword">url</span> <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">50</span>), executionTime <span class="hljs-built_in">int</span>, 
+    method <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">200</span>)
+)</code></pre></div>
+
+<h3 id="1-3-实体类"><a href="#1-3-实体类" class="headerlink" title="1.3.实体类"></a>1.3.实体类</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SysLog</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> String id; 
+    <span class="hljs-keyword">private</span> Date visitTime;
+    <span class="hljs-keyword">private</span> String visitTimeStr; 
+    <span class="hljs-keyword">private</span> String username; 
+    <span class="hljs-keyword">private</span> String ip;
+    <span class="hljs-keyword">private</span> String url;
+    <span class="hljs-keyword">private</span> Long executionTime;
+    <span class="hljs-keyword">private</span> String method;
+｝</code></pre></div>
+
+<h2 id="2-基于AOP日志处理"><a href="#2-基于AOP日志处理" class="headerlink" title="2.基于AOP日志处理"></a>2.基于AOP日志处理</h2><h3 id="2-1-页面syslog-list-jsp"><a href="#2-1-页面syslog-list-jsp" class="headerlink" title="2.1.页面syslog-list.jsp"></a>2.1.页面syslog-list.jsp</h3><p>详细内容请查看资源中页面信息</p>
+<h3 id="2-2-创建切面类处理日志"><a href="#2-2-创建切面类处理日志" class="headerlink" title="2.2.创建切面类处理日志"></a>2.2.创建切面类处理日志</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-05-05  9:19</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Controller</span>
+<span class="hljs-meta">@Aspect</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LogAop</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> HttpServletRequest request;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> ISysLogService sysLogService;
+
+    <span class="hljs-keyword">private</span> Date visitTime;<span class="hljs-comment">//开始的时间</span>
+    <span class="hljs-keyword">private</span> Class clazz;<span class="hljs-comment">//访问的类</span>
+    <span class="hljs-keyword">private</span> Method method;<span class="hljs-comment">//访问的方法</span>
+
+
+
+    <span class="hljs-comment">//前置通知  主要是获取开始时间，执行的类是哪一个，执行的是哪个方法</span>
+    <span class="hljs-meta">@Before</span>(<span class="hljs-string">"execution(* com.jk.ssm.controller.*.*(..))"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doBefore</span><span class="hljs-params">(JoinPoint jp)</span> <span class="hljs-keyword">throws</span> NoSuchMethodException </span>&#123;
+        visitTime = <span class="hljs-keyword">new</span> Date();<span class="hljs-comment">//当前时间就是开始访问的时间</span>
+        clazz = jp.getTarget().getClass();<span class="hljs-comment">//具体要访问的类</span>
+        String methodName = jp.getSignature().getName();<span class="hljs-comment">//获取访问方法的名称</span>
+        Object[] args = jp.getArgs();<span class="hljs-comment">//获取访问的方法的参数</span>
+        <span class="hljs-keyword">if</span> (args == <span class="hljs-keyword">null</span> || args.length == <span class="hljs-number">0</span>)&#123;
+            method = clazz.getMethod(methodName); <span class="hljs-comment">//只能获取无参数的方法</span>
+        &#125;<span class="hljs-keyword">else</span> &#123;
+            Class[] classArgs = <span class="hljs-keyword">new</span> Class[args.length];
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; args.length; i++) &#123;
+                classArgs[i] = args[i].getClass();
+            &#125;
+            clazz.getMethod(methodName,classArgs);
+        &#125;
+
+
+    &#125;
+
+    <span class="hljs-comment">//后置通知</span>
+    <span class="hljs-meta">@After</span>(<span class="hljs-string">"execution(* com.jk.ssm.controller.*.*(..))"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">doAfter</span><span class="hljs-params">(JoinPoint jp)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        Long time = <span class="hljs-keyword">new</span> Date().getTime() - visitTime.getTime();
+
+        String url = <span class="hljs-string">""</span>;
+        <span class="hljs-keyword">if</span> (clazz.getName() == <span class="hljs-string">"com.jk.ssm.controller.SysLogController"</span>)&#123;
+            <span class="hljs-keyword">return</span>;
+        &#125;
+
+        <span class="hljs-comment">//获取url</span>
+        <span class="hljs-keyword">if</span> (clazz != <span class="hljs-keyword">null</span> &amp;&amp; method != <span class="hljs-keyword">null</span> &amp;&amp; clazz != LogAop<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>&#123;
+
+            <span class="hljs-comment">//获取类上的注解</span>
+            RequestMapping classAnnotation = (RequestMapping) clazz.getAnnotation(RequestMapping<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+            <span class="hljs-keyword">if</span> (classAnnotation != <span class="hljs-keyword">null</span>)&#123;
+                String[] classValue = classAnnotation.value();
+
+                <span class="hljs-comment">//2.获取方法上的注解</span>
+                RequestMapping methodAnnotation = method.getAnnotation(RequestMapping<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+                <span class="hljs-keyword">if</span> (methodAnnotation != <span class="hljs-keyword">null</span>)&#123;
+                    String[] methodValue = methodAnnotation.value();
+                    url = classValue[<span class="hljs-number">0</span>] + methodValue[<span class="hljs-number">0</span>];
+
+
+                    <span class="hljs-comment">//获取访问的ip</span>
+                    String ip = request.getRemoteAddr();
+
+                    <span class="hljs-comment">//获取当前操作的用户</span>
+                    SecurityContext context = SecurityContextHolder.getContext();<span class="hljs-comment">//从上下文中获取当前的用户</span>
+                    User user = (User) context.getAuthentication().getPrincipal();
+                    String username = user.getUsername();
+
+                    SysLog sysLog = <span class="hljs-keyword">new</span> SysLog();
+                    sysLog.setExecutionTime(time);
+                    sysLog.setIp(ip);
+                    sysLog.setMethod(<span class="hljs-string">"[类名]"</span> + clazz.getName() + <span class="hljs-string">"[方法名]"</span> + method.getName());
+                    sysLog.setUrl(url);
+                    sysLog.setUsername(username);
+                    sysLog.setVisitTime(visitTime);
+
+                    <span class="hljs-comment">//调用</span>
+                    sysLogService.save(sysLog);
+                &#125;
+            &#125;
+        &#125;
+
+    &#125;
+
+&#125;</code></pre></div>
+
+<p>在切面类中我们需要获取登录用户的username，还需要获取ip地址，我们怎么处理？</p>
+<p>username获取SecurityContextHolder获取ip地址获取</p>
+<p>ip地址的获取我们可以通过request.getRemoteAddr()方法获取到。</p>
+<p>在Spring中可以通过RequestContextListener来获取request或session对象。</p>
+<h3 id="2-3-SysLogController"><a href="#2-3-SysLogController" class="headerlink" title="2.3.SysLogController"></a>2.3.SysLogController</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
+<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/sysLog"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SysLogController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> ISysLogService sysLogService;
+
+    <span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/findAll.do"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title">findAll</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        ModelAndView mv = <span class="hljs-keyword">new</span> ModelAndView();
+        List&lt;SysLog&gt; sysLogList =  sysLogService.findAll();
+        mv.addObject(<span class="hljs-string">"sysLogs"</span>,sysLogList);
+        mv.setViewName(<span class="hljs-string">"syslog-list"</span>);
+
+        <span class="hljs-keyword">return</span> mv;
+    &#125;
+
+&#125;</code></pre></div>
+
+<h3 id="2-4-Service"><a href="#2-4-Service" class="headerlink" title="2.4.Service"></a>2.4.Service</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-05-05  10:13</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Service</span>
+<span class="hljs-meta">@Transactional</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SysLogServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ISysLogService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> ISysLogDao sysLogDao;
+
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(SysLog sysLog)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        sysLogDao.save(sysLog);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;SysLog&gt; <span class="hljs-title">findAll</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-keyword">return</span> sysLogDao.findAll();
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="2-5-Dao"><a href="#2-5-Dao" class="headerlink" title="2.5.Dao"></a>2.5.Dao</h3><div class="hljs"><pre><code class="hljs java">
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@outhor</span> Mr.JK</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@create</span> 2020-05-05  10:14</span>
+<span class="hljs-comment"> */</span>
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ISysLogDao</span> </span>&#123;
+
+    <span class="hljs-meta">@Insert</span>(<span class="hljs-string">"insert into sysLog(visitTime,username,ip,url,executionTime,method) values(#&#123;visitTime&#125;,#&#123;username&#125;,#&#123;ip&#125;,#&#123;url&#125;,#&#123;executionTime&#125;,#&#123;method&#125;)"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(SysLog sysLog)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+
+    <span class="hljs-meta">@Select</span>(<span class="hljs-string">"select * from sysLog"</span>)
+    <span class="hljs-function">List&lt;SysLog&gt; <span class="hljs-title">findAll</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception</span>;
+&#125;</code></pre></div>
+
+
+
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">项目笔记</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/14/%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E5%89%8D%E7%AF%87/">
+                        <span class="hidden-mobile">权限管理、旅游系统前篇</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "权限管理、旅游系统后篇&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

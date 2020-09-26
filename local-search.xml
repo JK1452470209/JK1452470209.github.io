@@ -172,11 +172,11 @@
     
     <tags>
       
+      <tag>vue</tag>
+      
       <tag>webpack</tag>
       
       <tag>vue-cli</tag>
-      
-      <tag>vue</tag>
       
     </tags>
     
@@ -733,9 +733,9 @@
     
     <tags>
       
-      <tag>Eureka</tag>
-      
       <tag>Feign</tag>
+      
+      <tag>Eureka</tag>
       
       <tag>Ribbon</tag>
       

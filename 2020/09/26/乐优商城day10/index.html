@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>乐优商城day10：商品管理 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-09-26 10:47">
+      2020-09-26
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      52
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>独立实现商品新增后台</li>
+<li>独立实现商品编辑后台</li>
+<li>独立搭建前台系统页面</li>
+</ul>
+<h1 id="1-商品新增"><a href="#1-商品新增" class="headerlink" title="1.商品新增"></a>1.商品新增</h1><p>当我们点击新增商品按钮：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528450695946.png" srcset="/img/loading.gif" alt="1528450695946"></p>
+<p>就会出现一个弹窗：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528450773322.png" srcset="/img/loading.gif" alt="1528450773322"></p>
+<p>里面把商品的数据分为了4部分来填写：</p>
+<ul>
+<li>基本信息：主要是一些简单的文本数据，包含了SPU和SpuDetail的部分数据，如<ul>
+<li>商品分类：是SPU中的<code>cid1</code>，<code>cid2</code>，<code>cid3</code>属性</li>
+<li>品牌：是spu中的<code>brandId</code>属性</li>
+<li>标题：是spu中的<code>title</code>属性</li>
+<li>子标题：是spu中的<code>subTitle</code>属性</li>
+<li>售后服务：是SpuDetail中的<code>afterService</code>属性</li>
+<li>包装列表：是SpuDetail中的<code>packingList</code>属性</li>
+</ul>
+</li>
+<li>商品描述：是SpuDetail中的<code>description</code>属性，数据较多，所以单独放一个页面</li>
+<li>规格参数：商品规格信息，对应SpuDetail中的<code>genericSpec</code>属性</li>
+<li>SKU属性：spu下的所有Sku信息</li>
+</ul>
+<p>对应到页面中的四个<code>stepper-content</code>：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528457410198.png" srcset="/img/loading.gif" alt="1528457410198"></p>
+<h2 id="1-1-弹窗事件"><a href="#1-1-弹窗事件" class="headerlink" title="1.1.弹窗事件"></a>1.1.弹窗事件</h2><p>弹窗是一个独立组件：</p>
+<p> <img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528084394245.png" srcset="/img/loading.gif" alt="1528084394245"></p>
+<p>并且在Goods组件中已经引用它：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528457758806.png" srcset="/img/loading.gif" alt="1528457758806"></p>
+<p>并且在页面中渲染：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528457859739.png" srcset="/img/loading.gif" alt="1528457859739"></p>
+<p>在<code>新增商品</code>按钮的点击事件中，改变这个<code>dialog</code>的<code>show</code>属性：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528457992959.png" srcset="/img/loading.gif" alt="1528457992959"></p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528458037693.png" srcset="/img/loading.gif" alt="1528458037693"></p>
+<h2 id="1-2-基本数据"><a href="#1-2-基本数据" class="headerlink" title="1.2.基本数据"></a>1.2.基本数据</h2><p>我们先来看下基本数据：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/%E4%B9%90%E4%BC%98/7%E6%9C%881%E5%8F%B7%E6%9B%B4%E6%96%B0/day10-%E5%95%86%E5%93%81%E7%AE%A1%E7%90%86/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528086595597.png" srcset="/img/loading.gif" alt="1528086595597"></p>
+<h3 id="1-2-1-商品分类"><a href="#1-2-1-商品分类" class="headerlink" title="1.2.1.商品分类"></a>1.2.1.商品分类</h3><p>商品分类信息查询我们之前已经做过，所以这里的级联选框已经实现完成：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528459846644.png" srcset="/img/loading.gif" alt="1528459846644"></p>
+<p>刷新页面，可以看到请求已经发出：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528460001803.png" srcset="/img/loading.gif" alt="1528460001803"></p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528460054188.png" srcset="/img/loading.gif" alt="1528460054188"></p>
+<p>效果：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528460159541.png" srcset="/img/loading.gif" alt="1528460159541"></p>
+<h3 id="1-2-2-品牌选择"><a href="#1-2-2-品牌选择" class="headerlink" title="1.2.2.品牌选择"></a>1.2.2.品牌选择</h3><h4 id="1-2-2-1页面"><a href="#1-2-2-1页面" class="headerlink" title="1.2.2.1页面"></a>1.2.2.1页面</h4><p>品牌也是一个下拉选框，不过其选项是不确定的，只有当用户选择了商品分类，才会把这个分类下的所有品牌展示出来。</p>
+<p>所以页面编写了watch函数，监控商品分类的变化，每当商品分类值有变化，就会发起请求，查询品牌列表：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528460401582.png" srcset="/img/loading.gif" alt="1528460401582"></p>
+<p>选择商品分类后，可以看到请求发起：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528460607735.png" srcset="/img/loading.gif" alt="1528460607735"></p>
+<p>接下来，我们只要编写后台接口，根据商品分类id，查询对应品牌即可。</p>
+<h4 id="1-2-2-2后台接口"><a href="#1-2-2-2后台接口" class="headerlink" title="1.2.2.2后台接口"></a>1.2.2.2后台接口</h4><p>页面需要去后台查询品牌信息，我们自然需要提供：</p>
+<p>请求方式：GET</p>
+<p>请求路径：/brand/cid/{cid}</p>
+<p>请求参数：cid</p>
+<p>响应数据：品牌集合</p>
+<blockquote>
+<p>BrandController</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据分类查询品牌</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> cid</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"cid/&#123;cid&#125;"</span>)
+<span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;Brand&gt;&gt; queryBrandListByCid(<span class="hljs-meta">@PathVariable</span>(<span class="hljs-string">"cid"</span>)Long cid)&#123;
+
+    List&lt;Brand&gt; brandList = <span class="hljs-keyword">this</span>.brandService.queryByCid(cid);
+    <span class="hljs-keyword">if</span>(CollectionUtils.isEmpty(brandList))&#123;
+        <span class="hljs-comment">// 响应404</span>
+        <span class="hljs-keyword">return</span> ResponseEntity.badRequest().build();
+    &#125;
+    <span class="hljs-comment">// 响应200</span>
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(brandList);
+&#125;</code></pre></div>
+
+<blockquote>
+<p>BrandService</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Brand&gt; <span class="hljs-title">queryBrandByCategory</span><span class="hljs-params">(Long cid)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.brandMapper.queryByCategoryId(cid);
+&#125;</code></pre></div>
+
+
+
+<blockquote>
+<p>BrandMapper</p>
+</blockquote>
+<p>根据分类查询品牌有中间表，需要自己编写Sql：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Select</span>(<span class="hljs-string">"SELECT b.* FROM tb_brand b LEFT JOIN tb_category_brand cb ON b.id = cb.brand_id WHERE cb.category_id = #&#123;cid&#125;"</span>)
+<span class="hljs-function">List&lt;Brand&gt; <span class="hljs-title">queryByCategoryId</span><span class="hljs-params">(Long cid)</span></span>;</code></pre></div>
+
+
+
+<p>效果：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528462393536.png" srcset="/img/loading.gif" alt="1528462393536"></p>
+<h3 id="1-2-3-其它文本框"><a href="#1-2-3-其它文本框" class="headerlink" title="1.2.3.其它文本框"></a>1.2.3.其它文本框</h3><p>剩余的几个属性：标题、子标题等都是普通文本框，我们直接填写即可，没有需要特别注意的。</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528462474512.png" srcset="/img/loading.gif" alt="1528462474512"></p>
+<h2 id="1-3-商品描述"><a href="#1-3-商品描述" class="headerlink" title="1.3.商品描述"></a>1.3.商品描述</h2><p>商品描述信息比较复杂，而且图文并茂，甚至包括视频。</p>
+<p>这样的内容，一般都会使用富文本编辑器。</p>
+<h3 id="1-3-1-什么是富文本编辑器"><a href="#1-3-1-什么是富文本编辑器" class="headerlink" title="1.3.1.什么是富文本编辑器"></a>1.3.1.什么是富文本编辑器</h3><p>百度百科：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1526290914491.png" srcset="/img/loading.gif" alt="1526290914491"></p>
+<p>通俗来说：富文本，就是比较丰富的文本编辑器。普通的框只能输入文字，而富文本还能给文字加颜色样式等。</p>
+<p>富文本编辑器有很多，例如：KindEditor、Ueditor。但并不原生支持vue</p>
+<p>但是我们今天要说的，是一款支持Vue的富文本编辑器：<code>vue-quill-editor</code></p>
+<h3 id="1-3-2-Vue-Quill-Editor"><a href="#1-3-2-Vue-Quill-Editor" class="headerlink" title="1.3.2.Vue-Quill-Editor"></a>1.3.2.Vue-Quill-Editor</h3><p>GitHub的主页：<a href="https://github.com/surmon-china/vue-quill-editor" target="_blank" rel="noopener">https://github.com/surmon-china/vue-quill-editor</a></p>
+<p>Vue-Quill-Editor是一个基于Quill的富文本编辑器：<a href="https://quilljs.com/" target="_blank" rel="noopener">Quill的官网</a></p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1526291232678.png" srcset="/img/loading.gif" alt="1526291232678"></p>
+<h3 id="1-3-3-使用指南"><a href="#1-3-3-使用指南" class="headerlink" title="1.3.3.使用指南"></a>1.3.3.使用指南</h3><p>使用非常简单：</p>
+<p>第一步：安装，使用npm命令：</p>
+<div class="hljs"><pre><code class="hljs sql">npm <span class="hljs-keyword">install</span> vue-quill-editor <span class="hljs-comment">--save</span></code></pre></div>
+
+<p>第二步：加载，在js中引入：</p>
+<p>全局引入：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> VueQuillEditor <span class="hljs-keyword">from</span> <span class="hljs-string">'vue-quill-editor'</span>
+
+<span class="hljs-keyword">const</span> options = &#123;&#125;; <span class="hljs-comment">/* &#123; default global options &#125; */</span>
+
+Vue.use(VueQuillEditor, options); <span class="hljs-comment">// options可选</span></code></pre></div>
+
+
+
+<p>局部引入：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">import</span> <span class="hljs-string">'quill/dist/quill.core.css'</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">'quill/dist/quill.snow.css'</span>
+<span class="hljs-keyword">import</span> <span class="hljs-string">'quill/dist/quill.bubble.css'</span>
+
+<span class="hljs-keyword">import</span> &#123;quillEditor&#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'vue-quill-editor'</span>
+
+<span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">new</span> Vue(&#123;
+    components:&#123;
+        quillEditor
+    &#125;
+&#125;)</code></pre></div>
+
+
+
+<p>我们这里采用局部引用：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528465859061.png" srcset="/img/loading.gif" alt="1528465859061"></p>
+<p>第三步：页面使用：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">quill-editor</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"goods.spuDetail.description"</span> <span class="hljs-attr">:options</span>=<span class="hljs-string">"editorOption"</span>/&gt;</span></code></pre></div>
+
+
+
+<h3 id="1-3-4-自定义的富文本编辑器"><a href="#1-3-4-自定义的富文本编辑器" class="headerlink" title="1.3.4.自定义的富文本编辑器"></a>1.3.4.自定义的富文本编辑器</h3><p>不过这个组件有个小问题，就是图片上传的无法直接上传到后台，因此我们对其进行了封装，支持了图片的上传。</p>
+<p> <img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1526296083605.png" srcset="/img/loading.gif" alt="1526296083605.png"></p>
+<p>使用也非常简单：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">v-stepper-content</span> <span class="hljs-attr">step</span>=<span class="hljs-string">"2"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">v-editor</span> <span class="hljs-attr">v-model</span>=<span class="hljs-string">"goods.spuDetail.description"</span> <span class="hljs-attr">upload-url</span>=<span class="hljs-string">"/upload/image"</span>/&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">v-stepper-content</span>&gt;</span></code></pre></div>
+
+<ul>
+<li>upload-url：是图片上传的路径</li>
+<li>v-model：双向绑定，将富文本编辑器的内容绑定到goods.spuDetail.description</li>
+</ul>
+<h3 id="1-3-5-效果"><a href="#1-3-5-效果" class="headerlink" title="1.3.5.效果"></a>1.3.5.效果</h3><p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528469209005.png" srcset="/img/loading.gif" alt="1528469209005"></p>
+<h2 id="1-4-商品规格参数"><a href="#1-4-商品规格参数" class="headerlink" title="1.4.商品规格参数"></a>1.4.商品规格参数</h2><p>规格参数的查询我们之前也已经编写过接口，因为商品规格参数也是与商品分类绑定，所以需要在商品分类变化后去查询，我们也是通过watch监控来实现：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528469560330.png" srcset="/img/loading.gif" alt="1528469560330"></p>
+<p>可以看到这里是根据商品分类id查询规格参数：SpecParam。我们之前写过一个根据gid（分组id）来查询规格参数的接口，我们接下来完成根据分类id查询规格参数。</p>
+<blockquote>
+<h3 id="改造查询规格参数接口"><a href="#改造查询规格参数接口" class="headerlink" title="改造查询规格参数接口"></a>改造查询规格参数接口</h3></blockquote>
+<p>我们在原来的根据 gid（规格组id)查询规格参数的接口上，添加一个参数：cid，即商品分类id。</p>
+<p>等一下， 考虑到以后可能还会根据是否搜索、是否为通用属性等条件过滤，我们多添加几个过滤条件：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/params"</span>)
+<span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;SpecParam&gt;&gt; querySpecParam(
+    <span class="hljs-meta">@RequestParam</span>(value=<span class="hljs-string">"gid"</span>, required = <span class="hljs-keyword">false</span>) Long gid,
+    <span class="hljs-meta">@RequestParam</span>(value=<span class="hljs-string">"cid"</span>, required = <span class="hljs-keyword">false</span>) Long cid,
+    <span class="hljs-meta">@RequestParam</span>(value=<span class="hljs-string">"searching"</span>, required = <span class="hljs-keyword">false</span>) Boolean searching,
+    <span class="hljs-meta">@RequestParam</span>(value=<span class="hljs-string">"generic"</span>, required = <span class="hljs-keyword">false</span>) Boolean generic
+    )&#123;
+        List&lt;SpecParam&gt; list =
+                <span class="hljs-keyword">this</span>.specificationService.querySpecParams(gid,cid,searching,generic);
+        <span class="hljs-keyword">if</span>(list == <span class="hljs-keyword">null</span> || list.size() == <span class="hljs-number">0</span>)&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+        &#125;
+        <span class="hljs-keyword">return</span> ResponseEntity.ok(list);
+    &#125;</code></pre></div>
+
+<p>改造service：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;SpecParam&gt; <span class="hljs-title">querySpecParams</span><span class="hljs-params">(Long gid, Long cid, Boolean searching, Boolean generic)</span> </span>&#123;
+    SpecParam param = <span class="hljs-keyword">new</span> SpecParam();
+    param.setGroupId(gid);
+    param.setCid(cid);
+    param.setSearching(searching);
+    param.setGeneric(generic);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.specParamMapper.select(param);
+&#125;</code></pre></div>
+
+<p>如果param中有属性为null，则不会吧属性作为查询条件，因此该方法具备通用性，即可根据gid查询，也可根据cid查询。</p>
+<p>测试：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528470181643.png" srcset="/img/loading.gif" alt="1528470181643"></p>
+<p>刷新页面测试：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528470221970.png" srcset="/img/loading.gif" alt="1528470221970"></p>
+<h2 id="1-5-SKU信息"><a href="#1-5-SKU信息" class="headerlink" title="1.5.SKU信息"></a>1.5.SKU信息</h2><p>Sku属性是SPU下的每个商品的不同特征，如图：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528470828296.png" srcset="/img/loading.gif" alt="1528470828296"></p>
+<p>当我们填写一些属性后，会在页面下方生成一个sku表格，大家可以计算下会生成多少个不同属性的Sku呢？</p>
+<p>当你选择了上图中的这些选项时：</p>
+<ul>
+<li>颜色共2种：迷夜黑，勃艮第红，绚丽蓝</li>
+<li>内存共2种：4GB，6GB</li>
+<li>机身存储1种：64GB，128GB</li>
+</ul>
+<p>此时会产生多少种SKU呢？ 应该是 3 * 2 * 2 = 12种，这其实就是在求笛卡尔积。</p>
+<p>我们会在页面下方生成一个sku的表格：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528470876872.png" srcset="/img/loading.gif" alt="1528470876872"></p>
+<h2 id="1-6-页面表单提交"><a href="#1-6-页面表单提交" class="headerlink" title="1.6.页面表单提交"></a>1.6.页面表单提交</h2><p>在sku列表的下方，有一个提交按钮：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528470945475.png" srcset="/img/loading.gif" alt="1528470945475"></p>
+<p>并且绑定了点击事件：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528471079383.png" srcset="/img/loading.gif" alt="1528471079383"></p>
+<p>点击后会组织数据并向后台提交：</p>
+<div class="hljs"><pre><code class="hljs js">submit() &#123;
+  <span class="hljs-comment">// 表单校验。</span>
+  <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.$refs.basic.validate)&#123;
+    <span class="hljs-keyword">this</span>.$message.error(<span class="hljs-string">"请先完成表单内容！"</span>);
+  &#125;
+  <span class="hljs-comment">// 先处理goods，用结构表达式接收,除了categories外，都接收到goodsParams中</span>
+  <span class="hljs-keyword">const</span> &#123;
+    categories: [&#123; <span class="hljs-attr">id</span>: cid1 &#125;, &#123; <span class="hljs-attr">id</span>: cid2 &#125;, &#123; <span class="hljs-attr">id</span>: cid3 &#125;],
+    ...goodsParams
+  &#125; = <span class="hljs-keyword">this</span>.goods;
+  <span class="hljs-comment">// 处理规格参数</span>
+  <span class="hljs-keyword">const</span> specs = &#123;&#125;;
+  <span class="hljs-keyword">this</span>.specs.forEach(<span class="hljs-function">(<span class="hljs-params">&#123; id,v &#125;</span>) =&gt;</span> &#123;
+    specs[id] = v;
+  &#125;);
+  <span class="hljs-comment">// 处理特有规格参数模板</span>
+  <span class="hljs-keyword">const</span> specTemplate = &#123;&#125;;
+  <span class="hljs-keyword">this</span>.specialSpecs.forEach(<span class="hljs-function">(<span class="hljs-params">&#123; id, options &#125;</span>) =&gt;</span> &#123;
+    specTemplate[id] = options;
+  &#125;);
+  <span class="hljs-comment">// 处理sku</span>
+  <span class="hljs-keyword">const</span> skus = <span class="hljs-keyword">this</span>.skus
+    .filter(<span class="hljs-function"><span class="hljs-params">s</span> =&gt;</span> s.enable)
+    .map(<span class="hljs-function">(<span class="hljs-params">&#123; price, stock, enable, images, indexes, ...rest &#125;</span>) =&gt;</span> &#123;
+      <span class="hljs-comment">// 标题，在spu的title基础上，拼接特有规格属性值</span>
+      <span class="hljs-keyword">const</span> title = goodsParams.title + <span class="hljs-string">" "</span> + <span class="hljs-built_in">Object</span>.values(rest).map(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> v.v).join(<span class="hljs-string">" "</span>);
+      <span class="hljs-keyword">const</span> obj = &#123;&#125;;
+      <span class="hljs-built_in">Object</span>.values(rest).forEach(<span class="hljs-function"><span class="hljs-params">v</span> =&gt;</span> &#123;
+        obj[v.id] = v.v;
+      &#125;);
+      <span class="hljs-keyword">return</span> &#123;
+        price: <span class="hljs-keyword">this</span>.$format(price), <span class="hljs-comment">// 价格需要格式化</span>
+        stock,
+        indexes,
+        enable,
+        title, <span class="hljs-comment">// 基本属性</span>
+        images: images ? images.join(<span class="hljs-string">","</span>) : <span class="hljs-string">''</span>, <span class="hljs-comment">// 图片</span>
+        ownSpec: <span class="hljs-built_in">JSON</span>.stringify(obj) <span class="hljs-comment">// 特有规格参数</span>
+      &#125;;
+    &#125;);
+  <span class="hljs-built_in">Object</span>.assign(goodsParams, &#123;
+    cid1,
+    cid2,
+    cid3, <span class="hljs-comment">// 商品分类</span>
+    skus <span class="hljs-comment">// sku列表</span>
+  &#125;);
+  goodsParams.spuDetail.genericSpec = <span class="hljs-built_in">JSON</span>.stringify(specs);
+  goodsParams.spuDetail.specialSpec = <span class="hljs-built_in">JSON</span>.stringify(specTemplate);
+
+  <span class="hljs-comment">// 提交到后台</span>
+  <span class="hljs-keyword">this</span>.$http(&#123;
+    method: <span class="hljs-keyword">this</span>.isEdit ? <span class="hljs-string">"put"</span> : <span class="hljs-string">"post"</span>,
+    url: <span class="hljs-string">"/item/goods"</span>,
+    data: goodsParams
+  &#125;)
+    .then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+      <span class="hljs-comment">// 成功，关闭窗口</span>
+      <span class="hljs-keyword">this</span>.$emit(<span class="hljs-string">"close"</span>);
+      <span class="hljs-comment">// 提示成功</span>
+      <span class="hljs-keyword">this</span>.$message.success(<span class="hljs-string">"保存成功了"</span>);
+    &#125;)
+    .catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+      <span class="hljs-keyword">this</span>.$message.error(<span class="hljs-string">"保存失败！"</span>);
+    &#125;);
+&#125;</code></pre></div>
+
+
+
+<p>点击提交，查看控制台提交的数据格式：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528472289831.png" srcset="/img/loading.gif" alt="1528472289831"></p>
+<p>整体是一个json格式数据，包含Spu表所有数据：</p>
+<ul>
+<li>brandId：品牌id</li>
+<li>cid1、cid2、cid3：商品分类id</li>
+<li>subTitle：副标题</li>
+<li>title：标题</li>
+<li>spuDetail：是一个json对象，代表商品详情表数据<ul>
+<li>afterService：售后服务</li>
+<li>description：商品描述</li>
+<li>packingList：包装列表</li>
+<li>specialSpec：sku规格属性模板</li>
+<li>genericSpec：通用规格参数</li>
+</ul>
+</li>
+<li>skus：spu下的所有sku数组，元素是每个sku对象：<ul>
+<li>title：标题</li>
+<li>images：图片</li>
+<li>price：价格</li>
+<li>stock：库存</li>
+<li>ownSpec：特有规格参数</li>
+<li>indexes：特有规格参数的下标</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-7-后台实现"><a href="#1-7-后台实现" class="headerlink" title="1.7.后台实现"></a>1.7.后台实现</h2><h3 id="1-7-1-实体类"><a href="#1-7-1-实体类" class="headerlink" title="1.7.1.实体类"></a>1.7.1.实体类</h3><p>SPU和SpuDetail实体类已经添加过，添加Sku和Stock对象：</p>
+<p> <img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528472531490.png" srcset="/img/loading.gif" alt="1528472531490"></p>
+<blockquote>
+<p>Sku</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Table</span>(name = <span class="hljs-string">"tb_sku"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Sku</span> </span>&#123;
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)
+    <span class="hljs-keyword">private</span> Long id;
+    <span class="hljs-keyword">private</span> Long spuId;
+    <span class="hljs-keyword">private</span> String title;
+    <span class="hljs-keyword">private</span> String images;
+    <span class="hljs-keyword">private</span> Long price;
+    <span class="hljs-keyword">private</span> String ownSpec;<span class="hljs-comment">// 商品特殊规格的键值对</span>
+    <span class="hljs-keyword">private</span> String indexes;<span class="hljs-comment">// 商品特殊规格的下标</span>
+    <span class="hljs-keyword">private</span> Boolean enable;<span class="hljs-comment">// 是否有效，逻辑删除用</span>
+    <span class="hljs-keyword">private</span> Date createTime;<span class="hljs-comment">// 创建时间</span>
+    <span class="hljs-keyword">private</span> Date lastUpdateTime;<span class="hljs-comment">// 最后修改时间</span>
+    <span class="hljs-meta">@Transient</span>
+    <span class="hljs-keyword">private</span> Integer stock;<span class="hljs-comment">// 库存</span>
+&#125;</code></pre></div>
+
+<p>注意：这里保存了一个库存字段，在数据库中是另外一张表保存的，方便查询。</p>
+<blockquote>
+<p>Stock</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Table</span>(name = <span class="hljs-string">"tb_stock"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stock</span> </span>&#123;
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-keyword">private</span> Long skuId;
+    <span class="hljs-keyword">private</span> Integer seckillStock;<span class="hljs-comment">// 秒杀可用库存</span>
+    <span class="hljs-keyword">private</span> Integer seckillTotal;<span class="hljs-comment">// 已秒杀数量</span>
+    <span class="hljs-keyword">private</span> Integer stock;<span class="hljs-comment">// 正常库存</span>
+&#125;</code></pre></div>
+
+
+
+<h3 id="1-7-2-GoodsController"><a href="#1-7-2-GoodsController" class="headerlink" title="1.7.2.GoodsController"></a>1.7.2.GoodsController</h3><p>请求方式：POST</p>
+<p>请求路径：/goods</p>
+<p>请求参数：Spu的json格式的对象，spu中包含spuDetail和Sku集合。这里我们该怎么接收？我们之前定义了一个SpuBo对象，作为业务对象。这里也可以用它，不过需要再扩展spuDetail和skus字段：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpuBo</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Spu</span> </span>&#123;
+
+    <span class="hljs-meta">@Transient</span>
+    String cname;<span class="hljs-comment">// 商品分类名称</span>
+    <span class="hljs-meta">@Transient</span>
+    String bname;<span class="hljs-comment">// 品牌名称</span>
+    <span class="hljs-meta">@Transient</span>
+    SpuDetail spuDetail;<span class="hljs-comment">// 商品详情</span>
+    <span class="hljs-meta">@Transient</span>
+    List&lt;Sku&gt; skus;<span class="hljs-comment">// sku列表</span>
+&#125;</code></pre></div>
+
+<ul>
+<li>返回类型：无</li>
+</ul>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 新增商品</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> spu</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@PostMapping</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Void&gt; <span class="hljs-title">saveGoods</span><span class="hljs-params">(@RequestBody SpuBo spuBo)</span> </span>&#123;
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-keyword">this</span>.goodsService.save(spu);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.CREATED);
+    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+        e.printStackTrace();
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.INTERNAL_SERVER_ERROR);
+    &#125;
+&#125;</code></pre></div>
+
+<p>注意：通过@RequestBody注解来接收Json请求</p>
+<h3 id="1-7-3-GoodsService"><a href="#1-7-3-GoodsService" class="headerlink" title="1.7.3.GoodsService"></a>1.7.3.GoodsService</h3><p>这里的逻辑比较复杂，我们除了要对SPU新增以外，还要对SpuDetail、Sku、Stock进行保存</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Transactional</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">save</span><span class="hljs-params">(SpuBo spu)</span> </span>&#123;
+    <span class="hljs-comment">// 保存spu</span>
+    spu.setSaleable(<span class="hljs-keyword">true</span>);
+    spu.setValid(<span class="hljs-keyword">true</span>);
+    spu.setCreateTime(<span class="hljs-keyword">new</span> Date());
+    spu.setLastUpdateTime(spu.getCreateTime());
+    <span class="hljs-keyword">this</span>.spuMapper.insert(spu);
+    <span class="hljs-comment">// 保存spu详情</span>
+    spu.getSpuDetail().setSpuId(spu.getId());
+    <span class="hljs-keyword">this</span>.spuDetailMapper.insert(spu.getSpuDetail());
+
+    <span class="hljs-comment">// 保存sku和库存信息</span>
+    saveSkuAndStock(spu.getSkus(), spu.getId());
+&#125;
+
+<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">saveSkuAndStock</span><span class="hljs-params">(List&lt;Sku&gt; skus, Long spuId)</span> </span>&#123;
+    <span class="hljs-keyword">for</span> (Sku sku : skus) &#123;
+        <span class="hljs-keyword">if</span> (!sku.getEnable()) &#123;
+            <span class="hljs-keyword">continue</span>;
+        &#125;
+        <span class="hljs-comment">// 保存sku</span>
+        sku.setSpuId(spuId);
+        <span class="hljs-comment">// 初始化时间</span>
+        sku.setCreateTime(<span class="hljs-keyword">new</span> Date());
+        sku.setLastUpdateTime(sku.getCreateTime());
+        <span class="hljs-keyword">this</span>.skuMapper.insert(sku);
+
+        <span class="hljs-comment">// 保存库存信息</span>
+        Stock stock = <span class="hljs-keyword">new</span> Stock();
+        stock.setSkuId(sku.getId());
+        stock.setStock(sku.getStock());
+        <span class="hljs-keyword">this</span>.stockMapper.insert(stock);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="1-7-4-Mapper"><a href="#1-7-4-Mapper" class="headerlink" title="1.7.4.Mapper"></a>1.7.4.Mapper</h3><p>都是通用Mapper，略</p>
+<p>目录结构：</p>
+<p> <img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528473533815.png" srcset="/img/loading.gif" alt="1528473533815"></p>
+<h1 id="2-商品修改"><a href="#2-商品修改" class="headerlink" title="2.商品修改"></a>2.商品修改</h1><h2 id="2-1-编辑按钮点击事件"><a href="#2-1-编辑按钮点击事件" class="headerlink" title="2.1.编辑按钮点击事件"></a>2.1.编辑按钮点击事件</h2><p>在商品详情页，每一个商品后面，都会有一个编辑按钮：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528476387213.png" srcset="/img/loading.gif" alt="1528476387213"></p>
+<p>点击这个按钮，就会打开一个商品编辑窗口，我们看下它所绑定的点击事件：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528476530008.png" srcset="/img/loading.gif" alt="1528476530008"></p>
+<p>对应的方法：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528476579123.png" srcset="/img/loading.gif" alt="1528476579123"></p>
+<p>可以看到这里发起了两个请求，在查询商品详情和sku信息。</p>
+<p>因为在商品列表页面，只有spu的基本信息：id、标题、品牌、商品分类等。比较复杂的商品详情（spuDetail)和sku信息都没有，编辑页面要回显数据，就需要查询这些内容。</p>
+<p>因此，接下来我们就编写后台接口，提供查询服务接口。</p>
+<h2 id="2-2-查询SpuDetail接口"><a href="#2-2-查询SpuDetail接口" class="headerlink" title="2.2.查询SpuDetail接口"></a>2.2.查询SpuDetail接口</h2><blockquote>
+<p>GoodsController</p>
+</blockquote>
+<p>需要分析的内容：</p>
+<ul>
+<li>请求方式：GET</li>
+<li>请求路径：/spu/detail/{id}</li>
+<li>请求参数：id，应该是spu的id</li>
+<li>返回结果：SpuDetail对象</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/spu/detail/&#123;id&#125;"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;SpuDetail&gt; <span class="hljs-title">querySpuDetailById</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span> Long id) </span>&#123;
+    SpuDetail detail = <span class="hljs-keyword">this</span>.goodsService.querySpuDetailById(id);
+    <span class="hljs-keyword">if</span> (detail == <span class="hljs-keyword">null</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(detail);
+&#125;</code></pre></div>
+
+<blockquote>
+<p>GoodsService</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> SpuDetail <span class="hljs-title">querySpuDetailById</span><span class="hljs-params">(Long id)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.spuDetailMapper.selectByPrimaryKey(id);
+&#125;</code></pre></div>
+
+<blockquote>
+<p>测试</p>
+</blockquote>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528477123640.png" srcset="/img/loading.gif" alt="1528477123640"></p>
+<h2 id="2-3-查询sku"><a href="#2-3-查询sku" class="headerlink" title="2.3.查询sku"></a>2.3.查询sku</h2><blockquote>
+<p>分析</p>
+</blockquote>
+<ul>
+<li>请求方式：Get</li>
+<li>请求路径：/sku/list</li>
+<li>请求参数：id，应该是spu的id</li>
+<li>返回结果：sku的集合</li>
+</ul>
+<blockquote>
+<p>GoodsController</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"sku/list"</span>)
+<span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;Sku&gt;&gt; querySkuBySpuId(<span class="hljs-meta">@RequestParam</span>(<span class="hljs-string">"id"</span>) Long id) &#123;
+    List&lt;Sku&gt; skus = <span class="hljs-keyword">this</span>.goodsService.querySkuBySpuId(id);
+    <span class="hljs-keyword">if</span> (skus == <span class="hljs-keyword">null</span> || skus.size() == <span class="hljs-number">0</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(skus);
+&#125;</code></pre></div>
+
+
+
+<blockquote>
+<p>GoodsService</p>
+</blockquote>
+<p>需要注意的是，为了页面回显方便，我们一并把sku的库存stock也查询出来</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Sku&gt; <span class="hljs-title">querySkuBySpuId</span><span class="hljs-params">(Long spuId)</span> </span>&#123;
+    <span class="hljs-comment">// 查询sku</span>
+    Sku record = <span class="hljs-keyword">new</span> Sku();
+    record.setSpuId(spuId);
+    List&lt;Sku&gt; skus = <span class="hljs-keyword">this</span>.skuMapper.select(record);
+    <span class="hljs-keyword">for</span> (Sku sku : skus) &#123;
+        <span class="hljs-comment">// 同时查询出库存</span>
+        sku.setStock(<span class="hljs-keyword">this</span>.stockMapper.selectByPrimaryKey(sku.getId()).getStock());
+    &#125;
+    <span class="hljs-keyword">return</span> skus;
+&#125;</code></pre></div>
+
+<blockquote>
+<p>测试：</p>
+</blockquote>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528477189379.png" srcset="/img/loading.gif" alt="1528477189379"></p>
+<h2 id="2-4-页面回显"><a href="#2-4-页面回显" class="headerlink" title="2.4.页面回显"></a>2.4.页面回显</h2><p>随便点击一个编辑按钮，发现数据回显完成：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528477890801.png" srcset="/img/loading.gif" alt="1528477890801"></p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528477928748.png" srcset="/img/loading.gif" alt="1528477928748"></p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528477970912.png" srcset="/img/loading.gif" alt="1528477970912"></p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528478019100.png" srcset="/img/loading.gif" alt="1528478019100"></p>
+<h2 id="2-5-页面提交"><a href="#2-5-页面提交" class="headerlink" title="2.5.页面提交"></a>2.5.页面提交</h2><p>这里的保存按钮与新增其实是同一个，因此提交的逻辑也是一样的，这里不再赘述。</p>
+<p>随便修改点数据，然后点击保存，可以看到浏览器已经发出请求：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528478194128.png" srcset="/img/loading.gif" alt="1528478194128"></p>
+<h2 id="2-6-后台实现"><a href="#2-6-后台实现" class="headerlink" title="2.6.后台实现"></a>2.6.后台实现</h2><p>接下来，我们编写后台，实现修改商品接口。</p>
+<h3 id="2-6-1-Controller"><a href="#2-6-1-Controller" class="headerlink" title="2.6.1.Controller"></a>2.6.1.Controller</h3><ul>
+<li>请求方式：PUT</li>
+<li>请求路径：/</li>
+<li>请求参数：Spu对象</li>
+<li>返回结果：无</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 新增商品</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> spu</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@PutMapping</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Void&gt; <span class="hljs-title">updateGoods</span><span class="hljs-params">(@RequestBody SpuBo spu)</span> </span>&#123;
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-keyword">this</span>.goodsService.update(spu);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NO_CONTENT);
+    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+        e.printStackTrace();
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.INTERNAL_SERVER_ERROR);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="2-6-2-Service"><a href="#2-6-2-Service" class="headerlink" title="2.6.2.Service"></a>2.6.2.Service</h3><p>spu数据可以修改，但是SKU数据无法修改，因为有可能之前存在的SKU现在已经不存在了，或者以前的sku属性都不存在了。比如以前内存有4G，现在没了。</p>
+<p>因此这里直接删除以前的SKU，然后新增即可。</p>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Transactional</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(SpuBo spu)</span> </span>&#123;
+    <span class="hljs-comment">// 查询以前sku</span>
+    List&lt;Sku&gt; skus = <span class="hljs-keyword">this</span>.querySkuBySpuId(spu.getId());
+    <span class="hljs-comment">// 如果以前存在，则删除</span>
+    <span class="hljs-keyword">if</span>(!CollectionUtils.isEmpty(skus)) &#123;
+        List&lt;Long&gt; ids = skus.stream().map(s -&gt; s.getId()).collect(Collectors.toList());
+        <span class="hljs-comment">// 删除以前库存</span>
+        Example example = <span class="hljs-keyword">new</span> Example(Stock<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        example.createCriteria().andIn(<span class="hljs-string">"skuId"</span>, ids);
+        <span class="hljs-keyword">this</span>.stockMapper.deleteByExample(example);
+
+        <span class="hljs-comment">// 删除以前的sku</span>
+        Sku record = <span class="hljs-keyword">new</span> Sku();
+        record.setSpuId(spu.getId());
+        <span class="hljs-keyword">this</span>.skuMapper.delete(record);
+
+    &#125;
+    <span class="hljs-comment">// 新增sku和库存</span>
+    saveSkuAndStock(spu.getSkus(), spu.getId());
+
+    <span class="hljs-comment">// 更新spu</span>
+    spu.setLastUpdateTime(<span class="hljs-keyword">new</span> Date());
+    spu.setCreateTime(<span class="hljs-keyword">null</span>);
+    spu.setValid(<span class="hljs-keyword">null</span>);
+    spu.setSaleable(<span class="hljs-keyword">null</span>);
+    <span class="hljs-keyword">this</span>.spuMapper.updateByPrimaryKeySelective(spu);
+
+    <span class="hljs-comment">// 更新spu详情</span>
+    <span class="hljs-keyword">this</span>.spuDetailMapper.updateByPrimaryKeySelective(spu.getSpuDetail());
+&#125;</code></pre></div>
+
+
+
+<h3 id="2-6-3-mapper"><a href="#2-6-3-mapper" class="headerlink" title="2.6.3.mapper"></a>2.6.3.mapper</h3><p>与以前一样。</p>
+<h2 id="2-7-其它"><a href="#2-7-其它" class="headerlink" title="2.7.其它"></a>2.7.其它</h2><p>商品的删除、上下架大家自行实现。</p>
+<h1 id="3-搭建前台系统"><a href="#3-搭建前台系统" class="headerlink" title="3.搭建前台系统"></a>3.搭建前台系统</h1><p>后台系统的内容暂时告一段落，有了商品，接下来我们就要在页面展示商品，给用户提供浏览和购买的入口，那就是我们的门户系统。</p>
+<p>门户系统面向的是用户，安全性很重要，而且搜索引擎对于单页应用并不友好。因此我们的门户系统不再采用与后台系统类似的SPA（单页应用）。</p>
+<p>依然是前后端分离，不过前端的页面会使用独立的html，在每个页面中使用vue来做页面渲染。</p>
+<h2 id="3-1-静态资源"><a href="#3-1-静态资源" class="headerlink" title="3.1.静态资源"></a>3.1.静态资源</h2><p>webpack打包多页应用配置比较繁琐，项目结构也相对复杂。这里为了简化开发（毕竟我们不是专业的前端人员），我们不再使用webpack，而是直接编写原生的静态HTML。</p>
+<h3 id="3-1-1-创建工程"><a href="#3-1-1-创建工程" class="headerlink" title="3.1.1.创建工程"></a>3.1.1.创建工程</h3><p>创建一个新的工程：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528479807646.png" srcset="/img/loading.gif" alt="1528479807646"></p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528479863567.png" srcset="/img/loading.gif" alt="1528479863567"></p>
+<h3 id="3-1-2-导入静态资源"><a href="#3-1-2-导入静态资源" class="headerlink" title="3.1.2.导入静态资源"></a>3.1.2.导入静态资源</h3><p>将课前资料中的leyou-portal解压，并复制到这个项目下</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528479930705.png" srcset="/img/loading.gif" alt="1528479930705"></p>
+<p>解压缩：</p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528479984188.png" srcset="/img/loading.gif" alt="1528479984188"></p>
+<p>项目结构：</p>
+<p> <img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528480139441.png" srcset="/img/loading.gif" alt="1528480139441"></p>
+<h2 id="3-2-live-server"><a href="#3-2-live-server" class="headerlink" title="3.2.live-server"></a>3.2.live-server</h2><p>没有webpack，我们就无法使用webpack-dev-server运行这个项目，实现热部署。</p>
+<p>所以，这里我们使用另外一种热部署方式：live-server，</p>
+<h3 id="3-2-1-简介"><a href="#3-2-1-简介" class="headerlink" title="3.2.1.简介"></a>3.2.1.简介</h3><p>地址；<a href="https://www.npmjs.com/package/live-server" target="_blank" rel="noopener">https://www.npmjs.com/package/live-server</a></p>
+<p> <img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1526460917348.png" srcset="/img/loading.gif" alt="1526460917348"></p>
+<p>这是一款带有热加载功能的小型开发服务器。用它来展示你的HTML / JavaScript / CSS，但不能用于部署最终的网站。 </p>
+<h3 id="3-2-2-安装和运行参数"><a href="#3-2-2-安装和运行参数" class="headerlink" title="3.2.2.安装和运行参数"></a>3.2.2.安装和运行参数</h3><p>安装，使用npm命令即可，这里建议全局安装，以后任意位置可用</p>
+<div class="hljs"><pre><code class="hljs sql">npm <span class="hljs-keyword">install</span> -g live-<span class="hljs-keyword">server</span></code></pre></div>
+
+
+
+<p>运行时，直接输入命令：</p>
+<div class="hljs"><pre><code class="hljs axapta">live-<span class="hljs-keyword">server</span></code></pre></div>
+
+<p>另外，你可以在运行命令后，跟上一些参数以配置：</p>
+<ul>
+<li><code>--port=NUMBER</code> - 选择要使用的端口，默认值：PORT env var或8080</li>
+<li><code>--host=ADDRESS</code> - 选择要绑定的主机地址，默认值：IP env var或0.0.0.0（“任意地址”）</li>
+<li><code>--no-browser</code> - 禁止自动Web浏览器启动</li>
+<li><code>--browser=BROWSER</code> - 指定使用浏览器而不是系统默认值</li>
+<li><code>--quiet | -q</code> - 禁止记录</li>
+<li><code>--verbose | -V</code> - 更多日志记录（记录所有请求，显示所有侦听的IPv4接口等）</li>
+<li><code>--open=PATH</code> - 启动浏览器到PATH而不是服务器root</li>
+<li><code>--watch=PATH</code> - 用逗号分隔的路径来专门监视变化（默认值：观看所有内容）</li>
+<li><code>--ignore=PATH</code>- 要忽略的逗号分隔的路径字符串（<a href="https://github.com/es128/anymatch" target="_blank" rel="noopener">anymatch</a> -compatible definition）</li>
+<li><code>--ignorePattern=RGXP</code>-文件的正则表达式忽略（即<code>.*\.jade</code>）（<strong>不推荐使用</strong>赞成<code>--ignore</code>）</li>
+<li><code>--middleware=PATH</code> - 导出要添加的中间件功能的.js文件的路径; 可以是没有路径的名称，也可以是引用<code>middleware</code>文件夹中捆绑的中间件的扩展名</li>
+<li><code>--entry-file=PATH</code> - 提供此文件（服务器根目录）代替丢失的文件（对单页应用程序有用）</li>
+<li><code>--mount=ROUTE:PATH</code> - 在定义的路线下提供路径内容（可能有多个定义）</li>
+<li><code>--spa</code> - 将请求从/ abc转换为/＃/ abc（方便单页应用）</li>
+<li><code>--wait=MILLISECONDS</code> - （默认100ms）等待所有更改，然后重新加载</li>
+<li><code>--htpasswd=PATH</code> - 启用期待位于PATH的htpasswd文件的http-auth</li>
+<li><code>--cors</code> - 为任何来源启用CORS（反映请求源，支持凭证的请求）</li>
+<li><code>--https=PATH</code> - 到HTTPS配置模块的路径</li>
+<li><code>--proxy=ROUTE:URL</code> - 代理ROUTE到URL的所有请求</li>
+<li><code>--help | -h</code> - 显示简洁的使用提示并退出</li>
+<li><code>--version | -v</code> - 显示版本并退出</li>
+</ul>
+<h3 id="3-2-3-测试"><a href="#3-2-3-测试" class="headerlink" title="3.2.3.测试"></a>3.2.3.测试</h3><p>我们进入leyou-portal目录，输入命令：</p>
+<div class="hljs"><pre><code class="hljs pgsql">live-<span class="hljs-keyword">server</span> <span class="hljs-comment">--port=9002</span></code></pre></div>
+
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1528480541193.png" srcset="/img/loading.gif" alt="1528480541193"></p>
+<h2 id="3-3-域名访问"><a href="#3-3-域名访问" class="headerlink" title="3.3.域名访问"></a>3.3.域名访问</h2><p>现在我们访问只能通过：<a href="http://127.0.0.1:9002" target="_blank" rel="noopener">http://127.0.0.1:9002</a></p>
+<p>我们希望用域名访问：<a href="http://www.leyou.com" target="_blank" rel="noopener">http://www.leyou.com</a></p>
+<p>第一步，修改hosts文件，添加一行配置：</p>
+<div class="hljs"><pre><code class="hljs accesslog"><span class="hljs-number">127.0.0.1</span> www.leyou.com</code></pre></div>
+
+<p>第二步，修改nginx配置，将<a href="http://www.leyou.com反向代理到127.0.0.1:9002" target="_blank" rel="noopener">www.leyou.com反向代理到127.0.0.1:9002</a></p>
+<div class="hljs"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;
+    <span class="hljs-attribute">listen</span>       <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span>  www.leyou.com;
+
+    <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Host <span class="hljs-variable">$host</span>;
+    <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Server <span class="hljs-variable">$host</span>;
+    <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+
+    <span class="hljs-attribute">location</span> / &#123;
+        <span class="hljs-attribute">proxy_pass</span> http://127.0.0.1:9002;
+        <span class="hljs-attribute">proxy_connect_timeout</span> <span class="hljs-number">600</span>;
+        <span class="hljs-attribute">proxy_read_timeout</span> <span class="hljs-number">600</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>重新加载nginx配置：<code>nginx.exe -s reload</code></p>
+<p><img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1526462774092.png" srcset="/img/loading.gif" alt="1526462774092"></p>
+<h2 id="3-4-common-js"><a href="#3-4-common-js" class="headerlink" title="3.4.common.js"></a>3.4.common.js</h2><p>为了方便后续的开发，我们在前台系统中定义了一些工具，放在了common.js中：</p>
+<p> <img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1526643361038.png" srcset="/img/loading.gif" alt="1526643361038"></p>
+<p>部分代码截图：</p>
+<p> <img src="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/%E4%B9%90%E4%BC%98/7%E6%9C%881%E5%8F%B7%E6%9B%B4%E6%96%B0/day10-%E5%95%86%E5%93%81%E7%AE%A1%E7%90%86/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday10/1526643526973.png" srcset="/img/loading.gif" alt="1526643526973"></p>
+<p>首先对axios进行了一些全局配置，请求超时时间，请求的基础路径，是否允许跨域操作cookie等</p>
+<p>定义了对象 ly ，也叫leyou，包含了下面的属性：</p>
+<ul>
+<li>getUrlParam(key)：获取url路径中的参数</li>
+<li>http：axios对象的别名。以后发起ajax请求，可以用ly.http.get()</li>
+<li>store：localstorage便捷操作，后面用到再详细说明</li>
+<li>formatPrice：格式化价格，如果传入的是字符串，则扩大100被并转为数字，如果传入是数字，则缩小100倍并转为字符串</li>
+<li>formatDate(val, pattern)：对日期对象val按照指定的pattern模板进行格式化</li>
+<li>stringify：将对象转为参数字符串</li>
+<li>parse：将参数字符串变为js对象</li>
+</ul>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8E/">乐优商城</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/26/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday09/">
+                        <span class="hidden-mobile">乐优商城day09：商品规格管理</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "乐优商城day10：商品管理&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

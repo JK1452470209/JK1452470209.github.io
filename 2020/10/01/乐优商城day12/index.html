@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>乐优商城day12：elasticsearch2 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-10-01 09:46">
+      2020-10-01
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      7.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      88
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>独立编写数据导入功能</li>
+<li>独立实现基本搜索</li>
+<li>独立实现页面分页</li>
+<li>独立实现结果排序</li>
+</ul>
+<h1 id="1-索引库数据导入"><a href="#1-索引库数据导入" class="headerlink" title="1.索引库数据导入"></a>1.索引库数据导入</h1><p>昨天我们学习了Elasticsearch的基本应用。今天就学以致用，搭建搜索微服务，实现搜索功能。</p>
+<h2 id="1-1-创建搜索服务"><a href="#1-1-创建搜索服务" class="headerlink" title="1.1.创建搜索服务"></a>1.1.创建搜索服务</h2><p>创建module：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532178218793.png" srcset="/img/loading.gif" alt="1532178218793"></p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532178276070.png" srcset="/img/loading.gif" alt="1532178276070"></p>
+<p>Pom文件：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.parent<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.search<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-search<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- web --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- elasticsearch --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-elasticsearch<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- eureka --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- feign --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+<p>application.yml：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8083</span>
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">search-service</span>
+  <span class="hljs-attr">data:</span>
+    <span class="hljs-attr">elasticsearch:</span>
+      <span class="hljs-attr">cluster-name:</span> <span class="hljs-string">elasticsearch</span>
+      <span class="hljs-attr">cluster-nodes:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.56</span><span class="hljs-number">.101</span><span class="hljs-string">:9300</span>
+<span class="hljs-attr">eureka:</span>
+  <span class="hljs-attr">client:</span>
+    <span class="hljs-attr">service-url:</span>
+      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://127.0.0.1:10086/eureka</span>
+  <span class="hljs-attr">instance:</span>
+    <span class="hljs-attr">lease-renewal-interval-in-seconds:</span> <span class="hljs-number">5</span> <span class="hljs-comment"># 每隔5秒发送一次心跳</span>
+    <span class="hljs-attr">lease-expiration-duration-in-seconds:</span> <span class="hljs-number">10</span> <span class="hljs-comment"># 10秒不发送就过期</span>
+    <span class="hljs-attr">prefer-ip-address:</span> <span class="hljs-literal">true</span>
+    <span class="hljs-attr">ip-address:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+    <span class="hljs-attr">instance-id:</span> <span class="hljs-string">$&#123;spring.application.name&#125;:$&#123;server.port&#125;</span></code></pre></div>
+
+<p>启动类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableFeignClients</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LySearchService</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SpringApplication.run(LySearchService<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="1-2-索引库数据格式分析"><a href="#1-2-索引库数据格式分析" class="headerlink" title="1.2.索引库数据格式分析"></a>1.2.索引库数据格式分析</h2><p>接下来，我们需要商品数据导入索引库，便于用户搜索。</p>
+<p>那么问题来了，我们有SPU和SKU，到底如何保存到索引库？</p>
+<h3 id="1-2-1-以结果为导向"><a href="#1-2-1-以结果为导向" class="headerlink" title="1.2.1.以结果为导向"></a>1.2.1.以结果为导向</h3><p>大家来看下搜索结果页：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532180648745.png" srcset="/img/loading.gif" alt="1532180648745"></p>
+<p>可以看到，每一个搜索结果都有至少1个商品，当我们选择大图下方的小图，商品会跟着变化。</p>
+<p>因此，<strong>搜索的结果是SPU，即多个SKU的集合</strong>。</p>
+<p>既然搜索的结果是SPU，那么我们索引库中存储的应该也是SPU，但是却需要包含SKU的信息。</p>
+<h3 id="1-2-2-需要什么数据"><a href="#1-2-2-需要什么数据" class="headerlink" title="1.2.2.需要什么数据"></a>1.2.2.需要什么数据</h3><p>再来看看页面中有什么数据：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526607712207.png" srcset="/img/loading.gif" alt="1526607712207"> </p>
+<p>直观能看到的：图片、价格、标题、副标题</p>
+<p>暗藏的数据：spu的id，sku的id</p>
+<p>另外，页面还有过滤条件：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526608095471.png" srcset="/img/loading.gif" alt="1526608095471"></p>
+<p>这些过滤条件也都需要存储到索引库中，包括：</p>
+<p>商品分类、品牌、可用来搜索的规格参数等</p>
+<p>综上所述，我们需要的数据格式有：</p>
+<p>spuId、SkuId、商品分类id、品牌id、图片、价格、商品的创建时间、sku信息集、可搜索的规格参数</p>
+<h3 id="1-2-3-最终的数据结构"><a href="#1-2-3-最终的数据结构" class="headerlink" title="1.2.3.最终的数据结构"></a>1.2.3.最终的数据结构</h3><p>我们创建一个类，封装要保存到索引库的数据，并设置映射属性：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Document</span>(indexName = <span class="hljs-string">"goods"</span>, type = <span class="hljs-string">"docs"</span>, shards = <span class="hljs-number">1</span>, replicas = <span class="hljs-number">0</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Goods</span> </span>&#123;
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-keyword">private</span> Long id; <span class="hljs-comment">// spuId</span>
+    <span class="hljs-meta">@Field</span>(type = FieldType.Text, analyzer = <span class="hljs-string">"ik_max_word"</span>)
+    <span class="hljs-keyword">private</span> String all; <span class="hljs-comment">// 所有需要被搜索的信息，包含标题，分类，甚至品牌</span>
+    <span class="hljs-meta">@Field</span>(type = FieldType.Keyword, index = <span class="hljs-keyword">false</span>)
+    <span class="hljs-keyword">private</span> String subTitle;<span class="hljs-comment">// 卖点</span>
+    <span class="hljs-keyword">private</span> Long brandId;<span class="hljs-comment">// 品牌id</span>
+    <span class="hljs-keyword">private</span> Long cid1;<span class="hljs-comment">// 1级分类id</span>
+    <span class="hljs-keyword">private</span> Long cid2;<span class="hljs-comment">// 2级分类id</span>
+    <span class="hljs-keyword">private</span> Long cid3;<span class="hljs-comment">// 3级分类id</span>
+    <span class="hljs-keyword">private</span> Date createTime;<span class="hljs-comment">// 创建时间</span>
+    <span class="hljs-keyword">private</span> List&lt;Long&gt; price;<span class="hljs-comment">// 价格</span>
+    <span class="hljs-meta">@Field</span>(type = FieldType.Keyword, index = <span class="hljs-keyword">false</span>)
+    <span class="hljs-keyword">private</span> String skus;<span class="hljs-comment">// sku信息的json结构</span>
+    <span class="hljs-keyword">private</span> Map&lt;String, Object&gt; specs;<span class="hljs-comment">// 可搜索的规格参数，key是参数名，值是参数值</span>
+&#125;</code></pre></div>
+
+<p>一些特殊字段解释：</p>
+<ul>
+<li><p>all：用来进行全文检索的字段，里面包含标题、商品分类信息</p>
+</li>
+<li><p>price：价格数组，是所有sku的价格集合。方便根据价格进行筛选过滤</p>
+</li>
+<li><p>skus：用于页面展示的sku信息，不索引，不搜索。包含skuId、image、price、title字段</p>
+</li>
+<li><p>specs：所有规格参数的集合。key是参数名，值是参数值。</p>
+<p>例如：我们在specs中存储 内存：4G,6G，颜色为红色，转为json就是：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"specs"</span>:&#123;
+        <span class="hljs-attr">"内存"</span>:[<span class="hljs-number">4</span>G,<span class="hljs-number">6</span>G],
+        <span class="hljs-attr">"颜色"</span>:<span class="hljs-string">"红色"</span>
+    &#125;
+&#125;</code></pre></div>
+
+<p>当存储到索引库时，elasticsearch会处理为两个字段：</p>
+<ul>
+<li>specs.内存：[4G,6G]</li>
+<li>specs.颜色：红色</li>
+</ul>
+<p>另外， 对于字符串类型，还会额外存储一个字段，这个字段不会分词，用作聚合。</p>
+<ul>
+<li>specs.颜色.keyword：红色</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-3-商品微服务提供接口"><a href="#1-3-商品微服务提供接口" class="headerlink" title="1.3.商品微服务提供接口"></a>1.3.商品微服务提供接口</h2><p>索引库中的数据来自于数据库，我们不能直接去查询商品的数据库，因为真实开发中，每个微服务都是相互独立的，包括数据库也是一样。所以我们只能调用商品微服务提供的接口服务。</p>
+<p>先思考我们需要的数据：</p>
+<ul>
+<li><p>SPU信息</p>
+</li>
+<li><p>SKU信息</p>
+</li>
+<li><p>SPU的详情</p>
+</li>
+<li><p>商品分类名称（拼接all字段）</p>
+</li>
+</ul>
+<p>再思考我们需要哪些服务：</p>
+<ul>
+<li>第一：分批查询spu的服务，已经写过。</li>
+<li>第二：根据spuId查询sku的服务，已经写过</li>
+<li>第三：根据spuId查询SpuDetail的服务，已经写过</li>
+<li>第四：根据商品分类id，查询商品分类名称，没写过</li>
+<li>第五：根据商品品牌id，查询商品的品牌，没写过</li>
+</ul>
+<p>因此我们需要额外提供一个查询商品分类名称的接口。</p>
+<h3 id="1-3-1-商品分类名称查询"><a href="#1-3-1-商品分类名称查询" class="headerlink" title="1.3.1.商品分类名称查询"></a>1.3.1.商品分类名称查询</h3><p>controller：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 根据商品分类id查询名称</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> ids 要查询的分类id集合</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span> 多个名称的集合</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"names"</span>)
+<span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;String&gt;&gt; queryNameByIds(<span class="hljs-meta">@RequestParam</span>(<span class="hljs-string">"ids"</span>) List&lt;Long&gt; ids)&#123;
+    List&lt;String &gt; list = <span class="hljs-keyword">this</span>.categoryService.queryNameByIds(ids);
+    <span class="hljs-keyword">if</span> (list == <span class="hljs-keyword">null</span> || list.size() &lt; <span class="hljs-number">1</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(list);
+&#125;</code></pre></div>
+
+<p>测试：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532213731039.png" srcset="/img/loading.gif" alt="1532213731039"></p>
+<h3 id="1-3-2-编写FeignClient"><a href="#1-3-2-编写FeignClient" class="headerlink" title="1.3.2.编写FeignClient"></a>1.3.2.编写FeignClient</h3><h4 id="1-3-2-1-问题展现"><a href="#1-3-2-1-问题展现" class="headerlink" title="1.3.2.1.问题展现"></a>1.3.2.1.问题展现</h4><p>操作leyou-search工程</p>
+<p>现在，我们要在搜索微服务调用商品微服务的接口。</p>
+<p>第一步要引入商品微服务依赖：<code>leyou-item-interface</code>。</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--商品微服务--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.service<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>ly-item-interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;leyou.latest.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>第二步，编写FeignClient</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = <span class="hljs-string">"item-service"</span>)
+<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/goods"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GoodsClient</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 分页查询商品</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> page</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> rows</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> saleable</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> key</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/spu/page"</span>)
+    ResponseEntity&lt;PageResult&lt;SpuBo&gt;&gt; querySpuByPage(
+            <span class="hljs-meta">@RequestParam</span>(value = <span class="hljs-string">"page"</span>, defaultValue = <span class="hljs-string">"1"</span>) Integer page,
+            <span class="hljs-meta">@RequestParam</span>(value = <span class="hljs-string">"rows"</span>, defaultValue = <span class="hljs-string">"5"</span>) Integer rows,
+            <span class="hljs-meta">@RequestParam</span>(value = <span class="hljs-string">"saleable"</span>, defaultValue = <span class="hljs-string">"true"</span>) Boolean saleable,
+            <span class="hljs-meta">@RequestParam</span>(value = <span class="hljs-string">"key"</span>, required = <span class="hljs-keyword">false</span>) String key);
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据spu商品id查询详情</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/spu/detail/&#123;id&#125;"</span>)
+    <span class="hljs-function">ResponseEntity&lt;SpuDetail&gt; <span class="hljs-title">querySpuDetailById</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span> Long id)</span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据spu的id查询sku</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"sku/list"</span>)
+    ResponseEntity&lt;List&lt;Sku&gt;&gt; querySkuBySpuId(<span class="hljs-meta">@RequestParam</span>(<span class="hljs-string">"id"</span>) Long id);
+&#125;</code></pre></div>
+
+<p>以上的这些代码直接从商品微服务中拷贝而来，完全一致。差别就是没有方法的具体实现。大家觉得这样有没有问题？</p>
+<p>而FeignClient代码遵循SpringMVC的风格，因此与商品微服务的Controller完全一致。这样就存在一定的问题：</p>
+<ul>
+<li>代码冗余。尽管不用写实现，只是写接口，但服务调用方要写与服务controller一致的代码，有几个消费者就要写几次。</li>
+<li>增加开发成本。调用方还得清楚知道接口的路径，才能编写正确的FeignClient。</li>
+</ul>
+<h4 id="1-3-2-2-解决方案"><a href="#1-3-2-2-解决方案" class="headerlink" title="1.3.2.2.解决方案"></a>1.3.2.2.解决方案</h4><p>因此，一种比较友好的实践是这样的：</p>
+<ul>
+<li>我们的服务提供方不仅提供实体类，还要提供api接口声明</li>
+<li>调用方不用字自己编写接口方法声明，直接继承提供方给的Api接口即可，</li>
+</ul>
+<p>第一步：服务的提供方在<code>leyou-item-interface</code>中提供API接口，并编写接口声明：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526613268722.png" srcset="/img/loading.gif" alt="1526613268722"></p>
+<p>商品分类服务接口：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"category"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">CategoryApi</span> </span>&#123;
+
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"names"</span>)
+    ResponseEntity&lt;List&lt;String&gt;&gt; queryNameByIds(<span class="hljs-meta">@RequestParam</span>(<span class="hljs-string">"ids"</span>) List&lt;Long&gt; ids);
+&#125;</code></pre></div>
+
+<p>商品服务接口，返回值不再使用ResponseEntity：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"/goods"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GoodsApi</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 分页查询商品</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> page</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> rows</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> saleable</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> key</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/spu/page"</span>)
+    <span class="hljs-function">PageResult&lt;SpuBo&gt; <span class="hljs-title">querySpuByPage</span><span class="hljs-params">(</span></span>
+<span class="hljs-function"><span class="hljs-params">            @RequestParam(value = <span class="hljs-string">"page"</span>, defaultValue = <span class="hljs-string">"1"</span>)</span> Integer page,</span>
+<span class="hljs-function">            @<span class="hljs-title">RequestParam</span><span class="hljs-params">(value = <span class="hljs-string">"rows"</span>, defaultValue = <span class="hljs-string">"5"</span>)</span> Integer rows,</span>
+<span class="hljs-function">            @<span class="hljs-title">RequestParam</span><span class="hljs-params">(value = <span class="hljs-string">"saleable"</span>, defaultValue = <span class="hljs-string">"true"</span>)</span> Boolean saleable,</span>
+<span class="hljs-function">            @<span class="hljs-title">RequestParam</span><span class="hljs-params">(value = <span class="hljs-string">"key"</span>, required = <span class="hljs-keyword">false</span>)</span> String key)</span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据spu商品id查询详情</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/spu/detail/&#123;id&#125;"</span>)
+    <span class="hljs-function">SpuDetail <span class="hljs-title">querySpuDetailById</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span> Long id)</span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据spu的id查询sku</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"sku/list"</span>)
+    <span class="hljs-function">List&lt;Sku&gt; <span class="hljs-title">querySkuBySpuId</span><span class="hljs-params">(@RequestParam(<span class="hljs-string">"id"</span>)</span> Long id)</span>;
+&#125;</code></pre></div>
+
+<p>需要引入springMVC及leyou-common的依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-webmvc<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.0.6.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.common<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+
+
+<p>第二步：在调用方<code>leyou-search</code>中编写FeignClient，但不要写方法声明了，直接继承<code>leyou-item-interface</code>提供的api接口：</p>
+<p>商品的FeignClient：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = <span class="hljs-string">"item-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GoodsClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">GoodsApi</span> </span>&#123;
+&#125;</code></pre></div>
+
+<p>商品分类的FeignClient：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = <span class="hljs-string">"item-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">CategoryClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">CategoryApi</span> </span>&#123;
+&#125;</code></pre></div>
+
+
+
+<p>是不是简单多了？</p>
+<p>项目结构：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532215914558.png" srcset="/img/loading.gif" alt="1532215914558"></p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532218231760.png" srcset="/img/loading.gif" alt="1532218231760"></p>
+<h4 id="1-3-2-3-测试"><a href="#1-3-2-3-测试" class="headerlink" title="1.3.2.3.测试"></a>1.3.2.3.测试</h4><p>在leyou-search中引入springtest依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>创建测试类：</p>
+<p>在接口上按快捷键：<code>Ctrl + Shift + T</code></p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532216103709.png" srcset="/img/loading.gif" alt="1532216103709"></p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532216169168.png" srcset="/img/loading.gif" alt="1532216169168"></p>
+<p>测试代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RunWith</span>(SpringRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">@<span class="hljs-title">SpringBootTest</span>(<span class="hljs-title">classes</span> </span>= LeyouSearchApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">CategoryClientTest</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> CategoryClient categoryClient;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testQueryCategories</span><span class="hljs-params">()</span> </span>&#123;
+        List&lt;String&gt; names = <span class="hljs-keyword">this</span>.categoryClient.queryNameByIds(Arrays.asList(<span class="hljs-number">1L</span>, <span class="hljs-number">2L</span>, <span class="hljs-number">3L</span>));
+        names.forEach(System.out::println);
+    &#125;
+&#125;</code></pre></div>
+
+<p>结果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532216884221.png" srcset="/img/loading.gif" alt="1532216884221"></p>
+<h2 id="1-4-导入数据"><a href="#1-4-导入数据" class="headerlink" title="1.4.导入数据"></a>1.4.导入数据</h2><p>导入数据只做一次,以后的更新删除等操作通过消息队列来操作索引库</p>
+<h3 id="1-4-1-创建GoodsRepository"><a href="#1-4-1-创建GoodsRepository" class="headerlink" title="1.4.1.创建GoodsRepository"></a>1.4.1.创建GoodsRepository</h3><p>java代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GoodsRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ElasticsearchRepository</span>&lt;<span class="hljs-title">Goods</span>, <span class="hljs-title">Long</span>&gt; </span>&#123;
+&#125;</code></pre></div>
+
+
+
+<h3 id="1-4-2-创建索引"><a href="#1-4-2-创建索引" class="headerlink" title="1.4.2.创建索引"></a>1.4.2.创建索引</h3><p>我们新建一个测试类，在里面进行数据的操作：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RunWith</span>(SpringRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">@<span class="hljs-title">SpringBootTest</span>(<span class="hljs-title">classes</span> </span>= LeyouSearchApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">ElasticsearchTest</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsRepository goodsRepository;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> ElasticsearchTemplate elasticsearchTemplate;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createIndex</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-comment">// 创建索引</span>
+        <span class="hljs-keyword">this</span>.elasticsearchTemplate.createIndex(Goods<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        <span class="hljs-comment">// 配置映射</span>
+        <span class="hljs-keyword">this</span>.elasticsearchTemplate.putMapping(Goods<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>通过kibana查看：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532217819818.png" srcset="/img/loading.gif" alt="1532217819818"></p>
+<h3 id="1-4-3-导入数据"><a href="#1-4-3-导入数据" class="headerlink" title="1.4.3.导入数据"></a>1.4.3.导入数据</h3><p>导入数据其实就是查询数据，然后把查询到的Spu转变为Goods来保存，因此我们先编写一个SearchService，然后在里面定义一个方法， 把Spu转为Goods</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> CategoryClient categoryClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsClient goodsClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> SpecificationClient specificationClient;
+
+    <span class="hljs-keyword">private</span> ObjectMapper mapper = <span class="hljs-keyword">new</span> ObjectMapper();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Goods <span class="hljs-title">buildGoods</span><span class="hljs-params">(Spu spu)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;
+        Goods goods = <span class="hljs-keyword">new</span> Goods();
+
+        <span class="hljs-comment">// 查询商品分类名称</span>
+        List&lt;String&gt; names = <span class="hljs-keyword">this</span>.categoryClient.queryNameByIds(Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()));
+        <span class="hljs-comment">// 查询sku</span>
+        List&lt;Sku&gt; skus = <span class="hljs-keyword">this</span>.goodsClient.querySkuBySpuId(spu.getId());
+        <span class="hljs-comment">// 查询详情</span>
+        SpuDetail spuDetail = <span class="hljs-keyword">this</span>.goodsClient.querySpuDetailById(spu.getId());
+        <span class="hljs-comment">// 查询规格参数</span>
+        List&lt;SpecParam&gt; params = <span class="hljs-keyword">this</span>.specificationClient.querySpecParam(<span class="hljs-keyword">null</span>, spu.getCid3(), <span class="hljs-keyword">true</span>, <span class="hljs-keyword">null</span>);
+
+        <span class="hljs-comment">// 处理sku，仅封装id、价格、标题、图片，并获得价格集合</span>
+        List&lt;Long&gt; prices = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        List&lt;Map&lt;String, Object&gt;&gt; skuList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        skus.forEach(sku -&gt; &#123;
+            prices.add(sku.getPrice());
+            Map&lt;String, Object&gt; skuMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+            skuMap.put(<span class="hljs-string">"id"</span>, sku.getId());
+            skuMap.put(<span class="hljs-string">"title"</span>, sku.getTitle());
+            skuMap.put(<span class="hljs-string">"price"</span>, sku.getPrice());
+            skuMap.put(<span class="hljs-string">"image"</span>, StringUtils.isBlank(sku.getImages()) ? <span class="hljs-string">""</span> : StringUtils.split(sku.getImages(), <span class="hljs-string">","</span>)[<span class="hljs-number">0</span>]);
+            skuList.add(skuMap);
+        &#125;);
+
+        <span class="hljs-comment">// 处理规格参数</span>
+        Map&lt;String, Object&gt; genericSpecs = mapper.readValue(spuDetail.getGenericSpec(), <span class="hljs-keyword">new</span> TypeReference&lt;Map&lt;String, Object&gt;&gt;() &#123;
+        &#125;);
+        Map&lt;String, Object&gt; specialSpecs = mapper.readValue(spuDetail.getSpecialSpec(), <span class="hljs-keyword">new</span> TypeReference&lt;Map&lt;String, Object&gt;&gt;() &#123;
+        &#125;);
+        <span class="hljs-comment">// 获取可搜索的规格参数</span>
+        Map&lt;String, Object&gt; searchSpec = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+
+        <span class="hljs-comment">// 过滤规格模板，把所有可搜索的信息保存到Map中</span>
+        Map&lt;String, Object&gt; specMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        params.forEach(p -&gt; &#123;
+            <span class="hljs-keyword">if</span> (p.getSearching()) &#123;
+                <span class="hljs-keyword">if</span> (p.getGeneric()) &#123;
+                    String value = genericSpecs.get(p.getId().toString()).toString();
+                    <span class="hljs-keyword">if</span>(p.getNumeric())&#123;
+                        value = chooseSegment(value, p);
+                    &#125;
+                    specMap.put(p.getName(), StringUtils.isBlank(value) ? <span class="hljs-string">"其它"</span> : value);
+                &#125; <span class="hljs-keyword">else</span> &#123;
+                    specMap.put(p.getName(), specialSpecs.get(p.getId().toString()));
+                &#125;
+            &#125;
+        &#125;);
+
+        goods.setId(spu.getId());
+        goods.setSubTitle(spu.getSubTitle());
+        goods.setBrandId(spu.getBrandId());
+        goods.setCid1(spu.getCid1());
+        goods.setCid2(spu.getCid2());
+        goods.setCid3(spu.getCid3());
+        goods.setCreateTime(spu.getCreateTime());
+        goods.setAll(spu.getTitle() + <span class="hljs-string">" "</span> + StringUtils.join(names, <span class="hljs-string">" "</span>));
+        goods.setPrice(prices);
+        goods.setSkus(mapper.writeValueAsString(skuList));
+        goods.setSpecs(specMap);
+        <span class="hljs-keyword">return</span> goods;
+    &#125;                                                   
+
+&#125;</code></pre></div>
+
+<p>因为过滤参数中有一类比较特殊，就是数值区间：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526608095471.png" srcset="/img/loading.gif" alt="1526608095471"></p>
+<p>所以我们在存入时要进行处理：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">private</span> String <span class="hljs-title">chooseSegment</span><span class="hljs-params">(String value, SpecParam p)</span> </span>&#123;
+    <span class="hljs-keyword">double</span> val = NumberUtils.toDouble(value);
+    String result = <span class="hljs-string">"其它"</span>;
+    <span class="hljs-comment">// 保存数值段</span>
+    <span class="hljs-keyword">for</span> (String segment : p.getSegments().split(<span class="hljs-string">","</span>)) &#123;
+        String[] segs = segment.split(<span class="hljs-string">"-"</span>);
+        <span class="hljs-comment">// 获取数值范围</span>
+        <span class="hljs-keyword">double</span> begin = NumberUtils.toDouble(segs[<span class="hljs-number">0</span>]);
+        <span class="hljs-keyword">double</span> end = Double.MAX_VALUE;
+        <span class="hljs-keyword">if</span>(segs.length == <span class="hljs-number">2</span>)&#123;
+            end = NumberUtils.toDouble(segs[<span class="hljs-number">1</span>]);
+        &#125;
+        <span class="hljs-comment">// 判断是否在范围内</span>
+        <span class="hljs-keyword">if</span>(val &gt;= begin &amp;&amp; val &lt; end)&#123;
+            <span class="hljs-keyword">if</span>(segs.length == <span class="hljs-number">1</span>)&#123;
+                result = segs[<span class="hljs-number">0</span>] + p.getUnit() + <span class="hljs-string">"以上"</span>;
+            &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(begin == <span class="hljs-number">0</span>)&#123;
+                result = segs[<span class="hljs-number">1</span>] + p.getUnit() + <span class="hljs-string">"以下"</span>;
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                result = segment + p.getUnit();
+            &#125;
+            <span class="hljs-keyword">break</span>;
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> result;
+&#125;</code></pre></div>
+
+
+
+<p>然后编写一个测试类，循环查询Spu，然后调用IndexService中的方法，把SPU变为Goods，然后写入索引库：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Test</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loadData</span><span class="hljs-params">()</span></span>&#123;
+    <span class="hljs-comment">// 创建索引</span>
+    <span class="hljs-keyword">this</span>.elasticsearchTemplate.createIndex(Goods<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    <span class="hljs-comment">// 配置映射</span>
+    <span class="hljs-keyword">this</span>.elasticsearchTemplate.putMapping(Goods<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    <span class="hljs-keyword">int</span> page = <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">int</span> rows = <span class="hljs-number">100</span>;
+    <span class="hljs-keyword">int</span> size = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">do</span> &#123;
+        <span class="hljs-comment">// 查询分页数据</span>
+        PageResult&lt;SpuBo&gt; result = <span class="hljs-keyword">this</span>.goodsClient.querySpuByPage(page, rows, <span class="hljs-keyword">true</span>, <span class="hljs-keyword">null</span>);
+        List&lt;SpuBo&gt; spus = result.getItems();
+        size = spus.size();
+        <span class="hljs-comment">// 创建Goods集合</span>
+        List&lt;Goods&gt; goodsList = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        <span class="hljs-comment">// 遍历spu</span>
+        <span class="hljs-keyword">for</span> (SpuBo spu : spus) &#123;
+            <span class="hljs-keyword">try</span> &#123;
+                Goods goods = <span class="hljs-keyword">this</span>.searchService.buildGoods(spu);
+                goodsList.add(goods);
+            &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+
+        <span class="hljs-keyword">this</span>.goodsRepository.saveAll(goodsList);
+        page++;
+    &#125; <span class="hljs-keyword">while</span> (size == <span class="hljs-number">100</span>);
+&#125;</code></pre></div>
+
+<p>通过kibana查询， 可以看到数据成功导入：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532228358310.png" srcset="/img/loading.gif" alt="1532228358310"></p>
+<h1 id="2-实现基本搜索"><a href="#2-实现基本搜索" class="headerlink" title="2.实现基本搜索"></a>2.实现基本搜索</h1><h2 id="2-1-页面分析"><a href="#2-1-页面分析" class="headerlink" title="2.1.页面分析"></a>2.1.页面分析</h2><h3 id="2-1-1-页面跳转"><a href="#2-1-1-页面跳转" class="headerlink" title="2.1.1.页面跳转"></a>2.1.1.页面跳转</h3><p>在首页的顶部，有一个输入框：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526629923970.png" srcset="/img/loading.gif" alt="1526629923970"></p>
+<p>当我们输入任何文本，点击搜索，就会跳转到搜索页<code>search.html</code>了：</p>
+<p>并且将搜索关键字以请求参数携带过来：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532229236516.png" srcset="/img/loading.gif" alt="1532229236516"></p>
+<p>我们打开<code>search.html</code>，在最下面会有提前定义好的Vue实例：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span>
+<span class="actionscript">    <span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">new</span> Vue(&#123;</span>
+<span class="actionscript">        el: <span class="hljs-string">"#searchApp"</span>,</span>
+        data: &#123;
+        &#125;,
+        components:&#123;
+<span class="actionscript">            <span class="hljs-comment">// 加载页面顶部组件</span></span>
+<span class="javascript">            lyTop: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">"./js/pages/top.js"</span>)</span>
+        &#125;
+    &#125;);
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre></div>
+
+<p>这个Vue实例中，通过import导入的方式，加载了另外一个js：top.js并作为一个局部组件。top其实是页面顶部导航组件，我们暂时不管</p>
+<h3 id="2-1-2-发起异步请求"><a href="#2-1-2-发起异步请求" class="headerlink" title="2.1.2.发起异步请求"></a>2.1.2.发起异步请求</h3><p>要想在页面加载后，就展示出搜索结果。我们应该在页面加载时，获取地址栏请求参数，并发起异步请求，查询后台数据，然后在页面渲染。</p>
+<p>我们在data中定义一个对象，记录请求的参数：</p>
+<div class="hljs"><pre><code class="hljs js">data: &#123;
+    search:&#123;
+        key:<span class="hljs-string">""</span>, <span class="hljs-comment">// 搜索页面的关键字</span>
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>我们通过钩子函数created，在页面加载时获取请求参数，并记录下来。</p>
+<div class="hljs"><pre><code class="hljs js">created()&#123;
+    <span class="hljs-comment">// 判断是否有请求参数</span>
+    <span class="hljs-keyword">if</span>(!location.search)&#123;
+        <span class="hljs-keyword">return</span>;
+    &#125;
+    <span class="hljs-comment">// 将请求参数转为对象</span>
+    <span class="hljs-keyword">const</span> search = ly.parse(location.search.substring(<span class="hljs-number">1</span>));
+    <span class="hljs-comment">// 记录在data的search对象中</span>
+    <span class="hljs-keyword">this</span>.search = search;
+    
+    <span class="hljs-comment">// 发起请求，根据条件搜索</span>
+    <span class="hljs-keyword">this</span>.loadData();
+&#125;</code></pre></div>
+
+<p>然后发起请求，搜索数据。</p>
+<div class="hljs"><pre><code class="hljs js">methods: &#123;
+    loadData()&#123;
+        <span class="hljs-comment">// ly.http.post("/search/page", ly.stringify(this.search)).then(resp=&gt;&#123;</span>
+        ly.http.post(<span class="hljs-string">"/search/page"</span>, <span class="hljs-keyword">this</span>.search).then(<span class="hljs-function"><span class="hljs-params">resp</span>=&gt;</span>&#123;
+            <span class="hljs-built_in">console</span>.log(resp);
+        &#125;);
+    &#125;
+&#125;</code></pre></div>
+
+<ul>
+<li>我们这里使用<code>ly</code>是common.js中定义的工具对象。</li>
+<li>这里使用的是post请求，这样可以携带更多参数，并且以json格式发送</li>
+</ul>
+<p>在leyou-gateway中，添加允许信任域名：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532233280898.png" srcset="/img/loading.gif" alt="1532233280898"></p>
+<p>并添加网关映射：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532233247824.png" srcset="/img/loading.gif" alt="1532233247824"></p>
+<p>刷新页面试试：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532233086523.png" srcset="/img/loading.gif" alt="1532233086523"></p>
+<p>因为后台没有提供接口，所以无法访问。没关系，接下来我们实现后台接口</p>
+<h2 id="2-2-后台提供搜索接口"><a href="#2-2-后台提供搜索接口" class="headerlink" title="2.2.后台提供搜索接口"></a>2.2.后台提供搜索接口</h2><h3 id="2-2-1-controller"><a href="#2-2-1-controller" class="headerlink" title="2.2.1.controller"></a>2.2.1.controller</h3><p>首先分析几个问题：</p>
+<ul>
+<li><p>请求方式：Post</p>
+</li>
+<li><p>请求路径：/search/page，不过前面的/search应该是网关的映射路径，因此真实映射路径page，代表分页查询</p>
+</li>
+<li><p>请求参数：json格式，目前只有一个属性：key-搜索关键字，但是搜索结果页一定是带有分页查询的，所以将来肯定会有page属性，因此我们可以用一个对象来接收请求的json数据：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchRequest</span> </span>&#123;
+    <span class="hljs-keyword">private</span> String key;<span class="hljs-comment">// 搜索条件</span>
+
+    <span class="hljs-keyword">private</span> Integer page;<span class="hljs-comment">// 当前页</span>
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Integer DEFAULT_SIZE = <span class="hljs-number">20</span>;<span class="hljs-comment">// 每页大小，不从页面接收，而是固定大小</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Integer DEFAULT_PAGE = <span class="hljs-number">1</span>;<span class="hljs-comment">// 默认页</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getKey</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> key;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setKey</span><span class="hljs-params">(String key)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.key = key;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Integer <span class="hljs-title">getPage</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">if</span>(page == <span class="hljs-keyword">null</span>)&#123;
+            <span class="hljs-keyword">return</span> DEFAULT_PAGE;
+        &#125;
+        <span class="hljs-comment">// 获取页码时做一些校验，不能小于1</span>
+        <span class="hljs-keyword">return</span> Math.max(DEFAULT_PAGE, page);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPage</span><span class="hljs-params">(Integer page)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.page = page;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Integer <span class="hljs-title">getSize</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> DEFAULT_SIZE;
+    &#125;
+&#125;</code></pre></div>
+</li>
+<li><p>返回结果：作为分页结果，一般都两个属性：当前页数据、总条数信息，我们可以使用之前定义的PageResult类</p>
+</li>
+</ul>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@RequestMapping</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> SearchService searchService;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 搜索商品</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> request</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"page"</span>)
+    <span class="hljs-keyword">public</span> ResponseEntity&lt;PageResult&lt;Goods&gt;&gt; search(<span class="hljs-meta">@RequestBody</span> SearchRequest request) &#123;
+        PageResult&lt;Goods&gt; result = <span class="hljs-keyword">this</span>.searchService.search(request);
+        <span class="hljs-keyword">if</span> (result == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+        &#125;
+        <span class="hljs-keyword">return</span> ResponseEntity.ok(result);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="2-2-2-service"><a href="#2-2-2-service" class="headerlink" title="2.2.2.service"></a>2.2.2.service</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsRepository goodsRepository;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> PageResult&lt;Goods&gt; <span class="hljs-title">search</span><span class="hljs-params">(SearchRequest request)</span> </span>&#123;
+        String key = request.getKey();
+        <span class="hljs-comment">// 判断是否有搜索条件，如果没有，直接返回null。不允许搜索全部商品</span>
+        <span class="hljs-keyword">if</span> (StringUtils.isBlank(key)) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+
+        <span class="hljs-comment">// 构建查询条件</span>
+        NativeSearchQueryBuilder queryBuilder = <span class="hljs-keyword">new</span> NativeSearchQueryBuilder();
+        
+        <span class="hljs-comment">// 1、对key进行全文检索查询</span>
+        queryBuilder.withQuery(QueryBuilders.matchQuery(<span class="hljs-string">"all"</span>, key).operator(Operator.AND));
+        
+        <span class="hljs-comment">// 2、通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle</span>
+        queryBuilder.withSourceFilter(<span class="hljs-keyword">new</span> FetchSourceFilter(
+                <span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"id"</span>,<span class="hljs-string">"skus"</span>,<span class="hljs-string">"subTitle"</span>&#125;, <span class="hljs-keyword">null</span>));
+        
+        <span class="hljs-comment">// 3、分页</span>
+        <span class="hljs-comment">// 准备分页参数</span>
+        <span class="hljs-keyword">int</span> page = request.getPage();
+        <span class="hljs-keyword">int</span> size = request.getSize();
+        queryBuilder.withPageable(PageRequest.of(page - <span class="hljs-number">1</span>, size));
+
+        <span class="hljs-comment">// 4、查询，获取结果</span>
+        Page&lt;Goods&gt; pageInfo = <span class="hljs-keyword">this</span>.goodsRepository.search(queryBuilder.build());
+
+        <span class="hljs-comment">// 封装结果并返回</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> PageResult&lt;&gt;(goodsPage.getTotalElements(), goodsPage.getTotalPages(), goodsPage.getContent());
+    &#125;
+&#125;</code></pre></div>
+
+<p>注意点：我们要设置SourceFilter，来选择要返回的结果，否则返回一堆没用的数据，影响查询效率。</p>
+<h3 id="2-2-3-测试"><a href="#2-2-3-测试" class="headerlink" title="2.2.3.测试"></a>2.2.3.测试</h3><p>刷新页面测试：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532237344249.png" srcset="/img/loading.gif" alt="1532237344249"></p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532237401249.png" srcset="/img/loading.gif" alt="1532237401249"></p>
+<p>数据是查到了，但是因为我们只查询部分字段，所以结果json 数据中有很多null，这很不优雅。</p>
+<p>解决办法很简单，在leyou-search的application.yml中添加一行配置，json处理时忽略空值：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">jackson:</span>
+    <span class="hljs-attr">default-property-inclusion:</span> <span class="hljs-string">non_null</span> <span class="hljs-comment"># 配置json处理时忽略空值</span></code></pre></div>
+
+
+
+<p>结果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532237986819.png" srcset="/img/loading.gif" alt="1532237986819"></p>
+<h2 id="2-3-页面渲染"><a href="#2-3-页面渲染" class="headerlink" title="2.3.页面渲染"></a>2.3.页面渲染</h2><p>页面已经拿到了结果，接下来就要渲染样式了。</p>
+<h3 id="2-3-1-保存搜索结果"><a href="#2-3-1-保存搜索结果" class="headerlink" title="2.3.1.保存搜索结果"></a>2.3.1.保存搜索结果</h3><p>首先，在data中定义属性，保存搜索的结果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532239032197.png" srcset="/img/loading.gif" alt="1532239032197"></p>
+<p>在<code>loadData</code>的异步查询中，将结果赋值给<code>goodsList</code>：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532239117076.png" srcset="/img/loading.gif" alt="1532239117076"></p>
+<h3 id="2-3-2-循环展示商品"><a href="#2-3-2-循环展示商品" class="headerlink" title="2.3.2.循环展示商品"></a>2.3.2.循环展示商品</h3><p>在search.html的中部，有一个<code>div</code>，用来展示所有搜索到的商品：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532238893722.png" srcset="/img/loading.gif" alt="1532238893722"></p>
+<p>可以看到，<code>div</code>中有一个无序列表<code>ul</code>，内部的每一个<code>li</code>就是一个商品spu了。</p>
+<p>我们删除多余的，只保留一个<code>li</code>，然后利用vue的循环来展示搜索到的结果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532239244410.png" srcset="/img/loading.gif" alt="1532239244410"></p>
+<h3 id="2-3-3-多sku展示"><a href="#2-3-3-多sku展示" class="headerlink" title="2.3.3.多sku展示"></a>2.3.3.多sku展示</h3><h4 id="2-3-3-1-分析"><a href="#2-3-3-1-分析" class="headerlink" title="2.3.3.1.分析"></a>2.3.3.1.分析</h4><p>接下来展示具体的商品信息，来看图：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526607712207.png" srcset="/img/loading.gif" alt="1526607712207"></p>
+<p>这里我们可以发现，一个商品位置，是多个sku的信息集合。<strong>当用户鼠标选择某个sku，对应的图片、价格、标题会随之改变！</strong></p>
+<p>我们先来实现sku的选择，才能去展示不同sku的数据。</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526654252710.png" srcset="/img/loading.gif" alt="1526654252710"></p>
+<p>可以看到，在列表中默认第一个是被选中的，那我们就需要做两件事情：</p>
+<ul>
+<li><p>在搜索到数据时，先默认把第一个sku作为被选中的，记录下来</p>
+</li>
+<li><p>记录当前被选中的是哪一个sku，记录在哪里比较合适呢？显然是遍历到的goods对象自己内部，因为每一个goods都会有自己的sku信息。</p>
+</li>
+</ul>
+<h4 id="2-3-3-2-初始化sku"><a href="#2-3-3-2-初始化sku" class="headerlink" title="2.3.3.2.初始化sku"></a>2.3.3.2.初始化sku</h4><p>查询出的结果集skus是一个json类型的字符串，不是js对象</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532240220800.png" srcset="/img/loading.gif" alt="1532240220800"></p>
+<p>我们在查询成功的回调函数中，对goods进行遍历，把skus转化成对象，并添加一个selected属性保存被选中的sku：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532240609206.png" srcset="/img/loading.gif" alt="1532240609206"></p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532240586769.png" srcset="/img/loading.gif" alt="1532240586769"></p>
+<h4 id="2-3-3-3-多sku图片列表"><a href="#2-3-3-3-多sku图片列表" class="headerlink" title="2.3.3.3.多sku图片列表"></a>2.3.3.3.多sku图片列表</h4><p>接下来，我们看看多个sku的图片列表位置：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532240706261.png" srcset="/img/loading.gif" alt="1532240706261"></p>
+<p>看到又是一个无序列表，这里我们也一样删掉多余的，保留一个<code>li</code>，需要注意选中的项有一个样式类：selected</p>
+<p>我们的代码：</p>
+<div class="hljs"><pre><code class="hljs vue">&lt;!--多sku图片列表--&gt;
+&lt;ul class&#x3D;&quot;skus&quot;&gt;
+    &lt;li :class&#x3D;&quot;&#123;selected: sku.id &#x3D;&#x3D; goods.selected.id&#125;&quot; v-for&#x3D;&quot;sku in goods.skus&quot; :key&#x3D;&quot;sku.id&quot;
+        @mouseEnter&#x3D;&quot;goods.selected&#x3D;sku&quot;&gt;
+        &lt;img :src&#x3D;&quot;sku.image&quot;&gt;
+    &lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;</code></pre></div>
+
+<p>注意：</p>
+<ul>
+<li>class样式通过 goods.selected的id是否与当前sku的id一致来判断</li>
+<li>绑定了鼠标事件，鼠标进入后把当前sku赋值到goods.selected</li>
+</ul>
+<h3 id="2-3-4-展示sku其它属性"><a href="#2-3-4-展示sku其它属性" class="headerlink" title="2.3.4.展示sku其它属性"></a>2.3.4.展示sku其它属性</h3><p>现在，我们已经可以通过<code>goods.selected获取</code>用户选中的sku，那么我们就可以在页面展示了：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526656197524.png" srcset="/img/loading.gif" alt="1526656197524"></p>
+<p>刷新页面：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526656243166.png" srcset="/img/loading.gif" alt="1526656243166"></p>
+<p>看起来很完美是吧！</p>
+<p>但其实有一些瑕疵</p>
+<h3 id="2-3-5-几个问题"><a href="#2-3-5-几个问题" class="headerlink" title="2.3.5.几个问题"></a>2.3.5.几个问题</h3><h4 id="2-3-5-1-价格显示的是分"><a href="#2-3-5-1-价格显示的是分" class="headerlink" title="2.3.5.1.价格显示的是分"></a>2.3.5.1.价格显示的是分</h4><p>首先价格显示就不正确，我们数据库中存放的是以分为单位，所以这里要格式化。</p>
+<p>好在我们之前common.js中定义了工具类，可以帮我们转换。</p>
+<p>改造：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532242831006.png" srcset="/img/loading.gif" alt="1532242831006"></p>
+<p>结果报错：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532242950035.png" srcset="/img/loading.gif" alt="1532242950035"></p>
+<p>为啥？</p>
+<p>因为在Vue范围内使用任何变量，都会默认去Vue实例中寻找，我们使用ly，但是Vue实例中没有这个变量。所以解决办法就是把ly记录到Vue实例：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532242983324.png" srcset="/img/loading.gif" alt="1532242983324"></p>
+<p>然后刷新页面：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532243052100.png" srcset="/img/loading.gif" alt="1532243052100"></p>
+<h4 id="2-3-5-2-标题过长"><a href="#2-3-5-2-标题过长" class="headerlink" title="2.3.5.2.标题过长"></a>2.3.5.2.标题过长</h4><p>标题内容太长了，已经无法完全显示，怎么办？</p>
+<p>截取一下：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526656959487.png" srcset="/img/loading.gif" alt="1526656959487"></p>
+<p>最好在加个悬停展示所有内容的效果</p>
+<h4 id="2-3-5-3-sku点击不切换"><a href="#2-3-5-3-sku点击不切换" class="headerlink" title="2.3.5.3.sku点击不切换"></a>2.3.5.3.sku点击不切换</h4><p>还有一个错误比较隐蔽，不容易被发现。我们点击sku 的图片列表，发现没有任何变化。</p>
+<p>这不科学啊，为什么？</p>
+<p>通过控制台观察，发现数据其实是变化了，但是Vue却没有重新渲染视图。</p>
+<p>这是因为Vue的自动渲染是基于对象的属性变化的。比如页面使用GoodsList进行渲染，如果GoodsList变化，或者其内部的任何子对象变化，都会Vue感知，从而从新渲染页面。</p>
+<p>然而，这一切有一个前提，那就是当你第一次渲染时，对象中有哪些属性，Vue就只监视这些属性，后来添加的属性发生改变，是不会被监视到的。</p>
+<p>而我们的goods对象中，本身是没有selected属性的，是我们后来才添加进去的：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532243182104.png" srcset="/img/loading.gif" alt="1532243182104"></p>
+<p>这段代码稍微改造一下，即可：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532243275078.png" srcset="/img/loading.gif" alt="1532243275078"></p>
+<p>也就是说，我们先把selected属性初始化完毕，然后才把整个对象赋值给goodsList，这样，goodsList已初始化时就有selected属性，以后就会被正常监控了。</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/skus.gif" srcset="/img/loading.gif" alt></p>
+<h1 id="3-页面分页效果"><a href="#3-页面分页效果" class="headerlink" title="3.页面分页效果"></a>3.页面分页效果</h1><p>刚才的查询中，我们默认了查询的页码和每页大小，因此所有的分页功能都无法使用，接下来我们一起看看<code>分页功能条</code>该如何制作。</p>
+<p>这里要分两步，</p>
+<ul>
+<li>第一步：如何生成分页条</li>
+<li>第二步：点击分页按钮，我们做什么</li>
+</ul>
+<h2 id="3-1-如何生成分页条"><a href="#3-1-如何生成分页条" class="headerlink" title="3.1.如何生成分页条"></a>3.1.如何生成分页条</h2><p>先看下页面关于分页部分的代码：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526692249371.png" srcset="/img/loading.gif" alt="1526692249371"></p>
+<p>可以看到所有的分页栏内容都是写死的。</p>
+<h3 id="3-1-1-需要的数据"><a href="#3-1-1-需要的数据" class="headerlink" title="3.1.1.需要的数据"></a>3.1.1.需要的数据</h3><p>分页数据应该是根据<strong>总页数</strong>、<strong>当前页</strong>、<strong>总条数</strong>等信息来计算得出。</p>
+<ul>
+<li>当前页：肯定是由页面来决定的，点击按钮会切换到对应的页</li>
+<li>总页数：需要后台传递给我们</li>
+<li>总条数：需要后台传递给我们</li>
+</ul>
+<p>我们首先在data中记录下这几个值：page-当前页，total-总条数，totalPage-总页数</p>
+<div class="hljs"><pre><code class="hljs js">data: &#123;
+    ly,
+    search:&#123;
+        key: <span class="hljs-string">""</span>,
+        page: <span class="hljs-number">1</span>
+    &#125;,
+    goodsList:[], <span class="hljs-comment">// 接收搜索得到的结果</span>
+    total: <span class="hljs-number">0</span>, <span class="hljs-comment">// 总条数</span>
+    totalPage: <span class="hljs-number">0</span> <span class="hljs-comment">// 总页数</span>
+&#125;</code></pre></div>
+
+<p>因为page是搜索条件之一，所以记录在search对象中。</p>
+<p>要注意：我们在created钩子函数中，会读取url路径的参数，然后赋值给search。如果是第一次请求页面，page是不存在的。因此为了避免page被覆盖，我们应该这么做：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532243978471.png" srcset="/img/loading.gif" alt="1532243978471"></p>
+<p>不过，这个时候我们自己的search对象中的值就可有可无了</p>
+<h3 id="3-1-2-后台提供数据"><a href="#3-1-2-后台提供数据" class="headerlink" title="3.1.2.后台提供数据"></a>3.1.2.后台提供数据</h3><p>后台返回的结果中，要包含total和totalPage，我们改造下刚才的接口：</p>
+<p>在我们返回的PageResult对象中，其实是有totalPage字段的：</p>
+<p>  <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526695144476.png" srcset="/img/loading.gif" alt="1526695144476"></p>
+<p>我们在返回时，把这个值填上：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526695592422.png" srcset="/img/loading.gif" alt="1526695592422"></p>
+<p>页面测试一下：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532244453375.png" srcset="/img/loading.gif" alt="1532244453375"></p>
+<p>OK</p>
+<h3 id="3-1-3-页面计算分页条"><a href="#3-1-3-页面计算分页条" class="headerlink" title="3.1.3.页面计算分页条"></a>3.1.3.页面计算分页条</h3><p>首先，把后台提供的数据保存在data中：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/%E4%B9%90%E4%BC%98/7%E6%9C%881%E5%8F%B7%E6%9B%B4%E6%96%B0/day12-%E5%9F%BA%E6%9C%AC%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526695967230.png" srcset="/img/loading.gif" alt="1526695967230"></p>
+<p>然后看下我们要实现的效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/%E4%B9%90%E4%BC%98/7%E6%9C%881%E5%8F%B7%E6%9B%B4%E6%96%B0/day12-%E5%9F%BA%E6%9C%AC%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526695821870.png" srcset="/img/loading.gif" alt="1526695821870"></p>
+<p>这里最复杂的是中间的1~5的分页按钮，它需要动态变化。</p>
+<p>思路分析：</p>
+<ul>
+<li>最多有5个按钮，因此我们可以用<code>v-for</code>循环从1到5即可</li>
+<li>但是分页条不一定是从1开始：<ul>
+<li>如果当前页值小于等于3的时候，分页条位置从1开始到5结束</li>
+<li>如果总页数小于等于5的时候，分页条位置从1开始到5结束</li>
+<li>如果当前页码大于3，应该从page-3开始</li>
+<li>但是如果当前页码大于totalPage-3，应该从totalPage-5开始</li>
+</ul>
+</li>
+</ul>
+<p>所以，我们的页面这样来做：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532246481241.png" srcset="/img/loading.gif" alt="1532246481241"></p>
+<p>a标签中的分页数字通过<code>index</code>函数来计算，需要把<code>i</code>传递过去：</p>
+<div class="hljs"><pre><code class="hljs js">index(i)&#123;
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.search.page &lt;= <span class="hljs-number">3</span> || <span class="hljs-keyword">this</span>.totalPage &lt;= <span class="hljs-number">5</span>)&#123;
+        <span class="hljs-comment">// 如果当前页小于等于3或者总页数小于等于5</span>
+        <span class="hljs-keyword">return</span> i;
+    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.search.page &gt; <span class="hljs-number">3</span>) &#123;
+        <span class="hljs-comment">// 如果当前页大于3</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.search.page - <span class="hljs-number">3</span> + i;
+    &#125; <span class="hljs-keyword">else</span> &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.totalPage - <span class="hljs-number">5</span> + i;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>需要注意的是，如果总页数不足5页，我们就不应该遍历1<del>5，而是1</del>总页数，稍作改进：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526698842013.png" srcset="/img/loading.gif" alt="1526698842013"></p>
+<p>分页条的其它部分就比较简单了：</p>
+<div class="hljs"><pre><code class="hljs vue">&lt;div class&#x3D;&quot;sui-pagination pagination-large&quot;&gt;
+    &lt;ul style&#x3D;&quot;width: 550px&quot;&gt;
+        &lt;li :class&#x3D;&quot;&#123;prev:true,disabled:search.page &#x3D;&#x3D;&#x3D; 1&#125;&quot;&gt;
+            &lt;a href&#x3D;&quot;#&quot;&gt;«上一页&lt;&#x2F;a&gt;
+        &lt;&#x2F;li&gt;
+        &lt;li :class&#x3D;&quot;&#123;active: index(i) &#x3D;&#x3D;&#x3D; search.page&#125;&quot; v-for&#x3D;&quot;i in Math.min(5,totalPage)&quot; :key&#x3D;&quot;i&quot;&gt;
+            &lt;a href&#x3D;&quot;#&quot;&gt;&#123;&#123;index(i)&#125;&#125;&lt;&#x2F;a&gt;
+        &lt;&#x2F;li&gt;
+        &lt;li class&#x3D;&quot;dotted&quot; v-show&#x3D;&quot;totalPage &gt; 5&quot;&gt;&lt;span&gt;...&lt;&#x2F;span&gt;&lt;&#x2F;li&gt;
+        &lt;li :class&#x3D;&quot;&#123;next:true,disabled:search.page &#x3D;&#x3D;&#x3D; totalPage&#125;&quot;&gt;
+            &lt;a href&#x3D;&quot;#&quot;&gt;下一页»&lt;&#x2F;a&gt;
+        &lt;&#x2F;li&gt;
+    &lt;&#x2F;ul&gt;
+    &lt;div&gt;
+        &lt;span&gt;共&#123;&#123;totalPage&#125;&#125;页&amp;nbsp;&lt;&#x2F;span&gt;
+        &lt;span&gt;
+            到第
+            &lt;input type&#x3D;&quot;text&quot; class&#x3D;&quot;page-num&quot; :value&#x3D;&quot;search.page&quot;&gt;
+            页 &lt;button class&#x3D;&quot;page-confirm&quot; onclick&#x3D;&quot;alert(1)&quot;&gt;确定&lt;&#x2F;button&gt;
+        &lt;&#x2F;span&gt;
+    &lt;&#x2F;div&gt;
+&lt;&#x2F;div&gt;</code></pre></div>
+
+
+
+
+
+<h2 id="3-2-点击分页做什么"><a href="#3-2-点击分页做什么" class="headerlink" title="3.2.点击分页做什么"></a>3.2.点击分页做什么</h2><p>点击分页按钮后，自然是要修改<code>page</code>的值</p>
+<p>所以，我们在<code>上一页</code>、<code>下一页</code>按钮添加点击事件，对page进行修改，在数字按钮上绑定点击事件，点击直接修改page：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532248549662.png" srcset="/img/loading.gif" alt="1532248549662"></p>
+<div class="hljs"><pre><code class="hljs js">prevPage()&#123;
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.search.page &gt; <span class="hljs-number">1</span>)&#123;
+        <span class="hljs-keyword">this</span>.search.page--
+    &#125;
+&#125;,
+nextPage()&#123;
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.search.page &lt; <span class="hljs-keyword">this</span>.totalPage)&#123;
+        <span class="hljs-keyword">this</span>.search.page++
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>当<code>page</code>发生变化，我们应该去后台重新查询数据。</p>
+<p>不过，如果我们直接发起ajax请求，那么浏览器的地址栏中是不会有变化的，没有记录下分页信息。如果用户刷新页面，那么就会回到第一页。</p>
+<p>这样不太友好，我们应该把<strong>搜索条件记录在地址栏的查询参数中</strong>。</p>
+<p>因此，我们监听search的变化，然后把search的过滤字段拼接在url路径后：</p>
+<div class="hljs"><pre><code class="hljs js">watch:&#123;
+    search:&#123;
+        deep:<span class="hljs-literal">true</span>,
+            handler(val)&#123;
+            <span class="hljs-comment">// 把search对象变成请求参数，拼接在url路径</span>
+            <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">"http://www.leyou.com/search.html?"</span> + ly.stringify(val);
+        &#125;
+    &#125;
+&#125;,</code></pre></div>
+
+<p>刷新页面测试，然后就出现重大bug：页面无限刷新！为什么？</p>
+<p>因为Vue实例初始化的钩子函数中，我们读取请求参数，赋值给search的时候，也触发了watch监视！也就是说，每次页面创建完成，都会触发watch，然后就会去修改window.location路径，然后页面被刷新，再次触发created钩子，又触发watch，周而复始，无限循环。</p>
+<p>所以，我们需要在watch中进行监控，如果发现是第一次初始化，则不继续向下执行。</p>
+<p>那么问题是，如何判断是不是第一次？</p>
+<p>第一次初始化时，search中的key值肯定是空的，所以，我们这么做：</p>
+<div class="hljs"><pre><code class="hljs js">watch:&#123;
+    search:&#123;
+        deep:<span class="hljs-literal">true</span>,
+            handler(val,old)&#123;
+            <span class="hljs-keyword">if</span>(!old || !old.key)&#123;
+                <span class="hljs-comment">// 如果旧的search值为空，或者search中的key为空，证明是第一次</span>
+                <span class="hljs-keyword">return</span>;
+            &#125;
+            <span class="hljs-comment">// 把search对象变成请求参数，拼接在url路径</span>
+            <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">"http://www.leyou.com/search.html?"</span> + ly.stringify(val);
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>再次刷新，OK了！</p>
+<h2 id="3-3-页面顶部分页条"><a href="#3-3-页面顶部分页条" class="headerlink" title="3.3.页面顶部分页条"></a>3.3.页面顶部分页条</h2><p>在页面商品列表的顶部，也有一个分页条：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526716212704.png" srcset="/img/loading.gif" alt="1526716212704"></p>
+<p>我们把这一部分，也加上点击事件：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1532248435097.png" srcset="/img/loading.gif" alt="1532248435097"></p>
+<h1 id="4-排序-作业"><a href="#4-排序-作业" class="headerlink" title="4.排序(作业)"></a>4.排序(作业)</h1><h2 id="4-1-页面搜索排序条件"><a href="#4-1-页面搜索排序条件" class="headerlink" title="4.1.页面搜索排序条件"></a>4.1.页面搜索排序条件</h2><p>在搜索商品列表的顶部，有这么一部分内容：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526716565293.png" srcset="/img/loading.gif" alt="1526716565293"></p>
+<p>这是用来做排序的，默认按照综合排序。点击新品，应该按照商品创建时间排序，点击价格应该按照价格排序。因为我们没有统计销量和评价，这里咱们以<code>新品</code>和<code>价格</code>为例，进行讲解，做法是想通的。</p>
+<p>排序需要知道两个内容：</p>
+<ul>
+<li>排序的字段</li>
+<li>排序的方式</li>
+</ul>
+<p>因此，我们首先在<code>search</code>中记录这两个信息，因为created钩子函数会对search进行覆盖，因此我们在钩子函数中对这两个信息进行初始化即可：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526717586493.png" srcset="/img/loading.gif" alt="1526717586493"></p>
+<p>然后，在页面上给按钮绑定点击事件，修改<code>sortBy</code>和<code>descending</code>的值：</p>
+<div class="hljs"><pre><code class="hljs vue">&lt;!--排序字段--&gt;
+&lt;ul class&#x3D;&quot;sui-nav&quot;&gt;
+    &lt;li :class&#x3D;&quot;&#123;active:!search.sortBy&#125;&quot; @click&#x3D;&quot;search.sortBy&#x3D;&#39;&#39;&quot;&gt;
+        &lt;a href&#x3D;&quot;#&quot;&gt;综合&lt;&#x2F;a&gt;
+    &lt;&#x2F;li&gt;
+    &lt;li&gt;
+        &lt;a href&#x3D;&quot;#&quot;&gt;销量&lt;&#x2F;a&gt;
+    &lt;&#x2F;li&gt;
+    &lt;li @click&#x3D;&quot;search.sortBy&#x3D;&#39;createTime&#39;&quot; :class&#x3D;&quot;&#123;active: search.sortBy&#x3D;&#x3D;&#x3D;&#39;createTime&#39;&#125;&quot;&gt;
+        &lt;a href&#x3D;&quot;#&quot;&gt;新品&lt;&#x2F;a&gt;
+    &lt;&#x2F;li&gt;
+    &lt;li&gt;
+        &lt;a href&#x3D;&quot;#&quot;&gt;评价&lt;&#x2F;a&gt;
+    &lt;&#x2F;li&gt;
+    &lt;li @click&#x3D;&quot;search.sortBy&#x3D;&#39;price&#39;; search.descending &#x3D; !search.descending&quot;
+        :class&#x3D;&quot;&#123;active: search.sortBy&#x3D;&#x3D;&#x3D;&#39;price&#39;&#125;&quot;&gt;
+        &lt;a href&#x3D;&quot;#&quot;&gt;
+            价格
+            &lt;v-icon v-show&#x3D;&quot;search.descending&quot;&gt;arrow_drop_down&lt;&#x2F;v-icon&gt;
+            &lt;v-icon v-show&#x3D;&quot;!search.descending&quot;&gt;arrow_drop_up&lt;&#x2F;v-icon&gt;
+        &lt;&#x2F;a&gt;
+    &lt;&#x2F;li&gt;
+&lt;&#x2F;ul&gt;</code></pre></div>
+
+<p>可以看到，页面请求参数中已经有了排序字段了：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526718252315.png" srcset="/img/loading.gif" alt="1526718252315"></p>
+<h2 id="4-2-后台添加排序逻辑"><a href="#4-2-后台添加排序逻辑" class="headerlink" title="4.2.后台添加排序逻辑"></a>4.2.后台添加排序逻辑</h2><p>接下来，后台需要接收请求参数中的排序信息，然后在搜索中加入排序的逻辑。</p>
+<p>现在，我们的请求参数对象<code>SearchRequest</code>中，只有page、key两个字段。需要进行扩展：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526718448918.png" srcset="/img/loading.gif" alt="1526718448918"></p>
+<p>然后在搜索业务逻辑中，添加排序条件：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526718637618.png" srcset="/img/loading.gif" alt="1526718637618"></p>
+<p>注意，因为我们存储在索引库中的的价格是一个数组，因此在按照价格排序时，会进行智能处理：</p>
+<ul>
+<li>如果是价格降序，则会把数组中的最大值拿来排序</li>
+<li>如果是价格升序，则会把数组中的最小值拿来排序</li>
+</ul>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/1526719415219.png" srcset="/img/loading.gif" alt="1526719415219"></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8E/">乐优商城</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">乐优商城day13：搜索过滤</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/09/28/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday11/">
+                        <span class="hidden-mobile">乐优商城day11：elasticsearch</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "乐优商城day12：elasticsearch2&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

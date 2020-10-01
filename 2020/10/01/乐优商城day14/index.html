@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>乐优商城day14：商品详情及静态化 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-10-01 09:56">
+      2020-10-01
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.1k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      70
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>了解Thymeleaf的基本使用</li>
+<li>实现商品详情页的渲染</li>
+<li>知道页面静态化的作用</li>
+<li>实现页面静态化功能</li>
+</ul>
+<h1 id="1-商品详情"><a href="#1-商品详情" class="headerlink" title="1.商品详情"></a>1.商品详情</h1><p>当用户搜索到商品，肯定会点击查看，就会进入商品详情页，接下来我们完成商品详情页的展示，</p>
+<h2 id="1-1-Thymeleaf"><a href="#1-1-Thymeleaf" class="headerlink" title="1.1.Thymeleaf"></a>1.1.Thymeleaf</h2><p>在商品详情页中，我们会使用到Thymeleaf来渲染页面，所以需要先了解Thymeleaf的语法。</p>
+<p>详见课前资料中《Thymeleaf语法入门.md》</p>
+<h2 id="1-2-商品详情页服务"><a href="#1-2-商品详情页服务" class="headerlink" title="1.2.商品详情页服务"></a>1.2.商品详情页服务</h2><p>商品详情浏览量比较大，并发高，我们会独立开启一个微服务，用来展示商品详情。</p>
+<h3 id="1-2-1-创建module"><a href="#1-2-1-创建module" class="headerlink" title="1.2.1.创建module"></a>1.2.1.创建module</h3><p>商品的详情页服务，命名为：<code>leyou-goods-web</code></p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532349011199.png" srcset="/img/loading.gif" alt="1532349011199"></p>
+<p>目录：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532349060982.png" srcset="/img/loading.gif" alt="1532349060982"></p>
+<h3 id="1-2-2-pom依赖"><a href="#1-2-2-pom依赖" class="headerlink" title="1.2.2.pom依赖"></a>1.2.2.pom依赖</h3><div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.parent<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.goods<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-goods-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-thymeleaf<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.item<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-item-interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+
+
+<h3 id="1-2-3-编写启动类"><a href="#1-2-3-编写启动类" class="headerlink" title="1.2.3.编写启动类"></a>1.2.3.编写启动类</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableFeignClients</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LeyouGoodsWebApplication</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SpringApplication.run(LeyouGoodsWebApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="1-2-4-application-yml文件"><a href="#1-2-4-application-yml文件" class="headerlink" title="1.2.4.application.yml文件"></a>1.2.4.application.yml文件</h3><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8084</span>
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">goods-page</span>
+  <span class="hljs-attr">thymeleaf:</span>
+    <span class="hljs-attr">cache:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">eureka:</span>
+  <span class="hljs-attr">client:</span>
+    <span class="hljs-attr">service-url:</span>
+      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://127.0.0.1:10086/eureka</span>
+  <span class="hljs-attr">instance:</span>
+    <span class="hljs-attr">lease-renewal-interval-in-seconds:</span> <span class="hljs-number">5</span> <span class="hljs-comment"># 每隔5秒发送一次心跳</span>
+    <span class="hljs-attr">lease-expiration-duration-in-seconds:</span> <span class="hljs-number">10</span> <span class="hljs-comment"># 10秒不发送就过期</span>
+    <span class="hljs-attr">prefer-ip-address:</span> <span class="hljs-literal">true</span>
+    <span class="hljs-attr">ip-address:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+    <span class="hljs-attr">instance-id:</span> <span class="hljs-string">$&#123;spring.application.name&#125;.$&#123;server.port&#125;</span></code></pre></div>
+
+
+
+<h3 id="1-2-5-页面模板"><a href="#1-2-5-页面模板" class="headerlink" title="1.2.5.页面模板"></a>1.2.5.页面模板</h3><p>我们从leyou-portal中复制item.html模板到当前项目resource目录下的templates中：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532353728660.png" srcset="/img/loading.gif" alt="1532353728660"></p>
+<h2 id="1-3-页面跳转"><a href="#1-3-页面跳转" class="headerlink" title="1.3.页面跳转"></a>1.3.页面跳转</h2><h3 id="1-3-1-修改页面跳转路径"><a href="#1-3-1-修改页面跳转路径" class="headerlink" title="1.3.1.修改页面跳转路径"></a>1.3.1.修改页面跳转路径</h3><p>首先我们需要修改搜索结果页的商品地址，目前所有商品的地址都是：<a href="http://www.leyou.com/item.html" target="_blank" rel="noopener">http://www.leyou.com/item.html</a></p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1526955707685.png" srcset="/img/loading.gif" alt="1526955707685"></p>
+<p>我们应该跳转到对应的商品的详情页才对。</p>
+<p>那么问题来了：商品详情页是一个SKU？还是多个SKU的集合？</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1526955852490.png" srcset="/img/loading.gif" alt="1526955852490"></p>
+<p>通过详情页的预览，我们知道它是多个SKU的集合，即SPU。</p>
+<p>所以，页面跳转时，我们应该携带SPU的id信息。</p>
+<p>例如：<a href="http://www.leyou.com/item/2314123.html" target="_blank" rel="noopener">http://www.leyou.com/item/2314123.html</a></p>
+<p>这里就采用了路径占位符的方式来传递spu的id，我们打开<code>search.html</code>，修改其中的商品路径：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532354937173.png" srcset="/img/loading.gif" alt="1526972476737"></p>
+<p>刷新页面后再看：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532356634734.png" srcset="/img/loading.gif" alt="1532356634734"></p>
+<h3 id="1-3-2-nginx反向代理"><a href="#1-3-2-nginx反向代理" class="headerlink" title="1.3.2.nginx反向代理"></a>1.3.2.nginx反向代理</h3><p>接下来，我们要把这个地址指向我们刚刚创建的服务：<code>leyou-goods-web</code>，其端口为8084</p>
+<p>我们在nginx.conf中添加一段逻辑：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532356995455.png" srcset="/img/loading.gif" alt="1532356995455"></p>
+<p>把以/item开头的请求，代理到我们的8084端口。</p>
+<h3 id="1-3-3-编写跳转controller"><a href="#1-3-3-编写跳转controller" class="headerlink" title="1.3.3.编写跳转controller"></a>1.3.3.编写跳转controller</h3><p>在<code>leyou-goods-web</code>中编写controller，接收请求，并跳转到商品详情页：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
+<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"item"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GoodsController</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 跳转到商品详情页</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> model</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"&#123;id&#125;.html"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toItemPage</span><span class="hljs-params">(Model model, @PathVariable(<span class="hljs-string">"id"</span>)</span>Long id)</span>&#123;
+
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"item"</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="1-3-4-测试"><a href="#1-3-4-测试" class="headerlink" title="1.3.4.测试"></a>1.3.4.测试</h3><p>启动<code>leyou-goods-page</code>，点击搜索页面商品，看是能够正常跳转：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532490861851.png" srcset="/img/loading.gif" alt="1532490861851"></p>
+<p>现在看到的依然是静态的数据。我们接下来开始页面的渲染</p>
+<h2 id="1-4-封装模型数据"><a href="#1-4-封装模型数据" class="headerlink" title="1.4.封装模型数据"></a>1.4.封装模型数据</h2><p>首先我们一起来分析一下，在这个页面中需要哪些数据</p>
+<p>我们已知的条件是传递来的spu的id，我们需要根据spu的id查询到下面的数据：</p>
+<ul>
+<li>spu信息</li>
+<li>spu的详情</li>
+<li>spu下的所有sku</li>
+<li>品牌</li>
+<li>商品三级分类</li>
+<li>商品规格参数、规格参数组</li>
+</ul>
+<h3 id="1-4-1-商品微服务提供接口"><a href="#1-4-1-商品微服务提供接口" class="headerlink" title="1.4.1.商品微服务提供接口"></a>1.4.1.商品微服务提供接口</h3><h4 id="1-4-1-1-查询spu"><a href="#1-4-1-1-查询spu" class="headerlink" title="1.4.1.1.查询spu"></a>1.4.1.1.查询spu</h4><p>以上所需数据中，查询spu的接口目前还没有，我们需要在商品微服务中提供这个接口：</p>
+<blockquote>
+<p>GoodsApi</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 根据spu的id查询spu</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"spu/&#123;id&#125;"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> Spu <span class="hljs-title">querySpuById</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span> Long id)</span>;</code></pre></div>
+
+<blockquote>
+<p>GoodsController</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"spu/&#123;id&#125;"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Spu&gt; <span class="hljs-title">querySpuById</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span> Long id)</span>&#123;
+    Spu spu = <span class="hljs-keyword">this</span>.goodsService.querySpuById(id);
+    <span class="hljs-keyword">if</span>(spu == <span class="hljs-keyword">null</span>)&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(spu);
+&#125;</code></pre></div>
+
+<blockquote>
+<p>GoodsService</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Spu <span class="hljs-title">querySpuById</span><span class="hljs-params">(Long id)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.spuMapper.selectByPrimaryKey(id);
+&#125;</code></pre></div>
+
+
+
+<h4 id="1-4-1-2-查询规格参数组"><a href="#1-4-1-2-查询规格参数组" class="headerlink" title="1.4.1.2.查询规格参数组"></a>1.4.1.2.查询规格参数组</h4><p>我们在页面展示规格时，需要按组展示：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532496187812.png" srcset="/img/loading.gif" alt="1532496187812"></p>
+<p>组内有多个参数，为了方便展示。我们提供一个接口，查询规格组，同时在规格组中持有组内的所有参数。</p>
+<blockquote>
+<p>拓展<code>SpecGroup</code>类：</p>
+</blockquote>
+<p>我们在<code>SpecGroup</code>中添加一个<code>SpecParam</code>的集合，保存改组下所有规格参数</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Table</span>(name = <span class="hljs-string">"tb_spec_group"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpecGroup</span> </span>&#123;
+
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)
+    <span class="hljs-keyword">private</span> Long id;
+
+    <span class="hljs-keyword">private</span> Long cid;
+
+    <span class="hljs-keyword">private</span> String name;
+
+    <span class="hljs-meta">@Transient</span>
+    <span class="hljs-keyword">private</span> List&lt;SpecParam&gt; params; <span class="hljs-comment">// 该组下的所有规格参数集合</span>
+&#125;</code></pre></div>
+
+<p>然后提供查询接口：</p>
+<blockquote>
+<p>SpecificationAPI：</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"spec"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">SpecificationApi</span> </span>&#123;
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"groups/&#123;cid&#125;"</span>)
+    <span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;SpecGroup&gt;&gt; querySpecGroups(<span class="hljs-meta">@PathVariable</span>(<span class="hljs-string">"cid"</span>) Long cid);
+
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/params"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;SpecParam&gt; <span class="hljs-title">querySpecParam</span><span class="hljs-params">(</span></span>
+<span class="hljs-function"><span class="hljs-params">            @RequestParam(value = <span class="hljs-string">"gid"</span>, required = <span class="hljs-keyword">false</span>)</span> Long gid,</span>
+<span class="hljs-function">            @<span class="hljs-title">RequestParam</span><span class="hljs-params">(value = <span class="hljs-string">"cid"</span>, required = <span class="hljs-keyword">false</span>)</span> Long cid,</span>
+<span class="hljs-function">            @<span class="hljs-title">RequestParam</span><span class="hljs-params">(value = <span class="hljs-string">"searching"</span>, required = <span class="hljs-keyword">false</span>)</span> Boolean searching,</span>
+<span class="hljs-function">            @<span class="hljs-title">RequestParam</span><span class="hljs-params">(value = <span class="hljs-string">"generic"</span>, required = <span class="hljs-keyword">false</span>)</span> Boolean generic)</span>;
+
+    <span class="hljs-comment">// 查询规格参数组，及组内参数</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"&#123;cid&#125;"</span>)
+    <span class="hljs-function">List&lt;SpecGroup&gt; <span class="hljs-title">querySpecsByCid</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"cid"</span>)</span> Long cid)</span>;
+
+&#125;</code></pre></div>
+
+<blockquote>
+<p>SpecificationController</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"&#123;cid&#125;"</span>)
+<span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;SpecGroup&gt;&gt; querySpecsByCid(<span class="hljs-meta">@PathVariable</span>(<span class="hljs-string">"cid"</span>) Long cid)&#123;
+    List&lt;SpecGroup&gt; list = <span class="hljs-keyword">this</span>.specificationService.querySpecsByCid(cid);
+    <span class="hljs-keyword">if</span>(list == <span class="hljs-keyword">null</span> || list.size() == <span class="hljs-number">0</span>)&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(list);
+&#125;</code></pre></div>
+
+<blockquote>
+<p>SpecificationService</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;SpecGroup&gt; <span class="hljs-title">querySpecsByCid</span><span class="hljs-params">(Long cid)</span> </span>&#123;
+    <span class="hljs-comment">// 查询规格组</span>
+    List&lt;SpecGroup&gt; groups = <span class="hljs-keyword">this</span>.querySpecGroups(cid);
+    SpecParam param = <span class="hljs-keyword">new</span> SpecParam();
+    groups.forEach(g -&gt; &#123;
+        <span class="hljs-comment">// 查询组内参数</span>
+        g.setParams(<span class="hljs-keyword">this</span>.querySpecParams(g.getId(), <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>));
+    &#125;);
+    <span class="hljs-keyword">return</span> groups;
+&#125;</code></pre></div>
+
+<p>在service中，我们调用之前编写过的方法，查询规格组，和规格参数，然后封装返回。</p>
+<h3 id="1-4-2-创建FeignClient"><a href="#1-4-2-创建FeignClient" class="headerlink" title="1.4.2.创建FeignClient"></a>1.4.2.创建FeignClient</h3><p>我们在<code>leyou-goods-web</code>服务中，创建FeignClient：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1529916126099.png" srcset="/img/loading.gif" alt="1529916126099"></p>
+<p>BrandClient：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(<span class="hljs-string">"item-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BrandClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BrandApi</span> </span>&#123;
+&#125;</code></pre></div>
+
+<p>CategoryClient</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(<span class="hljs-string">"item-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">CategoryClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">CategoryApi</span> </span>&#123;
+&#125;</code></pre></div>
+
+<p>GoodsClient:</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(<span class="hljs-string">"item-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GoodsClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">GoodsApi</span> </span>&#123;
+&#125;</code></pre></div>
+
+<p>SpecificationClient：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = <span class="hljs-string">"item-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">SpecificationClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SpecificationApi</span></span>&#123;
+&#125;</code></pre></div>
+
+
+
+<h3 id="1-4-3-封装数据模型"><a href="#1-4-3-封装数据模型" class="headerlink" title="1.4.3.封装数据模型"></a>1.4.3.封装数据模型</h3><p>我们创建一个GoodsService，在里面来封装数据模型。</p>
+<p>这里要查询的数据：</p>
+<ul>
+<li><p>SPU</p>
+</li>
+<li><p>SpuDetail</p>
+</li>
+<li><p>SKU集合</p>
+</li>
+<li><p>商品分类</p>
+<ul>
+<li>这里值需要分类的id和name就够了，因此我们查询到以后自己需要封装数据</li>
+</ul>
+</li>
+<li><p>品牌</p>
+</li>
+<li><p>规格组</p>
+<ul>
+<li>查询规格组的时候，把规格组下所有的参数也一并查出，上面提供的接口中已经实现该功能，我们直接调</li>
+</ul>
+</li>
+<li><p>sku的特有规格参数</p>
+<p>有了规格组，为什么这里还要查询？</p>
+<p>因为在SpuDetail中的SpecialSpec中，是以id作为规格参数id作为key，如图：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532499905549.png" srcset="/img/loading.gif" alt="1532499905549"></p>
+<p>但是，在页面渲染时，需要知道参数的名称，如图：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1529922667759.png" srcset="/img/loading.gif" alt="1529922667759"></p>
+<p>我们就需要把id和name一一对应起来，因此需要额外查询sku的特有规格参数，然后变成一个id:name的键值对格式。也就是一个Map，方便将来根据id查找！</p>
+</li>
+</ul>
+<blockquote>
+<p>Service代码</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GoodsService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsClient goodsClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> BrandClient brandClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> CategoryClient categoryClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> SpecificationClient specificationClient;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(GoodsService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Map&lt;String, Object&gt; <span class="hljs-title">loadModel</span><span class="hljs-params">(Long spuId)</span></span>&#123;
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 查询spu</span>
+            Spu spu = <span class="hljs-keyword">this</span>.goodsClient.querySpuById(spuId);
+
+            <span class="hljs-comment">// 查询spu详情</span>
+            SpuDetail spuDetail = <span class="hljs-keyword">this</span>.goodsClient.querySpuDetailById(spuId);
+
+            <span class="hljs-comment">// 查询sku</span>
+            List&lt;Sku&gt; skus = <span class="hljs-keyword">this</span>.goodsClient.querySkuBySpuId(spuId);
+
+            <span class="hljs-comment">// 查询品牌</span>
+            List&lt;Brand&gt; brands = <span class="hljs-keyword">this</span>.brandClient.queryBrandByIds(Arrays.asList(spu.getBrandId()));
+
+            <span class="hljs-comment">// 查询分类</span>
+            List&lt;Category&gt; categories = getCategories(spu);
+
+            <span class="hljs-comment">// 查询组内参数</span>
+            List&lt;SpecGroup&gt; specGroups = <span class="hljs-keyword">this</span>.specificationClient.querySpecsByCid(spu.getCid3());
+
+            <span class="hljs-comment">// 查询所有特有规格参数</span>
+            List&lt;SpecParam&gt; specParams = <span class="hljs-keyword">this</span>.specificationClient.querySpecParam(<span class="hljs-keyword">null</span>, spu.getCid3(), <span class="hljs-keyword">null</span>, <span class="hljs-keyword">false</span>);
+            <span class="hljs-comment">// 处理规格参数</span>
+            Map&lt;Long, String&gt; paramMap = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+            specParams.forEach(param-&gt;&#123;
+                paramMap.put(param.getId(), param.getName());
+            &#125;);
+
+            Map&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+            map.put(<span class="hljs-string">"spu"</span>, spu);
+            map.put(<span class="hljs-string">"spuDetail"</span>, spuDetail);
+            map.put(<span class="hljs-string">"skus"</span>, skus);
+            map.put(<span class="hljs-string">"brand"</span>, brands.get(<span class="hljs-number">0</span>));
+            map.put(<span class="hljs-string">"categories"</span>, categories);
+            map.put(<span class="hljs-string">"groups"</span>, specGroups);
+            map.put(<span class="hljs-string">"params"</span>, paramMap);
+            <span class="hljs-keyword">return</span> map;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"加载商品数据出错,spuId:&#123;&#125;"</span>, spuId, e);
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> List&lt;Category&gt; <span class="hljs-title">getCategories</span><span class="hljs-params">(Spu spu)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            List&lt;String&gt; names = <span class="hljs-keyword">this</span>.categoryClient.queryNameByIds(
+                    Arrays.asList(spu.getCid1(), spu.getCid2(), spu.getCid3()));
+            Category c1 = <span class="hljs-keyword">new</span> Category();
+            c1.setName(names.get(<span class="hljs-number">0</span>));
+            c1.setId(spu.getCid1());
+
+            Category c2 = <span class="hljs-keyword">new</span> Category();
+            c2.setName(names.get(<span class="hljs-number">1</span>));
+            c2.setId(spu.getCid2());
+
+            Category c3 = <span class="hljs-keyword">new</span> Category();
+            c3.setName(names.get(<span class="hljs-number">2</span>));
+            c3.setId(spu.getCid3());
+
+            <span class="hljs-keyword">return</span> Arrays.asList(c1, c2, c3);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"查询商品分类出错，spuId：&#123;&#125;"</span>, spu.getId(), e);
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>然后在controller中把数据放入model：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
+<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"item"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GoodsController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsService goodsService;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 跳转到商品详情页</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> model</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"&#123;id&#125;.html"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toItemPage</span><span class="hljs-params">(Model model, @PathVariable(<span class="hljs-string">"id"</span>)</span>Long id)</span>&#123;
+        <span class="hljs-comment">// 加载所需的数据</span>
+        Map&lt;String, Object&gt; modelMap = <span class="hljs-keyword">this</span>.goodsService.loadModel(id);
+        <span class="hljs-comment">// 放入模型</span>
+        model.addAllAttributes(modelMap);
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"item"</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="1-4-4-页面测试数据"><a href="#1-4-4-页面测试数据" class="headerlink" title="1.4.4.页面测试数据"></a>1.4.4.页面测试数据</h3><p>我们在页面中先写一段JS，把模型中的数据取出观察，看是否成功：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">th:inline</span>=<span class="hljs-string">"javascript"</span>&gt;</span>
+<span class="actionscript">    <span class="hljs-keyword">const</span> a = <span class="hljs-comment">/*[[$&#123;groups&#125;]]*/</span> [];</span>
+<span class="actionscript">    <span class="hljs-keyword">const</span> b = <span class="hljs-comment">/*[[$&#123;params&#125;]]*/</span> [];</span>
+<span class="actionscript">    <span class="hljs-keyword">const</span> c = <span class="hljs-comment">/*[[$&#123;categories&#125;]]*/</span> [];</span>
+<span class="actionscript">    <span class="hljs-keyword">const</span> d = <span class="hljs-comment">/*[[$&#123;spu&#125;]]*/</span> &#123;&#125;;</span>
+<span class="actionscript">    <span class="hljs-keyword">const</span> e = <span class="hljs-comment">/*[[$&#123;spuDetail&#125;]]*/</span> &#123;&#125;;</span>
+<span class="actionscript">    <span class="hljs-keyword">const</span> f = <span class="hljs-comment">/*[[$&#123;skus&#125;]]*/</span> [];</span>
+<span class="actionscript">    <span class="hljs-keyword">const</span> g = <span class="hljs-comment">/*[[$&#123;brand&#125;]]*/</span> &#123;&#125;;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre></div>
+
+<p>然后查看页面源码：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532509946463.png" srcset="/img/loading.gif" alt="1532509946463"></p>
+<p>数据都成功查到了！</p>
+<h2 id="1-5-渲染面包屑"><a href="#1-5-渲染面包屑" class="headerlink" title="1.5.渲染面包屑"></a>1.5.渲染面包屑</h2><p>在商品展示页的顶部，有一个商品分类、品牌、标题的面包屑</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1526978423084.png" srcset="/img/loading.gif" alt="1526978423084"></p>
+<p>其数据有3部分：</p>
+<ul>
+<li>商品分类</li>
+<li>商品品牌</li>
+<li>spu标题</li>
+</ul>
+<p>我们的模型中都有，所以直接渲染即可（页面101行开始）：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"crumb-wrap"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"sui-breadcrumb"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">th:each</span>=<span class="hljs-string">"category : $&#123;categories&#125;"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">"$&#123;category.name&#125;"</span>&gt;</span>手机<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">"$&#123;brand.name&#125;"</span>&gt;</span>Apple<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"active"</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">"$&#123;spu.title&#125;"</span>&gt;</span>Apple iPhone 6s<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+
+
+<h2 id="1-6-渲染商品列表"><a href="#1-6-渲染商品列表" class="headerlink" title="1.6.渲染商品列表"></a>1.6.渲染商品列表</h2><p>先看下整体效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1526979330657.png" srcset="/img/loading.gif" alt="1526979330657"></p>
+<p>这个部分需要渲染的数据有5块：</p>
+<ul>
+<li>sku图片</li>
+<li>sku标题</li>
+<li>副标题</li>
+<li>sku价格</li>
+<li>特有规格属性列表</li>
+</ul>
+<p>其中，sku 的图片、标题、价格，都必须在用户选中一个具体sku后，才能渲染。而特有规格属性列表可以在spuDetail中查询到。而副标题则是在spu中，直接可以在页面渲染</p>
+<p>因此，我们先对特有规格属性列表进行渲染。等用户选择一个sku，再通过js对其它sku属性渲染</p>
+<h3 id="1-6-1-副标题"><a href="#1-6-1-副标题" class="headerlink" title="1.6.1.副标题"></a>1.6.1.副标题</h3><p>副标题是在spu中，所以我们直接通过Thymeleaf渲染：</p>
+<p>在第146行左右：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"news"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">th:utext</span>=<span class="hljs-string">"$&#123;spu.subTitle&#125;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<p>副标题中可能会有超链接，因此这里也用<code>th:utext</code>来展示，效果：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1526980061592.png" srcset="/img/loading.gif" alt="1526980061592"></p>
+<h3 id="1-6-2-渲染规格属性列表"><a href="#1-6-2-渲染规格属性列表" class="headerlink" title="1.6.2.渲染规格属性列表"></a>1.6.2.渲染规格属性列表</h3><p>规格属性列表将来会有事件和动态效果。我们需要有js代码参与，不能使用Thymeleaf来渲染了。</p>
+<p>因此，这里我们用vue，不过需要先把数据放到js对象中，方便vue使用</p>
+<h4 id="初始化数据"><a href="#初始化数据" class="headerlink" title="初始化数据"></a>初始化数据</h4><p>我们在页面的<code>head</code>中，定义一个js标签，然后在里面定义变量，保存与sku相关的一些数据：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">th:inline</span>=<span class="hljs-string">"javascript"</span>&gt;</span>
+<span class="actionscript">    <span class="hljs-comment">// sku集合</span></span>
+<span class="actionscript">    <span class="hljs-keyword">const</span> skus = <span class="hljs-comment">/*[[$&#123;skus&#125;]]*/</span> [];</span>
+<span class="actionscript">    <span class="hljs-comment">// 规格参数id与name对</span></span>
+<span class="actionscript">	<span class="hljs-keyword">const</span> paramMap = <span class="hljs-comment">/*[[$&#123;params&#125;]]*/</span> &#123;&#125;;</span>
+<span class="actionscript">    <span class="hljs-comment">// 特有规格参数集合</span></span>
+<span class="javascript">    <span class="hljs-keyword">const</span> specialSpec = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-comment">/*[[$&#123;spuDetail.specialSpec&#125;]]*/</span> <span class="hljs-string">""</span>);</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre></div>
+
+<ul>
+<li><p>specialSpec：这是SpuDetail中唯一与Sku相关的数据</p>
+<p>因此我们并没有保存整个spuDetail，而是只保留了这个属性，而且需要手动转为js对象。</p>
+</li>
+<li><p>paramMap：规格参数的id和name对，方便页面根据id获取参数名</p>
+</li>
+<li><p>sku：特有规格参数集合</p>
+</li>
+</ul>
+<p>我们来看下页面获取的数据：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1529923363960.png" srcset="/img/loading.gif" alt="1529923363960"></p>
+<h4 id="通过Vue渲染"><a href="#通过Vue渲染" class="headerlink" title="通过Vue渲染"></a>通过Vue渲染</h4><p>我们把刚才获得的几个变量保存在Vue实例中：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532531501925.png" srcset="/img/loading.gif" alt="1532531501925"></p>
+<p>然后在页面中渲染：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"specification"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"summary-wrap clearfix"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dl</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(v,k) in specialSpec"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"k"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"fl title"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>&#123;&#123;paramMap[k]&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dd</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(str,j) in v"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"j"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"javascript:;"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"selected"</span>&gt;</span>
+                &#123;&#123;str&#125;&#125;<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"点击取消选择"</span>&gt;</span><span class="hljs-symbol">&amp;nbsp;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<p>然后刷新页面查看：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532531590626.png" srcset="/img/loading.gif" alt="1532531590626"></p>
+<p>数据成功渲染了。不过我们发现所有的规格都被勾选了。这是因为现在，每一个规格都有样式：<code>selected</code>，我们应该只选中一个，让它的class样式为selected才对！</p>
+<p>那么问题来了，我们该如何确定用户选择了哪一个？</p>
+<h3 id="1-6-3-规格属性的筛选"><a href="#1-6-3-规格属性的筛选" class="headerlink" title="1.6.3.规格属性的筛选"></a>1.6.3.规格属性的筛选</h3><h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>规格参数的格式是这样的：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1529923584730.png" srcset="/img/loading.gif" alt="1529923584730"></p>
+<p>每一个规格项是数组中的一个元素，因此我们只要保存被选择的规格项的索引，就能判断哪个是用户选择的了！</p>
+<p>我们需要一个对象来保存用户选择的索引，格式如下：</p>
+<div class="hljs"><pre><code class="hljs js">&#123;
+    <span class="hljs-string">"4"</span>:<span class="hljs-number">0</span>,
+    <span class="hljs-string">"12"</span>:<span class="hljs-number">0</span>,
+    <span class="hljs-string">"13"</span>:<span class="hljs-number">0</span>
+&#125;</code></pre></div>
+
+<p>但问题是，第一次进入页面时，用户并未选择任何参数。因此索引应该有一个默认值，我们将默认值设置为0。</p>
+<p>我们在<code>head</code>的script标签中，对索引对象进行初始化：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1529923658242.png" srcset="/img/loading.gif" alt="1529923658242"></p>
+<p>然后在vue中保存：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1529923701283.png" srcset="/img/loading.gif" alt="1529923701283"></p>
+<h4 id="页面改造"><a href="#页面改造" class="headerlink" title="页面改造"></a>页面改造</h4><p>我们在页面中，通过判断indexes的值来判断当前规格是否被选中，并且给规格绑定点击事件，点击规格项后，修改indexes中的对应值：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"specification"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"summary-wrap clearfix"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dl</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(v,k) in specialSpec"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"k"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"fl title"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>&#123;&#123;paramMap[k]&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dd</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(str,j) in v"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"j"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"javascript:;"</span> <span class="hljs-attr">:class</span>=<span class="hljs-string">"&#123;selected: j===indexes[k]&#125;"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">"indexes[k]=j"</span>&gt;</span>
+                &#123;&#123;str&#125;&#125;<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"j===indexes[k]"</span> <span class="hljs-attr">title</span>=<span class="hljs-string">"点击取消选择"</span>&gt;</span><span class="hljs-symbol">&amp;nbsp;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+
+
+<p>效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532533192037.png" srcset="/img/loading.gif" alt="1532533192037"></p>
+<h3 id="1-6-4-确定SKU"><a href="#1-6-4-确定SKU" class="headerlink" title="1.6.4.确定SKU"></a>1.6.4.确定SKU</h3><p>在我们设计sku数据的时候，就已经添加了一个字段：indexes：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532533286400.png" srcset="/img/loading.gif" alt="1532533286400"></p>
+<p>这其实就是规格参数的索引组合。</p>
+<p>而我们在页面中，用户点击选择规格后，就会把对应的索引保存起来：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532533340274.png" srcset="/img/loading.gif" alt="1532533340274"></p>
+<p>因此，我们可以根据这个indexes来确定用户要选择的sku</p>
+<p>我们在vue中定义一个<strong>计算属性</strong>，来计算与索引匹配的sku：</p>
+<div class="hljs"><pre><code class="hljs js">computed:&#123;
+    sku()&#123;
+        <span class="hljs-keyword">const</span> index = <span class="hljs-built_in">Object</span>.values(<span class="hljs-keyword">this</span>.indexes).join(<span class="hljs-string">"_"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.skus.find(<span class="hljs-function"><span class="hljs-params">s</span> =&gt;</span> s.indexes = index);
+    &#125;
+&#125;</code></pre></div>
+
+<p>在浏览器工具中查看：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532533876765.png" srcset="/img/loading.gif" alt="1532533876765"></p>
+<h3 id="1-6-5-渲染sku列表"><a href="#1-6-5-渲染sku列表" class="headerlink" title="1.6.5.渲染sku列表"></a>1.6.5.渲染sku列表</h3><p>既然已经拿到了用户选中的sku，接下来，就可以在页面渲染数据了</p>
+<h4 id="图片列表"><a href="#图片列表" class="headerlink" title="图片列表"></a>图片列表</h4><p>商品图片是一个字符串，以<code>,</code>分割，页面展示比较麻烦，所以我们编写一个<strong>计算属性</strong>:images()，将图片字符串变成数组：</p>
+<div class="hljs"><pre><code class="hljs js">computed: &#123;
+    sku()&#123;
+        <span class="hljs-keyword">const</span> index = <span class="hljs-built_in">Object</span>.values(<span class="hljs-keyword">this</span>.indexes).join(<span class="hljs-string">"_"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.skus.find(<span class="hljs-function"><span class="hljs-params">s</span>=&gt;</span>s.indexes==index);
+    &#125;,
+    images()&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.sku.images ? <span class="hljs-keyword">this</span>.sku.images.split(<span class="hljs-string">","</span>) : [<span class="hljs-string">''</span>];
+    &#125;
+&#125;,</code></pre></div>
+
+
+
+<p>页面改造：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"zoom"</span>&gt;</span>
+   <span class="hljs-comment">&lt;!--默认第一个预览--&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"preview"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"spec-preview"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"jqzoom"</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:jqimg</span>=<span class="hljs-string">"images[0]"</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">"images[0]"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"400px"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"400px"</span>/&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+   <span class="hljs-comment">&lt;!--下方的缩略图--&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"spec-scroll"</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"prev"</span>&gt;</span><span class="hljs-symbol">&amp;lt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+      <span class="hljs-comment">&lt;!--左右按钮--&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"items"</span>&gt;</span>
+         <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(image, i) in images"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"i"</span>&gt;</span>
+               <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">"image"</span> <span class="hljs-attr">:bimg</span>=<span class="hljs-string">"image"</span> <span class="hljs-attr">onmousemove</span>=<span class="hljs-string">"preview(this)"</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+         <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"next"</span>&gt;</span><span class="hljs-symbol">&amp;gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<p>效果：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1526985783938.png" srcset="/img/loading.gif" alt="1526985783938"></p>
+<h4 id="标题和价格"><a href="#标题和价格" class="headerlink" title="标题和价格"></a>标题和价格</h4><p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1526985959427.png" srcset="/img/loading.gif" alt="1526985959427"></p>
+<h4 id="完整效果"><a href="#完整效果" class="headerlink" title="完整效果"></a>完整效果</h4><p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532535748931.png" srcset="/img/loading.gif" alt="1532535748931"></p>
+<h2 id="1-7-商品详情"><a href="#1-7-商品详情" class="headerlink" title="1.7.商品详情"></a>1.7.商品详情</h2><p>商品详情页面如下图所示：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1526988361312.png" srcset="/img/loading.gif" alt="1526988361312"></p>
+<p>分成上下两部分：</p>
+<ul>
+<li>上部：展示的是规格属性列表</li>
+<li>下部：展示的是商品详情</li>
+</ul>
+<h3 id="1-7-1-属性列表（作业）"><a href="#1-7-1-属性列表（作业）" class="headerlink" title="1.7.1.属性列表（作业）"></a>1.7.1.属性列表（作业）</h3><p>这部分内容与规格参数部分重复，我就不带大家做了，大家可以自己完成</p>
+<h3 id="1-7-2-商品详情"><a href="#1-7-2-商品详情" class="headerlink" title="1.7.2.商品详情"></a>1.7.2.商品详情</h3><p>商品详情是HTML代码，我们不能使用 <code>th:text</code>，应该使用<code>th:utext</code></p>
+<p>在页面的第444行左右：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-comment">&lt;!--商品详情--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"intro-detail"</span> <span class="hljs-attr">th:utext</span>=<span class="hljs-string">"$&#123;spuDetail.description&#125;"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<p>最终展示效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532536101914.png" srcset="/img/loading.gif" alt="1532536101914"></p>
+<h2 id="1-8-规格包装："><a href="#1-8-规格包装：" class="headerlink" title="1.8.规格包装："></a>1.8.规格包装：</h2><p>规格包装分成两部分：</p>
+<ul>
+<li>规格参数</li>
+<li>包装列表</li>
+</ul>
+<p>而且规格参数需要按照组来显示</p>
+<h3 id="1-8-1-规格参数"><a href="#1-8-1-规格参数" class="headerlink" title="1.8.1.规格参数"></a>1.8.1.规格参数</h3><p>最终的效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532536238386.png" srcset="/img/loading.gif" alt="1532536238386"></p>
+<p>我们模型中有一个groups，跟这个数据结果很像：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1529924049003.png" srcset="/img/loading.gif" alt="1529924049003"></p>
+<p>分成8个组，组内都有params，里面是所有的参数。不过，这些参数都没有值！</p>
+<p>规格参数的值分为两部分：</p>
+<ul>
+<li>通用规格参数：保存在SpuDetail中的genericSpec中</li>
+<li>特有规格参数：保存在sku的ownSpec中</li>
+</ul>
+<p>我们需要把这两部分值取出来，放到groups中。</p>
+<p>从spuDetail中取出genericSpec并取出groups：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532537802576.png" srcset="/img/loading.gif" alt="1532537802576"></p>
+<p>把genericSpec引入到Vue实例：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532537863801.png" srcset="/img/loading.gif" alt="1532537863801"></p>
+<p>因为sku是动态的，所以我们编写一个<strong>计算属性</strong>，来进行值的组合：</p>
+<div class="hljs"><pre><code class="hljs js">groups()&#123;
+    groups.forEach(<span class="hljs-function"><span class="hljs-params">group</span> =&gt;</span> &#123;
+        group.params.forEach(<span class="hljs-function"><span class="hljs-params">param</span> =&gt;</span> &#123;
+            <span class="hljs-keyword">if</span>(param.generic)&#123;
+                <span class="hljs-comment">// 通用属性，去spu的genericSpec中获取</span>
+                param.v = <span class="hljs-keyword">this</span>.genericSpec[param.id] || <span class="hljs-string">'其它'</span>;
+            &#125;<span class="hljs-keyword">else</span>&#123;
+                <span class="hljs-comment">// 特有属性值，去SKU中获取</span>
+                param.v = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-keyword">this</span>.sku.ownSpec)[param.id]
+            &#125;
+        &#125;)
+    &#125;)
+    <span class="hljs-keyword">return</span> groups;
+&#125;</code></pre></div>
+
+<p>然后在页面渲染：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"Ptable"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"Ptable-item"</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"group in groups"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"group.name"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>&#123;&#123;group.name&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dl</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"p in group.params"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>&#123;&#123;p.name&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>&#123;&#123;p.v + (p.unit || '')&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<h3 id="1-8-2-包装列表"><a href="#1-8-2-包装列表" class="headerlink" title="1.8.2.包装列表"></a>1.8.2.包装列表</h3><p>包装列表在商品详情中，我们一开始并没有赋值到Vue实例中，但是可以通过Thymeleaf来渲染</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"package-list"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">h3</span>&gt;</span>包装清单<span class="hljs-tag">&lt;/<span class="hljs-name">h3</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">"$&#123;spuDetail.packingList&#125;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+
+
+<p>最终效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532538150603.png" srcset="/img/loading.gif" alt="1532538150603"></p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532538178543.png" srcset="/img/loading.gif" alt="1532538178543"></p>
+<h2 id="1-9-售后服务"><a href="#1-9-售后服务" class="headerlink" title="1.9.售后服务"></a>1.9.售后服务</h2><p>售后服务也可以通过Thymeleaf进行渲染：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"three"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"tab-pane"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>售后保障<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">th:text</span>=<span class="hljs-string">"$&#123;spuDetail.afterService&#125;"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<p>效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532538249704.png" srcset="/img/loading.gif" alt="1532538249704"></p>
+<h1 id="2-页面静态化"><a href="#2-页面静态化" class="headerlink" title="2.页面静态化"></a>2.页面静态化</h1><h2 id="2-1-简介"><a href="#2-1-简介" class="headerlink" title="2.1.简介"></a>2.1.简介</h2><h3 id="2-1-1-问题分析"><a href="#2-1-1-问题分析" class="headerlink" title="2.1.1.问题分析"></a>2.1.1.问题分析</h3><p>现在，我们的页面是通过Thymeleaf模板引擎渲染后返回到客户端。在后台需要大量的数据查询，而后渲染得到HTML页面。会对数据库造成压力，并且请求的响应时间过长，并发能力不高。</p>
+<p>大家能想到什么办法来解决这个问题？</p>
+<p>首先我们能想到的就是缓存技术，比如之前学习过的Redis。不过Redis适合数据规模比较小的情况。假如数据量比较大，例如我们的商品详情页。每个页面如果10kb，100万商品，就是10GB空间，对内存占用比较大。此时就给缓存系统带来极大压力，如果缓存崩溃，接下来倒霉的就是数据库了。</p>
+<p>所以缓存并不是万能的，某些场景需要其它技术来解决，比如静态化。</p>
+<h3 id="2-1-2-什么是静态化"><a href="#2-1-2-什么是静态化" class="headerlink" title="2.1.2.什么是静态化"></a>2.1.2.什么是静态化</h3><p>静态化是指把动态生成的HTML页面变为静态内容保存，以后用户的请求到来，直接访问静态页面，不再经过服务的渲染。</p>
+<p>而静态的HTML页面可以部署在nginx中，从而大大提高并发能力，减小tomcat压力。</p>
+<h3 id="2-1-3-如何实现静态化"><a href="#2-1-3-如何实现静态化" class="headerlink" title="2.1.3.如何实现静态化"></a>2.1.3.如何实现静态化</h3><p>目前，静态化页面都是通过模板引擎来生成，而后保存到nginx服务器来部署。常用的模板引擎比如：</p>
+<ul>
+<li>Freemarker</li>
+<li>Velocity</li>
+<li>Thymeleaf</li>
+</ul>
+<p>我们之前就使用的Thymeleaf，来渲染html返回给用户。Thymeleaf除了可以把渲染结果写入Response，也可以写到本地文件，从而实现静态化。</p>
+<h2 id="2-2-Thymeleaf实现静态化"><a href="#2-2-Thymeleaf实现静态化" class="headerlink" title="2.2.Thymeleaf实现静态化"></a>2.2.Thymeleaf实现静态化</h2><h3 id="2-2-1-概念"><a href="#2-2-1-概念" class="headerlink" title="2.2.1.概念"></a>2.2.1.概念</h3><p>先说下Thymeleaf中的几个概念：</p>
+<ul>
+<li>Context：运行上下文</li>
+<li>TemplateResolver：模板解析器</li>
+<li>TemplateEngine：模板引擎</li>
+</ul>
+<blockquote>
+<p>Context</p>
+</blockquote>
+<p>上下文： 用来保存模型数据，当模板引擎渲染时，可以从Context上下文中获取数据用于渲染。</p>
+<p>当与SpringBoot结合使用时，我们放入Model的数据就会被处理到Context，作为模板渲染的数据使用。</p>
+<blockquote>
+<p>TemplateResolver</p>
+</blockquote>
+<p>模板解析器：用来读取模板相关的配置，例如：模板存放的位置信息，模板文件名称，模板文件的类型等等。</p>
+<p>当与SpringBoot结合时，TemplateResolver已经由其创建完成，并且各种配置也都有默认值，比如模板存放位置，其默认值就是：templates。比如模板文件类型，其默认值就是html。</p>
+<blockquote>
+<p>TemplateEngine</p>
+</blockquote>
+<p>模板引擎：用来解析模板的引擎，需要使用到上下文、模板解析器。分别从两者中获取模板中需要的数据，模板文件。然后利用内置的语法规则解析，从而输出解析后的文件。来看下模板引擎进行处理的函数：</p>
+<div class="hljs"><pre><code class="hljs java">templateEngine.process(<span class="hljs-string">"模板名"</span>, context, writer);</code></pre></div>
+
+<p>三个参数：</p>
+<ul>
+<li>模板名称</li>
+<li>上下文：里面包含模型数据</li>
+<li>writer：输出目的地的流</li>
+</ul>
+<p>在输出时，我们可以指定输出的目的地，如果目的地是Response的流，那就是网络响应。如果目的地是本地文件，那就实现静态化了。</p>
+<p>而在SpringBoot中已经自动配置了模板引擎，因此我们不需要关心这个。现在我们做静态化，就是把输出的目的地改成本地文件即可！</p>
+<h3 id="2-2-2-具体实现"><a href="#2-2-2-具体实现" class="headerlink" title="2.2.2.具体实现"></a>2.2.2.具体实现</h3><p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532757937331.png" srcset="/img/loading.gif" alt="1532757937331"></p>
+<p>Service代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GoodsHtmlService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsService goodsService;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> TemplateEngine templateEngine;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOGGER = LoggerFactory.getLogger(GoodsHtmlService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 创建html页面</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> spuId</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> Exception</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">createHtml</span><span class="hljs-params">(Long spuId)</span> </span>&#123;
+
+        PrintWriter writer = <span class="hljs-keyword">null</span>;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 获取页面数据</span>
+            Map&lt;String, Object&gt; spuMap = <span class="hljs-keyword">this</span>.goodsService.loadModel(spuId);
+
+            <span class="hljs-comment">// 创建thymeleaf上下文对象</span>
+            Context context = <span class="hljs-keyword">new</span> Context();
+            <span class="hljs-comment">// 把数据放入上下文对象</span>
+            context.setVariables(spuMap);
+
+            <span class="hljs-comment">// 创建输出流</span>
+            File file = <span class="hljs-keyword">new</span> File(<span class="hljs-string">"C:\\project\\nginx-1.14.0\\html\\item\\"</span> + spuId + <span class="hljs-string">".html"</span>);
+            writer = <span class="hljs-keyword">new</span> PrintWriter(file);
+
+            <span class="hljs-comment">// 执行页面静态化方法</span>
+            templateEngine.process(<span class="hljs-string">"item"</span>, context, writer);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            LOGGER.error(<span class="hljs-string">"页面静态化出错：&#123;&#125;，"</span>+ e, spuId);
+        &#125; <span class="hljs-keyword">finally</span> &#123;
+            <span class="hljs-keyword">if</span> (writer != <span class="hljs-keyword">null</span>) &#123;
+                writer.close();
+            &#125;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 新建线程处理页面静态化</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> spuId</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">asyncExcute</span><span class="hljs-params">(Long spuId)</span> </span>&#123;
+        ThreadUtils.execute(()-&gt;createHtml(spuId));
+        <span class="hljs-comment">/*ThreadUtils.execute(new Runnable() &#123;</span>
+<span class="hljs-comment">            @Override</span>
+<span class="hljs-comment">            public void run() &#123;</span>
+<span class="hljs-comment">                createHtml(spuId);</span>
+<span class="hljs-comment">            &#125;</span>
+<span class="hljs-comment">        &#125;);*/</span>
+    &#125;
+&#125;</code></pre></div>
+
+<p>线程工具类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ThreadUtils</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ExecutorService es = Executors.newFixedThreadPool(<span class="hljs-number">10</span>);
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">execute</span><span class="hljs-params">(Runnable runnable)</span> </span>&#123;
+        es.submit(runnable);
+    &#125;
+&#125;</code></pre></div>
+
+<h3 id="2-2-3-什么时候创建静态文件"><a href="#2-2-3-什么时候创建静态文件" class="headerlink" title="2.2.3.什么时候创建静态文件"></a>2.2.3.什么时候创建静态文件</h3><p>我们编写好了创建静态文件的service，那么问题来了：什么时候去调用它呢</p>
+<p>想想这样的场景：</p>
+<p>假如大部分的商品都有了静态页面。那么用户的请求都会被nginx拦截下来，根本不会到达我们的<code>leyou-goods-web</code>服务。只有那些还没有页面的请求，才可能会到达这里。</p>
+<p>因此，如果请求到达了这里，我们除了返回页面视图外，还应该创建一个静态页面，那么下次就不会再来麻烦我们了。</p>
+<p>所以，我们在GoodsController中添加逻辑，去生成静态html文件：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"&#123;id&#125;.html"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toItemPage</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span>Long id, Model model)</span>&#123;
+
+    <span class="hljs-comment">// 加载所需的数据</span>
+    Map&lt;String, Object&gt; map = <span class="hljs-keyword">this</span>.goodsService.loadModel(id);
+    <span class="hljs-comment">// 把数据放入数据模型</span>
+    model.addAllAttributes(map);
+
+    <span class="hljs-comment">// 页面静态化</span>
+    <span class="hljs-keyword">this</span>.goodsHtmlService.asyncExcute(id);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"item"</span>;
+&#125;</code></pre></div>
+
+<p>注意：生成html 的代码不能对用户请求产生影响，所以这里我们使用额外的线程进行异步创建。</p>
+<h3 id="2-2-4-重启测试："><a href="#2-2-4-重启测试：" class="headerlink" title="2.2.4.重启测试："></a>2.2.4.重启测试：</h3><p>访问一个商品详情，然后查看nginx目录：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532757980379.png" srcset="/img/loading.gif" alt="1532757980379"></p>
+<h2 id="2-3-nginx代理静态页面"><a href="#2-3-nginx代理静态页面" class="headerlink" title="2.3.nginx代理静态页面"></a>2.3.nginx代理静态页面</h2><p>接下来，我们修改nginx，让它对商品请求进行监听，指向本地静态页面，如果本地没找到，才进行反向代理：</p>
+<div class="hljs"><pre><code class="hljs nginx"><span class="hljs-section">server</span> &#123;
+    <span class="hljs-attribute">listen</span>       <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span>  www.leyou.com;
+
+    <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Host <span class="hljs-variable">$host</span>;
+    <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-Server <span class="hljs-variable">$host</span>;
+    <span class="hljs-attribute">proxy_set_header</span> X-Forwarded-For <span class="hljs-variable">$proxy_add_x_forwarded_for</span>;
+
+    <span class="hljs-attribute">location</span> /item &#123;
+        <span class="hljs-comment"># 先找本地</span>
+        <span class="hljs-attribute">root</span> html;
+        <span class="hljs-attribute">if</span> (!-f <span class="hljs-variable">$request_filename</span>) &#123; <span class="hljs-comment">#请求的文件不存在，就反向代理</span>
+            <span class="hljs-attribute">proxy_pass</span> http://127.0.0.1:8084;
+            break;
+        &#125;
+    &#125;
+
+    <span class="hljs-attribute">location</span> / &#123;
+        <span class="hljs-attribute">proxy_pass</span> http://127.0.0.1:9002;
+        <span class="hljs-attribute">proxy_connect_timeout</span> <span class="hljs-number">600</span>;
+        <span class="hljs-attribute">proxy_read_timeout</span> <span class="hljs-number">600</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>重启测试：</p>
+<p>发现请求速度得到了极大提升：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/1532758206086.png" srcset="/img/loading.gif" alt="1532758206086"></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8E/">乐优商城</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Thymeleaf/">Thymeleaf</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday15/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">乐优商城day15：RabbitMQ及数据同步</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/">
+                        <span class="hidden-mobile">乐优商城day13：搜索过滤</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "乐优商城day14：商品详情及静态化&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

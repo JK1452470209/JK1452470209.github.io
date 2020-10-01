@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>乐优商城day13：搜索过滤 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-10-01 09:52">
+      2020-10-01
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      69
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>了解过滤功能的基本思路</li>
+<li>独立实现分类和品牌展示</li>
+<li>了解规格参数展示</li>
+<li>实现过滤条件筛选</li>
+<li>实现已选过滤项回显</li>
+<li>实现取消选择过滤项</li>
+</ul>
+<h1 id="1-过滤功能分析"><a href="#1-过滤功能分析" class="headerlink" title="1.过滤功能分析"></a>1.过滤功能分析</h1><p>首先看下页面要实现的效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526725119663.png" srcset="/img/loading.gif" alt="1526725119663"></p>
+<p>整个过滤部分有3块：</p>
+<ul>
+<li>顶部的导航，已经选择的过滤条件展示：<ul>
+<li>商品分类面包屑，根据用户选择的商品分类变化</li>
+<li>其它已选择过滤参数</li>
+</ul>
+</li>
+<li>过滤条件展示，又包含3部分<ul>
+<li>商品分类展示</li>
+<li>品牌展示</li>
+<li>其它规格参数</li>
+</ul>
+</li>
+<li>展开或收起的过滤条件的按钮</li>
+</ul>
+<p>顶部导航要展示的内容跟用户选择的过滤条件有关。</p>
+<ul>
+<li>比如用户选择了某个商品分类，则面包屑中才会展示具体的分类</li>
+<li>比如用户选择了某个品牌，列表中才会有品牌信息。</li>
+</ul>
+<p>所以，这部分需要依赖第二部分：过滤条件的展示和选择。因此我们先不着急去做。</p>
+<p>展开或收起的按钮是否显示，取决于过滤条件有多少，如果很少，那么就没必要展示。所以也是跟第二部分的过滤条件有关。</p>
+<p>这样分析来看，我们必须先做第二部分：过滤条件展示。</p>
+<h1 id="2-生成分类和品牌过滤"><a href="#2-生成分类和品牌过滤" class="headerlink" title="2.生成分类和品牌过滤"></a>2.生成分类和品牌过滤</h1><p>先来看分类和品牌。在我们的数据库中已经有所有的分类和品牌信息。在这个位置，是不是把所有的分类和品牌信息都展示出来呢？</p>
+<p>显然不是，用户搜索的条件会对商品进行过滤，而在搜索结果中，不一定包含所有的分类和品牌，直接展示出所有商品分类，让用户选择显然是不合适的。</p>
+<p>无论是分类信息，还是品牌信息，都应该从搜索的结果商品中进行聚合得到。</p>
+<h2 id="2-1-扩展返回的结果"><a href="#2-1-扩展返回的结果" class="headerlink" title="2.1.扩展返回的结果"></a>2.1.扩展返回的结果</h2><p>原来，我们返回的结果是PageResult对象，里面只有total、totalPage、items3个属性。但是现在要对商品分类和品牌进行聚合，数据显然不够用，我们需要对返回的结果进行扩展，添加分类和品牌的数据。</p>
+<p>那么问题来了：以什么格式返回呢？</p>
+<p>看页面：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526738120021.png" srcset="/img/loading.gif" alt="1526738120021"></p>
+<p>分类：页面显示了分类名称，但背后肯定要保存id信息。所以至少要有id和name</p>
+<p>品牌：页面展示的有logo，有文字，当然肯定有id，基本上是品牌的完整数据</p>
+<p>我们新建一个类，继承PageResult，然后扩展两个新的属性：分类集合和品牌集合：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResult</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">PageResult</span>&lt;<span class="hljs-title">Goods</span>&gt;</span>&#123;
+
+    <span class="hljs-keyword">private</span> List&lt;Category&gt; categories;
+
+    <span class="hljs-keyword">private</span> List&lt;Brand&gt; brands;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SearchResult</span><span class="hljs-params">(Long total, Integer totalPage, List&lt;Goods&gt; items, List&lt;Category&gt; categories, List&lt;Brand&gt; brands)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>(total, totalPage, items);
+        <span class="hljs-keyword">this</span>.categories = categories;
+        <span class="hljs-keyword">this</span>.brands = brands;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="2-2-聚合商品分类和品牌"><a href="#2-2-聚合商品分类和品牌" class="headerlink" title="2.2.聚合商品分类和品牌"></a>2.2.聚合商品分类和品牌</h2><p>我们修改搜索的业务逻辑，对分类和品牌聚合。</p>
+<p>因为索引库中只有id，所以我们根据id聚合，然后再根据id去查询完整数据。</p>
+<p>所以，商品微服务需要提供一个接口：根据品牌id集合，批量查询品牌。</p>
+<h3 id="2-2-1-提供查询品牌接口"><a href="#2-2-1-提供查询品牌接口" class="headerlink" title="2.2.1.提供查询品牌接口"></a>2.2.1.提供查询品牌接口</h3><p>BrandApi</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"brand"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BrandApi</span> </span>&#123;
+
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"list"</span>)
+    <span class="hljs-function">List&lt;Brand&gt; <span class="hljs-title">queryBrandByIds</span><span class="hljs-params">(@RequestParam(<span class="hljs-string">"ids"</span>)</span> List&lt;Long&gt; ids)</span>;
+&#125;</code></pre></div>
+
+<p>BrandController</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据多个id查询品牌</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> ids</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"list"</span>)
+<span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;Brand&gt;&gt; queryBrandByIds(<span class="hljs-meta">@RequestParam</span>(<span class="hljs-string">"ids"</span>) List&lt;Long&gt; ids)&#123;
+    List&lt;Brand&gt; list = <span class="hljs-keyword">this</span>.brandService.queryBrandByIds(ids);
+    <span class="hljs-keyword">if</span>(list == <span class="hljs-keyword">null</span>)&#123;
+        <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(list);
+&#125;</code></pre></div>
+
+<p>BrandService</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Brand&gt; <span class="hljs-title">queryBrandByIds</span><span class="hljs-params">(List&lt;Long&gt; ids)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.brandMapper.selectByIdList(ids);
+&#125;</code></pre></div>
+
+<p>BrandMapper</p>
+<p>继承通用mapper的 <code>SelectByIdListMapper</code>即可</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BrandMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Mapper</span>&lt;<span class="hljs-title">Brand</span>&gt;, <span class="hljs-title">SelectByIdListMapper</span>&lt;<span class="hljs-title">Brand</span>,<span class="hljs-title">Long</span>&gt; </span>&#123;&#125;</code></pre></div>
+
+
+
+<h3 id="2-2-2-搜索功能改造"><a href="#2-2-2-搜索功能改造" class="headerlink" title="2.2.2.搜索功能改造"></a>2.2.2.搜索功能改造</h3><p>添加BrandClient</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(<span class="hljs-string">"item-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">BrandClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">BrandApi</span> </span>&#123;
+&#125;</code></pre></div>
+
+
+
+<p>修改SearchService：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsRepository goodsRepository;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> CategoryClient categoryClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> BrandClient brandClient;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(SearchService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> PageResult&lt;Goods&gt; <span class="hljs-title">search</span><span class="hljs-params">(SearchRequest request)</span> </span>&#123;
+        <span class="hljs-comment">// 判断是否有搜索条件，如果没有，直接返回null。不允许搜索全部商品</span>
+        <span class="hljs-keyword">if</span> (StringUtils.isBlank(request.getKey())) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+
+        <span class="hljs-comment">// 1、构建查询条件</span>
+        NativeSearchQueryBuilder queryBuilder = <span class="hljs-keyword">new</span> NativeSearchQueryBuilder();
+        
+        <span class="hljs-comment">// 1.1、基本查询</span>
+        queryBuilder.withQuery(QueryBuilders.matchQuery(<span class="hljs-string">"all"</span>, request.getKey()));
+        <span class="hljs-comment">// 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle</span>
+        queryBuilder.withSourceFilter(<span class="hljs-keyword">new</span> FetchSourceFilter(
+                <span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"id"</span>, <span class="hljs-string">"skus"</span>, <span class="hljs-string">"subTitle"</span>&#125;, <span class="hljs-keyword">null</span>));
+
+        <span class="hljs-comment">// 1.2.分页排序</span>
+        searchWithPageAndSort(queryBuilder,request);
+        
+        <span class="hljs-comment">// 1.3、聚合</span>
+        String categoryAggName = <span class="hljs-string">"category"</span>; <span class="hljs-comment">// 商品分类聚合名称</span>
+        String brandAggName = <span class="hljs-string">"brand"</span>; <span class="hljs-comment">// 品牌聚合名称</span>
+        <span class="hljs-comment">// 对商品分类进行聚合</span>
+        queryBuilder.addAggregation(AggregationBuilders.terms(categoryAggName).field(<span class="hljs-string">"cid3"</span>));
+        <span class="hljs-comment">// 对品牌进行聚合</span>
+        queryBuilder.addAggregation(AggregationBuilders.terms(brandAggName).field(<span class="hljs-string">"brandId"</span>));
+
+        <span class="hljs-comment">// 2、查询，获取结果</span>
+        AggregatedPage&lt;Goods&gt; pageInfo = (AggregatedPage&lt;Goods&gt;) <span class="hljs-keyword">this</span>.goodsRepository.search(queryBuilder.build());
+
+        <span class="hljs-comment">// 3、解析查询结果</span>
+        <span class="hljs-comment">// 3.1、分页信息</span>
+        Long total = pageInfo.getTotalElements();
+        <span class="hljs-keyword">int</span> totalPage = (total.intValue() + request.getSize() - <span class="hljs-number">1</span>) / request.getSize();
+     	<span class="hljs-comment">// 3.2、商品分类的聚合结果</span>
+        List&lt;Category&gt; categories = 
+            getCategoryAggResult(pageInfo.getAggregation(categoryAggName));
+        <span class="hljs-comment">// 3.3、品牌的聚合结果</span>
+        List&lt;Brand&gt; brands = getBrandAggResult(pageInfo.getAggregation(brandAggName));
+
+        <span class="hljs-comment">// 返回结果</span>
+         <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SearchResult(goodsPage.getTotalElements(), goodsPage.getTotalPages(), goodsPage.getContent(), categories, brands);
+    &#125;
+    
+
+    <span class="hljs-comment">// 解析品牌聚合结果</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> List&lt;Brand&gt; <span class="hljs-title">getBrandAggResult</span><span class="hljs-params">(Aggregation aggregation)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            LongTerms brandAgg = (LongTerms) aggregation;
+            List&lt;Long&gt; bids = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+            <span class="hljs-keyword">for</span> (LongTerms.Bucket bucket : brandAgg.getBuckets()) &#123;
+                bids.add(bucket.getKeyAsNumber().longValue());
+            &#125;
+            <span class="hljs-comment">// 根据id查询品牌</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.brandClient.queryBrandByIds(bids);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e)&#123;
+            logger.error(<span class="hljs-string">"品牌聚合出现异常："</span>, e);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">// 解析商品分类聚合结果</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> List&lt;Category&gt; <span class="hljs-title">getCategoryAggResult</span><span class="hljs-params">(Aggregation aggregation)</span> </span>&#123;
+        <span class="hljs-keyword">try</span>&#123;
+            List&lt;Category&gt; categories = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+            LongTerms categoryAgg = (LongTerms) aggregation;
+            List&lt;Long&gt; cids = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+            <span class="hljs-keyword">for</span> (LongTerms.Bucket bucket : categoryAgg.getBuckets()) &#123;
+                cids.add(bucket.getKeyAsNumber().longValue());
+            &#125;
+            <span class="hljs-comment">// 根据id查询分类名称</span>
+            List&lt;String&gt; names = <span class="hljs-keyword">this</span>.categoryClient.queryNameByIds(cids);
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; names.size(); i++) &#123;
+                Category c = <span class="hljs-keyword">new</span> Category();
+                c.setId(cids.get(i));
+                c.setName(names.get(i));
+                categories.add(c);
+            &#125;
+            <span class="hljs-keyword">return</span> categories;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e)&#123;
+            logger.error(<span class="hljs-string">"分类聚合出现异常："</span>, e);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">// 构建基本查询条件</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">searchWithPageAndSort</span><span class="hljs-params">(NativeSearchQueryBuilder queryBuilder, SearchRequest request)</span> </span>&#123;
+        <span class="hljs-comment">// 准备分页参数</span>
+        <span class="hljs-keyword">int</span> page = request.getPage();
+        <span class="hljs-keyword">int</span> size = request.getSize();
+
+        <span class="hljs-comment">// 1、分页</span>
+        queryBuilder.withPageable(PageRequest.of(page - <span class="hljs-number">1</span>, size));
+        <span class="hljs-comment">// 2、排序</span>
+        String sortBy = request.getSortBy();
+        Boolean desc = request.getDescending();
+        <span class="hljs-keyword">if</span> (StringUtils.isNotBlank(sortBy)) &#123;
+            <span class="hljs-comment">// 如果不为空，则进行排序</span>
+            queryBuilder.withSort(SortBuilders.fieldSort(sortBy).order(desc ? SortOrder.DESC : SortOrder.ASC));
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>测试：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532259453938.png" srcset="/img/loading.gif" alt="1532259453938"></p>
+<h2 id="2-3-页面渲染数据"><a href="#2-3-页面渲染数据" class="headerlink" title="2.3.页面渲染数据"></a>2.3.页面渲染数据</h2><h3 id="2-3-1-过滤参数数据结构"><a href="#2-3-1-过滤参数数据结构" class="headerlink" title="2.3.1.过滤参数数据结构"></a>2.3.1.过滤参数数据结构</h3><p>来看下页面的展示效果：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526742664217.png" srcset="/img/loading.gif" alt="1526742664217"></p>
+<p>虽然分类、品牌内容都不太一样，但是结构相似，都是key和value的结构。</p>
+<p>而且页面结构也极为类似：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526742817804.png" srcset="/img/loading.gif" alt="1526742817804"></p>
+<p>所以，我们可以把所有的过滤条件放入一个<code>数组</code>中，然后在页面利用<code>v-for</code>遍历一次生成。</p>
+<p>其基本结构是这样的：</p>
+<div class="hljs"><pre><code class="hljs js">[
+    &#123;
+        k:<span class="hljs-string">"过滤字段名"</span>,
+        options:[&#123;<span class="hljs-comment">/*过滤字段值对象*/</span>&#125;,&#123;<span class="hljs-comment">/*过滤字段值对象*/</span>&#125;]
+    &#125;
+]</code></pre></div>
+
+<p>我们先在data中定义数组：filter，等待组装过滤参数：</p>
+<div class="hljs"><pre><code class="hljs js">data: &#123;
+    ly,
+    search:&#123;
+        key: <span class="hljs-string">""</span>,
+        page: <span class="hljs-number">1</span>
+    &#125;,
+    goodsList:[], <span class="hljs-comment">// 接收搜索得到的结果</span>
+    total: <span class="hljs-number">0</span>, <span class="hljs-comment">// 总条数</span>
+    totalPage: <span class="hljs-number">0</span>, <span class="hljs-comment">// 总页数</span>
+    filters:[] <span class="hljs-comment">// 过滤参数集合</span>
+&#125;,</code></pre></div>
+
+<p>然后在查询搜索结果的回调函数中，对过滤参数进行封装：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532261937404.png" srcset="/img/loading.gif" alt="1532261937404"></p>
+<p>然后刷新页面，通过浏览器工具，查看封装的结果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532260781128.png" srcset="/img/loading.gif" alt="1532260781128"></p>
+<h3 id="2-3-2-页面渲染数据"><a href="#2-3-2-页面渲染数据" class="headerlink" title="2.3.2.页面渲染数据"></a>2.3.2.页面渲染数据</h3><p>首先看页面原来的代码：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526803362517.png" srcset="/img/loading.gif" alt="1526803362517"></p>
+<p>我们注意到，虽然页面元素是一样的，但是品牌会比其它搜索条件多出一些样式，因为品牌是以图片展示。需要进行特殊处理。数据展示是一致的，我们采用v-for处理：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"type-wrap"</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(f,i) in filters"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"i"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"f.k !== '品牌'"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"fl key"</span>&gt;</span>&#123;&#123;f.k&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"fl value"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"type-list"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(option, j) in f.options"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"j"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span>&gt;</span>&#123;&#123;option.name&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"fl ext"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"type-wrap logo"</span> <span class="hljs-attr">v-else</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"fl key brand"</span>&gt;</span>&#123;&#123;f.k&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"value logos"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"logo-list"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(option, j) in f.options"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"option.image"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">"option.image"</span> /&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"text-align: center"</span> <span class="hljs-attr">v-else</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"line-height: 30px; font-size: 12px"</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"#"</span>&gt;</span>&#123;&#123;option.name&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"fl ext"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"javascript:void(0);"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"sui-btn"</span>&gt;</span>多选<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></code></pre></div>
+
+<p>结果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532264524663.png" srcset="/img/loading.gif" alt="1532264524663"></p>
+<h1 id="3-生成规格参数过滤"><a href="#3-生成规格参数过滤" class="headerlink" title="3.生成规格参数过滤"></a>3.生成规格参数过滤</h1><h2 id="3-1-谋而后动"><a href="#3-1-谋而后动" class="headerlink" title="3.1.谋而后动"></a>3.1.谋而后动</h2><p>有四个问题需要先思考清楚：</p>
+<ul>
+<li>什么时候显示规格参数过滤？</li>
+<li>如何知道哪些规格需要过滤？</li>
+<li>要过滤的参数，其可选值是如何获取的？</li>
+<li>规格过滤的可选值，其数据格式怎样的？</li>
+</ul>
+<blockquote>
+<p>什么情况下显示有关规格参数的过滤？</p>
+</blockquote>
+<p>如果用户尚未选择商品分类，或者聚合得到的分类数大于1，那么就没必要进行规格参数的聚合。因为不同分类的商品，其规格是不同的。</p>
+<p>因此，我们在后台<strong>需要对聚合得到的商品分类数量进行判断，如果等于1，我们才继续进行规格参数的聚合</strong>。</p>
+<blockquote>
+<p>如何知道哪些规格需要过滤？</p>
+</blockquote>
+<p>我们不能把数据库中的所有规格参数都拿来过滤。因为并不是所有的规格参数都可以用来过滤，参数的值是不确定的。</p>
+<p>值的庆幸的是，我们在设计规格参数时，已经标记了某些规格可搜索，某些不可搜索。</p>
+<p>因此，一旦商品分类确定，我们就可以根据商品分类查询到其对应的规格，从而知道哪些规格要进行搜索。</p>
+<blockquote>
+<p>要过滤的参数，其可选值是如何获取的？</p>
+</blockquote>
+<p>虽然数据库中有所有的规格参数，但是不能把一切数据都用来供用户选择。</p>
+<p>与商品分类和品牌一样，应该是从用户搜索得到的结果中聚合，得到与结果品牌的规格参数可选值。</p>
+<blockquote>
+<p>规格过滤的可选值，其数据格式怎样的？</p>
+</blockquote>
+<p>我们直接看页面效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526805322441.png" srcset="/img/loading.gif" alt="1526805322441"></p>
+<p>我们之前存储时已经将数据分段，恰好符合这里的需求</p>
+<h2 id="3-3-实战"><a href="#3-3-实战" class="headerlink" title="3.3.实战"></a>3.3.实战</h2><p>接下来，我们就用代码实现刚才的思路。</p>
+<p>总结一下，应该是以下几步：</p>
+<ul>
+<li>1）用户搜索得到商品，并聚合出商品分类</li>
+<li>2）判断分类数量是否等于1，如果是则进行规格参数聚合</li>
+<li>3）先根据分类，查找可以用来搜索的规格</li>
+<li>4）对规格参数进行聚合</li>
+<li>5）将规格参数聚合结果整理后返回</li>
+</ul>
+<h3 id="3-3-1-扩展返回结果"><a href="#3-3-1-扩展返回结果" class="headerlink" title="3.3.1.扩展返回结果"></a>3.3.1.扩展返回结果</h3><p>返回结果中需要增加新数据，用来保存规格参数过滤条件。这里与前面的品牌和分类过滤的json结构类似：</p>
+<div class="hljs"><pre><code class="hljs json">[
+    &#123;
+        <span class="hljs-attr">"k"</span>:<span class="hljs-string">"规格参数名"</span>,
+        <span class="hljs-attr">"options"</span>:[<span class="hljs-string">"规格参数值"</span>,<span class="hljs-string">"规格参数值"</span>]
+    &#125;
+]</code></pre></div>
+
+<p>因此，在java中我们用List&lt;Map&lt;String, String&gt;&gt;来表示。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchResult</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">PageResult</span>&lt;<span class="hljs-title">Goods</span>&gt;</span>&#123;
+
+    <span class="hljs-keyword">private</span> List&lt;Category&gt; categories;<span class="hljs-comment">// 分类过滤条件</span>
+
+    <span class="hljs-keyword">private</span> List&lt;Brand&gt; brands; <span class="hljs-comment">// 品牌过滤条件</span>
+
+    <span class="hljs-keyword">private</span> List&lt;Map&lt;String,String&gt;&gt; specs; <span class="hljs-comment">// 规格参数过滤条件</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SearchResult</span><span class="hljs-params">(Long total, Integer totalPage, List&lt;Goods&gt; items,</span></span>
+<span class="hljs-function"><span class="hljs-params">                        List&lt;Category&gt; categories, List&lt;Brand&gt; brands,</span></span>
+<span class="hljs-function"><span class="hljs-params">                        List&lt;Map&lt;String,String&gt;&gt; specs)</span> </span>&#123;
+        <span class="hljs-keyword">super</span>(total, totalPage, items);
+        <span class="hljs-keyword">this</span>.categories = categories;
+        <span class="hljs-keyword">this</span>.brands = brands;
+        <span class="hljs-keyword">this</span>.specs = specs;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="3-3-2-判断是否需要聚合"><a href="#3-3-2-判断是否需要聚合" class="headerlink" title="3.3.2.判断是否需要聚合"></a>3.3.2.判断是否需要聚合</h3><p>首先，在聚合得到商品分类后，判断分类的个数，如果是1个则进行规格聚合：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532270316330.png" srcset="/img/loading.gif" alt="1532270316330"></p>
+<p>我们将聚合的代码抽取到了一个<code>getSpecs</code>方法中。</p>
+<h3 id="3-3-3-获取需要聚合的规格参数"><a href="#3-3-3-获取需要聚合的规格参数" class="headerlink" title="3.3.3.获取需要聚合的规格参数"></a>3.3.3.获取需要聚合的规格参数</h3><p>然后，我们需要根据商品分类，查询所有可用于搜索的规格参数：<img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532270455414.png" srcset="/img/loading.gif" alt="1532270455414"></p>
+<p>要注意的是，这里我们需要根据id查询规格，而规格参数接口需要从商品微服务提供</p>
+<h3 id="3-3-4-聚合规格参数"><a href="#3-3-4-聚合规格参数" class="headerlink" title="3.3.4.聚合规格参数"></a>3.3.4.聚合规格参数</h3><p>因为规格参数保存时不做分词，因此其名称会自动带上一个.keyword后缀：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532270506198.png" srcset="/img/loading.gif" alt="1532270506198"></p>
+<h3 id="3-3-5-解析聚合结果"><a href="#3-3-5-解析聚合结果" class="headerlink" title="3.3.5.解析聚合结果"></a>3.3.5.解析聚合结果</h3><p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532270553350.png" srcset="/img/loading.gif" alt="1532270553350"></p>
+<h3 id="3-3-6-最终的完整代码"><a href="#3-3-6-最终的完整代码" class="headerlink" title="3.3.6.最终的完整代码"></a>3.3.6.最终的完整代码</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SearchService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> CategoryClient categoryClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsClient goodsClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> SpecificationClient specificationClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsRepository goodsRepository;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> BrandClient brandClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> ElasticsearchTemplate elasticsearchTemplate;
+
+    <span class="hljs-keyword">private</span> ObjectMapper mapper = <span class="hljs-keyword">new</span> ObjectMapper();
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(SearchService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> SearchResult <span class="hljs-title">search</span><span class="hljs-params">(SearchRequest request)</span> </span>&#123;
+        String key = request.getKey();
+        <span class="hljs-comment">// 判断是否有搜索条件，如果没有，直接返回null。不允许搜索全部商品</span>
+        <span class="hljs-keyword">if</span> (StringUtils.isBlank(key)) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+        <span class="hljs-comment">// 构建查询条件</span>
+        NativeSearchQueryBuilder queryBuilder = <span class="hljs-keyword">new</span> NativeSearchQueryBuilder();
+        MatchQueryBuilder basicQuery = QueryBuilders.matchQuery(<span class="hljs-string">"all"</span>, key).operator(Operator.AND);
+        queryBuilder.withQuery(basicQuery);
+        <span class="hljs-comment">// 通过sourceFilter设置返回的结果字段,我们只需要id、skus、subTitle</span>
+        queryBuilder.withSourceFilter(<span class="hljs-keyword">new</span> FetchSourceFilter(<span class="hljs-keyword">new</span> String[]&#123;<span class="hljs-string">"id"</span>, <span class="hljs-string">"skus"</span>, <span class="hljs-string">"subTitle"</span>&#125;, <span class="hljs-keyword">null</span>));
+
+        <span class="hljs-comment">// 分页</span>
+        searchWithPageAndSort(queryBuilder, request);
+
+        <span class="hljs-comment">// 聚合</span>
+        queryBuilder.addAggregation(AggregationBuilders.terms(<span class="hljs-string">"brands"</span>).field(<span class="hljs-string">"cid3"</span>));
+        queryBuilder.addAggregation(AggregationBuilders.terms(<span class="hljs-string">"category"</span>).field(<span class="hljs-string">"brandId"</span>));
+
+        <span class="hljs-comment">// 执行查询获取结果集</span>
+        AggregatedPage&lt;Goods&gt; goodsPage = (AggregatedPage&lt;Goods&gt;) <span class="hljs-keyword">this</span>.goodsRepository.search(queryBuilder.build());
+
+        <span class="hljs-comment">// 获取聚合结果集</span>
+        <span class="hljs-comment">// 商品分类的聚合结果</span>
+        List&lt;Category&gt; categories =
+                getCategoryAggResult(goodsPage.getAggregation(<span class="hljs-string">"brands"</span>));
+        <span class="hljs-comment">// 品牌的聚合结果</span>
+        List&lt;Brand&gt; brands = getBrandAggResult(goodsPage.getAggregation(<span class="hljs-string">"category"</span>));
+
+        <span class="hljs-comment">// 根据商品分类判断是否需要聚合</span>
+        List&lt;Map&lt;String, Object&gt;&gt; specs = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+        <span class="hljs-keyword">if</span> (categories.size() == <span class="hljs-number">1</span>) &#123;
+            <span class="hljs-comment">// 如果商品分类只有一个才进行聚合，并根据分类与基本查询条件聚合</span>
+            specs = getSpec(categories.get(<span class="hljs-number">0</span>).getId(), basicQuery);
+        &#125;
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> SearchResult(goodsPage.getTotalElements(), goodsPage.getTotalPages(), goodsPage.getContent(), categories, brands, specs);
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 聚合出规格参数</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> cid</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> query</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> List&lt;Map&lt;String, Object&gt;&gt; getSpec(Long cid, QueryBuilder query) &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 不管是全局参数还是sku参数，只要是搜索参数，都根据分类id查询出来</span>
+            List&lt;SpecParam&gt; params = <span class="hljs-keyword">this</span>.specificationClient.querySpecParam(<span class="hljs-keyword">null</span>, cid, <span class="hljs-keyword">true</span>, <span class="hljs-keyword">null</span>);
+            List&lt;Map&lt;String, Object&gt;&gt; specs = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+            NativeSearchQueryBuilder queryBuilder = <span class="hljs-keyword">new</span> NativeSearchQueryBuilder();
+            queryBuilder.withQuery(query);
+
+            <span class="hljs-comment">// 聚合规格参数</span>
+            params.forEach(p -&gt; &#123;
+                String key = p.getName();
+                queryBuilder.addAggregation(AggregationBuilders.terms(key).field(<span class="hljs-string">"specs."</span> + key + <span class="hljs-string">".keyword"</span>));
+
+            &#125;);
+
+            <span class="hljs-comment">// 查询</span>
+            Map&lt;String, Aggregation&gt; aggs = <span class="hljs-keyword">this</span>.elasticsearchTemplate.query(queryBuilder.build(),
+                    SearchResponse::getAggregations).asMap();
+
+            <span class="hljs-comment">// 解析聚合结果</span>
+            params.forEach(param -&gt; &#123;
+                Map&lt;String, Object&gt; spec = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+                String key = param.getName();
+                spec.put(<span class="hljs-string">"k"</span>, key);
+                StringTerms terms = (StringTerms) aggs.get(key);
+                spec.put(<span class="hljs-string">"options"</span>, terms.getBuckets().stream().map(StringTerms.Bucket::getKeyAsString));
+                specs.add(spec);
+            &#125;);
+
+            <span class="hljs-keyword">return</span> specs;
+        &#125; <span class="hljs-keyword">catch</span> (
+                Exception e)
+
+        &#123;
+            logger.error(<span class="hljs-string">"规格聚合出现异常："</span>, e);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+
+    &#125;
+
+    <span class="hljs-comment">// 构建基本查询条件</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">searchWithPageAndSort</span><span class="hljs-params">(NativeSearchQueryBuilder queryBuilder, SearchRequest request)</span> </span>&#123;
+        <span class="hljs-comment">// 准备分页参数</span>
+        <span class="hljs-keyword">int</span> page = request.getPage();
+        <span class="hljs-keyword">int</span> size = request.getSize();
+
+        <span class="hljs-comment">// 1、分页</span>
+        queryBuilder.withPageable(PageRequest.of(page - <span class="hljs-number">1</span>, size));
+        <span class="hljs-comment">// 2、排序</span>
+        String sortBy = request.getSortBy();
+        Boolean desc = request.getDescending();
+        <span class="hljs-keyword">if</span> (StringUtils.isNotBlank(sortBy)) &#123;
+            <span class="hljs-comment">// 如果不为空，则进行排序</span>
+            queryBuilder.withSort(SortBuilders.fieldSort(sortBy).order(desc ? SortOrder.DESC : SortOrder.ASC));
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">// 解析品牌聚合结果</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> List&lt;Brand&gt; <span class="hljs-title">getBrandAggResult</span><span class="hljs-params">(Aggregation aggregation)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            LongTerms brandAgg = (LongTerms) aggregation;
+            List&lt;Long&gt; bids = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+            <span class="hljs-keyword">for</span> (LongTerms.Bucket bucket : brandAgg.getBuckets()) &#123;
+                bids.add(bucket.getKeyAsNumber().longValue());
+            &#125;
+            <span class="hljs-comment">// 根据id查询品牌</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.brandClient.queryBrandByIds(bids);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"品牌聚合出现异常："</span>, e);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">// 解析商品分类聚合结果</span>
+    <span class="hljs-function"><span class="hljs-keyword">private</span> List&lt;Category&gt; <span class="hljs-title">getCategoryAggResult</span><span class="hljs-params">(Aggregation aggregation)</span> </span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            List&lt;Category&gt; categories = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+            LongTerms categoryAgg = (LongTerms) aggregation;
+            List&lt;Long&gt; cids = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+            <span class="hljs-keyword">for</span> (LongTerms.Bucket bucket : categoryAgg.getBuckets()) &#123;
+                cids.add(bucket.getKeyAsNumber().longValue());
+            &#125;
+            <span class="hljs-comment">// 根据id查询分类名称</span>
+            List&lt;String&gt; names = <span class="hljs-keyword">this</span>.categoryClient.queryNameByIds(cids);
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; names.size(); i++) &#123;
+                Category c = <span class="hljs-keyword">new</span> Category();
+                c.setId(cids.get(i));
+                c.setName(names.get(i));
+                categories.add(c);
+            &#125;
+            <span class="hljs-keyword">return</span> categories;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"分类聚合出现异常："</span>, e);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="3-3-7-测试结果"><a href="#3-3-7-测试结果" class="headerlink" title="3.3.7.测试结果"></a>3.3.7.测试结果</h3><p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532270167684.png" srcset="/img/loading.gif" alt="1532270167684"></p>
+<h2 id="3-4-页面渲染"><a href="#3-4-页面渲染" class="headerlink" title="3.4.页面渲染"></a>3.4.页面渲染</h2><h3 id="3-4-1-渲染规格过滤条件"><a href="#3-4-1-渲染规格过滤条件" class="headerlink" title="3.4.1.渲染规格过滤条件"></a>3.4.1.渲染规格过滤条件</h3><p>首先把后台传递过来的specs添加到filters数组：</p>
+<p>要注意：分类、品牌的option选项是对象，里面有name属性，而specs中的option是简单的字符串，所以需要进行封装，变为相同的结构：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532271319440.png" srcset="/img/loading.gif" alt="1532271319440"></p>
+<p>最后的结果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526836508277.png" srcset="/img/loading.gif" alt="1526836508277"></p>
+<h3 id="3-4-2-展示或收起过滤条件"><a href="#3-4-2-展示或收起过滤条件" class="headerlink" title="3.4.2.展示或收起过滤条件"></a>3.4.2.展示或收起过滤条件</h3><p>是不是感觉显示的太多了，我们可以通过按钮点击来展开和隐藏部分内容：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532271362148.png" srcset="/img/loading.gif" alt="1532271362148"></p>
+<p>我们在data中定义变量，记录展开或隐藏的状态：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532271577293.png" srcset="/img/loading.gif" alt="1532271577293"></p>
+<p>然后在按钮绑定点击事件，以改变show的取值：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532272309322.png" srcset="/img/loading.gif" alt="1532272309322"></p>
+<p>在展示规格时，对show进行判断：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532272262743.png" srcset="/img/loading.gif" alt="1532272262743"></p>
+<p>OK！</p>
+<h1 id="4-过滤条件的筛选"><a href="#4-过滤条件的筛选" class="headerlink" title="4.过滤条件的筛选"></a>4.过滤条件的筛选</h1><p>当我们点击页面的过滤项，要做哪些事情？</p>
+<ul>
+<li>把过滤条件保存在search对象中（watch监控到search变化后就会发送到后台）</li>
+<li>在页面顶部展示已选择的过滤项</li>
+<li>把商品分类展示到顶部面包屑</li>
+</ul>
+<h2 id="4-1-保存过滤项"><a href="#4-1-保存过滤项" class="headerlink" title="4.1.保存过滤项"></a>4.1.保存过滤项</h2><h3 id="4-1-1-定义属性"><a href="#4-1-1-定义属性" class="headerlink" title="4.1.1.定义属性"></a>4.1.1.定义属性</h3><p>我们把已选择的过滤项保存在search中：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532273487583.png" srcset="/img/loading.gif" alt="1532273487583"></p>
+<p>要注意，在created构造函数中会对search进行初始化，所以要在构造函数中对filter进行初始化：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526902467385.png" srcset="/img/loading.gif" alt="1526902467385"></p>
+<p>search.filter是一个对象，结构：</p>
+<div class="hljs"><pre><code class="hljs js">&#123;
+    <span class="hljs-string">"过滤项名"</span>:<span class="hljs-string">"过滤项值"</span>
+&#125;</code></pre></div>
+
+
+
+<h3 id="4-1-2-绑定点击事件"><a href="#4-1-2-绑定点击事件" class="headerlink" title="4.1.2.绑定点击事件"></a>4.1.2.绑定点击事件</h3><p>给所有的过滤项绑定点击事件：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532272879418.png" srcset="/img/loading.gif" alt="1532272879418"></p>
+<p>要注意，点击事件传2个参数：</p>
+<ul>
+<li>k：过滤项的key</li>
+<li>option：当前过滤项对象</li>
+</ul>
+<p>在点击事件中，保存过滤项到<code>selectedFilter</code>：</p>
+<div class="hljs"><pre><code class="hljs js">selectFilter(k, o)&#123;
+    <span class="hljs-keyword">const</span> obj = &#123;&#125;;
+    <span class="hljs-built_in">Object</span>.assign(obj, <span class="hljs-keyword">this</span>.search);
+    <span class="hljs-keyword">if</span>(k === <span class="hljs-string">'分类'</span> || k === <span class="hljs-string">'品牌'</span>)&#123;
+        o = o.id;
+    &#125;
+    obj.filter[k] = o.name;
+    <span class="hljs-keyword">this</span>.search = obj;
+&#125;</code></pre></div>
+
+<p>另外，这里search对象中嵌套了filter对象，请求参数格式化时需要进行特殊处理，修改common.js中的一段代码：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532273144046.png" srcset="/img/loading.gif" alt="1532273144046"></p>
+<p>我们刷新页面，点击后通过浏览器功能查看<code>search.filter</code>的属性变化：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532274670784.png" srcset="/img/loading.gif" alt="1532274670784"></p>
+<p>并且，此时浏览器地址也发生了变化：</p>
+<div class="hljs"><pre><code class="hljs xquery">http://www.leyou.com/search.html<span class="hljs-built_in">?key</span>=<span class="hljs-meta">%E6</span><span class="hljs-meta">%89</span><span class="hljs-meta">%8B</span><span class="hljs-meta">%E6</span><span class="hljs-meta">%9C</span><span class="hljs-meta">%BA</span>&amp;page=<span class="hljs-number">1</span><span class="hljs-built_in">&amp;filter</span>.<span class="hljs-meta">%E5</span><span class="hljs-meta">%93</span><span class="hljs-meta">%81</span><span class="hljs-meta">%E7</span><span class="hljs-meta">%89</span><span class="hljs-meta">%8C</span>=<span class="hljs-number">2032</span><span class="hljs-built_in">&amp;filter</span>.CPU<span class="hljs-meta">%E5</span><span class="hljs-meta">%93</span><span class="hljs-meta">%81</span><span class="hljs-meta">%E7</span><span class="hljs-meta">%89</span><span class="hljs-meta">%8C</span>=<span class="hljs-meta">%E6</span><span class="hljs-meta">%B5</span><span class="hljs-meta">%B7</span><span class="hljs-meta">%E6</span><span class="hljs-meta">%80</span><span class="hljs-meta">%9D</span><span class="hljs-meta">%EF</span><span class="hljs-meta">%BC</span><span class="hljs-meta">%88Hisilicon</span><span class="hljs-meta">%EF</span><span class="hljs-meta">%BC</span><span class="hljs-meta">%89</span><span class="hljs-built_in">&amp;filter</span>.CPU<span class="hljs-meta">%E6</span><span class="hljs-meta">%A0</span><span class="hljs-meta">%B8</span><span class="hljs-meta">%E6</span><span class="hljs-meta">%95</span><span class="hljs-meta">%B0</span>=<span class="hljs-meta">%E5</span><span class="hljs-meta">%8D</span><span class="hljs-meta">%81</span><span class="hljs-meta">%E6</span><span class="hljs-meta">%A0</span><span class="hljs-meta">%B8</span></code></pre></div>
+
+<p>网络请求也正常发出：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1532274821104.png" srcset="/img/loading.gif" alt="1532274821104"></p>
+<h2 id="4-2-后台添加过滤条件"><a href="#4-2-后台添加过滤条件" class="headerlink" title="4.2.后台添加过滤条件"></a>4.2.后台添加过滤条件</h2><p>既然请求已经发送到了后台，那接下来我们就在后台去添加这些条件：</p>
+<h3 id="4-2-1-拓展请求对象"><a href="#4-2-1-拓展请求对象" class="headerlink" title="4.2.1.拓展请求对象"></a>4.2.1.拓展请求对象</h3><p>我们需要在请求类：<code>SearchRequest</code>中添加属性，接收过滤属性。过滤属性都是键值对格式，但是key不确定，所以用一个map来接收即可。</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526910290497.png" srcset="/img/loading.gif" alt="1526910290497"></p>
+<h3 id="4-2-2-添加过滤条件"><a href="#4-2-2-添加过滤条件" class="headerlink" title="4.2.2.添加过滤条件"></a>4.2.2.添加过滤条件</h3><p>目前，我们的基本查询是这样的：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526910653795.png" srcset="/img/loading.gif" alt="1526910653795"></p>
+<p>现在，我们要把页面传递的过滤条件也进入进去。</p>
+<p>因此不能在使用普通的查询，而是要用到BooleanQuery，基本结构是这样的：</p>
+<div class="hljs"><pre><code class="hljs json">GET /heima/_search
+&#123;
+    <span class="hljs-attr">"query"</span>:&#123;
+        <span class="hljs-attr">"bool"</span>:&#123;
+        	"must":&#123; "match": &#123; "title": "小米手机",operator:"and"&#125;&#125;,
+        	"filter":&#123;
+                "range":&#123;"price":&#123;"gt":2000.00,"lt":3800.00&#125;&#125;
+        	&#125;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>所以，我们对原来的基本查询进行改造：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526910768974.png" srcset="/img/loading.gif" alt="1526910768974"></p>
+<p>因为比较复杂，我们将其封装到一个方法中：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">// 构建基本查询条件</span>
+<span class="hljs-function"><span class="hljs-keyword">private</span> QueryBuilder <span class="hljs-title">buildBasicQueryWithFilter</span><span class="hljs-params">(SearchRequest request)</span> </span>&#123;
+    BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();
+    <span class="hljs-comment">// 基本查询条件</span>
+    queryBuilder.must(QueryBuilders.matchQuery(<span class="hljs-string">"all"</span>, request.getKey()).operator(Operator.AND));
+    <span class="hljs-comment">// 过滤条件构建器</span>
+    BoolQueryBuilder filterQueryBuilder = QueryBuilders.boolQuery();
+    <span class="hljs-comment">// 整理过滤条件</span>
+    Map&lt;String, String&gt; filter = request.getFilter();
+    <span class="hljs-keyword">for</span> (Map.Entry&lt;String, String&gt; entry : filter.entrySet()) &#123;
+        String key = entry.getKey();
+        String value = entry.getValue();
+        <span class="hljs-comment">// 商品分类和品牌要特殊处理</span>
+        <span class="hljs-keyword">if</span> (key != <span class="hljs-string">"cid3"</span> &amp;&amp; key != <span class="hljs-string">"brandId"</span>) &#123;
+            key = <span class="hljs-string">"specs."</span> + key + <span class="hljs-string">".keyword"</span>;
+        &#125;
+        <span class="hljs-comment">// 字符串类型，进行term查询</span>
+        filterQueryBuilder.must(QueryBuilders.termQuery(key, value));
+    &#125;
+    <span class="hljs-comment">// 添加过滤条件</span>
+    queryBuilder.filter(filterQueryBuilder);
+    <span class="hljs-keyword">return</span> queryBuilder;
+&#125;</code></pre></div>
+
+<p>其它不变。</p>
+<h2 id="4-3-页面测试"><a href="#4-3-页面测试" class="headerlink" title="4.3.页面测试"></a>4.3.页面测试</h2><p>我们先不点击过滤条件，直接搜索手机：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526910966728.png" srcset="/img/loading.gif" alt="1526910966728"></p>
+<p>总共184条</p>
+<p>接下来，我们点击一个过滤条件：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526911057839.png" srcset="/img/loading.gif" alt="1526911057839"></p>
+<p>得到的结果：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526911090064.png" srcset="/img/loading.gif" alt="1526911090064"></p>
+<h1 id="5-页面展示选择的过滤项-作业"><a href="#5-页面展示选择的过滤项-作业" class="headerlink" title="5.页面展示选择的过滤项(作业)"></a>5.页面展示选择的过滤项(作业)</h1><h2 id="5-1-商品分类面包屑"><a href="#5-1-商品分类面包屑" class="headerlink" title="5.1.商品分类面包屑"></a>5.1.商品分类面包屑</h2><p>当用户选择一个商品分类以后，我们应该在过滤模块的上方展示一个面包屑，把三级商品分类都显示出来。</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526912181355.png" srcset="/img/loading.gif" alt="1526912181355"></p>
+<p>用户选择的商品分类就存放在<code>search.filter</code>中，但是里面只有第三级分类的id：cid3</p>
+<p>我们需要根据它查询出所有三级分类的id及名称</p>
+<h3 id="5-1-1-提供查询分类接口"><a href="#5-1-1-提供查询分类接口" class="headerlink" title="5.1.1.提供查询分类接口"></a>5.1.1.提供查询分类接口</h3><p>我们在商品微服务中提供一个根据三级分类id查询1~3级分类集合的方法：</p>
+<blockquote>
+<p>Controller</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 根据3级分类id，查询1~3级的分类</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> id</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"all/level"</span>)
+<span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;Category&gt;&gt; queryAllByCid3(<span class="hljs-meta">@RequestParam</span>(<span class="hljs-string">"id"</span>) Long id)&#123;
+    List&lt;Category&gt; list = <span class="hljs-keyword">this</span>.categoryService.queryAllByCid3(id);
+    <span class="hljs-keyword">if</span> (list == <span class="hljs-keyword">null</span> || list.size() &lt; <span class="hljs-number">1</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(list);
+&#125;</code></pre></div>
+
+<blockquote>
+<p>Service</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Category&gt; <span class="hljs-title">queryAllByCid3</span><span class="hljs-params">(Long id)</span> </span>&#123;
+    Category c3 = <span class="hljs-keyword">this</span>.categoryMapper.selectByPrimaryKey(id);
+    Category c2 = <span class="hljs-keyword">this</span>.categoryMapper.selectByPrimaryKey(c3.getParentId());
+    Category c1 = <span class="hljs-keyword">this</span>.categoryMapper.selectByPrimaryKey(c2.getParentId());
+    <span class="hljs-keyword">return</span> Arrays.asList(c1,c2,c3);
+&#125;</code></pre></div>
+
+<p>测试：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526912781014.png" srcset="/img/loading.gif" alt="1526912781014"></p>
+<h3 id="5-1-2-页面展示面包屑"><a href="#5-1-2-页面展示面包屑" class="headerlink" title="5.1.2.页面展示面包屑"></a>5.1.2.页面展示面包屑</h3><p>后台提供了接口，下面的问题是，我们在哪里去查询接口？</p>
+<p>大家首先想到的肯定是当用户点击以后。</p>
+<p>但是我们思考一下：用户点击以后，就会重新发起请求，页面刷新，那么你渲染的结果就没了。</p>
+<p>因此，应该是在页面重新加载完毕后，此时因为过滤条件中加入了商品分类的条件，所以查询的结果中只有1个分类。</p>
+<p>我们判断商品分类是否只有1个，如果是，则查询三级商品分类，添加到面包屑即可。</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526914910479.png" srcset="/img/loading.gif" alt="1526914910479"></p>
+<p>渲染：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1528416823546.png" srcset="/img/loading.gif" alt="1528416823546"></p>
+<p>刷新页面：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526914954839.png" srcset="/img/loading.gif" alt="1526914954839"></p>
+<h2 id="5-2-其它过滤项"><a href="#5-2-其它过滤项" class="headerlink" title="5.2.其它过滤项"></a>5.2.其它过滤项</h2><p>接下来，我们需要在页面展示用户已选择的过滤项，如图：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526911364625.png" srcset="/img/loading.gif" alt="1526911364625"></p>
+<p>我们知道，所有已选择过滤项都保存在<code>search.filter</code>中，因此在页面遍历并展示即可。</p>
+<p>但这里有个问题，filter中数据的格式：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526911311273.png" srcset="/img/loading.gif" alt="1526911311273"></p>
+<p>基本有四类数据：</p>
+<ul>
+<li>商品分类：这个不需要展示，分类展示在面包屑位置</li>
+<li>品牌：这个要展示，但是其key和值不合适，我们不能显示一个id在页面。需要找到其name值</li>
+<li>数值类型规格：这个展示的时候，需要把单位查询出来</li>
+<li>非数值类型规格：这个直接展示其值即可</li>
+</ul>
+<p>因此，我们在页面上这样处理：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-comment">&lt;!--已选择过滤项--&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"tags-choose"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"tag"</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(v,k) in search.filter"</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"k !== 'cid3'"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"k"</span>&gt;</span>
+        &#123;&#123;k === 'brandId' ? '品牌' : k&#125;&#125;:<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color: red"</span>&gt;</span>&#123;&#123;getFilterValue(k,v)&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">i</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"sui-icon icon-tb-close"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre></div>
+
+<ul>
+<li>判断如果 <code>k === &#39;cid3&#39;</code>说明是商品分类，直接忽略</li>
+<li>判断<code>k === &#39;brandId&#39;</code>说明是品牌，页面显示品牌，其它规格则直接显示<code>k</code>的值</li>
+<li>值的处理比较复杂，我们用一个方法<code>getFilterValue(k,v)</code>来处理，调用时把<code>k</code>和<code>v</code>都传递</li>
+</ul>
+<p>方法内部：</p>
+<div class="hljs"><pre><code class="hljs js">getFilterValue(k,v)&#123;
+    <span class="hljs-comment">// 如果没有过滤参数，我们跳过展示</span>
+    <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.filters || <span class="hljs-keyword">this</span>.filters.length === <span class="hljs-number">0</span>)&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    &#125;
+    <span class="hljs-keyword">let</span> filter = <span class="hljs-literal">null</span>;
+    <span class="hljs-comment">// 判断是否是品牌</span>
+    <span class="hljs-keyword">if</span>(k === <span class="hljs-string">'brandId'</span>)&#123;
+        <span class="hljs-comment">// 返回品牌名称</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.filters.find(<span class="hljs-function"><span class="hljs-params">f</span> =&gt;</span> f.k === <span class="hljs-string">'brandId'</span>).options[<span class="hljs-number">0</span>].name;
+    &#125;
+    <span class="hljs-keyword">return</span> v;
+&#125;</code></pre></div>
+
+<p>然后刷新页面，即可看到效果：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526911811998.png" srcset="/img/loading.gif" alt="1526911811998"></p>
+<h2 id="5-3-隐藏已经选择的过滤项"><a href="#5-3-隐藏已经选择的过滤项" class="headerlink" title="5.3.隐藏已经选择的过滤项"></a>5.3.隐藏已经选择的过滤项</h2><p>现在，我们已经实现了已选择过滤项的展示，但是你会发现一个问题：</p>
+<p>已经选择的过滤项，在过滤列表中依然存在：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526915075037.png" srcset="/img/loading.gif" alt="1526915075037"></p>
+<p>这些已经选择的过滤项，应该从列表中移除。</p>
+<p>怎么做呢？</p>
+<p>你必须先知道用户选择了什么。用户选择的项保存在<code>search.filter</code>中：</p>
+<p> <img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526915191753.png" srcset="/img/loading.gif" alt="1526915191753"></p>
+<p>我们可以编写一个计算属性，把filters中的 已经被选择的key过滤掉：</p>
+<div class="hljs"><pre><code class="hljs js">computed:&#123;
+    remainFilters()&#123;
+        <span class="hljs-keyword">const</span> keys = <span class="hljs-built_in">Object</span>.keys(<span class="hljs-keyword">this</span>.search.filter);
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.search.filter.cid3)&#123;
+            keys.push(<span class="hljs-string">"cid3"</span>)
+        &#125;
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">this</span>.search.filter.brandId)&#123;
+            keys.push(<span class="hljs-string">"brandId"</span>)
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.filters.filter(<span class="hljs-function"><span class="hljs-params">f</span> =&gt;</span> !keys.includes(f.k));
+    &#125;
+&#125;</code></pre></div>
+
+<p>然后页面不再直接遍历<code>filters</code>，而是遍历<code>remainFilters</code></p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526916315470.png" srcset="/img/loading.gif" alt="1526916315470"></p>
+<p>刷新页面：</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526916538925.png" srcset="/img/loading.gif" alt="1526916538925"></p>
+<p>最后发现，还剩下一堆没选过的。但是都只有一个可选项，此时再过滤没有任何意义，应该隐藏，所以，在刚才的过滤条件中，还应该添加一条：如果只剩下一个可选项，不显示</p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526916815264.png" srcset="/img/loading.gif" alt="1526916815264"></p>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526916838222.png" srcset="/img/loading.gif" alt="1526916838222"></p>
+<h1 id="6-取消过滤项（作业）"><a href="#6-取消过滤项（作业）" class="headerlink" title="6.取消过滤项（作业）"></a>6.取消过滤项（作业）</h1><p>我们能够看到，每个过滤项后面都有一个小叉，当点击后，应该取消对应条件的过滤。</p>
+<p>思路非常简单：</p>
+<ul>
+<li>给小叉绑定点击事件</li>
+<li>点击后把过滤项从<code>search.filter</code>中移除，页面会自动刷新，OK</li>
+</ul>
+<blockquote>
+<p>绑定点击事件：</p>
+</blockquote>
+<p><img src="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday13/1526955150293.png" srcset="/img/loading.gif" alt="1526955150293"></p>
+<p>绑定点击事件时，把k传递过去，方便删除</p>
+<blockquote>
+<p>删除过滤项</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs js">removeFilter(k)&#123;
+    <span class="hljs-keyword">this</span>.search.filter[k] = <span class="hljs-literal">null</span>;
+&#125;</code></pre></div>
+
+
+
+
+
+<h1 id="7-优化"><a href="#7-优化" class="headerlink" title="7.优化"></a>7.优化</h1><p>搜索系统需要优化的点：</p>
+<ul>
+<li>查询规格参数部分可以添加缓存</li>
+<li>聚合计算interval变化频率极低，所以可以设计为定时任务计算（周期为天），然后缓存起来。</li>
+<li>elasticsearch本身有查询缓存，可以不进行优化</li>
+<li>商品图片应该采用缩略图，减少流量，提高页面加载速度</li>
+<li>图片采用延迟加载</li>
+<li>图片还可以采用CDN服务器</li>
+<li>sku信息应该在页面异步加载，而不是放到索引库</li>
+</ul>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8E/">乐优商城</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday14/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">乐优商城day14：商品详情及静态化</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday12/">
+                        <span class="hidden-mobile">乐优商城day12：elasticsearch2</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "乐优商城day13：搜索过滤&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

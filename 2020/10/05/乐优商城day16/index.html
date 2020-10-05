@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>乐优商城day16：用户注册 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-10-05 10:45">
+      2020-10-05
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      73
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>独立创建用户中心</li>
+<li>了解面向接口开发方式</li>
+<li>实现数据校验功能</li>
+<li>实现短信发送功能</li>
+<li>实现注册功能</li>
+<li>实现根据用户名和密码查询用户功能</li>
+</ul>
+<h1 id="1-创建用户中心"><a href="#1-创建用户中心" class="headerlink" title="1.创建用户中心"></a>1.创建用户中心</h1><p>用户搜索到自己心仪的商品，接下来就要去购买，但是购买必须先登录。所以接下来我们编写用户中心，实现用户的登录和注册功能。</p>
+<p>用户中心的提供的服务：</p>
+<ul>
+<li>用户的注册</li>
+<li>用户登录</li>
+<li>用户个人信息管理</li>
+<li>用户地址管理</li>
+<li>用户收藏管理</li>
+<li>我的订单</li>
+<li>优惠券管理</li>
+</ul>
+<p>这里我们暂时先实现基本的：<code>注册和登录</code>功能，其它功能大家可以自行补充完整。</p>
+<p>因为用户中心的服务其它微服务也会调用，因此这里我们做聚合。</p>
+<p>leyou-user：父工程，包含2个子工程：</p>
+<ul>
+<li>leyou-user-interface：实体及接口</li>
+<li>leyou-user-service：业务和服务</li>
+</ul>
+<h2 id="1-1-创建父module"><a href="#1-1-创建父module" class="headerlink" title="1.1.创建父module"></a>1.1.创建父module</h2><p>创建</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532778843008.png" srcset="/img/loading.gif" alt></p>
+<p>位置：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532778910920.png" srcset="/img/loading.gif" alt="1532778910920"></p>
+<h2 id="1-2-创建leyou-user-interface"><a href="#1-2-创建leyou-user-interface" class="headerlink" title="1.2.创建leyou-user-interface"></a>1.2.创建leyou-user-interface</h2><p>在leyou-user下，创建module：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532779001951.png" srcset="/img/loading.gif" alt="1532779001951"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532779042843.png" srcset="/img/loading.gif" alt="1532779042843"></p>
+<p>pom：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-user<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.user<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.user<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-user-interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+
+
+<h2 id="1-3-创建leyou-user-service"><a href="#1-3-创建leyou-user-service" class="headerlink" title="1.3.创建leyou-user-service"></a>1.3.创建leyou-user-service</h2><p>创建module</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532779120507.png" srcset="/img/loading.gif" alt="1532779120507"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532779166910.png" srcset="/img/loading.gif" alt="1532779166910"></p>
+<p>pom</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-user<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.user<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.user<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-user-service<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-jdbc<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- mybatis启动器 --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.mybatis.spring.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mybatis-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- 通用Mapper启动器 --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>tk.mybatis<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mapper-spring-boot-starter<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- mysql驱动 --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>mysql<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>mysql-connector-java<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.user<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-user-interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+
+
+<p>启动类</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@MapperScan</span>(<span class="hljs-string">"com.leyou.user.mapper"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LeyouUserApplication</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SpringApplication.run(LeyouUserApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>配置：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8085</span>
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">user-service</span>
+  <span class="hljs-attr">datasource:</span>
+    <span class="hljs-attr">url:</span> <span class="hljs-string">jdbc:mysql://127.0.0.1:3306/leyou</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">root</span>
+    <span class="hljs-attr">password:</span> <span class="hljs-string">root</span>
+    <span class="hljs-attr">driver-class-name:</span> <span class="hljs-string">com.mysql.jdbc.Driver</span>
+<span class="hljs-attr">eureka:</span>
+  <span class="hljs-attr">client:</span>
+    <span class="hljs-attr">service-url:</span>
+      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://127.0.0.1:10086/eureka</span>
+  <span class="hljs-attr">instance:</span>
+    <span class="hljs-attr">prefer-ip-address:</span> <span class="hljs-literal">true</span>
+    <span class="hljs-attr">ip-address:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+    <span class="hljs-attr">instance-id:</span> <span class="hljs-string">$&#123;eureka.instance.ip-address&#125;.$&#123;server.port&#125;</span>
+    <span class="hljs-attr">lease-renewal-interval-in-seconds:</span> <span class="hljs-number">5</span>
+    <span class="hljs-attr">lease-expiration-duration-in-seconds:</span> <span class="hljs-number">15</span>
+
+<span class="hljs-attr">mybatis:</span>
+  <span class="hljs-attr">type-aliases-package:</span> <span class="hljs-string">com.leyou.user.pojo</span></code></pre></div>
+
+
+
+<p>父工程leyou-user的pom：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.parent<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.user<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-user<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modules</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>leyou-user-interface<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">module</span>&gt;</span>leyou-user-service<span class="hljs-tag">&lt;/<span class="hljs-name">module</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">modules</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+
+
+<h2 id="1-4-添加网关路由"><a href="#1-4-添加网关路由" class="headerlink" title="1.4.添加网关路由"></a>1.4.添加网关路由</h2><p>我们修改<code>leyou-gateway</code>，添加路由规则，对<code>leyou-user-service</code>进行路由:</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532779772325.png" srcset="/img/loading.gif" alt="1532779772325"></p>
+<h1 id="2-后台功能准备"><a href="#2-后台功能准备" class="headerlink" title="2.后台功能准备"></a>2.后台功能准备</h1><h2 id="2-1-接口文档"><a href="#2-1-接口文档" class="headerlink" title="2.1.接口文档"></a>2.1.接口文档</h2><p>整个用户中心的开发，我们将模拟公司内面向接口的开发。</p>
+<p>现在假设项目经理已经设计好了接口文档，详见：《用户中心接口说明.md》</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527174356711.png" srcset="/img/loading.gif" alt="1527174356711"></p>
+<p>我们将根据文档直接编写后台功能，不关心页面实现。</p>
+<h2 id="2-2-数据结构"><a href="#2-2-数据结构" class="headerlink" title="2.2.数据结构"></a>2.2.数据结构</h2><div class="hljs"><pre><code class="hljs mysql">CREATE TABLE &#96;tb_user&#96; (
+  &#96;id&#96; bigint(20) NOT NULL AUTO_INCREMENT,
+  &#96;username&#96; varchar(50) NOT NULL COMMENT &#39;用户名&#39;,
+  &#96;password&#96; varchar(32) NOT NULL COMMENT &#39;密码，加密存储&#39;,
+  &#96;phone&#96; varchar(20) DEFAULT NULL COMMENT &#39;注册手机号&#39;,
+  &#96;created&#96; datetime NOT NULL COMMENT &#39;创建时间&#39;,
+  &#96;salt&#96; varchar(32) NOT NULL COMMENT &#39;密码加密的salt值&#39;,
+  PRIMARY KEY (&#96;id&#96;),
+  UNIQUE KEY &#96;username&#96; (&#96;username&#96;) USING BTREE
+) ENGINE&#x3D;InnoDB AUTO_INCREMENT&#x3D;28 DEFAULT CHARSET&#x3D;utf8 COMMENT&#x3D;&#39;用户表&#39;;</code></pre></div>
+
+<p>数据结构比较简单，因为根据用户名查询的频率较高，所以我们给用户名创建了索引</p>
+<h2 id="2-3-基本代码"><a href="#2-3-基本代码" class="headerlink" title="2.3.基本代码"></a>2.3.基本代码</h2><p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532781014342.png" srcset="/img/loading.gif" alt="1532781014342"></p>
+<h3 id="2-3-1-实体类"><a href="#2-3-1-实体类" class="headerlink" title="2.3.1.实体类"></a>2.3.1.实体类</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Table</span>(name = <span class="hljs-string">"tb_user"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)
+    <span class="hljs-keyword">private</span> Long id;
+
+    <span class="hljs-keyword">private</span> String username;<span class="hljs-comment">// 用户名</span>
+
+    <span class="hljs-meta">@JsonIgnore</span>
+    <span class="hljs-keyword">private</span> String password;<span class="hljs-comment">// 密码</span>
+
+    <span class="hljs-keyword">private</span> String phone;<span class="hljs-comment">// 电话</span>
+
+    <span class="hljs-keyword">private</span> Date created;<span class="hljs-comment">// 创建时间</span>
+
+    <span class="hljs-meta">@JsonIgnore</span>
+    <span class="hljs-keyword">private</span> String salt;<span class="hljs-comment">// 密码的盐值</span>
+&#125;</code></pre></div>
+
+<p>注意：为了安全考虑。这里对password和salt添加了注解@JsonIgnore，这样在json序列化时，就不会把password和salt返回。</p>
+<h3 id="2-3-2-mapper"><a href="#2-3-2-mapper" class="headerlink" title="2.3.2.mapper"></a>2.3.2.mapper</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserMapper</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Mapper</span>&lt;<span class="hljs-title">User</span>&gt; </span>&#123;
+&#125;</code></pre></div>
+
+
+
+<h3 id="2-3-3-Service"><a href="#2-3-3-Service" class="headerlink" title="2.3.3.Service"></a>2.3.3.Service</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> UserMapper userMapper;
+&#125;</code></pre></div>
+
+
+
+<h3 id="2-3-4-controller"><a href="#2-3-4-controller" class="headerlink" title="2.3.4.controller"></a>2.3.4.controller</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> UserService userService;
+    
+&#125;</code></pre></div>
+
+
+
+<h1 id="3-数据验证功能"><a href="#3-数据验证功能" class="headerlink" title="3.数据验证功能"></a>3.数据验证功能</h1><h2 id="3-1-接口说明"><a href="#3-1-接口说明" class="headerlink" title="3.1.接口说明"></a>3.1.接口说明</h2><p>实现用户数据的校验，主要包括对：手机号、用户名的唯一性校验。</p>
+<p><strong>接口路径：</strong></p>
+<div class="hljs"><pre><code class="hljs haskell"><span class="hljs-type">GET</span> /check/&#123;<span class="hljs-class"><span class="hljs-keyword">data</span>&#125;/&#123;<span class="hljs-title">type</span>&#125;</span></code></pre></div>
+
+<p><strong>参数说明：</strong></p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>是否必须</th>
+<th>数据类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>data</td>
+<td>要校验的数据</td>
+<td>是</td>
+<td>String</td>
+<td>无</td>
+</tr>
+<tr>
+<td>type</td>
+<td>要校验的数据类型：1，用户名；2，手机；</td>
+<td>否</td>
+<td>Integer</td>
+<td>1</td>
+</tr>
+</tbody></table>
+<p><strong>返回结果：</strong></p>
+<p>返回布尔类型结果：</p>
+<ul>
+<li>true：可用</li>
+<li>false：不可用</li>
+</ul>
+<p>状态码：</p>
+<ul>
+<li>200：校验成功</li>
+<li>400：参数有误</li>
+<li>500：服务器内部异常</li>
+</ul>
+<h2 id="3-2-controller"><a href="#3-2-controller" class="headerlink" title="3.2.controller"></a>3.2.controller</h2><p>因为有了接口，我们可以不关心页面，所有需要的东西都一清二楚：</p>
+<ul>
+<li>请求方式：GET</li>
+<li>请求路径：/check/{param}/{type}</li>
+<li>请求参数：param,type</li>
+<li>返回结果：true或false</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">  * 校验数据是否可用</span>
+<span class="hljs-comment">  * <span class="hljs-doctag">@param</span> data</span>
+<span class="hljs-comment">  * <span class="hljs-doctag">@param</span> type</span>
+<span class="hljs-comment">  * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">  */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"check/&#123;data&#125;/&#123;type&#125;"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Boolean&gt; <span class="hljs-title">checkUserData</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"data"</span>)</span> String data, @<span class="hljs-title">PathVariable</span><span class="hljs-params">(value = <span class="hljs-string">"type"</span>, defaultValue=<span class="hljs-string">"1"</span>)</span> Integer type) </span>&#123;
+    Boolean boo = <span class="hljs-keyword">this</span>.userService.checkData(data, type);
+    <span class="hljs-keyword">if</span> (boo == <span class="hljs-keyword">null</span>) &#123;
+        <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(boo);
+&#125;</code></pre></div>
+
+<h2 id="3-3-Service"><a href="#3-3-Service" class="headerlink" title="3.3.Service"></a>3.3.Service</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">checkData</span><span class="hljs-params">(String data, Integer type)</span> </span>&#123;
+    User record = <span class="hljs-keyword">new</span> User();
+    <span class="hljs-keyword">switch</span> (type) &#123;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+            record.setUsername(data);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+            record.setPhone(data);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.userMapper.selectCount(record) == <span class="hljs-number">0</span>;
+&#125;</code></pre></div>
+
+
+
+<h2 id="3-4-测试"><a href="#3-4-测试" class="headerlink" title="3.4.测试"></a>3.4.测试</h2><p>我们在数据库插入一条假数据：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532781696303.png" srcset="/img/loading.gif" alt="1532781696303"></p>
+<p>然后在浏览器调用接口，测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532781679924.png" srcset="/img/loading.gif" alt="1532781679924"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532781726835.png" srcset="/img/loading.gif" alt="1532781726835"></p>
+<h1 id="4-阿里大于短信服务"><a href="#4-阿里大于短信服务" class="headerlink" title="4.阿里大于短信服务"></a>4.阿里大于短信服务</h1><h2 id="4-1-demo"><a href="#4-1-demo" class="headerlink" title="4.1.demo"></a>4.1.demo</h2><p>注册页面上有短信发送的按钮，当用户点击发送短信，我们需要生成验证码，发送给用户。我们将使用阿里提供的阿里大于来实现短信发送。</p>
+<p>参考课前资料的《阿里短信.md》学习demo入门</p>
+<h2 id="4-2-创建短信微服务"><a href="#4-2-创建短信微服务" class="headerlink" title="4.2.创建短信微服务"></a>4.2.创建短信微服务</h2><p>因为系统中不止注册一个地方需要短信发送，因此我们将短信发送抽取为微服务：<code>leyou-sms-service</code>，凡是需要的地方都可以使用。</p>
+<p>另外，因为短信发送API调用时长的不确定性，为了提高程序的响应速度，短信发送我们都将采用异步发送方式，即：</p>
+<ul>
+<li>短信服务监听MQ消息，收到消息后发送短信。</li>
+<li>其它服务要发送短信时，通过MQ通知短信微服务。</li>
+</ul>
+<h3 id="4-2-1-创建module"><a href="#4-2-1-创建module" class="headerlink" title="4.2.1.创建module"></a>4.2.1.创建module</h3><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532786840913.png" srcset="/img/loading.gif" alt="1532786840913"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1532786877872.png" srcset="/img/loading.gif" alt="1532786877872"></p>
+<h3 id="4-2-2-pom"><a href="#4-2-2-pom" class="headerlink" title="4.2.2.pom"></a>4.2.2.pom</h3><div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.parent<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.sms<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-sms-service<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-amqp<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.aliyun<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>aliyun-java-sdk-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>3.3.1<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.aliyun<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>aliyun-java-sdk-dysmsapi<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+
+
+<h3 id="4-2-3-编写启动类"><a href="#4-2-3-编写启动类" class="headerlink" title="4.2.3.编写启动类"></a>4.2.3.编写启动类</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LeyouSmsApplication</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SpringApplication.run(LeyouSmsApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="4-2-4-编写application-yml"><a href="#4-2-4-编写application-yml" class="headerlink" title="4.2.4.编写application.yml"></a>4.2.4.编写application.yml</h3><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8086</span>
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">sms-service</span>
+  <span class="hljs-attr">rabbitmq:</span>
+    <span class="hljs-attr">host:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.56</span><span class="hljs-number">.101</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">leyou</span>
+    <span class="hljs-attr">password:</span> <span class="hljs-string">leyou</span>
+    <span class="hljs-attr">virtual-host:</span> <span class="hljs-string">/leyou</span></code></pre></div>
+
+<h2 id="4-3-编写短信工具类"><a href="#4-3-编写短信工具类" class="headerlink" title="4.3.编写短信工具类"></a>4.3.编写短信工具类</h2><h3 id="4-3-1-属性抽取"><a href="#4-3-1-属性抽取" class="headerlink" title="4.3.1.属性抽取"></a>4.3.1.属性抽取</h3><p>我们首先把一些常量抽取到application.yml中：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">leyou:</span>
+  <span class="hljs-attr">sms:</span>
+    <span class="hljs-attr">accessKeyId:</span> <span class="hljs-string">JWffwFJIwada</span> <span class="hljs-comment"># 你自己的accessKeyId</span>
+    <span class="hljs-attr">accessKeySecret:</span> <span class="hljs-string">aySRliswq8fe7rF9gQyy1Izz4MQ</span> <span class="hljs-comment"># 你自己的AccessKeySecret</span>
+    <span class="hljs-attr">signName:</span> <span class="hljs-string">乐优商城</span> <span class="hljs-comment"># 签名名称</span>
+    <span class="hljs-attr">verifyCodeTemplate:</span> <span class="hljs-string">SMS_133976814</span> <span class="hljs-comment"># 模板名称</span></code></pre></div>
+
+<p>然后注入到属性类中：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"leyou.sms"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SmsProperties</span> </span>&#123;
+
+    String accessKeyId;
+
+    String accessKeySecret;
+
+    String signName;
+
+    String verifyCodeTemplate;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getAccessKeyId</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> accessKeyId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAccessKeyId</span><span class="hljs-params">(String accessKeyId)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.accessKeyId = accessKeyId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getAccessKeySecret</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> accessKeySecret;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAccessKeySecret</span><span class="hljs-params">(String accessKeySecret)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.accessKeySecret = accessKeySecret;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getSignName</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> signName;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setSignName</span><span class="hljs-params">(String signName)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.signName = signName;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getVerifyCodeTemplate</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> verifyCodeTemplate;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setVerifyCodeTemplate</span><span class="hljs-params">(String verifyCodeTemplate)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.verifyCodeTemplate = verifyCodeTemplate;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="4-3-2-工具类"><a href="#4-3-2-工具类" class="headerlink" title="4.3.2.工具类"></a>4.3.2.工具类</h3><p>我们把阿里提供的demo进行简化和抽取，封装一个工具类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@EnableConfigurationProperties</span>(SmsProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">SmsUtils</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> SmsProperties prop;
+
+    <span class="hljs-comment">//产品名称:云通信短信API产品,开发者无需替换</span>
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String product = <span class="hljs-string">"Dysmsapi"</span>;
+    <span class="hljs-comment">//产品域名,开发者无需替换</span>
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String domain = <span class="hljs-string">"dysmsapi.aliyuncs.com"</span>;
+
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(SmsUtils<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> SendSmsResponse <span class="hljs-title">sendSms</span><span class="hljs-params">(String phone, String code, String signName, String template)</span> <span class="hljs-keyword">throws</span> ClientException </span>&#123;
+
+        <span class="hljs-comment">//可自助调整超时时间</span>
+        System.setProperty(<span class="hljs-string">"sun.net.client.defaultConnectTimeout"</span>, <span class="hljs-string">"10000"</span>);
+        System.setProperty(<span class="hljs-string">"sun.net.client.defaultReadTimeout"</span>, <span class="hljs-string">"10000"</span>);
+
+        <span class="hljs-comment">//初始化acsClient,暂不支持region化</span>
+        IClientProfile profile = DefaultProfile.getProfile(<span class="hljs-string">"cn-hangzhou"</span>,
+                prop.getAccessKeyId(), prop.getAccessKeySecret());
+        DefaultProfile.addEndpoint(<span class="hljs-string">"cn-hangzhou"</span>, <span class="hljs-string">"cn-hangzhou"</span>, product, domain);
+        IAcsClient acsClient = <span class="hljs-keyword">new</span> DefaultAcsClient(profile);
+
+        <span class="hljs-comment">//组装请求对象-具体描述见控制台-文档部分内容</span>
+        SendSmsRequest request = <span class="hljs-keyword">new</span> SendSmsRequest();
+        request.setMethod(MethodType.POST);
+        <span class="hljs-comment">//必填:待发送手机号</span>
+        request.setPhoneNumbers(phone);
+        <span class="hljs-comment">//必填:短信签名-可在短信控制台中找到</span>
+        request.setSignName(signName);
+        <span class="hljs-comment">//必填:短信模板-可在短信控制台中找到</span>
+        request.setTemplateCode(template);
+        <span class="hljs-comment">//可选:模板中的变量替换JSON串,如模板内容为"亲爱的$&#123;name&#125;,您的验证码为$&#123;code&#125;"时,此处的值为</span>
+        request.setTemplateParam(<span class="hljs-string">"&#123;\"code\":\""</span> + code + <span class="hljs-string">"\"&#125;"</span>);
+
+        <span class="hljs-comment">//选填-上行短信扩展码(无特殊需求用户请忽略此字段)</span>
+        <span class="hljs-comment">//request.setSmsUpExtendCode("90997");</span>
+
+        <span class="hljs-comment">//可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者</span>
+        request.setOutId(<span class="hljs-string">"123456"</span>);
+
+        <span class="hljs-comment">//hint 此处可能会抛出异常，注意catch</span>
+        SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
+
+        logger.info(<span class="hljs-string">"发送短信状态：&#123;&#125;"</span>, sendSmsResponse.getCode());
+        logger.info(<span class="hljs-string">"发送短信消息：&#123;&#125;"</span>, sendSmsResponse.getMessage());
+
+        <span class="hljs-keyword">return</span> sendSmsResponse;
+    &#125;
+&#125;</code></pre></div>
+
+<p>属性加载：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"leyou.sms"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SmsProperties</span> </span>&#123;
+
+    String accessKeyId;
+
+    String accessKeySecret;
+
+    String signName;
+
+    String verifyCodeTemplate;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getAccessKeyId</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> accessKeyId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAccessKeyId</span><span class="hljs-params">(String accessKeyId)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.accessKeyId = accessKeyId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getAccessKeySecret</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> accessKeySecret;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAccessKeySecret</span><span class="hljs-params">(String accessKeySecret)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.accessKeySecret = accessKeySecret;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getSignName</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> signName;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setSignName</span><span class="hljs-params">(String signName)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.signName = signName;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getVerifyCodeTemplate</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> verifyCodeTemplate;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setVerifyCodeTemplate</span><span class="hljs-params">(String verifyCodeTemplate)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.verifyCodeTemplate = verifyCodeTemplate;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+
+
+<h2 id="4-4-编写消息监听器"><a href="#4-4-编写消息监听器" class="headerlink" title="4.4.编写消息监听器"></a>4.4.编写消息监听器</h2><p>接下来，编写消息监听器，当接收到消息后，我们发送短信。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@EnableConfigurationProperties</span>(SmsProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">SmsListener</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> SmsUtils smsUtils;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> SmsProperties prop;
+
+    <span class="hljs-meta">@RabbitListener</span>(bindings = <span class="hljs-meta">@QueueBinding</span>(
+            value = <span class="hljs-meta">@Queue</span>(value = <span class="hljs-string">"leyou.sms.queue"</span>, durable = <span class="hljs-string">"true"</span>),
+            exchange = <span class="hljs-meta">@Exchange</span>(value = <span class="hljs-string">"leyou.sms.exchange"</span>, 
+                                 ignoreDeclarationExceptions = <span class="hljs-string">"true"</span>),
+            key = &#123;<span class="hljs-string">"sms.verify.code"</span>&#125;))
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">listenSms</span><span class="hljs-params">(Map&lt;String, String&gt; msg)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-keyword">if</span> (msg == <span class="hljs-keyword">null</span> || msg.size() &lt;= <span class="hljs-number">0</span>) &#123;
+            <span class="hljs-comment">// 放弃处理</span>
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        String phone = msg.get(<span class="hljs-string">"phone"</span>);
+        String code = msg.get(<span class="hljs-string">"code"</span>);
+
+        <span class="hljs-keyword">if</span> (StringUtils.isBlank(phone) || StringUtils.isBlank(code)) &#123;
+            <span class="hljs-comment">// 放弃处理</span>
+            <span class="hljs-keyword">return</span>;
+        &#125;
+        <span class="hljs-comment">// 发送消息</span>
+        SendSmsResponse resp = <span class="hljs-keyword">this</span>.smsUtils.sendSms(phone, code, 
+                                                     prop.getSignName(),
+                                                     prop.getVerifyCodeTemplate());
+        <span class="hljs-comment">// 发送失败</span>
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>我们注意到，消息体是一个Map，里面有两个属性：</p>
+<ul>
+<li>phone：电话号码</li>
+<li>code：短信验证码</li>
+</ul>
+<h2 id="4-5-启动"><a href="#4-5-启动" class="headerlink" title="4.5.启动"></a>4.5.启动</h2><p>启动项目，然后查看RabbitMQ控制台，发现交换机已经创建：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527239600218.png" srcset="/img/loading.gif" alt="1527239600218"></p>
+<p>队列也已经创建：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527239658153.png" srcset="/img/loading.gif" alt="1527239658153"></p>
+<p>并且绑定：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527239743836.png" srcset="/img/loading.gif" alt="1527239743836"></p>
+<h1 id="5-发送短信功能"><a href="#5-发送短信功能" class="headerlink" title="5.发送短信功能"></a>5.发送短信功能</h1><p>短信微服务已经准备好，我们就可以继续编写用户中心接口了。</p>
+<h2 id="5-1-接口说明"><a href="#5-1-接口说明" class="headerlink" title="5.1.接口说明"></a>5.1.接口说明</h2><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527238127932.png" srcset="/img/loading.gif" alt="1527238127932"></p>
+<p>这里的业务逻辑是这样的：</p>
+<ul>
+<li>1）我们接收页面发送来的手机号码</li>
+<li>2）生成一个随机验证码</li>
+<li>3）将验证码保存在服务端</li>
+<li>4）发送短信，将验证码发送到用户手机</li>
+</ul>
+<p>那么问题来了：验证码保存在哪里呢？</p>
+<p>验证码有一定有效期，一般是5分钟，我们可以利用Redis的过期机制来保存。</p>
+<h2 id="5-2-Redis"><a href="#5-2-Redis" class="headerlink" title="5.2.Redis"></a>5.2.Redis</h2><h3 id="5-2-1-安装"><a href="#5-2-1-安装" class="headerlink" title="5.2.1.安装"></a>5.2.1.安装</h3><p>参考课前资料中的：《centos下的redis安装配置.md》</p>
+<h3 id="5-2-2-Spring-Data-Redis"><a href="#5-2-2-Spring-Data-Redis" class="headerlink" title="5.2.2.Spring Data Redis"></a>5.2.2.Spring Data Redis</h3><p>官网：<a href="http://projects.spring.io/spring-data-redis/" target="_blank" rel="noopener">http://projects.spring.io/spring-data-redis/</a></p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527250056698.png" srcset="/img/loading.gif" alt="1527250056698">                                    </p>
+<p>Spring Data Redis，是Spring Data 家族的一部分。 对Jedis客户端进行了封装，与spring进行了整合。可以非常方便的来实现redis的配置和操作。 </p>
+<h3 id="5-2-3-RedisTemplate基本操作"><a href="#5-2-3-RedisTemplate基本操作" class="headerlink" title="5.2.3.RedisTemplate基本操作"></a>5.2.3.RedisTemplate基本操作</h3><p>Spring Data Redis 提供了一个工具类：RedisTemplate。里面封装了对于Redis的五种数据结构的各种操作，包括：</p>
+<ul>
+<li>redisTemplate.opsForValue() ：操作字符串</li>
+<li>redisTemplate.opsForHash() ：操作hash</li>
+<li>redisTemplate.opsForList()：操作list</li>
+<li>redisTemplate.opsForSet()：操作set</li>
+<li>redisTemplate.opsForZSet()：操作zset</li>
+</ul>
+<p>其它一些通用命令，如expire，可以通过redisTemplate.xx()来直接调用</p>
+<p>5种结构：</p>
+<ul>
+<li>String：等同于java中的，<code>Map&lt;String,String&gt;</code></li>
+<li>list：等同于java中的<code>Map&lt;String,List&lt;String&gt;&gt;</code></li>
+<li>set：等同于java中的<code>Map&lt;String,Set&lt;String&gt;&gt;</code></li>
+<li>sort_set：可排序的set</li>
+<li>hash：等同于java中的：`Map&lt;String,Map&lt;String,String&gt;&gt;</li>
+</ul>
+<h3 id="5-2-4-StringRedisTemplate"><a href="#5-2-4-StringRedisTemplate" class="headerlink" title="5.2.4.StringRedisTemplate"></a>5.2.4.StringRedisTemplate</h3><p>RedisTemplate在创建时，可以指定其泛型类型：</p>
+<ul>
+<li>K：代表key 的数据类型</li>
+<li>V: 代表value的数据类型</li>
+</ul>
+<p>注意：这里的类型不是Redis中存储的数据类型，而是Java中的数据类型，RedisTemplate会自动将Java类型转为Redis支持的数据类型：字符串、字节、二进制等等。</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527250218215.png" srcset="/img/loading.gif" alt="1527250218215"></p>
+<p>不过RedisTemplate默认会采用JDK自带的序列化（Serialize）来对对象进行转换。生成的数据十分庞大，因此一般我们都会指定key和value为String类型，这样就由我们自己把对象序列化为json字符串来存储即可。</p>
+<p>因为大部分情况下，我们都会使用key和value都为String的RedisTemplate，因此Spring就默认提供了这样一个实现： <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527256139407.png" srcset="/img/loading.gif" alt="1527256139407"></p>
+<h3 id="5-2-5-测试"><a href="#5-2-5-测试" class="headerlink" title="5.2.5.测试"></a>5.2.5.测试</h3><p>我们在项目中编写一个测试案例：</p>
+<p>首先在项目中引入Redis启动器：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>然后在配置文件中指定Redis地址：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">redis:</span>
+    <span class="hljs-attr">host:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.56</span><span class="hljs-number">.101</span></code></pre></div>
+
+<p>然后就可以直接注入<code>StringRedisTemplate</code>对象了：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RunWith</span>(SpringRunner<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">@<span class="hljs-title">SpringBootTest</span>(<span class="hljs-title">classes</span> </span>= LyUserService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">RedisTest</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> StringRedisTemplate redisTemplate;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testRedis</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// 存储数据</span>
+        <span class="hljs-keyword">this</span>.redisTemplate.opsForValue().set(<span class="hljs-string">"key1"</span>, <span class="hljs-string">"value1"</span>);
+        <span class="hljs-comment">// 获取数据</span>
+        String val = <span class="hljs-keyword">this</span>.redisTemplate.opsForValue().get(<span class="hljs-string">"key1"</span>);
+        System.out.println(<span class="hljs-string">"val = "</span> + val);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testRedis2</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// 存储数据，并指定剩余生命时间,5小时</span>
+        <span class="hljs-keyword">this</span>.redisTemplate.opsForValue().set(<span class="hljs-string">"key2"</span>, <span class="hljs-string">"value2"</span>,
+                <span class="hljs-number">5</span>, TimeUnit.HOURS);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testHash</span><span class="hljs-params">()</span></span>&#123;
+        BoundHashOperations&lt;String, Object, Object&gt; hashOps =
+                <span class="hljs-keyword">this</span>.redisTemplate.boundHashOps(<span class="hljs-string">"user"</span>);
+        <span class="hljs-comment">// 操作hash数据</span>
+        hashOps.put(<span class="hljs-string">"name"</span>, <span class="hljs-string">"jack"</span>);
+        hashOps.put(<span class="hljs-string">"age"</span>, <span class="hljs-string">"21"</span>);
+
+        <span class="hljs-comment">// 获取单个数据</span>
+        Object name = hashOps.get(<span class="hljs-string">"name"</span>);
+        System.out.println(<span class="hljs-string">"name = "</span> + name);
+
+        <span class="hljs-comment">// 获取所有数据</span>
+        Map&lt;Object, Object&gt; map = hashOps.entries();
+        <span class="hljs-keyword">for</span> (Map.Entry&lt;Object, Object&gt; me : map.entrySet()) &#123;
+            System.out.println(me.getKey() + <span class="hljs-string">" : "</span> + me.getValue());
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="5-3-controller"><a href="#5-3-controller" class="headerlink" title="5.3.controller"></a>5.3.controller</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 发送手机验证码</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> phone</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"code"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Void&gt; <span class="hljs-title">sendVerifyCode</span><span class="hljs-params">(String phone)</span> </span>&#123;
+    Boolean boo = <span class="hljs-keyword">this</span>.userService.sendVerifyCode(phone);
+    <span class="hljs-keyword">if</span> (boo == <span class="hljs-keyword">null</span> || !boo) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.INTERNAL_SERVER_ERROR);
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.CREATED);
+&#125;</code></pre></div>
+
+<h2 id="5-4-service"><a href="#5-4-service" class="headerlink" title="5.4.service"></a>5.4.service</h2><p>这里的逻辑会稍微复杂：</p>
+<ul>
+<li>生成随机验证码</li>
+<li>将验证码保存到Redis中，用来在注册的时候验证</li>
+<li>发送验证码到<code>leyou-sms-service</code>服务，发送短信</li>
+</ul>
+<p>因此，我们需要引入Redis和AMQP：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-amqp<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>添加RabbitMQ和Redis配置：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">redis:</span>
+    <span class="hljs-attr">host:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.56</span><span class="hljs-number">.101</span>
+  <span class="hljs-attr">rabbitmq:</span>
+    <span class="hljs-attr">host:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.56</span><span class="hljs-number">.101</span>
+    <span class="hljs-attr">username:</span> <span class="hljs-string">leyou</span>
+    <span class="hljs-attr">password:</span> <span class="hljs-string">leyou</span>
+    <span class="hljs-attr">virtual-host:</span> <span class="hljs-string">/leyou</span>
+    <span class="hljs-attr">template:</span>
+      <span class="hljs-attr">retry:</span>
+        <span class="hljs-attr">enabled:</span> <span class="hljs-literal">true</span>
+        <span class="hljs-attr">initial-interval:</span> <span class="hljs-string">10000ms</span>
+        <span class="hljs-attr">max-interval:</span> <span class="hljs-string">210000ms</span>
+        <span class="hljs-attr">multiplier:</span> <span class="hljs-number">2</span>
+    <span class="hljs-attr">publisher-confirms:</span> <span class="hljs-literal">true</span></code></pre></div>
+
+
+
+
+
+<p>另外还要用到工具类，生成6位随机码，这个我们封装到了<code>leyou-common</code>中，因此需要引入依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.common<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>ly-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>$&#123;leyou.latest.version&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>生成随机码的工具：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 生成指定位数的随机数字</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> len 随机数的位数</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span> 生成的随机数</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> String <span class="hljs-title">generateCode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> len)</span></span>&#123;
+    len = Math.min(len, <span class="hljs-number">8</span>);
+    <span class="hljs-keyword">int</span> min = Double.valueOf(Math.pow(<span class="hljs-number">10</span>, len - <span class="hljs-number">1</span>)).intValue();
+    <span class="hljs-keyword">int</span> num = <span class="hljs-keyword">new</span> Random().nextInt(
+        Double.valueOf(Math.pow(<span class="hljs-number">10</span>, len + <span class="hljs-number">1</span>)).intValue() - <span class="hljs-number">1</span>) + min;
+    <span class="hljs-keyword">return</span> String.valueOf(num).substring(<span class="hljs-number">0</span>,len);
+&#125;</code></pre></div>
+
+
+
+<p>Service代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span>
+<span class="hljs-keyword">private</span> StringRedisTemplate redisTemplate;
+
+<span class="hljs-meta">@Autowired</span>
+<span class="hljs-keyword">private</span> AmqpTemplate amqpTemplate;
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String KEY_PREFIX = <span class="hljs-string">"user:code:phone:"</span>;
+
+<span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(UserService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">sendVerifyCode</span><span class="hljs-params">(String phone)</span> </span>&#123;
+    <span class="hljs-comment">// 生成验证码</span>
+    String code = NumberUtils.generateCode(<span class="hljs-number">6</span>);
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-comment">// 发送短信</span>
+        Map&lt;String, String&gt; msg = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        msg.put(<span class="hljs-string">"phone"</span>, phone);
+        msg.put(<span class="hljs-string">"code"</span>, code);
+        <span class="hljs-keyword">this</span>.amqpTemplate.convertAndSend(<span class="hljs-string">"ly.sms.exchange"</span>, <span class="hljs-string">"sms.verify.code"</span>, msg);
+        <span class="hljs-comment">// 将code存入redis</span>
+        <span class="hljs-keyword">this</span>.redisTemplate.opsForValue().set(KEY_PREFIX + phone, code, <span class="hljs-number">5</span>, TimeUnit.MINUTES);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+        logger.error(<span class="hljs-string">"发送短信失败。phone：&#123;&#125;， code：&#123;&#125;"</span>, phone, code);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>注意：要设置短信验证码在Redis的缓存时间为5分钟</p>
+<h2 id="5-5-测试"><a href="#5-5-测试" class="headerlink" title="5.5.测试"></a>5.5.测试</h2><p>通过RestClient发送请求试试：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527240486327.png" srcset="/img/loading.gif" alt="1527240486327"></p>
+<p>查看Redis中的数据：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527240610713.png" srcset="/img/loading.gif" alt="1527240610713"></p>
+<p>查看短信：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527240770470.png" srcset="/img/loading.gif" alt="1527240770470"></p>
+<h1 id="6-注册功能"><a href="#6-注册功能" class="headerlink" title="6.注册功能"></a>6.注册功能</h1><h2 id="6-1-接口说明"><a href="#6-1-接口说明" class="headerlink" title="6.1.接口说明"></a>6.1.接口说明</h2><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527240855176.png" srcset="/img/loading.gif" alt="1527240855176"></p>
+<h2 id="6-2-controller"><a href="#6-2-controller" class="headerlink" title="6.2.controller"></a>6.2.controller</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 注册</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> user</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> code</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"register"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Void&gt; <span class="hljs-title">register</span><span class="hljs-params">(User user, @RequestParam(<span class="hljs-string">"code"</span>)</span> String code) </span>&#123;
+    Boolean boo = <span class="hljs-keyword">this</span>.userService.register(user, code);
+    <span class="hljs-keyword">if</span> (boo == <span class="hljs-keyword">null</span> || !boo) &#123;
+        <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    &#125;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.CREATED);
+&#125;</code></pre></div>
+
+<h2 id="6-3-service"><a href="#6-3-service" class="headerlink" title="6.3.service"></a>6.3.service</h2><p>基本逻辑：</p>
+<ul>
+<li>1）校验短信验证码</li>
+<li>2）生成盐</li>
+<li>3）对密码加密</li>
+<li>4）写入数据库</li>
+<li>5）删除Redis中的验证码</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">register</span><span class="hljs-params">(User user, String code)</span> </span>&#123;
+    String key = KEY_PREFIX + user.getPhone();
+    <span class="hljs-comment">// 从redis取出验证码</span>
+    String codeCache = <span class="hljs-keyword">this</span>.redisTemplate.opsForValue().get(key);
+    <span class="hljs-comment">// 检查验证码是否正确</span>
+    <span class="hljs-keyword">if</span> (!code.equals(codeCache)) &#123;
+        <span class="hljs-comment">// 不正确，返回</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+    &#125;
+    user.setId(<span class="hljs-keyword">null</span>);
+    user.setCreated(<span class="hljs-keyword">new</span> Date());
+    <span class="hljs-comment">// 生成盐</span>
+    String salt = CodecUtils.generateSalt();
+    user.setSalt(salt);
+    <span class="hljs-comment">// 对密码进行加密</span>
+    user.setPassword(CodecUtils.md5Hex(user.getPassword(), salt));
+    <span class="hljs-comment">// 写入数据库</span>
+    <span class="hljs-keyword">boolean</span> boo = <span class="hljs-keyword">this</span>.userMapper.insertSelective(user) == <span class="hljs-number">1</span>;
+
+    <span class="hljs-comment">// 如果注册成功，删除redis中的code</span>
+    <span class="hljs-keyword">if</span> (boo) &#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-keyword">this</span>.redisTemplate.delete(key);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"删除缓存验证码失败，code：&#123;&#125;"</span>, code, e);
+        &#125;
+    &#125;
+    <span class="hljs-keyword">return</span> boo;
+&#125;</code></pre></div>
+
+<h2 id="6-4-测试"><a href="#6-4-测试" class="headerlink" title="6.4.测试"></a>6.4.测试</h2><p>我们通过RestClient测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527241936160.png" srcset="/img/loading.gif" alt="1527241936160"></p>
+<p>查看数据库：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527241966575.png" srcset="/img/loading.gif" alt="1527241966575"></p>
+<h2 id="6-5-服务端数据校验"><a href="#6-5-服务端数据校验" class="headerlink" title="6.5.服务端数据校验"></a>6.5.服务端数据校验</h2><p>刚才虽然实现了注册，但是服务端并没有进行数据校验，而前端的校验是很容易被有心人绕过的。所以我们必须在后台添加数据校验功能：</p>
+<p>我们这里会使用Hibernate-Validator框架完成数据校验：</p>
+<p>而SpringBoot的web启动器中已经集成了相关依赖：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527244265451.png" srcset="/img/loading.gif" alt="1527244265451"></p>
+<h3 id="6-5-1-什么是Hibernate-Validator"><a href="#6-5-1-什么是Hibernate-Validator" class="headerlink" title="6.5.1.什么是Hibernate Validator"></a>6.5.1.什么是Hibernate Validator</h3><p>Hibernate Validator是Hibernate提供的一个开源框架，使用注解方式非常方便的实现服务端的数据校验。</p>
+<p>官网：<a href="http://hibernate.org/validator/" target="_blank" rel="noopener">http://hibernate.org/validator/</a></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527244393041.png" srcset="/img/loading.gif" alt="1527244393041"></p>
+<p><strong>hibernate Validator</strong> 是 Bean Validation 的参考实现 。</p>
+<p>Hibernate Validator 提供了 JSR 303 规范中所有内置 constraint（约束） 的实现，除此之外还有一些附加的 constraint。</p>
+<p>在日常开发中，Hibernate Validator经常用来验证bean的字段，基于注解，方便快捷高效。</p>
+<h3 id="6-5-2-Bean校验的注解"><a href="#6-5-2-Bean校验的注解" class="headerlink" title="6.5.2.Bean校验的注解"></a>6.5.2.Bean校验的注解</h3><p>常用注解如下：</p>
+<table>
+<thead>
+<tr>
+<th><strong>Constraint</strong></th>
+<th><strong>详细信息</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>@Valid</strong></td>
+<td>被注释的元素是一个对象，需要检查此对象的所有字段值</td>
+</tr>
+<tr>
+<td><strong>@Null</strong></td>
+<td>被注释的元素必须为 null</td>
+</tr>
+<tr>
+<td><strong>@NotNull</strong></td>
+<td>被注释的元素必须不为 null</td>
+</tr>
+<tr>
+<td><strong>@AssertTrue</strong></td>
+<td>被注释的元素必须为 true</td>
+</tr>
+<tr>
+<td><strong>@AssertFalse</strong></td>
+<td>被注释的元素必须为 false</td>
+</tr>
+<tr>
+<td><strong>@Min(value)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须大于等于指定的最小值</td>
+</tr>
+<tr>
+<td><strong>@Max(value)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须小于等于指定的最大值</td>
+</tr>
+<tr>
+<td><strong>@DecimalMin(value)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须大于等于指定的最小值</td>
+</tr>
+<tr>
+<td><strong>@DecimalMax(value)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须小于等于指定的最大值</td>
+</tr>
+<tr>
+<td><strong>@Size(max,   min)</strong></td>
+<td>被注释的元素的大小必须在指定的范围内</td>
+</tr>
+<tr>
+<td><strong>@Digits   (integer, fraction)</strong></td>
+<td>被注释的元素必须是一个数字，其值必须在可接受的范围内</td>
+</tr>
+<tr>
+<td><strong>@Past</strong></td>
+<td>被注释的元素必须是一个过去的日期</td>
+</tr>
+<tr>
+<td><strong>@Future</strong></td>
+<td>被注释的元素必须是一个将来的日期</td>
+</tr>
+<tr>
+<td><strong>@Pattern(value)</strong></td>
+<td>被注释的元素必须符合指定的正则表达式</td>
+</tr>
+<tr>
+<td><strong>@Email</strong></td>
+<td>被注释的元素必须是电子邮箱地址</td>
+</tr>
+<tr>
+<td><strong>@Length</strong></td>
+<td>被注释的字符串的大小必须在指定的范围内</td>
+</tr>
+<tr>
+<td><strong>@NotEmpty</strong></td>
+<td>被注释的字符串的必须非空</td>
+</tr>
+<tr>
+<td><strong>@Range</strong></td>
+<td>被注释的元素必须在合适的范围内</td>
+</tr>
+<tr>
+<td><strong>@NotBlank</strong></td>
+<td>被注释的字符串的必须非空</td>
+</tr>
+<tr>
+<td><strong>@URL(protocol=,host=,   port=,regexp=, flags=)</strong></td>
+<td>被注释的字符串必须是一个有效的url</td>
+</tr>
+<tr>
+<td><strong>@CreditCardNumber</strong></td>
+<td>被注释的字符串必须通过Luhn校验算法，银行卡，信用卡等号码一般都用Luhn计算合法性</td>
+</tr>
+</tbody></table>
+<h3 id="6-5-3-给User添加校验"><a href="#6-5-3-给User添加校验" class="headerlink" title="6.5.3.给User添加校验"></a>6.5.3.给User添加校验</h3><p>我们在<code>ly-user-interface</code>中添加Hibernate-Validator依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.hibernate.validator<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>hibernate-validator<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+
+
+<p>我们在User对象的部分属性上添加注解：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Table</span>(name = <span class="hljs-string">"tb_user"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-meta">@GeneratedValue</span>(strategy = GenerationType.IDENTITY)
+    <span class="hljs-keyword">private</span> Long id;
+    <span class="hljs-meta">@Length</span>(min = <span class="hljs-number">4</span>, max = <span class="hljs-number">30</span>, message = <span class="hljs-string">"用户名只能在4~30位之间"</span>)
+    <span class="hljs-keyword">private</span> String username;<span class="hljs-comment">// 用户名</span>
+
+    <span class="hljs-meta">@JsonIgnore</span>
+    <span class="hljs-meta">@Length</span>(min = <span class="hljs-number">4</span>, max = <span class="hljs-number">30</span>, message = <span class="hljs-string">"用户名只能在4~30位之间"</span>)
+    <span class="hljs-keyword">private</span> String password;<span class="hljs-comment">// 密码</span>
+
+    <span class="hljs-meta">@Pattern</span>(regexp = <span class="hljs-string">"^1[35678]\\d&#123;9&#125;$"</span>, message = <span class="hljs-string">"手机号格式不正确"</span>)
+    <span class="hljs-keyword">private</span> String phone;<span class="hljs-comment">// 电话</span>
+
+    <span class="hljs-keyword">private</span> Date created;<span class="hljs-comment">// 创建时间</span>
+
+    <span class="hljs-meta">@JsonIgnore</span>
+    <span class="hljs-keyword">private</span> String salt;<span class="hljs-comment">// 密码的盐值</span>
+&#125;</code></pre></div>
+
+
+
+<h3 id="6-5-4-在controller上进行控制"><a href="#6-5-4-在controller上进行控制" class="headerlink" title="6.5.4.在controller上进行控制"></a>6.5.4.在controller上进行控制</h3><p>在controller中只需要给User添加 @Valid注解即可。</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527247334410.png" srcset="/img/loading.gif" alt="1527247334410"></p>
+<h3 id="6-5-5-测试"><a href="#6-5-5-测试" class="headerlink" title="6.5.5.测试"></a>6.5.5.测试</h3><p>我们故意填错：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527247422251.png" srcset="/img/loading.gif" alt="1527247422251"></p>
+<p>然后SpringMVC会自动返回错误信息：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527247492172.png" srcset="/img/loading.gif" alt="1527247492172"></p>
+<h1 id="7-根据用户名和密码查询用户"><a href="#7-根据用户名和密码查询用户" class="headerlink" title="7.根据用户名和密码查询用户"></a>7.根据用户名和密码查询用户</h1><h2 id="7-1-接口说明"><a href="#7-1-接口说明" class="headerlink" title="7.1.接口说明"></a>7.1.接口说明</h2><h3 id="功能说明"><a href="#功能说明" class="headerlink" title="功能说明"></a>功能说明</h3><p>查询功能，根据参数中的用户名和密码查询指定用户</p>
+<h3 id="接口路径"><a href="#接口路径" class="headerlink" title="接口路径"></a>接口路径</h3><div class="hljs"><pre><code class="hljs routeros"><span class="hljs-builtin-name">GET</span> /query</code></pre></div>
+
+<h3 id="参数说明："><a href="#参数说明：" class="headerlink" title="参数说明："></a>参数说明：</h3><p>form表单格式</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+<th>是否必须</th>
+<th>数据类型</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>username</td>
+<td>用户名，格式为4~30位字母、数字、下划线</td>
+<td>是</td>
+<td>String</td>
+<td>无</td>
+</tr>
+<tr>
+<td>password</td>
+<td>用户密码，格式为4~30位字母、数字、下划线</td>
+<td>是</td>
+<td>String</td>
+<td>无</td>
+</tr>
+</tbody></table>
+<h3 id="返回结果："><a href="#返回结果：" class="headerlink" title="返回结果："></a>返回结果：</h3><p>用户的json格式数据</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+    <span class="hljs-attr">"id"</span>: <span class="hljs-number">6572312</span>,
+    <span class="hljs-attr">"username"</span>:<span class="hljs-string">"test"</span>,
+    <span class="hljs-attr">"phone"</span>:<span class="hljs-string">"13688886666"</span>,
+    <span class="hljs-attr">"created"</span>: <span class="hljs-number">1342432424</span>
+&#125;</code></pre></div>
+
+
+
+<p>状态码：</p>
+<ul>
+<li>200：注册成功</li>
+<li>400：用户名或密码错误</li>
+<li>500：服务器内部异常，注册失败</li>
+</ul>
+<h2 id="7-2-controller"><a href="#7-2-controller" class="headerlink" title="7.2.controller"></a>7.2.controller</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 根据用户名和密码查询用户</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> username</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@param</span> password</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"query"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;User&gt; <span class="hljs-title">queryUser</span><span class="hljs-params">(</span></span>
+<span class="hljs-function"><span class="hljs-params">    @RequestParam(<span class="hljs-string">"username"</span>)</span> String username,</span>
+<span class="hljs-function">    @<span class="hljs-title">RequestParam</span><span class="hljs-params">(<span class="hljs-string">"password"</span>)</span> String password</span>
+<span class="hljs-function">    ) </span>&#123;
+        User user = <span class="hljs-keyword">this</span>.userService.queryUser(username, password);
+        <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        &#125;
+        <span class="hljs-keyword">return</span> ResponseEntity.ok(user);
+    &#125;</code></pre></div>
+
+<h2 id="7-3-service"><a href="#7-3-service" class="headerlink" title="7.3.service"></a>7.3.service</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">queryUser</span><span class="hljs-params">(String username, String password)</span> </span>&#123;
+    <span class="hljs-comment">// 查询</span>
+    User record = <span class="hljs-keyword">new</span> User();
+    record.setUsername(username);
+    User user = <span class="hljs-keyword">this</span>.userMapper.selectOne(record);
+    <span class="hljs-comment">// 校验用户名</span>
+    <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+    <span class="hljs-comment">// 校验密码</span>
+    <span class="hljs-keyword">if</span> (!user.getPassword().equals(CodecUtils.md5Hex(password, user.getSalt()))) &#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+    <span class="hljs-comment">// 用户名密码都正确</span>
+    <span class="hljs-keyword">return</span> user;
+&#125;</code></pre></div>
+
+<p>要注意，查询时也要对密码进行加密后判断是否一致。</p>
+<h2 id="7-4-测试"><a href="#7-4-测试" class="headerlink" title="7.4.测试"></a>7.4.测试</h2><p>我们通过RestClient测试：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527242841777.png" srcset="/img/loading.gif" alt="1527242841777"></p>
+<h1 id="8-在注册页进行测试"><a href="#8-在注册页进行测试" class="headerlink" title="8.在注册页进行测试"></a>8.在注册页进行测试</h1><p>在注册页填写信息：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527243288933.png" srcset="/img/loading.gif" alt="1527243288933"></p>
+<p>提交发现页面自动跳转到了登录页，查看数据库：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/1527243354160.png" srcset="/img/loading.gif" alt="1527243354160"></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8E/">乐优商城</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">乐优商城day17：授权中心</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/01/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday15/">
+                        <span class="hidden-mobile">乐优商城day15：RabbitMQ及数据同步</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "乐优商城day16：用户注册&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

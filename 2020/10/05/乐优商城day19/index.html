@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>乐优商城day19：下单 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-10-05 10:53">
+      2020-10-05
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      5.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      57
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><ul>
+<li>会调用订单系统接口</li>
+<li>实现订单结算功能</li>
+<li>实现微信支付功能</li>
+</ul>
+<h1 id="1-订单系统接口"><a href="#1-订单系统接口" class="headerlink" title="1.订单系统接口"></a>1.订单系统接口</h1><p>我们不做开发，只讲解</p>
+<h2 id="1-1-导入订单服务"><a href="#1-1-导入订单服务" class="headerlink" title="1.1.导入订单服务"></a>1.1.导入订单服务</h2><p>把课前资料提供的<code>leyou-order</code>复制到<code>D:\heima\code\leyou</code>目录。</p>
+<p>然后在工程内导入：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527849592739.png" srcset="/img/loading.gif" alt="1527849592739"></p>
+<p>然后导入module：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527849713858.png" srcset="/img/loading.gif" alt="1527849713858"></p>
+<p>选择导入module：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527849755740.png" srcset="/img/loading.gif" alt="1527849755740"></p>
+<p>选择目录中的 <code>ly-order</code>：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527988253596.png" srcset="/img/loading.gif" alt="1527988253596"></p>
+<p>打开父工程leyou的pom文件，添加<code>ly-order</code>模块：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527988384844.png" srcset="/img/loading.gif" alt="1527988384844"></p>
+<h2 id="1-2-Swagger-UI"><a href="#1-2-Swagger-UI" class="headerlink" title="1.2.Swagger-UI"></a>1.2.Swagger-UI</h2><p>丝袜哥</p>
+<h3 id="1-2-1-什么是OpenAPI"><a href="#1-2-1-什么是OpenAPI" class="headerlink" title="1.2.1.什么是OpenAPI"></a>1.2.1.什么是OpenAPI</h3><p>随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染，变成了：前端渲染、前后端分离的形态，而且前端技术和后端技术在各自的道路上越走越远。  前端和后端的唯一联系，变成了API接口；API文档变成了前后端开发人员联系的纽带，变得越来越重要。</p>
+<p>没有API文档工具之前，大家都是手写API文档的，在什么地方书写的都有，而且API文档没有统一规范和格式，每个公司都不一样。这无疑给开发带来了灾难。</p>
+<p>OpenAPI规范（OpenAPI Specification 简称OAS）是Linux基金会的一个项目，试图通过定义一种用来描述API格式或API定义的语言，来规范RESTful服务开发过程。目前V3.0版本的OpenAPI规范已经发布并开源在github上 。</p>
+<p>官网：<a href="https://github.com/OAI/OpenAPI-Specification" target="_blank" rel="noopener">https://github.com/OAI/OpenAPI-Specification</a></p>
+<h3 id="1-2-2-什么是swagger？"><a href="#1-2-2-什么是swagger？" class="headerlink" title="1.2.2.什么是swagger？"></a>1.2.2.什么是swagger？</h3><p>OpenAPI是一个编写API文档的规范，然而如果手动去编写OpenAPI规范的文档，是非常麻烦的。而Swagger就是一个实现了OpenAPI规范的工具集。</p>
+<p>官网：<a href="https://swagger.io/" target="_blank" rel="noopener">https://swagger.io/</a></p>
+<p>看官方的说明：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528724925709.png" srcset="/img/loading.gif" alt="1528724925709"></p>
+<p>Swagger包含的工具集：</p>
+<ul>
+<li><strong>Swagger编辑器：</strong> Swagger Editor允许您在浏览器中编辑YAML中的OpenAPI规范并实时预览文档。</li>
+<li><strong>Swagger UI：</strong> Swagger UI是HTML，Javascript和CSS资产的集合，可以从符合OAS标准的API动态生成漂亮的文档。</li>
+<li><strong>Swagger Codegen：</strong>允许根据OpenAPI规范自动生成API客户端库（SDK生成），服务器存根和文档。</li>
+<li><strong>Swagger Parser：</strong>用于解析来自Java的OpenAPI定义的独立库</li>
+<li><strong>Swagger Core：</strong>与Java相关的库，用于创建，使用和使用OpenAPI定义</li>
+<li><strong>Swagger Inspector（免费）：</strong> API测试工具，可让您验证您的API并从现有API生成OpenAPI定义</li>
+<li><strong>SwaggerHub（免费和商业）：</strong> API设计和文档，为使用OpenAPI的团队构建。</li>
+</ul>
+<h3 id="1-2-3-快速入门"><a href="#1-2-3-快速入门" class="headerlink" title="1.2.3.快速入门"></a>1.2.3.快速入门</h3><p>SpringBoot已经集成了Swagger，使用简单注解即可生成swagger的API文档。</p>
+<h4 id="1）引入依赖"><a href="#1）引入依赖" class="headerlink" title="1）引入依赖"></a>1）引入依赖</h4><div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.8.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.springfox<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.8.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<h4 id="2）编写配置"><a href="#2）编写配置" class="headerlink" title="2）编写配置"></a>2）编写配置</h4><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@EnableSwagger</span>2
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SwaggerConfig</span> </span>&#123;
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Docket <span class="hljs-title">api</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Docket(DocumentationType.SWAGGER_2)
+                .host(<span class="hljs-string">"http://order.leyou.com"</span>)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(<span class="hljs-string">"com.leyou.order.controller"</span>))
+                .paths(PathSelectors.any())
+                .build();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> ApiInfo <span class="hljs-title">apiInfo</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ApiInfoBuilder()
+                .title(<span class="hljs-string">"乐优商城订单系统"</span>)
+                .description(<span class="hljs-string">"乐优商城订单系统接口文档"</span>)
+                .version(<span class="hljs-string">"1.0"</span>)
+                .build();
+    &#125;
+&#125;</code></pre></div>
+
+<h4 id="3）接口声明"><a href="#3）接口声明" class="headerlink" title="3）接口声明"></a>3）接口声明</h4><p>在controller的每个handler上添加接口说明注解：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"order"</span>)
+<span class="hljs-meta">@Api</span>(<span class="hljs-string">"订单服务接口"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">OrderController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> OrderService orderService;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> PayHelper payHelper;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 创建订单</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> order 订单对象</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 订单编号</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@PostMapping</span>
+    <span class="hljs-meta">@ApiOperation</span>(value = <span class="hljs-string">"创建订单接口，返回订单编号"</span>, notes = <span class="hljs-string">"创建订单"</span>)
+    <span class="hljs-meta">@ApiImplicitParam</span>(name = <span class="hljs-string">"order"</span>, required = <span class="hljs-keyword">true</span>, value = <span class="hljs-string">"订单的json对象,包含订单条目和物流信息"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Long&gt; <span class="hljs-title">createOrder</span><span class="hljs-params">(@RequestBody @Valid Order order)</span> </span>&#123;
+        Long id = <span class="hljs-keyword">this</span>.orderService.createOrder(order);
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(id, HttpStatus.CREATED);
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 分页查询当前用户订单</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> status 订单状态</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 分页订单数据</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"list"</span>)
+    <span class="hljs-meta">@ApiOperation</span>(value = <span class="hljs-string">"分页查询当前用户订单，并且可以根据订单状态过滤"</span>, 
+                  notes = <span class="hljs-string">"分页查询当前用户订单"</span>)
+    <span class="hljs-meta">@ApiImplicitParams</span>(&#123;
+        <span class="hljs-meta">@ApiImplicitParam</span>(name = <span class="hljs-string">"page"</span>, value = <span class="hljs-string">"当前页"</span>, 
+                          defaultValue = <span class="hljs-string">"1"</span>, type = <span class="hljs-string">"Integer"</span>),
+        <span class="hljs-meta">@ApiImplicitParam</span>(name = <span class="hljs-string">"rows"</span>, value = <span class="hljs-string">"每页大小"</span>, 
+                          defaultValue = <span class="hljs-string">"5"</span>, type = <span class="hljs-string">"Integer"</span>),
+        <span class="hljs-meta">@ApiImplicitParam</span>(
+            name = <span class="hljs-string">"status"</span>, 
+            value = <span class="hljs-string">"订单状态：1未付款，2已付款未发货，3已发货未确认，4已确认未评价，5交易关闭，6交易成功，已评价"</span>, type = <span class="hljs-string">"Integer"</span>),
+    &#125;)
+    <span class="hljs-keyword">public</span> ResponseEntity&lt;PageResult&lt;Order&gt;&gt; queryUserOrderList(
+        <span class="hljs-meta">@RequestParam</span>(value = <span class="hljs-string">"page"</span>, defaultValue = <span class="hljs-string">"1"</span>) Integer page,
+        <span class="hljs-meta">@RequestParam</span>(value = <span class="hljs-string">"rows"</span>, defaultValue = <span class="hljs-string">"5"</span>) Integer rows,
+        <span class="hljs-meta">@RequestParam</span>(value = <span class="hljs-string">"status"</span>, required = <span class="hljs-keyword">false</span>) Integer status) &#123;
+        PageResult&lt;Order&gt; result = <span class="hljs-keyword">this</span>.orderService.queryUserOrderList(page, rows, status);
+        <span class="hljs-keyword">if</span> (result == <span class="hljs-keyword">null</span>) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+        &#125;
+        <span class="hljs-keyword">return</span> ResponseEntity.ok(result);
+    &#125;
+&#125;</code></pre></div>
+
+<p>常用注解说明：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@Api</span>：修饰整个类，描述Controller的作用</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiOperation</span>：描述一个类的一个方法，或者说一个接口</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiParam</span>：单个参数描述</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiModel</span>：用对象来接收参数</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiProperty</span>：用对象接收参数时，描述对象的一个字段</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiResponse</span>：HTTP响应其中1个描述</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiResponses</span>：HTTP响应整体描述</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiIgnore</span>：使用该注解忽略这个API</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiError</span> ：发生错误返回的信息</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiImplicitParam</span>：一个请求参数</span>
+<span class="hljs-comment"> <span class="hljs-doctag">@ApiImplicitParams</span>：多个请求参数</span>
+<span class="hljs-comment"> */</span></code></pre></div>
+
+<h4 id="4）启动测试"><a href="#4）启动测试" class="headerlink" title="4）启动测试"></a>4）启动测试</h4><p>启动服务，然后访问：<a href="http://localhost:8089/swagger-ui.html" target="_blank" rel="noopener">http://localhost:8089/swagger-ui.html</a></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534050474425.png" srcset="/img/loading.gif" alt="1534050474425"></p>
+<p>点击order-controller，查看接口信息：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534050501639.png" srcset="/img/loading.gif" alt="1534050501639"></p>
+<p>点击任意一个接口，即可看到详细信息：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534050571547.png" srcset="/img/loading.gif" alt="1534050571547"></p>
+<h2 id="1-3-测试接口"><a href="#1-3-测试接口" class="headerlink" title="1.3.测试接口"></a>1.3.测试接口</h2><h3 id="1-3-1-创建订单接口"><a href="#1-3-1-创建订单接口" class="headerlink" title="1.3.1.创建订单接口"></a>1.3.1.创建订单接口</h3><p>可以通过页面看到接口信息：</p>
+<ul>
+<li>请求方式：POST</li>
+<li>请求路径：/order</li>
+<li>请求参数：包含订单、订单详情等数据的json对象。</li>
+<li>返回结果：订单编号</li>
+</ul>
+<p>点击<code>Try It Out</code>来测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528726383029.png" srcset="/img/loading.gif" alt="1528726383029"></p>
+<p>输入数据：</p>
+<div class="hljs"><pre><code class="hljs json">&#123;
+  <span class="hljs-attr">"totalPay"</span>: <span class="hljs-number">236800</span>,
+  <span class="hljs-attr">"postFee"</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">"paymentType"</span>: <span class="hljs-number">2</span>,
+  <span class="hljs-attr">"actualPay"</span>: <span class="hljs-number">236800</span>,
+  <span class="hljs-attr">"buyerMessage"</span>: <span class="hljs-literal">null</span>,
+  <span class="hljs-attr">"buyerNick"</span>: <span class="hljs-string">"huge"</span>,
+  <span class="hljs-attr">"orderDetails"</span>: [
+    &#123;
+      <span class="hljs-attr">"skuId"</span>: <span class="hljs-number">3893493</span>,
+      <span class="hljs-attr">"num"</span>: <span class="hljs-number">1</span>,
+      <span class="hljs-attr">"title"</span>: <span class="hljs-string">"苹果（Apple）iPhone 6 (A1586) 16GB 金色 移动联通电信4G手机3"</span>,
+      <span class="hljs-attr">"price"</span>: <span class="hljs-number">236800</span>,
+      <span class="hljs-attr">"ownSpec"</span>: <span class="hljs-string">"&#123;\"机身颜色\":\"钻雕蓝\",\"内存\":\"4GB\",\"机身存储\":\"64GB\"&#125;"</span>,
+      <span class="hljs-attr">"image"</span>: <span class="hljs-string">"http://image.leyou.com/images/9/4/1524297342728.jpg"</span>
+    &#125;
+  ],
+  <span class="hljs-attr">"receiver"</span>: <span class="hljs-string">"锋哥"</span>,
+  <span class="hljs-attr">"receiverMobile"</span>: <span class="hljs-string">"15800000000"</span>,
+  <span class="hljs-attr">"receiverState"</span>: <span class="hljs-string">"上海"</span>,
+  <span class="hljs-attr">"receiverCity"</span>: <span class="hljs-string">"上海"</span>,
+  <span class="hljs-attr">"receiverDistrict"</span>: <span class="hljs-string">"浦东新签"</span>,
+  <span class="hljs-attr">"receiverAddress"</span>: <span class="hljs-string">"航头镇航头路18号传智播客3号楼"</span>,
+  <span class="hljs-attr">"receiverZip"</span>: <span class="hljs-string">"210000"</span>,
+  <span class="hljs-attr">"invoiceType"</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">"sourceType"</span>:<span class="hljs-number">2</span>
+&#125;</code></pre></div>
+
+
+
+<p>然后点击execute：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534050960735.png" srcset="/img/loading.gif" alt="1534050960735"></p>
+<p>结果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534056625226.png" srcset="/img/loading.gif" alt="1534056625226"></p>
+<p>下单需要登录，通过登录生成token：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534056963545.png" srcset="/img/loading.gif" alt="1534056963545"></p>
+<p>把token的值手动加入到浏览器的cookie中：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534057111628.png" srcset="/img/loading.gif" alt="1534057111628"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534057197865.png" srcset="/img/loading.gif" alt="1534057197865"></p>
+<p>添加成功，响应订单编号。但是和数据库保存的订单编号不太一样（后几位不一样，浏览器展示长整型会出现精度损失）</p>
+<h3 id="1-3-2-生成ID的方式"><a href="#1-3-2-生成ID的方式" class="headerlink" title="1.3.2.生成ID的方式"></a>1.3.2.生成ID的方式</h3><blockquote>
+<p>订单id的特殊性</p>
+</blockquote>
+<p>订单数据非常庞大，将来一定会做分库分表。那么这种情况下， 要保证id的唯一，就不能靠数据库自增，而是自己来实现算法，生成唯一id。</p>
+<blockquote>
+<p>雪花算法</p>
+</blockquote>
+<p>这里的订单id是通过一个工具类生成的：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534057752285.png" srcset="/img/loading.gif" alt="1534057752285"></p>
+<p>而工具类所采用的生成id算法，是由Twitter公司开源的snowflake（雪花）算法。</p>
+<blockquote>
+<p>简单原理</p>
+</blockquote>
+<p>雪花算法会生成一个64位的二进制数据，为一个Long型。(转换成字符串后长度最多19位) ，其基本结构：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528729105237.png" srcset="/img/loading.gif" alt="1528729105237"></p>
+<p>第一位：为未使用</p>
+<p>第二部分：41位为毫秒级时间(41位的长度可以使用69年)</p>
+<p>第三部分：5位datacenterId和5位workerId(10位的长度最多支持部署1024个节点）</p>
+<p>第四部分：最后12位是毫秒内的计数（12位的计数顺序号支持每个节点每毫秒产生4096个ID序号）</p>
+<p>snowflake生成的ID整体上按照时间自增排序，并且整个分布式系统内不会产生ID碰撞（由datacenter和workerId作区分），并且效率较高。经测试snowflake每秒能够产生26万个ID。</p>
+<blockquote>
+<p>配置</p>
+</blockquote>
+<p>为了保证不重复，我们给每个部署的节点都配置机器id：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">leyou:</span>
+  <span class="hljs-attr">worker:</span>
+    <span class="hljs-attr">workerId:</span> <span class="hljs-number">1</span>
+    <span class="hljs-attr">datacenterId:</span> <span class="hljs-number">1</span></code></pre></div>
+
+<p>加载属性：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"leyou.worker"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">IdWorkerProperties</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> workerId;<span class="hljs-comment">// 当前机器id</span>
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> datacenterId;<span class="hljs-comment">// 序列号</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getWorkerId</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> workerId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setWorkerId</span><span class="hljs-params">(<span class="hljs-keyword">long</span> workerId)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.workerId = workerId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getDatacenterId</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> datacenterId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setDatacenterId</span><span class="hljs-params">(<span class="hljs-keyword">long</span> datacenterId)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.datacenterId = datacenterId;
+    &#125;
+&#125;</code></pre></div>
+
+<p>编写配置类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@EnableConfigurationProperties</span>(IdWorkerProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">IdWorkerConfig</span> </span>&#123;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> IdWorker <span class="hljs-title">idWorker</span><span class="hljs-params">(IdWorkerProperties prop)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> IdWorker(prop.getWorkerId(), prop.getDatacenterId());
+    &#125;
+&#125;</code></pre></div>
+
+<blockquote>
+<p>使用：</p>
+</blockquote>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534057869509.png" srcset="/img/loading.gif" alt="1534057869509"></p>
+<h3 id="1-3-2-查询订单接口"><a href="#1-3-2-查询订单接口" class="headerlink" title="1.3.2.查询订单接口"></a>1.3.2.查询订单接口</h3><p>接口说明：</p>
+<ul>
+<li>请求方式：GET</li>
+<li>请求路径：/order/{id}</li>
+<li>请求参数：id，订单编号</li>
+<li>返回结果：Order，订单的json对象</li>
+</ul>
+<p>测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534058725566.png" srcset="/img/loading.gif" alt="1534058725566"></p>
+<p>结果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534058696076.png" srcset="/img/loading.gif" alt="1534058696076"></p>
+<h3 id="1-3-3-更新订单状态"><a href="#1-3-3-更新订单状态" class="headerlink" title="1.3.3.更新订单状态"></a>1.3.3.更新订单状态</h3><p>接口说明：</p>
+<ul>
+<li>请求参数：PUT</li>
+<li>请求路径：/order/{id}/{status}</li>
+<li>请求参数：<ul>
+<li>id：订单编号，String类型，不能为空</li>
+<li>status：订单状态，不能为空</li>
+</ul>
+</li>
+<li>返回结果：null</li>
+</ul>
+<p>测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534059150417.png" srcset="/img/loading.gif" alt="1534059150417"></p>
+<p>结果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534059488506.png" srcset="/img/loading.gif" alt="1534059488506"></p>
+<p>数据库中也发生了改变：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534059550338.png" srcset="/img/loading.gif" alt="1534059550338"></p>
+<h3 id="1-3-4-分页查询订单"><a href="#1-3-4-分页查询订单" class="headerlink" title="1.3.4.分页查询订单"></a>1.3.4.分页查询订单</h3><p>接口说明：</p>
+<ul>
+<li>请求方式：Get</li>
+<li>请求路径：/order/list</li>
+<li>请求参数：<ul>
+<li>page：当前页，Integer类型，默认为1</li>
+<li>rows：每页大小，Integer类型，默认为5</li>
+<li>status：订单状态，String类型，默认查询全部状态订单</li>
+</ul>
+</li>
+<li>返回结果：PageResult   对象，包含下面属性：<ul>
+<li>total：总条数</li>
+<li>items：当前页订单数组<ul>
+<li>订单对象</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534059762431.png" srcset="/img/loading.gif" alt="1534059762431"></p>
+<p>结果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534059802562.png" srcset="/img/loading.gif" alt="1534059802562"></p>
+<h3 id="1-3-5-生成微信付款链接"><a href="#1-3-5-生成微信付款链接" class="headerlink" title="1.3.5.生成微信付款链接"></a>1.3.5.生成微信付款链接</h3><p>接口说明：</p>
+<ul>
+<li>请求方式：Get</li>
+<li>请求路径：/order/url/{id}</li>
+<li>请求参数：id，订单编号</li>
+<li>返回结果：String类型，生成的微信支付链接</li>
+</ul>
+<p>测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534059974834.png" srcset="/img/loading.gif" alt="1534059974834"></p>
+<p>结果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534060051812.png" srcset="/img/loading.gif" alt="1534060051812"></p>
+<h4 id="微信支付工具"><a href="#微信支付工具" class="headerlink" title="微信支付工具"></a>微信支付工具</h4><blockquote>
+<p>PayHelper</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PayHelper</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> WXPay wxPay;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(PayHelper<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> StringRedisTemplate redisTemplate;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> OrderService orderService;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PayHelper</span><span class="hljs-params">(PayConfig payConfig)</span> </span>&#123;
+        <span class="hljs-comment">// 真实开发时</span>
+        wxPay = <span class="hljs-keyword">new</span> WXPay(payConfig);
+        <span class="hljs-comment">// 测试时</span>
+        <span class="hljs-comment">// wxPay = new WXPay(payConfig, WXPayConstants.SignType.MD5, true);</span>
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">createPayUrl</span><span class="hljs-params">(Long orderId)</span> </span>&#123;
+        String key = <span class="hljs-string">"ly.pay.url."</span> + orderId;
+        <span class="hljs-keyword">try</span> &#123;
+            String url = <span class="hljs-keyword">this</span>.redisTemplate.opsForValue().get(key);
+            <span class="hljs-keyword">if</span> (StringUtils.isNotBlank(url)) &#123;
+                <span class="hljs-keyword">return</span> url;
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"查询缓存付款链接异常,订单编号：&#123;&#125;"</span>, orderId, e);
+        &#125;
+
+        <span class="hljs-keyword">try</span> &#123;
+            Map&lt;String, String&gt; data = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+            <span class="hljs-comment">// 商品描述</span>
+            data.put(<span class="hljs-string">"body"</span>, <span class="hljs-string">"乐优商城测试"</span>);
+            <span class="hljs-comment">// 订单号</span>
+            data.put(<span class="hljs-string">"out_trade_no"</span>, orderId.toString());
+            <span class="hljs-comment">//货币</span>
+            data.put(<span class="hljs-string">"fee_type"</span>, <span class="hljs-string">"CNY"</span>);
+            <span class="hljs-comment">//金额，单位是分</span>
+            data.put(<span class="hljs-string">"total_fee"</span>, <span class="hljs-string">"1"</span>);
+            <span class="hljs-comment">//调用微信支付的终端IP（estore商城的IP）</span>
+            data.put(<span class="hljs-string">"spbill_create_ip"</span>, <span class="hljs-string">"127.0.0.1"</span>);
+            <span class="hljs-comment">//回调地址</span>
+            data.put(<span class="hljs-string">"notify_url"</span>, <span class="hljs-string">"http://test.leyou.com/wxpay/notify"</span>);
+            <span class="hljs-comment">// 交易类型为扫码支付</span>
+            data.put(<span class="hljs-string">"trade_type"</span>, <span class="hljs-string">"NATIVE"</span>);
+            <span class="hljs-comment">//商品id,使用假数据</span>
+            data.put(<span class="hljs-string">"product_id"</span>, <span class="hljs-string">"1234567"</span>);
+
+            Map&lt;String, String&gt; result = <span class="hljs-keyword">this</span>.wxPay.unifiedOrder(data);
+
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">"SUCCESS"</span>.equals(result.get(<span class="hljs-string">"return_code"</span>))) &#123;
+                String url = result.get(<span class="hljs-string">"code_url"</span>);
+                <span class="hljs-comment">// 将付款地址缓存，时间为10分钟</span>
+                <span class="hljs-keyword">try</span> &#123;
+                    <span class="hljs-keyword">this</span>.redisTemplate.opsForValue().set(key, url, <span class="hljs-number">10</span>, TimeUnit.MINUTES);
+                &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+                    logger.error(<span class="hljs-string">"缓存付款链接异常,订单编号：&#123;&#125;"</span>, orderId, e);
+                &#125;
+                <span class="hljs-keyword">return</span> url;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                logger.error(<span class="hljs-string">"创建预交易订单失败，错误信息：&#123;&#125;"</span>, result.get(<span class="hljs-string">"return_msg"</span>));
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"创建预交易订单异常"</span>, e);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+        &#125;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 查询订单状态</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> orderId</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> PayState <span class="hljs-title">queryOrder</span><span class="hljs-params">(Long orderId)</span> </span>&#123;
+        Map&lt;String, String&gt; data = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        <span class="hljs-comment">// 订单号</span>
+        data.put(<span class="hljs-string">"out_trade_no"</span>, orderId.toString());
+        <span class="hljs-keyword">try</span> &#123;
+            Map&lt;String, String&gt; result = <span class="hljs-keyword">this</span>.wxPay.orderQuery(data);
+            <span class="hljs-keyword">if</span> (result == <span class="hljs-keyword">null</span>) &#123;
+                <span class="hljs-comment">// 未查询到结果，认为是未付款</span>
+                <span class="hljs-keyword">return</span> PayState.NOT_PAY;
+            &#125;
+            String state = result.get(<span class="hljs-string">"trade_state"</span>);
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">"SUCCESS"</span>.equals(state)) &#123;
+                <span class="hljs-comment">// success，则认为付款成功</span>
+
+                <span class="hljs-comment">// 修改订单状态</span>
+                <span class="hljs-keyword">this</span>.orderService.updateStatus(orderId, <span class="hljs-number">2</span>);
+                <span class="hljs-keyword">return</span> PayState.SUCCESS;
+            &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (StringUtils.equals(<span class="hljs-string">"USERPAYING"</span>, state)
+                       || StringUtils.equals(<span class="hljs-string">"NOTPAY"</span>, state)) &#123;
+                <span class="hljs-comment">// 未付款或正在付款，都认为是未付款</span>
+                <span class="hljs-keyword">return</span> PayState.NOT_PAY;
+            &#125; <span class="hljs-keyword">else</span> &#123;
+                <span class="hljs-comment">// 其它状态认为是付款失败</span>
+                <span class="hljs-keyword">return</span> PayState.FAIL;
+            &#125;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"查询订单状态异常"</span>, e);
+            <span class="hljs-keyword">return</span> PayState.NOT_PAY;
+        &#125;
+    &#125;
+&#125;</code></pre></div>
+
+<p>跟支付相关的其它几个类：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528796883071.png" srcset="/img/loading.gif" alt="1528796883071"></p>
+<h3 id="1-3-6-查询支付状态"><a href="#1-3-6-查询支付状态" class="headerlink" title="1.3.6.查询支付状态"></a>1.3.6.查询支付状态</h3><p>接口说明：</p>
+<ul>
+<li>请求方式： Get</li>
+<li>请求路径： /state/{id}</li>
+<li>请求参数： id，订单编号</li>
+<li>返回结果：0, 未查询到支付信息 1,支付成功 2,支付失败（查询失败，或者订单过期）</li>
+</ul>
+<h4 id="1-3-6-1-未付款"><a href="#1-3-6-1-未付款" class="headerlink" title="1.3.6.1.未付款"></a>1.3.6.1.未付款</h4><p>未付款时查询，测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534060875467.png" srcset="/img/loading.gif" alt="1534060875467"></p>
+<p>结果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534061834503.png" srcset="/img/loading.gif" alt="1534061834503"></p>
+<p>因为尚未付款，所以查询返回0。</p>
+<h4 id="1-3-6-2-付款"><a href="#1-3-6-2-付款" class="headerlink" title="1.3.6.2.付款"></a>1.3.6.2.付款</h4><p>通过JS把链接变成二维码。</p>
+<p>找到课前资料提供的JS页面：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534061965270.png" srcset="/img/loading.gif" alt="1534061965270"></p>
+<p>进入，并输入刚刚生成的地址：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534062028046.png" srcset="/img/loading.gif" alt="1534062028046"></p>
+<h4 id="1-3-6-3-已付款"><a href="#1-3-6-3-已付款" class="headerlink" title="1.3.6.3.已付款"></a>1.3.6.3.已付款</h4><p>扫码支付，然后再次查询：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534062115599.png" srcset="/img/loading.gif" alt="1534062115599"></p>
+<p>状态码为1，代表支付成功了！</p>
+<h1 id="2-订单结算页"><a href="#2-订单结算页" class="headerlink" title="2.订单结算页"></a>2.订单结算页</h1><h2 id="2-1-页面跳转"><a href="#2-1-页面跳转" class="headerlink" title="2.1.页面跳转"></a>2.1.页面跳转</h2><p>在购物车页面的最下方，有一个去结算按钮：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527990452791.png" srcset="/img/loading.gif" alt="1527990452791"></p>
+<p>当点击结算，我们应该跳转到订单结算页，即：<code>getOrderInfo.html</code></p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534062458952.png" srcset="/img/loading.gif" alt="1534062458952"></p>
+<p>查看购物车的<code>结算</code>按钮：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534063127883.png" srcset="/img/loading.gif" alt="1534063127883"></p>
+<p>可以看到，地址是正确的。但是只有登录用户才可以去结算付款，因此我们不能直接跳转，而是在跳转前校验用户的登录状态，如果发现是未登录，应该重定向到登录页！</p>
+<p>我们给这个按钮绑定点击事件：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534063368728.png" srcset="/img/loading.gif" alt="1534063368728"></p>
+<p>事件中判断登录状态，进行页面跳转：</p>
+<div class="hljs"><pre><code class="hljs js">toOrderInfo() &#123;
+    <span class="hljs-comment">// 判断是否登录</span>
+    ly.verifyUser().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+        <span class="hljs-comment">// 已登录</span>
+        <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">"/getOrderInfo.html"</span>
+    &#125;).catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+        <span class="hljs-comment">// 未登录</span>
+        <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">"/login.html?returnUrl="</span> + <span class="hljs-built_in">window</span>.location.href;
+    &#125;)
+&#125;</code></pre></div>
+
+
+
+<p>登录后测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534068627040.png" srcset="/img/loading.gif" alt="1534068627040"></p>
+<p>此处页面需要渲染的内容主要包含3部分：</p>
+<ul>
+<li>收货人信息</li>
+<li>支付方式</li>
+<li>商品信息</li>
+</ul>
+<h2 id="2-2-收货人信息（作业）"><a href="#2-2-收货人信息（作业）" class="headerlink" title="2.2.收货人信息（作业）"></a>2.2.收货人信息（作业）</h2><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528011713709.png" srcset="/img/loading.gif" alt="1528011713709"></p>
+<p>这里的收货人信息肯定是当前登录用户的收货地址。所以需要根据当前登录用户去查询，目前我们在页面是写的假数据：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534070259673.png" srcset="/img/loading.gif" alt="1534070259673"></p>
+<p>大家可以在在后台提供地址的增删改查接口，然后页面加载时根据当前登录用户查询，而后赋值给addresses即可。</p>
+<h2 id="2-3-支付方式"><a href="#2-3-支付方式" class="headerlink" title="2.3.支付方式"></a>2.3.支付方式</h2><p>支付方式有2种：</p>
+<ul>
+<li>微信支付</li>
+<li>货到付款</li>
+</ul>
+<p>与我们订单数据中的<code>paymentType</code>关联：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528012065388.png" srcset="/img/loading.gif" alt="1528012065388"></p>
+<p>所以我们可以在Vue实例中定义一个属性来记录支付方式：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534070467947.png" srcset="/img/loading.gif" alt="1534070467947"></p>
+<p>然后在页面渲染时与这个变量关联：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534070743780.png" srcset="/img/loading.gif" alt="1534070743780"></p>
+<h2 id="2-4-商品列表"><a href="#2-4-商品列表" class="headerlink" title="2.4.商品列表"></a>2.4.商品列表</h2><p>效果图：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528012881735.png" srcset="/img/loading.gif" alt="1528012881735"></p>
+<p>这里的送货清单，其实就是购物车中用户选择的要付款的商品</p>
+<p>因此，我们需要在购物车跳转过来的同时，携带选中的购物车的信息</p>
+<h3 id="2-4-1-购物车信息获取"><a href="#2-4-1-购物车信息获取" class="headerlink" title="2.4.1.购物车信息获取"></a>2.4.1.购物车信息获取</h3><p>我们修改<code>cart.html</code>中的页面跳转逻辑，把用户选中的购物车信息传递过来：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534071010391.png" srcset="/img/loading.gif" alt="1534071010391"></p>
+<p>然后在<code>created</code>钩子函数中获取购物车数据，保存到本地属性，要注意的是，我们应该在获取数据前校验用户登录状态，如果发现未登录，则直接重定向到登录页：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534071493245.png" srcset="/img/loading.gif" alt="1534071493245"></p>
+<p>然后重新加载页面，查看控制台：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534071647717.png" srcset="/img/loading.gif" alt="1534071647717"></p>
+<h3 id="2-4-2-页面渲染"><a href="#2-4-2-页面渲染" class="headerlink" title="2.4.2.页面渲染"></a>2.4.2.页面渲染</h3><p>要修改的页面位置：每一个li就是一件商品</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534071794146.png" srcset="/img/loading.gif" alt="1534071794146"></p>
+<p>我们修改为：</p>
+<div class="hljs"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"send-detail"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(cart,index) in carts"</span> <span class="hljs-attr">:key</span>=<span class="hljs-string">"index"</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"sendGoods"</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">ul</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"yui3-g"</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"yui3-u-1-6"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"70px"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"70px"</span> <span class="hljs-attr">:src</span>=<span class="hljs-string">"cart.image"</span>/&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"yui3-u-7-12"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"desc"</span>&gt;</span>&#123;&#123;cart.title&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"seven"</span>&gt;</span>
+                        <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">v-for</span>=<span class="hljs-string">"(v) in JSON.parse(cart.ownSpec)"</span>&gt;</span>&#123;&#123;v + "  "&#125;&#125; <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+                    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"yui3-u-1-12"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"price"</span>&gt;</span>￥&#123;&#123;ly.formatPrice(cart.price * cart.num)&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"yui3-u-1-12"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"num"</span>&gt;</span>&#123;&#123;cart.num&#125;&#125;<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"yui3-u-1-12"</span>&gt;</span>
+                    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"exit"</span>&gt;</span>有货<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span></code></pre></div>
+
+
+
+<h2 id="2-5-总金额"><a href="#2-5-总金额" class="headerlink" title="2.5.总金额"></a>2.5.总金额</h2><p>另外在商品列表下面，还有一个总金额的计算：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534072483208.png" srcset="/img/loading.gif" alt="1534072483208"></p>
+<p>可以看出这里主要有4个数据：</p>
+<ul>
+<li>总金额：totalPay</li>
+<li>优惠返现：discount</li>
+<li>运费：postFee</li>
+<li>实付金额：actualPay</li>
+</ul>
+<p>不过我们没有做优惠活动，另外运费需要结合物流系统来计算，暂时我们都设置为0，在order属性中写死：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534072753146.png" srcset="/img/loading.gif" alt="1534072753146"></p>
+<p>我们通过计算属性来得到<code>totalPay</code>和<code>actualPay</code>值：</p>
+<div class="hljs"><pre><code class="hljs js">computed: &#123;
+    totalNum()&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.carts.reduce(<span class="hljs-function">(<span class="hljs-params">c1, c2</span>) =&gt;</span> c1 + c2.num, <span class="hljs-number">0</span>)
+    &#125;,
+    totalPay()&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.carts.reduce(<span class="hljs-function">(<span class="hljs-params">c1, c2</span>) =&gt;</span> c1 + c2.price * c2.num, <span class="hljs-number">0</span>);
+    &#125;,
+    actualPay()&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.totalPay + <span class="hljs-keyword">this</span>.order.postFee - <span class="hljs-keyword">this</span>.order.discount;
+    &#125;
+&#125;,</code></pre></div>
+
+<p>然后在页面渲染：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534073678931.png" srcset="/img/loading.gif" alt="1534073678931"></p>
+<p>效果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534073704731.png" srcset="/img/loading.gif" alt="1534073704731"></p>
+<h2 id="2-6-提交订单"><a href="#2-6-提交订单" class="headerlink" title="2.6.提交订单"></a>2.6.提交订单</h2><h3 id="2-6-1-页面提交"><a href="#2-6-1-页面提交" class="headerlink" title="2.6.1.页面提交"></a>2.6.1.页面提交</h3><p>来看下订单接口所需要的数据：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534074122199.png" srcset="/img/loading.gif" alt="1534074122199"></p>
+<p>分为3部分，分别是</p>
+<ul>
+<li><p>订单本身的基本信息</p>
+<ul>
+<li>总金额</li>
+<li>实付金额</li>
+<li>付款类型</li>
+<li>买家信息就是当前用户</li>
+</ul>
+</li>
+<li><p>订单详情</p>
+<ul>
+<li>就是购物车中的商品，不过购物车数据会多出一个userId，我们去除即可：</li>
+</ul>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534074293296.png" srcset="/img/loading.gif" alt="1534074293296"></p>
+</li>
+<li><p>物流信息</p>
+<ul>
+<li>当前用户选中的物流地址信息</li>
+</ul>
+</li>
+</ul>
+<p>给提交按钮绑定事件：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534074374101.png" srcset="/img/loading.gif" alt="1534074374101"></p>
+<p>然后编写方法，组织数据并提交：</p>
+<div class="hljs"><pre><code class="hljs js">methods: &#123;
+    submit() &#123;
+        <span class="hljs-comment">// 把购物车数据处理成订单详情</span>
+        <span class="hljs-keyword">const</span> orderDetails = <span class="hljs-keyword">this</span>.carts.map(<span class="hljs-function">(<span class="hljs-params">&#123;userId, ...rest&#125;</span>) =&gt;</span> rest);
+        <span class="hljs-comment">// 处理物流信息</span>
+        <span class="hljs-keyword">const</span> addr = <span class="hljs-keyword">this</span>.addresses[<span class="hljs-keyword">this</span>.selectedAddress];
+        <span class="hljs-keyword">const</span> obj = &#123;
+            receiver: addr.name,
+            receiverState: addr.state,
+            receiverCity: addr.city,
+            receiverAddress: addr.address,
+            receiverDistrict: addr.district,
+            receiverMobile: addr.phone,
+            receiverZip: addr.zipCode
+        &#125;;
+        <span class="hljs-comment">// 复制到订单对象</span>
+        <span class="hljs-built_in">Object</span>.assign(<span class="hljs-keyword">this</span>.order, obj, &#123;
+            orderDetails,
+            totalPay: <span class="hljs-keyword">this</span>.totalPay,
+            actualPay: <span class="hljs-keyword">this</span>.actualPay,
+        &#125;);
+        <span class="hljs-comment">// 提交订单</span>
+        ly.http.post(<span class="hljs-string">"/order"</span>, <span class="hljs-keyword">this</span>.order).then(<span class="hljs-function">(<span class="hljs-params">&#123;data&#125;</span>) =&gt;</span> &#123;
+            <span class="hljs-comment">// 在线支付，需要到付款页</span>
+            <span class="hljs-built_in">window</span>.location = <span class="hljs-string">"pay.html?orderId="</span> + data;
+        &#125;).catch(<span class="hljs-function">(<span class="hljs-params">resp</span>) =&gt;</span> &#123;
+            alert(<span class="hljs-string">"订单提交失败，可能是缺货!"</span>)
+        &#125;)
+    &#125;
+&#125;,</code></pre></div>
+
+<h3 id="2-6-2-精度损失问题"><a href="#2-6-2-精度损失问题" class="headerlink" title="2.6.2.精度损失问题"></a>2.6.2.精度损失问题</h3><p>在页面点击提交测试：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528340102503.png" srcset="/img/loading.gif" alt="1528340102503"></p>
+<p>成功生成订单！</p>
+<p>然后看页面跳转：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528340136603.png" srcset="/img/loading.gif" alt="1528340136603"></p>
+<p>好像有什么不对？订单号的最后2位不正确啊！</p>
+<p>这其实是因为JS的长整数精度有限，java的Long类型数据超出了范围，所以出现了精度损失。</p>
+<p>我们后台返回的是Json的字符串，在axios内部会自动调用 JSON.parse()方法把json字符串转为JS数据，就会出现进度损失。如果不进行转换，依然当做字符串来使用，就不会有问题了。</p>
+<p>因此，我们重写axios对响应的处理回调函数：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528340413139.png" srcset="/img/loading.gif" alt="1528340413139"></p>
+<p>再次测试，就OK了。</p>
+<p>接下来就轮到支付了。</p>
+<h1 id="3-微信支付"><a href="#3-微信支付" class="headerlink" title="3.微信支付"></a>3.微信支付</h1><h2 id="3-1-介绍"><a href="#3-1-介绍" class="headerlink" title="3.1.介绍"></a>3.1.介绍</h2><p>微信支付官方文档：<a href="https://pay.weixin.qq.com/index.php/core/home/login?return_url=%2F" target="_blank" rel="noopener">https://pay.weixin.qq.com/index.php/core/home/login?return_url=%2F</a></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527848350188.png" srcset="/img/loading.gif" alt="1527848350188"></p>
+<p>我们选择开发文档，而后进入选择页面：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527848358128.png" srcset="/img/loading.gif" alt="1527848358128"></p>
+<p>选择扫码支付：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1527848368179.png" srcset="/img/loading.gif" alt="1527848368179"></p>
+<p>此处我们使用模式二来开发：</p>
+<h2 id="3-2-开发流程"><a href="#3-2-开发流程" class="headerlink" title="3.2.开发流程"></a>3.2.开发流程</h2><p>模式二与模式一相比，流程更为简单，不依赖设置的回调支付URL。</p>
+<p>商户后台系统先调用微信支付的统一下单接口，微信后台系统返回链接参数code_url；</p>
+<p>商户后台系统将code_url值生成二维码图片，用户使用微信客户端扫码后发起支付。</p>
+<p>注意：code_url有效期为2小时，过期后扫码不能再发起支付。 </p>
+<p>流程图：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/chapter6_5_1.png" srcset="/img/loading.gif" alt="2wa23131"></p>
+<p>这里我们把商户（我们）要做的事情总结一下：</p>
+<ul>
+<li>1、商户生成订单</li>
+<li>2、商户调用微信下单接口，获取预交易的链接</li>
+<li>3、商户将链接生成二维码图片，展示给用户；</li>
+<li>4、用户支付并确认</li>
+<li>5、支付结果通知：<ul>
+<li>微信异步通知商户支付结果，商户告知微信支付接收情况</li>
+<li>商户如果没有收到通知，可以调用接口，查询支付状态</li>
+</ul>
+</li>
+<li>6、如果支付成功，发货，修改订单状态</li>
+</ul>
+<p>在前面的业务中，我们已经完成了：</p>
+<ul>
+<li>1、生成订单</li>
+</ul>
+<p>接下来，我们需要做的是：</p>
+<ul>
+<li>2、调用微信接口，生成链接。</li>
+<li>3、并且生成二维码图片</li>
+</ul>
+<h2 id="3-3-生成二维码"><a href="#3-3-生成二维码" class="headerlink" title="3.3.生成二维码"></a>3.3.生成二维码</h2><h3 id="3-3-1-生成预交易链接"><a href="#3-3-1-生成预交易链接" class="headerlink" title="3.3.1.生成预交易链接"></a>3.3.1.生成预交易链接</h3><p>我们先根据订单的编号，调用后台服务，生成交易链接，而后才能根据链接生成二维码。</p>
+<p>在页面发起请求：</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-keyword">var</span> payVm = <span class="hljs-keyword">new</span> Vue(&#123;
+    el:<span class="hljs-string">"#payVm"</span>,
+    data:&#123;
+        ly,
+        orderId:<span class="hljs-number">0</span>,<span class="hljs-comment">// 订单编号</span>
+    &#125;,
+    created()&#123;
+        <span class="hljs-comment">// 判断登录状态</span>
+        ly.http.get(<span class="hljs-string">"/auth/verify"</span>).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+            <span class="hljs-comment">// 获取订单编号</span>
+            <span class="hljs-keyword">this</span>.orderId = ly.getUrlParam(<span class="hljs-string">"orderId"</span>);
+            <span class="hljs-comment">// 获取请求链接</span>
+            ly.http.get(<span class="hljs-string">"/order/url/"</span> + <span class="hljs-keyword">this</span>.orderId)
+                .then(<span class="hljs-function"><span class="hljs-params">resp</span> =&gt;</span> &#123;
+                    <span class="hljs-built_in">console</span>.log(resp.data);
+                &#125;)
+        &#125;.catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+			<span class="hljs-comment">// 未登录，跳转至登录页</span>
+             location.href = <span class="hljs-string">"/login.html?returnUrl="</span> + location.href;
+        &#125;)
+    &#125;,
+    components: &#123;
+        shortcut: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">import</span>(<span class="hljs-string">"./js/pages/shortcut.js"</span>)
+    &#125;
+&#125;);</code></pre></div>
+
+<p>后台已经定义好生成付款地址的接口。</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528362159620.png" srcset="/img/loading.gif" alt="1528362159620"></p>
+<p>刷新页面查看：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528362220886.png" srcset="/img/loading.gif" alt="1528362220886"></p>
+<h3 id="3-3-2-生成二维码"><a href="#3-3-2-生成二维码" class="headerlink" title="3.3.2.生成二维码"></a>3.3.2.生成二维码</h3><p>这里我们使用一个生成二维码的JS插件：qrcode，官网：<a href="https://github.com/davidshimjs/qrcodejs" target="_blank" rel="noopener">https://github.com/davidshimjs/qrcodejs</a></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534313526721.png" srcset="/img/loading.gif" alt="1534313526721"></p>
+<p>我们把课这个js脚本引入到项目中：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528362348399.png" srcset="/img/loading.gif" alt="1528362348399"></p>
+<p>官方使用案例：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1534313925398.png" srcset="/img/loading.gif" alt="1534313925398"></p>
+<p>然后在页面引用：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528362377494.png" srcset="/img/loading.gif" alt="1528362377494"></p>
+<p>页面定义一个div，用于展示二维码：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528362023061.png" srcset="/img/loading.gif" alt="1528362023061"></p>
+<p>然后获取到付款链接后，根据链接生成二维码：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528362420151.png" srcset="/img/loading.gif" alt="1528362420151"></p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">// 判断登录状态</span>
+ly.http.get(<span class="hljs-string">"/auth/verify"</span>).then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+    <span class="hljs-comment">// 获取订单编号</span>
+    <span class="hljs-keyword">this</span>.orderId = ly.getUrlParam(<span class="hljs-string">"orderId"</span>);
+    <span class="hljs-comment">// 获取请求链接</span>
+    ly.http.get(<span class="hljs-string">"/order/url/"</span> + <span class="hljs-keyword">this</span>.orderId)
+        .then(<span class="hljs-function"><span class="hljs-params">resp</span> =&gt;</span> &#123;
+            <span class="hljs-keyword">new</span> QRCode(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">"qrImage"</span>), &#123;
+                text: resp.data,
+                width: <span class="hljs-number">250</span>,
+                height: <span class="hljs-number">250</span>,
+                colorDark: <span class="hljs-string">"#000000"</span>,
+                colorLight: <span class="hljs-string">"#ffffff"</span>,
+                correctLevel: QRCode.CorrectLevel.H
+            &#125;);
+        &#125;)
+&#125;).catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+    <span class="hljs-comment">// 未登录，跳转至登录页</span>
+    location.href = <span class="hljs-string">"/login.html?returnUrl="</span> + location.href;
+&#125;)</code></pre></div>
+
+
+
+<p>刷新页面，查看效果：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528362464276.png" srcset="/img/loading.gif" alt="1528362464276"></p>
+<p>此时，客户用手机扫描二维码，可以看到付款页面。</p>
+<h2 id="3-4-付款状态查询"><a href="#3-4-付款状态查询" class="headerlink" title="3.4.付款状态查询"></a>3.4.付款状态查询</h2><p>跳转到支付页面后，我们等待用户付款，付款完成则跳转到付款成功页面。</p>
+<h3 id="3-4-1-页面循环查询支付状态"><a href="#3-4-1-页面循环查询支付状态" class="headerlink" title="3.4.1.页面循环查询支付状态"></a>3.4.1.页面循环查询支付状态</h3><p>不过，因为不清楚用户何时会付款，因此这里采用循环的方式，不断请求判断是否支付成功。</p>
+<div class="hljs"><pre><code class="hljs js"><span class="hljs-comment">// 开启定时任务，查询付款状态</span>
+<span class="hljs-keyword">const</span> taskId = setInterval(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+    ly.http.get(<span class="hljs-string">"/order/state/"</span> + <span class="hljs-keyword">this</span>.orderId)
+        .then(<span class="hljs-function"><span class="hljs-params">resp</span> =&gt;</span> &#123;
+        <span class="hljs-keyword">let</span> i = resp.data;
+        <span class="hljs-keyword">if</span> (i === <span class="hljs-number">1</span>) &#123;
+            <span class="hljs-comment">// 付款成功</span>
+            clearInterval(taskId);
+            <span class="hljs-comment">// 跳转到付款成功页</span>
+            location.href = <span class="hljs-string">"/paysuccess.html?orderId="</span> + <span class="hljs-keyword">this</span>.orderId;
+        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (i === <span class="hljs-number">2</span>) &#123;
+            <span class="hljs-comment">// 付款失败</span>
+            clearInterval(taskId);
+            <span class="hljs-comment">// 跳转到付款失败页</span>
+            location.href = <span class="hljs-string">"/payfail.html"</span>;
+        &#125;
+    &#125;)
+&#125;, <span class="hljs-number">3000</span>);</code></pre></div>
+
+<h3 id="3-4-2-付款成功页面"><a href="#3-4-2-付款成功页面" class="headerlink" title="3.4.2.付款成功页面"></a>3.4.2.付款成功页面</h3><p>当付款成功后，自动跳转到付款成功页面：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/1528376883924.png" srcset="/img/loading.gif" alt="1528376883924"></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8E/">乐优商城</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Swagger-UI/">Swagger-UI</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/">
+                        <span class="hidden-mobile">乐优商城day18：购物车</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "乐优商城day19：下单&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>乐优商城day18：购物车 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-10-05 10:50">
+      2020-10-05
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      50
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><h1 id="1-搭建购物车服务"><a href="#1-搭建购物车服务" class="headerlink" title="1.搭建购物车服务"></a>1.搭建购物车服务</h1><h2 id="1-1-创建module"><a href="#1-1-创建module" class="headerlink" title="1.1.创建module"></a>1.1.创建module</h2><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533738258872.png" srcset="/img/loading.gif" alt="1533738258872"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533738278599.png" srcset="/img/loading.gif" alt="1533738278599"></p>
+<h2 id="1-2-pom依赖"><a href="#1-2-pom依赖" class="headerlink" title="1.2.pom依赖"></a>1.2.pom依赖</h2><div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.parent<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.service<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>ly-cart<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+
+
+<h2 id="1-3-配置文件"><a href="#1-3-配置文件" class="headerlink" title="1.3.配置文件"></a>1.3.配置文件</h2><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8088</span>
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">cart-service</span>
+  <span class="hljs-attr">redis:</span>
+    <span class="hljs-attr">host:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.56</span><span class="hljs-number">.101</span>
+<span class="hljs-attr">eureka:</span>
+  <span class="hljs-attr">client:</span>
+    <span class="hljs-attr">service-url:</span>
+      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://127.0.0.1:10086/eureka</span>
+    <span class="hljs-attr">registry-fetch-interval-seconds:</span> <span class="hljs-number">10</span>
+  <span class="hljs-attr">instance:</span>
+    <span class="hljs-attr">prefer-ip-address:</span> <span class="hljs-literal">true</span>
+    <span class="hljs-attr">ip-address:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+    <span class="hljs-attr">instance-id:</span> <span class="hljs-string">$&#123;eureka.instance.ip-address&#125;.$&#123;server.port&#125;</span>
+    <span class="hljs-attr">lease-renewal-interval-in-seconds:</span> <span class="hljs-number">5</span>
+    <span class="hljs-attr">lease-expiration-duration-in-seconds:</span> <span class="hljs-number">15</span></code></pre></div>
+
+
+
+<h2 id="1-4-启动类"><a href="#1-4-启动类" class="headerlink" title="1.4.启动类"></a>1.4.启动类</h2><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableFeignClients</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LeyouCartApplication</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SpringApplication.run(LeyouCartApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h1 id="2-购物车功能分析"><a href="#2-购物车功能分析" class="headerlink" title="2.购物车功能分析"></a>2.购物车功能分析</h1><h2 id="2-1-需求"><a href="#2-1-需求" class="headerlink" title="2.1.需求"></a>2.1.需求</h2><p>需求描述：</p>
+<ul>
+<li>用户可以在登录状态下将商品添加到购物车<ul>
+<li>放入数据库</li>
+<li>放入redis（采用）</li>
+</ul>
+</li>
+<li>用户可以在未登录状态下将商品添加到购物车<ul>
+<li>放入localstorage</li>
+</ul>
+</li>
+<li>用户可以使用购物车一起结算下单</li>
+<li>用户可以查询自己的购物车</li>
+<li>用户可以在购物车中修改购买商品的数量。</li>
+<li>用户可以在购物车中删除商品。</li>
+<li>在购物车中展示商品优惠信息</li>
+<li>提示购物车商品价格变化</li>
+</ul>
+<h2 id="2-2-流程图"><a href="#2-2-流程图" class="headerlink" title="2.2.流程图"></a>2.2.流程图</h2><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1527585343248.png" srcset="/img/loading.gif" alt="1527585343248"></p>
+<p>这幅图主要描述了两个功能：新增商品到购物车、查询购物车。</p>
+<p>新增商品：</p>
+<ul>
+<li>判断是否登录<ul>
+<li>是：则添加商品到后台Redis中</li>
+<li>否：则添加商品到本地的Localstorage</li>
+</ul>
+</li>
+</ul>
+<p>无论哪种新增，完成后都需要查询购物车列表：</p>
+<ul>
+<li>判断是否登录<ul>
+<li>否：直接查询localstorage中数据并展示</li>
+<li>是：已登录，则需要先看本地是否有数据，<ul>
+<li>有：需要提交到后台添加到redis，合并数据，而后查询</li>
+<li>否：直接去后台查询redis，而后返回</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="3-未登录购物车"><a href="#3-未登录购物车" class="headerlink" title="3.未登录购物车"></a>3.未登录购物车</h1><h2 id="3-1-准备"><a href="#3-1-准备" class="headerlink" title="3.1.准备"></a>3.1.准备</h2><h3 id="3-1-1购物车的数据结构"><a href="#3-1-1购物车的数据结构" class="headerlink" title="3.1.1购物车的数据结构"></a>3.1.1购物车的数据结构</h3><p>首先分析一下未登录购物车的数据结构。</p>
+<p>我们看下页面展示需要什么数据：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1527737419294.png" srcset="/img/loading.gif" alt="1527737419294"></p>
+<p>因此每一个购物车信息，都是一个对象，包含：</p>
+<div class="hljs"><pre><code class="hljs js">&#123;
+    skuId:<span class="hljs-number">2131241</span>,
+    title:<span class="hljs-string">"小米6"</span>,
+    image:<span class="hljs-string">""</span>,
+    price:<span class="hljs-number">190000</span>,
+    num:<span class="hljs-number">1</span>,
+    ownSpec:<span class="hljs-string">"&#123;"</span>机身颜色<span class="hljs-string">":"</span>陶瓷黑尊享版<span class="hljs-string">","</span>内存<span class="hljs-string">":"</span><span class="hljs-number">6</span>GB<span class="hljs-string">","</span>机身存储<span class="hljs-string">":"</span><span class="hljs-number">128</span>GB<span class="hljs-string">"&#125;"</span>
+&#125;</code></pre></div>
+
+<p>另外，购物车中不止一条数据，因此最终会是对象的数组。即：</p>
+<div class="hljs"><pre><code class="hljs js">[
+    &#123;...&#125;,&#123;...&#125;,&#123;...&#125;
+]</code></pre></div>
+
+
+
+<h3 id="3-1-2-web本地存储"><a href="#3-1-2-web本地存储" class="headerlink" title="3.1.2.web本地存储"></a>3.1.2.web本地存储</h3><p>知道了数据结构，下一个问题，就是如何保存购物车数据。前面我们分析过，可以使用Localstorage来实现。Localstorage是web本地存储的一种，那么，什么是web本地存储呢？</p>
+<h4 id="什么是web本地存储？"><a href="#什么是web本地存储？" class="headerlink" title="什么是web本地存储？"></a>什么是web本地存储？</h4><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1527587496457.png" srcset="/img/loading.gif" alt="1527587496457"></p>
+<p>web本地存储主要有两种方式：</p>
+<ul>
+<li>LocalStorage：localStorage 方法存储的数据没有时间限制。第二天、第二周或下一年之后，数据依然可用。 </li>
+<li>SessionStorage：sessionStorage 方法针对一个 session 进行数据存储。当用户关闭浏览器窗口后，数据会被删除。 </li>
+</ul>
+<h4 id="LocalStorage的用法"><a href="#LocalStorage的用法" class="headerlink" title="LocalStorage的用法"></a>LocalStorage的用法</h4><p>语法非常简单：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533739711101.png" srcset="/img/loading.gif" alt="1533739711101"></p>
+<div class="hljs"><pre><code class="hljs js">localStorage.setItem(<span class="hljs-string">"key"</span>,<span class="hljs-string">"value"</span>); <span class="hljs-comment">// 存储数据</span>
+localStorage.getItem(<span class="hljs-string">"key"</span>); <span class="hljs-comment">// 获取数据</span>
+localStorage.removeItem(<span class="hljs-string">"key"</span>); <span class="hljs-comment">// 删除数据</span></code></pre></div>
+
+<p>注意：<strong>localStorage和SessionStorage都只能保存字符串</strong>。</p>
+<p>不过，在我们的common.js中，已经对localStorage进行了简单的封装：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533739810927.png" srcset="/img/loading.gif" alt="1533739810927"></p>
+<p>示例：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533739929733.png" srcset="/img/loading.gif" alt="1533739929733"></p>
+<h3 id="3-1-3-获取num"><a href="#3-1-3-获取num" class="headerlink" title="3.1.3.获取num"></a>3.1.3.获取num</h3><p>添加购物车需要知道购物的数量，所以我们需要获取数量大小。我们在Vue中定义num，保存数量：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533740236299.png" srcset="/img/loading.gif" alt="1533740236299"></p>
+<p>然后将num与页面的input框绑定，同时给<code>+</code>和<code>-</code>的按钮绑定事件：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533742284781.png" srcset="/img/loading.gif" alt="1533742284781"></p>
+<p>编写方法：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533742493645.png" srcset="/img/loading.gif" alt="1533742493645"></p>
+<h2 id="3-2-添加购物车"><a href="#3-2-添加购物车" class="headerlink" title="3.2.添加购物车"></a>3.2.添加购物车</h2><h3 id="3-2-1-点击事件"><a href="#3-2-1-点击事件" class="headerlink" title="3.2.1.点击事件"></a>3.2.1.点击事件</h3><p>我们看下商品详情页：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1527585864482.png" srcset="/img/loading.gif" alt="1527585864482"></p>
+<p>现在点击加入购物车会跳转到购物车成功页面。</p>
+<p>不过我们不这么做，我们绑定点击事件，然后实现添加购物车功能。</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533745246878.png" srcset="/img/loading.gif" alt="1533745246878"></p>
+<p>addCart方法中判断用户的登录状态：</p>
+<div class="hljs"><pre><code class="hljs js">addCart()&#123;
+   ly.http.get(<span class="hljs-string">"/auth/verify"</span>).then(<span class="hljs-function"><span class="hljs-params">res</span>=&gt;</span>&#123;
+       <span class="hljs-comment">// 已登录发送信息到后台，保存到redis中</span>
+   &#125;).catch(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>&#123;
+       <span class="hljs-comment">// 未登录保存在浏览器本地的localStorage中</span>
+   &#125;)
+&#125;</code></pre></div>
+
+
+
+<h3 id="3-2-2-获取数量，添加购物车"><a href="#3-2-2-获取数量，添加购物车" class="headerlink" title="3.2.2.获取数量，添加购物车"></a>3.2.2.获取数量，添加购物车</h3><div class="hljs"><pre><code class="hljs js">addCart()&#123;
+    ly.verifyUser().then(<span class="hljs-function"><span class="hljs-params">res</span>=&gt;</span>&#123;
+        <span class="hljs-comment">// 已登录发送信息到后台，保存到redis中</span>
+
+    &#125;).catch(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>&#123;
+        <span class="hljs-comment">// 未登录保存在浏览器本地的localStorage中</span>
+        <span class="hljs-comment">// 1、查询本地购物车</span>
+        <span class="hljs-keyword">let</span> carts = ly.store.get(<span class="hljs-string">"carts"</span>) || [];
+        <span class="hljs-keyword">let</span> cart = carts.find(<span class="hljs-function"><span class="hljs-params">c</span>=&gt;</span>c.skuId===<span class="hljs-keyword">this</span>.sku.id);
+        <span class="hljs-comment">// 2、判断是否存在</span>
+        <span class="hljs-keyword">if</span> (cart) &#123;
+            <span class="hljs-comment">// 3、存在更新数量</span>
+            cart.num += <span class="hljs-keyword">this</span>.num;
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-comment">// 4、不存在，新增</span>
+            cart = &#123;
+                skuId: <span class="hljs-keyword">this</span>.sku.id,
+                title: <span class="hljs-keyword">this</span>.sku.title,
+                price: <span class="hljs-keyword">this</span>.sku.price,
+                image: <span class="hljs-keyword">this</span>.sku.images,
+                num: <span class="hljs-keyword">this</span>.num,
+                ownSpec: <span class="hljs-built_in">JSON</span>.stringify(<span class="hljs-keyword">this</span>.ownSpec)
+            &#125;
+            carts.push(cart);
+        &#125;
+        <span class="hljs-comment">// 把carts写回localstorage</span>
+        ly.store.set(<span class="hljs-string">"carts"</span>, carts);
+        <span class="hljs-comment">// 跳转</span>
+        <span class="hljs-built_in">window</span>.location.href = <span class="hljs-string">"http://www.leyou.com/cart.html"</span>;
+    &#125;);
+&#125;</code></pre></div>
+
+<p>结果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533785968759.png" srcset="/img/loading.gif" alt="1533785968759"></p>
+<p>添加完成后，页面会跳转到购物车结算页面：cart.html</p>
+<h2 id="3-3-查询购物车"><a href="#3-3-查询购物车" class="headerlink" title="3.3.查询购物车"></a>3.3.查询购物车</h2><h3 id="3-3-1-校验用户登录"><a href="#3-3-1-校验用户登录" class="headerlink" title="3.3.1.校验用户登录"></a>3.3.1.校验用户登录</h3><p>因为会多次校验用户登录状态，因此我们封装一个校验的方法：</p>
+<p>在common.js中：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533788637942.png" srcset="/img/loading.gif" alt="1533788637942"></p>
+<p>在页面item.html中使用该方法：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533788722957.png" srcset="/img/loading.gif" alt="1533788722957"></p>
+<h3 id="3-3-2-查询购物车"><a href="#3-3-2-查询购物车" class="headerlink" title="3.3.2.查询购物车"></a>3.3.2.查询购物车</h3><p>页面加载时，就应该去查询购物车。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">var</span> cartVm = <span class="hljs-keyword">new</span> Vue(&#123;
+    el: <span class="hljs-string">"#cartApp"</span>,
+    data: &#123;
+        ly,
+        carts: [],<span class="hljs-comment">// 购物车数据</span>
+    &#125;,
+    created() &#123;
+        <span class="hljs-keyword">this</span>.loadCarts();
+    &#125;,
+    methods: &#123;
+        loadCarts() &#123;
+            <span class="hljs-comment">// 先判断登录状态</span>
+            ly.verifyUser().then(() =&gt; &#123;
+                    <span class="hljs-comment">// 已登录</span>
+
+                &#125;).<span class="hljs-keyword">catch</span>(() =&gt; &#123;
+                    <span class="hljs-comment">// 未登录</span>
+                    <span class="hljs-keyword">this</span>.carts = ly.store.get(<span class="hljs-string">"carts"</span>) || [];
+                    <span class="hljs-keyword">this</span>.selected = <span class="hljs-keyword">this</span>.carts;
+                &#125;)
+           &#125;
+    &#125;
+    components: &#123;
+        shortcut: () =&gt; <span class="hljs-keyword">import</span>(<span class="hljs-string">"/js/pages/shortcut.js"</span>)
+    &#125;
+&#125;)</code></pre></div>
+
+<p>刷新页面，查看控制台Vue实例：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533806610234.png" srcset="/img/loading.gif" alt="1533806610234"></p>
+<h3 id="3-5-2-渲染到页面"><a href="#3-5-2-渲染到页面" class="headerlink" title="3.5.2.渲染到页面"></a>3.5.2.渲染到页面</h3><p>接下来，我们在页面中展示carts的数据：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533806563740.png" srcset="/img/loading.gif" alt="1533806563740"></p>
+<p>要注意，价格的展示需要进行格式化，这里使用的是我们在common.js中定义的formatPrice方法</p>
+<p>效果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533806670775.png" srcset="/img/loading.gif" alt="1533806670775"></p>
+<h2 id="3-6-修改数量"><a href="#3-6-修改数量" class="headerlink" title="3.6.修改数量"></a>3.6.修改数量</h2><p>我们给页面的 <code>+</code> 和 <code>-</code>绑定点击事件，修改num 的值：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533806715698.png" srcset="/img/loading.gif" alt="1533806715698"></p>
+<p>两个事件：</p>
+<div class="hljs"><pre><code class="hljs js">increment(c) &#123;
+    c.num++;
+    ly.verifyUser().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+        <span class="hljs-comment">// TODO 已登录，向后台发起请求</span>
+    &#125;).catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+        <span class="hljs-comment">// 未登录，直接操作本地数据</span>
+        ly.store.set(<span class="hljs-string">"carts"</span>, <span class="hljs-keyword">this</span>.carts);
+    &#125;)
+&#125;,
+decrement(c) &#123;
+    <span class="hljs-keyword">if</span> (c.num &lt;= <span class="hljs-number">1</span>) &#123;
+        <span class="hljs-keyword">return</span>;
+    &#125;
+    c.num--;
+    ly.verifyUser().then(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+        <span class="hljs-comment">// TODO 已登录，向后台发起请求</span>
+    &#125;).catch(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;
+        <span class="hljs-comment">// 未登录，直接操作本地数据</span>
+        ly.store.set(<span class="hljs-string">"carts"</span>, <span class="hljs-keyword">this</span>.carts);
+    &#125;)
+&#125;</code></pre></div>
+
+
+
+<h2 id="3-7-删除商品"><a href="#3-7-删除商品" class="headerlink" title="3.7.删除商品"></a>3.7.删除商品</h2><p>给删除按钮绑定事件：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533807671462.png" srcset="/img/loading.gif" alt="1533807671462"></p>
+<p>点击事件中删除商品：</p>
+<div class="hljs"><pre><code class="hljs js">deleteCart(i)&#123;
+    ly.verifyUser().then(<span class="hljs-function"><span class="hljs-params">res</span>=&gt;</span>&#123;
+        <span class="hljs-comment">// TODO，已登录购物车</span>
+    &#125;).catch(<span class="hljs-function"><span class="hljs-params">()</span>=&gt;</span>&#123;
+        <span class="hljs-comment">// 未登录购物车</span>
+        <span class="hljs-keyword">this</span>.carts.splice(i, <span class="hljs-number">1</span>);
+        ly.store.set(<span class="hljs-string">"carts"</span>, <span class="hljs-keyword">this</span>.carts);
+    &#125;)
+&#125;</code></pre></div>
+
+
+
+<h2 id="3-8-选中商品"><a href="#3-8-选中商品" class="headerlink" title="3.8.选中商品"></a>3.8.选中商品</h2><p>在页面中，每个购物车商品左侧，都有一个复选框，用户可以选择部分商品进行下单，而不一定是全部：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533808731995.png" srcset="/img/loading.gif" alt="1533808731995"></p>
+<p>我们定义一个变量，记录所有被选中的商品：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533816012100.png" srcset="/img/loading.gif" alt="1533816012100"></p>
+<h3 id="3-8-1-选中一个"><a href="#3-8-1-选中一个" class="headerlink" title="3.8.1.选中一个"></a>3.8.1.选中一个</h3><p>我们给商品前面的复选框与selected绑定，并且指定其值为当前购物车商品：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533810163988.png" srcset="/img/loading.gif" alt="1533810163988"></p>
+<h3 id="3-8-2-初始化全选"><a href="#3-8-2-初始化全选" class="headerlink" title="3.8.2.初始化全选"></a>3.8.2.初始化全选</h3><p>我们在加载完成购物车查询后，初始化全选：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533809253022.png" srcset="/img/loading.gif" alt="1533809253022"></p>
+<h3 id="3-8-4-总价格"><a href="#3-8-4-总价格" class="headerlink" title="3.8.4.总价格"></a>3.8.4.总价格</h3><p>然后编写一个计算属性，计算出选中商品总价格：</p>
+<div class="hljs"><pre><code class="hljs js">computed: &#123;
+    totalPrice() &#123;
+        <span class="hljs-keyword">return</span> ly.formatPrice(<span class="hljs-keyword">this</span>.selected.reduce(<span class="hljs-function">(<span class="hljs-params">c1, c2</span>) =&gt;</span> c1 + c2.num * c2.price, <span class="hljs-number">0</span>));
+    &#125;
+&#125;</code></pre></div>
+
+<p>在页面中展示总价格：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533810788247.png" srcset="/img/loading.gif" alt="1533810788247"></p>
+<p>效果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533810760802.png" srcset="/img/loading.gif" alt="1533810760802"></p>
+<h1 id="4-已登录购物车"><a href="#4-已登录购物车" class="headerlink" title="4.已登录购物车"></a>4.已登录购物车</h1><p>接下来，我们完成已登录购物车。</p>
+<p>在刚才的未登录购物车编写时，我们已经预留好了编写代码的位置，逻辑也基本一致。</p>
+<h2 id="4-1-添加登录校验"><a href="#4-1-添加登录校验" class="headerlink" title="4.1.添加登录校验"></a>4.1.添加登录校验</h2><p>购物车系统只负责登录状态的购物车处理，因此需要添加登录校验，我们通过JWT鉴权即可实现。</p>
+<h3 id="4-1-1-引入JWT相关依赖"><a href="#4-1-1-引入JWT相关依赖" class="headerlink" title="4.1.1.引入JWT相关依赖"></a>4.1.1.引入JWT相关依赖</h3><p>我们引入之前写的鉴权工具：<code>leyou-auth-common</code></p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.auth<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-auth-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<h3 id="4-1-2-配置公钥"><a href="#4-1-2-配置公钥" class="headerlink" title="4.1.2.配置公钥"></a>4.1.2.配置公钥</h3><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">leyou:</span>
+  <span class="hljs-attr">jwt:</span>
+    <span class="hljs-attr">pubKeyPath:</span> <span class="hljs-string">D:/heima/rsa/rsa.pub</span> <span class="hljs-comment"># 公钥地址</span>
+    <span class="hljs-attr">cookieName:</span> <span class="hljs-string">LY_TOKEN</span> <span class="hljs-comment"># cookie的名称</span></code></pre></div>
+
+<h3 id="4-1-3-加载公钥"><a href="#4-1-3-加载公钥" class="headerlink" title="4.1.3.加载公钥"></a>4.1.3.加载公钥</h3><p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533811142851.png" srcset="/img/loading.gif" alt="1533811142851"></p>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"leyou.jwt"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JwtProperties</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> String pubKeyPath;<span class="hljs-comment">// 公钥</span>
+
+    <span class="hljs-keyword">private</span> PublicKey publicKey; <span class="hljs-comment">// 公钥</span>
+
+    <span class="hljs-keyword">private</span> String cookieName;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(JwtProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-meta">@PostConstruct</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 获取公钥和私钥</span>
+            <span class="hljs-keyword">this</span>.publicKey = RsaUtils.getPublicKey(pubKeyPath);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"初始化公钥失败！"</span>, e);
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getPubKeyPath</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> pubKeyPath;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPubKeyPath</span><span class="hljs-params">(String pubKeyPath)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.pubKeyPath = pubKeyPath;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> PublicKey <span class="hljs-title">getPublicKey</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> publicKey;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPublicKey</span><span class="hljs-params">(PublicKey publicKey)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.publicKey = publicKey;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getCookieName</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> cookieName;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setCookieName</span><span class="hljs-params">(String cookieName)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.cookieName = cookieName;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="4-1-4-编写拦截器"><a href="#4-1-4-编写拦截器" class="headerlink" title="4.1.4.编写拦截器"></a>4.1.4.编写拦截器</h3><p>因为很多接口都需要进行登录，我们直接编写SpringMVC拦截器，进行统一登录校验。同时，我们还要把解析得到的用户信息保存起来，以便后续的接口可以使用。</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533811351500.png" srcset="/img/loading.gif" alt="1533811351500"></p>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoginInterceptor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HandlerInterceptorAdapter</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> JwtProperties jwtProperties;
+
+    <span class="hljs-comment">// 定义一个线程域，存放登录用户</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ThreadLocal&lt;UserInfo&gt; tl = <span class="hljs-keyword">new</span> ThreadLocal&lt;&gt;();
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LoginInterceptor</span><span class="hljs-params">(JwtProperties jwtProperties)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.jwtProperties = jwtProperties;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-comment">// 查询token</span>
+        String token = CookieUtils.getCookieValue(request, <span class="hljs-string">"LY_TOKEN"</span>);
+        <span class="hljs-keyword">if</span> (StringUtils.isBlank(token)) &#123;
+            <span class="hljs-comment">// 未登录,返回401</span>
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        &#125;
+        <span class="hljs-comment">// 有token，查询用户信息</span>
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 解析成功，证明已经登录</span>
+            UserInfo user = JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey());
+            <span class="hljs-comment">// 放入线程域</span>
+            tl.set(user);
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e)&#123;
+            <span class="hljs-comment">// 抛出异常，证明未登录,返回401</span>
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+        &#125;
+
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">afterCompletion</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        tl.remove();
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> UserInfo <span class="hljs-title">getLoginUser</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> tl.get();
+    &#125;
+&#125;</code></pre></div>
+
+<p>注意：</p>
+<ul>
+<li>这里我们使用了<code>ThreadLocal</code>来存储查询到的用户信息，线程内共享，因此请求到达<code>Controller</code>后可以共享User</li>
+<li>并且对外提供了静态的方法：<code>getLoginUser()</code>来获取User信息</li>
+</ul>
+<h3 id="4-1-5-配置过滤器"><a href="#4-1-5-配置过滤器" class="headerlink" title="4.1.5.配置过滤器"></a>4.1.5.配置过滤器</h3><p>配置SpringMVC，使过滤器生效：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533811609498.png" srcset="/img/loading.gif" alt="1533811609498"></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-meta">@EnableConfigurationProperties</span>(JwtProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">MvcConfig</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">WebMvcConfigurer</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> JwtProperties jwtProperties;
+
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> LoginInterceptor <span class="hljs-title">loginInterceptor</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> LoginInterceptor(jwtProperties);
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addInterceptors</span><span class="hljs-params">(InterceptorRegistry registry)</span> </span>&#123;
+        registry.addInterceptor(loginInterceptor()).addPathPatterns(<span class="hljs-string">"/**"</span>);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="4-2-后台购物车设计"><a href="#4-2-后台购物车设计" class="headerlink" title="4.2.后台购物车设计"></a>4.2.后台购物车设计</h2><p>当用户登录时，我们需要把购物车数据保存到后台，可以选择保存在数据库。但是购物车是一个读写频率很高的数据。因此我们这里选择读写效率比较高的Redis作为购物车存储。</p>
+<p>Redis有5种不同数据结构，这里选择哪一种比较合适呢？</p>
+<ul>
+<li>首先不同用户应该有独立的购物车，因此购物车应该以用户的作为key来存储，Value是用户的所有购物车信息。这样看来基本的<code>k-v</code>结构就可以了。</li>
+<li>但是，我们对购物车中的商品进行增、删、改操作，基本都需要根据商品id进行判断，为了方便后期处理，我们的购物车也应该是<code>k-v</code>结构，key是商品id，value才是这个商品的购物车信息。</li>
+</ul>
+<p>综上所述，我们的购物车结构是一个双层Map：Map&lt;String,Map&lt;String,String&gt;&gt;</p>
+<ul>
+<li>第一层Map，Key是用户id</li>
+<li>第二层Map，Key是购物车中商品id，值是购物车数据</li>
+</ul>
+<p>实体类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Cart</span> </span>&#123;
+    <span class="hljs-keyword">private</span> Long userId;<span class="hljs-comment">// 用户id</span>
+    <span class="hljs-keyword">private</span> Long skuId;<span class="hljs-comment">// 商品id</span>
+    <span class="hljs-keyword">private</span> String title;<span class="hljs-comment">// 标题</span>
+    <span class="hljs-keyword">private</span> String image;<span class="hljs-comment">// 图片</span>
+    <span class="hljs-keyword">private</span> Long price;<span class="hljs-comment">// 加入购物车时的价格</span>
+    <span class="hljs-keyword">private</span> Integer num;<span class="hljs-comment">// 购买数量</span>
+    <span class="hljs-keyword">private</span> String ownSpec;<span class="hljs-comment">// 商品规格参数</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getUserId</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> userId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUserId</span><span class="hljs-params">(Long userId)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.userId = userId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getSkuId</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> skuId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setSkuId</span><span class="hljs-params">(Long skuId)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.skuId = skuId;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getTitle</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> title;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setTitle</span><span class="hljs-params">(String title)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.title = title;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getImage</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> image;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setImage</span><span class="hljs-params">(String image)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.image = image;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">getPrice</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> price;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPrice</span><span class="hljs-params">(Long price)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.price = price;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Integer <span class="hljs-title">getNum</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> num;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setNum</span><span class="hljs-params">(Integer num)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.num = num;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getOwnSpec</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> ownSpec;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setOwnSpec</span><span class="hljs-params">(String ownSpec)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.ownSpec = ownSpec;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="4-3-添加商品到购物车"><a href="#4-3-添加商品到购物车" class="headerlink" title="4.3.添加商品到购物车"></a>4.3.添加商品到购物车</h2><h3 id="4-3-1-页面发起请求"><a href="#4-3-1-页面发起请求" class="headerlink" title="4.3.1.页面发起请求"></a>4.3.1.页面发起请求</h3><p>已登录情况下，向后台添加购物车：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533812224110.png" srcset="/img/loading.gif" alt="1533812224110"></p>
+<div class="hljs"><pre><code class="hljs js">ly.http.post(<span class="hljs-string">"/cart"</span>, &#123;<span class="hljs-attr">skuId</span>: <span class="hljs-keyword">this</span>.sku.id, <span class="hljs-attr">num</span>: <span class="hljs-keyword">this</span>.num&#125;).then(<span class="hljs-function"><span class="hljs-params">res</span>=&gt;</span>&#123;
+    <span class="hljs-built_in">window</span>.location = <span class="hljs-string">"http://www.leyou.com/cart.html"</span>;
+&#125;)</code></pre></div>
+
+<p>这里发起的是Json请求。那么我们后台也要以json接收。</p>
+<h3 id="4-3-2-编写controller"><a href="#4-3-2-编写controller" class="headerlink" title="4.3.2.编写controller"></a>4.3.2.编写controller</h3><p>先分析一下：</p>
+<ul>
+<li>请求方式：新增，肯定是Post</li>
+<li>请求路径：/cart ，这个其实是Zuul路由的路径，我们可以不管</li>
+<li>请求参数：Json对象，包含skuId和num属性</li>
+<li>返回结果：无</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CartController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> CartService cartService;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 添加购物车</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@PostMapping</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Void&gt; <span class="hljs-title">addCart</span><span class="hljs-params">(@RequestBody Cart cart)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.cartService.addCart(cart);
+        <span class="hljs-keyword">return</span> ResponseEntity.ok().build();
+    &#125;
+&#125;</code></pre></div>
+
+<p>在leyou-gateway中添加路由配置：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533814103369.png" srcset="/img/loading.gif" alt="1533814103369"></p>
+<h3 id="4-3-3-CartService"><a href="#4-3-3-CartService" class="headerlink" title="4.3.3.CartService"></a>4.3.3.CartService</h3><p>这里我们不访问数据库，而是直接操作Redis。基本思路：</p>
+<ul>
+<li>先查询之前的购物车数据</li>
+<li>判断要添加的商品是否存在<ul>
+<li>存在：则直接修改数量后写回Redis</li>
+<li>不存在：新建一条数据，然后写入Redis</li>
+</ul>
+</li>
+</ul>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CartService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> StringRedisTemplate redisTemplate;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> GoodsClient goodsClient;
+
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String KEY_PREFIX = <span class="hljs-string">"ly:cart:uid:"</span>;
+
+    <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(CartService<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">addCart</span><span class="hljs-params">(Cart cart)</span> </span>&#123;
+        <span class="hljs-comment">// 获取登录用户</span>
+        UserInfo user = LoginInterceptor.getLoginUser();
+        <span class="hljs-comment">// Redis的key</span>
+        String key = KEY_PREFIX + user.getId();
+        <span class="hljs-comment">// 获取hash操作对象</span>
+        BoundHashOperations&lt;String, Object, Object&gt; hashOps = <span class="hljs-keyword">this</span>.redisTemplate.boundHashOps(key);
+        <span class="hljs-comment">// 查询是否存在</span>
+        Long skuId = cart.getSkuId();
+        Integer num = cart.getNum();
+        Boolean boo = hashOps.hasKey(skuId.toString());
+        <span class="hljs-keyword">if</span> (boo) &#123;
+            <span class="hljs-comment">// 存在，获取购物车数据</span>
+            String json = hashOps.get(skuId.toString()).toString();
+            cart = JsonUtils.parse(json, Cart<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+            <span class="hljs-comment">// 修改购物车数量</span>
+            cart.setNum(cart.getNum() + num);
+        &#125; <span class="hljs-keyword">else</span> &#123;
+            <span class="hljs-comment">// 不存在，新增购物车数据</span>
+            cart.setUserId(user.getId());
+            <span class="hljs-comment">// 其它商品信息， 需要查询商品服务</span>
+            Sku sku = <span class="hljs-keyword">this</span>.goodsClient.querySkuById(skuId);
+            cart.setImage(StringUtils.isBlank(sku.getImages()) ? <span class="hljs-string">""</span> : StringUtils.split(sku.getImages(), <span class="hljs-string">","</span>)[<span class="hljs-number">0</span>]);
+            cart.setPrice(sku.getPrice());
+            cart.setTitle(sku.getTitle());
+            cart.setOwnSpec(sku.getOwnSpec());
+        &#125;
+        <span class="hljs-comment">// 将购物车数据写入redis</span>
+        hashOps.put(cart.getSkuId().toString(), JsonUtils.serialize(cart));
+    &#125;
+&#125;</code></pre></div>
+
+<p>需要引入leyou-item-interface依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.item<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-item-interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+
+
+<h3 id="4-3-4-GoodClient"><a href="#4-3-4-GoodClient" class="headerlink" title="4.3.4.GoodClient"></a>4.3.4.GoodClient</h3><p>参照搜索工程，添加GoodClient，提供根据id查询sku的接口：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533813101222.png" srcset="/img/loading.gif" alt="1533813101222"></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(<span class="hljs-string">"item-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GoodsClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">GoodsApi</span> </span>&#123;
+&#125;</code></pre></div>
+
+<p>在leyou-item-service中的GoodsController添加方法：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"sku/&#123;id&#125;"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Sku&gt; <span class="hljs-title">querySkuById</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"id"</span>)</span>Long id)</span>&#123;
+    Sku sku = <span class="hljs-keyword">this</span>.goodsService.querySkuById(id);
+    <span class="hljs-keyword">if</span> (sku == <span class="hljs-keyword">null</span>)&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.NOT_FOUND);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(sku);
+&#125;</code></pre></div>
+
+<p>在leyou-item-service中的GoodsService添加方法：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> Sku <span class="hljs-title">querySkuById</span><span class="hljs-params">(Long id)</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.skuMapper.selectByPrimaryKey(id);
+&#125;</code></pre></div>
+
+
+
+<h3 id="4-3-5-结果"><a href="#4-3-5-结果" class="headerlink" title="4.3.5.结果"></a>4.3.5.结果</h3><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533815211788.png" srcset="/img/loading.gif" alt="1533815211788"></p>
+<h2 id="4-4-查询购物车"><a href="#4-4-查询购物车" class="headerlink" title="4.4.查询购物车"></a>4.4.查询购物车</h2><h3 id="4-4-1-页面发起请求"><a href="#4-4-1-页面发起请求" class="headerlink" title="4.4.1.页面发起请求"></a>4.4.1.页面发起请求</h3><p>购物车页面：cart.html</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533816059966.png" srcset="/img/loading.gif" alt="1533816059966"></p>
+<h3 id="4-4-2-后台实现"><a href="#4-4-2-后台实现" class="headerlink" title="4.4.2.后台实现"></a>4.4.2.后台实现</h3><blockquote>
+<p>Controller</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 查询购物车列表</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@GetMapping</span>
+<span class="hljs-keyword">public</span> ResponseEntity&lt;List&lt;Cart&gt;&gt; queryCartList() &#123;
+    List&lt;Cart&gt; carts = <span class="hljs-keyword">this</span>.cartService.queryCartList();
+    <span class="hljs-keyword">if</span> (carts == <span class="hljs-keyword">null</span>) &#123;
+        <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.NOT_FOUND).body(<span class="hljs-keyword">null</span>);
+    &#125;
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(carts);
+&#125;</code></pre></div>
+
+<blockquote>
+<p>Service</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;Cart&gt; <span class="hljs-title">queryCartList</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-comment">// 获取登录用户</span>
+    UserInfo user = LoginInterceptor.getLoginUser();
+
+    <span class="hljs-comment">// 判断是否存在购物车</span>
+    String key = KEY_PREFIX + user.getId();
+    <span class="hljs-keyword">if</span>(!<span class="hljs-keyword">this</span>.redisTemplate.hasKey(key))&#123;
+        <span class="hljs-comment">// 不存在，直接返回</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+    BoundHashOperations&lt;String, Object, Object&gt; hashOps = <span class="hljs-keyword">this</span>.redisTemplate.boundHashOps(key);
+    List&lt;Object&gt; carts = hashOps.values();
+    <span class="hljs-comment">// 判断是否有数据</span>
+    <span class="hljs-keyword">if</span>(CollectionUtils.isEmpty(carts))&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+    <span class="hljs-comment">// 查询购物车数据</span>
+    <span class="hljs-keyword">return</span> carts.stream().map(o -&gt; JsonUtils.parse(o.toString(), Cart<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">collect</span>(<span class="hljs-title">Collectors</span>.<span class="hljs-title">toList</span>())</span>;
+&#125;</code></pre></div>
+
+
+
+<h3 id="4-4-3-测试"><a href="#4-4-3-测试" class="headerlink" title="4.4.3.测试"></a>4.4.3.测试</h3><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533815725920.png" srcset="/img/loading.gif" alt="1533815725920"></p>
+<h2 id="4-5-修改商品数量"><a href="#4-5-修改商品数量" class="headerlink" title="4.5.修改商品数量"></a>4.5.修改商品数量</h2><h3 id="4-5-1-页面发起请求"><a href="#4-5-1-页面发起请求" class="headerlink" title="4.5.1.页面发起请求"></a>4.5.1.页面发起请求</h3><p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1527996642442.png" srcset="/img/loading.gif" alt="1527996642442"></p>
+<h3 id="4-5-2-后台实现"><a href="#4-5-2-后台实现" class="headerlink" title="4.5.2.后台实现"></a>4.5.2.后台实现</h3><blockquote>
+<p>Controller</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@PutMapping</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Void&gt; <span class="hljs-title">updateNum</span><span class="hljs-params">(@RequestParam(<span class="hljs-string">"skuId"</span>)</span> Long skuId, </span>
+<span class="hljs-function">                                      @<span class="hljs-title">RequestParam</span><span class="hljs-params">(<span class="hljs-string">"num"</span>)</span> Integer num) </span>&#123;
+    <span class="hljs-keyword">this</span>.cartService.updateNum(skuId, num);
+    <span class="hljs-keyword">return</span> ResponseEntity.ok().build();
+&#125;</code></pre></div>
+
+<blockquote>
+<p>Service</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updateNum</span><span class="hljs-params">(Long skuId, Integer num)</span> </span>&#123;
+    <span class="hljs-comment">// 获取登录用户</span>
+    UserInfo user = LoginInterceptor.getLoginUser();
+    String key = KEY_PREFIX + user.getId();
+    BoundHashOperations&lt;String, Object, Object&gt; hashOps = <span class="hljs-keyword">this</span>.redisTemplate.boundHashOps(key);
+    <span class="hljs-comment">// 获取购物车</span>
+    String json = hashOps.get(skuId.toString()).toString();
+    Cart cart = JsonUtils.parse(json, Cart<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    cart.setNum(num);
+    <span class="hljs-comment">// 写入购物车</span>
+    hashOps.put(skuId.toString(), JsonUtils.serialize(cart));
+&#125;</code></pre></div>
+
+
+
+<h2 id="4-6-删除购物车商品"><a href="#4-6-删除购物车商品" class="headerlink" title="4.6.删除购物车商品"></a>4.6.删除购物车商品</h2><h3 id="4-6-1-页面发起请求"><a href="#4-6-1-页面发起请求" class="headerlink" title="4.6.1.页面发起请求"></a>4.6.1.页面发起请求</h3><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/1533816356869.png" srcset="/img/loading.gif" alt="1533816356869"></p>
+<p>注意：后台成功响应后，要把页面的购物车中数据也删除</p>
+<h3 id="4-6-2-后台实现"><a href="#4-6-2-后台实现" class="headerlink" title="4.6.2.后台实现"></a>4.6.2.后台实现</h3><blockquote>
+<p>Controller</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@DeleteMapping</span>(<span class="hljs-string">"&#123;skuId&#125;"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Void&gt; <span class="hljs-title">deleteCart</span><span class="hljs-params">(@PathVariable(<span class="hljs-string">"skuId"</span>)</span> String skuId) </span>&#123;
+    <span class="hljs-keyword">this</span>.cartService.deleteCart(skuId);
+    <span class="hljs-keyword">return</span> ResponseEntity.ok().build();
+&#125;</code></pre></div>
+
+
+
+<blockquote>
+<p>Service</p>
+</blockquote>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">deleteCart</span><span class="hljs-params">(String skuId)</span> </span>&#123;
+    <span class="hljs-comment">// 获取登录用户</span>
+    UserInfo user = LoginInterceptor.getLoginUser();
+    String key = KEY_PREFIX + user.getId();
+    BoundHashOperations&lt;String, Object, Object&gt; hashOps = <span class="hljs-keyword">this</span>.redisTemplate.boundHashOps(key);
+    hashOps.delete(skuId);
+&#125;</code></pre></div>
+
+
+
+<h1 id="5-登录后购物车合并（作业）"><a href="#5-登录后购物车合并（作业）" class="headerlink" title="5.登录后购物车合并（作业）"></a>5.登录后购物车合并（作业）</h1><p>当跳转到购物车页面，查询购物车列表前，需要判断用户登录状态，</p>
+<ul>
+<li>如果登录：<ul>
+<li>首先检查用户的LocalStorage中是否有购物车信息，</li>
+<li>如果有，则提交到后台保存，</li>
+<li>清空LocalStorage</li>
+</ul>
+</li>
+<li>如果未登录，直接查询即可</li>
+</ul>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8E/">乐优商城</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/LocalStorage/">LocalStorage</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">乐优商城day19：下单</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/">
+                        <span class="hidden-mobile">乐优商城day17：授权中心</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "乐优商城day18：购物车&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

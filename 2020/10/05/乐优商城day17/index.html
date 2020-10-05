@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>乐优商城day17：授权中心 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-10-05 10:48">
+      2020-10-05
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      6.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      73
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="0-学习目标"><a href="#0-学习目标" class="headerlink" title="0.学习目标"></a>0.学习目标</h1><h1 id="1-无状态登录原理"><a href="#1-无状态登录原理" class="headerlink" title="1.无状态登录原理"></a>1.无状态登录原理</h1><h2 id="1-1-什么是有状态？"><a href="#1-1-什么是有状态？" class="headerlink" title="1.1.什么是有状态？"></a>1.1.什么是有状态？</h2><p>有状态服务，即服务端需要记录每次会话的客户端信息，从而识别客户端身份，根据用户身份进行请求的处理，典型的设计如tomcat中的session。</p>
+<p>例如登录：用户登录后，我们把登录者的信息保存在服务端session中，并且给用户一个cookie值，记录对应的session。然后下次请求，用户携带cookie值来，我们就能识别到对应session，从而找到用户的信息。</p>
+<p>缺点是什么？</p>
+<ul>
+<li>服务端保存大量数据，增加服务端压力</li>
+<li>服务端保存用户状态，无法进行水平扩展</li>
+<li>客户端请求依赖服务端，多次请求必须访问同一台服务器</li>
+</ul>
+<h2 id="1-2-什么是无状态"><a href="#1-2-什么是无状态" class="headerlink" title="1.2.什么是无状态"></a>1.2.什么是无状态</h2><p>微服务集群中的每个服务，对外提供的都是Rest风格的接口。而Rest风格的一个最重要的规范就是：服务的无状态性，即：</p>
+<ul>
+<li>服务端不保存任何客户端请求者信息</li>
+<li>客户端的每次请求必须具备自描述信息，通过这些信息识别客户端身份</li>
+</ul>
+<p>带来的好处是什么呢？</p>
+<ul>
+<li>客户端请求不依赖服务端的信息，任何多次请求不需要必须访问到同一台服务</li>
+<li>服务端的集群和状态对客户端透明</li>
+<li>服务端可以任意的迁移和伸缩</li>
+<li>减小服务端存储压力</li>
+</ul>
+<h2 id="1-3-如何实现无状态"><a href="#1-3-如何实现无状态" class="headerlink" title="1.3.如何实现无状态"></a>1.3.如何实现无状态</h2><p>无状态登录的流程：</p>
+<ul>
+<li>当客户端第一次请求服务时，服务端对用户进行信息认证（登录）</li>
+<li>认证通过，将用户信息进行加密形成token，返回给客户端，作为登录凭证</li>
+<li>以后每次请求，客户端都携带认证的token</li>
+<li>服务端对token进行解密，判断是否有效。</li>
+</ul>
+<p>流程图：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527300483893.png" srcset="/img/loading.gif" alt></p>
+<p>整个登录过程中，最关键的点是什么？</p>
+<p><strong>token的安全性</strong></p>
+<p>token是识别客户端身份的唯一标示，如果加密不够严密，被人伪造那就完蛋了。</p>
+<p>采用何种方式加密才是安全可靠的呢？</p>
+<p>我们将采用<code>JWT + RSA非对称加密</code></p>
+<h2 id="1-4-JWT"><a href="#1-4-JWT" class="headerlink" title="1.4.JWT"></a>1.4.JWT</h2><h3 id="1-4-1-简介"><a href="#1-4-1-简介" class="headerlink" title="1.4.1.简介"></a>1.4.1.简介</h3><p>JWT，全称是Json Web Token， 是JSON风格轻量级的授权和身份认证规范，可实现无状态、分布式的Web应用授权；官网：<a href="https://jwt.io" target="_blank" rel="noopener">https://jwt.io</a></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533033734163.png" srcset="/img/loading.gif" alt="1533033734163"></p>
+<p>GitHub上jwt的java客户端：<a href="https://github.com/jwtk/jjwt" target="_blank" rel="noopener">https://github.com/jwtk/jjwt</a></p>
+<h3 id="1-4-2-数据格式"><a href="#1-4-2-数据格式" class="headerlink" title="1.4.2.数据格式"></a>1.4.2.数据格式</h3><p>JWT包含三部分数据：</p>
+<ul>
+<li><p>Header：头部，通常头部有两部分信息：</p>
+<ul>
+<li>声明类型，这里是JWT</li>
+<li>加密算法，自定义</li>
+</ul>
+<p>我们会对头部进行base64加密（可解密），得到第一部分数据</p>
+</li>
+<li><p>Payload：载荷，就是有效数据，一般包含下面信息：</p>
+<ul>
+<li>用户身份信息（注意，这里因为采用base64加密，可解密，因此不要存放敏感信息）</li>
+<li>注册声明：如token的签发时间，过期时间，签发人等</li>
+</ul>
+<p>这部分也会采用base64加密，得到第二部分数据</p>
+</li>
+<li><p>Signature：签名，是整个数据的认证信息。一般根据前两步的数据，再加上服务的的密钥（secret）（不要泄漏，最好周期性更换），通过加密算法生成。用于验证整个数据完整和可靠性</p>
+</li>
+</ul>
+<p>生成的数据格式：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527322512370.png" srcset="/img/loading.gif" alt="1527322512370"></p>
+<p>可以看到分为3段，每段就是上面的一部分数据</p>
+<h3 id="1-4-3-JWT交互流程"><a href="#1-4-3-JWT交互流程" class="headerlink" title="1.4.3.JWT交互流程"></a>1.4.3.JWT交互流程</h3><p>流程图：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527305891424.png" srcset="/img/loading.gif" alt="1527305891424"></p>
+<p>步骤翻译：</p>
+<ul>
+<li>1、用户登录</li>
+<li>2、服务的认证，通过后根据secret生成token</li>
+<li>3、将生成的token返回给浏览器</li>
+<li>4、用户每次请求携带token</li>
+<li>5、服务端利用公钥解读jwt签名，判断签名有效后，从Payload中获取用户信息</li>
+<li>6、处理请求，返回响应结果</li>
+</ul>
+<p>因为JWT签发的token中已经包含了用户的身份信息，并且每次请求都会携带，这样服务的就无需保存用户信息，甚至无需去数据库查询，完全符合了Rest的无状态规范。</p>
+<h3 id="1-4-4-非对称加密"><a href="#1-4-4-非对称加密" class="headerlink" title="1.4.4.非对称加密"></a>1.4.4.非对称加密</h3><p>加密技术是对信息进行编码和解码的技术，编码是把原来可读信息（又称明文）译成代码形式（又称密文），其逆过程就是解码（解密），加密技术的要点是加密算法，加密算法可以分为三类：  </p>
+<ul>
+<li>对称加密，如AES<ul>
+<li>基本原理：将明文分成N个组，然后使用密钥对各个组进行加密，形成各自的密文，最后把所有的分组密文进行合并，形成最终的密文。</li>
+<li>优势：算法公开、计算量小、加密速度快、加密效率高</li>
+<li>缺陷：双方都使用同样密钥，安全性得不到保证 </li>
+</ul>
+</li>
+<li>非对称加密，如RSA<ul>
+<li>基本原理：同时生成两把密钥：私钥和公钥，私钥隐秘保存，公钥可以下发给信任客户端<ul>
+<li>私钥加密，持有私钥或公钥才可以解密</li>
+<li>公钥加密，持有私钥才可解密</li>
+</ul>
+</li>
+<li>优点：安全，难以破解</li>
+<li>缺点：算法比较耗时</li>
+</ul>
+</li>
+<li>不可逆加密，如MD5，SHA<ul>
+<li>基本原理：加密过程中不需要使用<a href="https://baike.baidu.com/item/%E5%AF%86%E9%92%A5" target="_blank" rel="noopener">密钥</a>，输入明文后由系统直接经过加密算法处理成密文，这种加密后的数据是无法被解密的，无法根据密文推算出明文。</li>
+</ul>
+</li>
+</ul>
+<p>RSA算法历史：</p>
+<p>1977年，三位数学家Rivest、Shamir 和 Adleman 设计了一种算法，可以实现非对称加密。这种算法用他们三个人的名字缩写：RSA</p>
+<h2 id="1-5-结合Zuul的鉴权流程"><a href="#1-5-结合Zuul的鉴权流程" class="headerlink" title="1.5.结合Zuul的鉴权流程"></a>1.5.结合Zuul的鉴权流程</h2><p>我们逐步演进系统架构设计。需要注意的是：secret是签名的关键，因此一定要保密，我们放到鉴权中心保存，其它任何服务中都不能获取secret。</p>
+<h3 id="1-5-1-没有RSA加密时"><a href="#1-5-1-没有RSA加密时" class="headerlink" title="1.5.1.没有RSA加密时"></a>1.5.1.没有RSA加密时</h3><p>在微服务架构中，我们可以把服务的鉴权操作放到网关中，将未通过鉴权的请求直接拦截，如图：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527312464328.png" srcset="/img/loading.gif" alt="1527312464328"></p>
+<ul>
+<li>1、用户请求登录</li>
+<li>2、Zuul将请求转发到授权中心，请求授权</li>
+<li>3、授权中心校验完成，颁发JWT凭证</li>
+<li>4、客户端请求其它功能，携带JWT</li>
+<li>5、Zuul将jwt交给授权中心校验，通过后放行</li>
+<li>6、用户请求到达微服务</li>
+<li>7、微服务将jwt交给鉴权中心，鉴权同时解析用户信息</li>
+<li>8、鉴权中心返回用户数据给微服务</li>
+<li>9、微服务处理请求，返回响应</li>
+</ul>
+<p>发现什么问题了？</p>
+<p>每次鉴权都需要访问鉴权中心，系统间的网络请求频率过高，效率略差，鉴权中心的压力较大。</p>
+<h3 id="1-5-2-结合RSA的鉴权"><a href="#1-5-2-结合RSA的鉴权" class="headerlink" title="1.5.2.结合RSA的鉴权"></a>1.5.2.结合RSA的鉴权</h3><p>直接看图：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527313765010.png" srcset="/img/loading.gif" alt="1527313765010"></p>
+<ul>
+<li>我们首先利用RSA生成公钥和私钥。私钥保存在授权中心，公钥保存在Zuul和各个微服务</li>
+<li>用户请求登录</li>
+<li>授权中心校验，通过后用私钥对JWT进行签名加密</li>
+<li>返回jwt给用户</li>
+<li>用户携带JWT访问</li>
+<li>Zuul直接通过公钥解密JWT，进行验证，验证通过则放行</li>
+<li>请求到达微服务，微服务直接用公钥解析JWT，获取用户信息，无需访问授权中心</li>
+</ul>
+<h1 id="2-授权中心"><a href="#2-授权中心" class="headerlink" title="2.授权中心"></a>2.授权中心</h1><h2 id="2-1-创建授权中心"><a href="#2-1-创建授权中心" class="headerlink" title="2.1.创建授权中心"></a>2.1.创建授权中心</h2><p>授权中心的主要职责：</p>
+<ul>
+<li>用户鉴权：<ul>
+<li>接收用户的登录请求，通过用户中心的接口进行校验，通过后生成JWT</li>
+<li>使用私钥生成JWT并返回</li>
+</ul>
+</li>
+<li>服务鉴权：微服务间的调用不经过Zuul，会有风险，需要鉴权中心进行认证<ul>
+<li>原理与用户鉴权类似，但逻辑稍微复杂一些（此处我们不做实现）</li>
+</ul>
+</li>
+</ul>
+<p>因为生成jwt，解析jwt这样的行为以后在其它微服务中也会用到，因此我们会抽取成工具。我们把鉴权中心进行聚合，一个工具module，一个提供服务的module</p>
+<h3 id="2-1-1-创建父module"><a href="#2-1-1-创建父module" class="headerlink" title="2.1.1.创建父module"></a>2.1.1.创建父module</h3><p>我们先创建父module，名称为：leyou-auth</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533263572529.png" srcset="/img/loading.gif" alt="1533263572529"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533263656410.png" srcset="/img/loading.gif" alt="1533263656410"></p>
+<p>将pom打包方式改为pom：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.parent<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.auth<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-auth<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+
+
+<h3 id="2-1-2-通用module"><a href="#2-1-2-通用module" class="headerlink" title="2.1.2.通用module"></a>2.1.2.通用module</h3><p>然后是授权服务的通用模块：leyou-auth-common：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533264701684.png" srcset="/img/loading.gif" alt="1533264701684"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533264779361.png" srcset="/img/loading.gif" alt="1533264779361"></p>
+<p>pom.xml：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-auth<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.auth<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.auth<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-auth-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+<p>结构：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533264903853.png" srcset="/img/loading.gif" alt="1533264903853"></p>
+<h3 id="2-1-3-授权服务"><a href="#2-1-3-授权服务" class="headerlink" title="2.1.3.授权服务"></a>2.1.3.授权服务</h3><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533265001140.png" srcset="/img/loading.gif" alt="1533265001140"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533265056671.png" srcset="/img/loading.gif" alt="1533265056671"></p>
+<p>pom.xml：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema-instance"</span></span>
+<span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-auth<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.auth<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.auth<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-auth-service<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-netflix-eureka-client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.auth<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-auth-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.common<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+
+
+<p>引导类：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableFeignClients</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LeyouAuthApplication</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        SpringApplication.run(LeyouAuthApplication<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>application.yml</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8087</span>
+<span class="hljs-attr">spring:</span>
+  <span class="hljs-attr">application:</span>
+    <span class="hljs-attr">name:</span> <span class="hljs-string">auth-service</span>
+<span class="hljs-attr">eureka:</span>
+  <span class="hljs-attr">client:</span>
+    <span class="hljs-attr">service-url:</span>
+      <span class="hljs-attr">defaultZone:</span> <span class="hljs-string">http://127.0.0.1:10086/eureka</span>
+    <span class="hljs-attr">registry-fetch-interval-seconds:</span> <span class="hljs-number">10</span>
+  <span class="hljs-attr">instance:</span>
+    <span class="hljs-attr">lease-renewal-interval-in-seconds:</span> <span class="hljs-number">5</span> <span class="hljs-comment"># 每隔5秒发送一次心跳</span>
+    <span class="hljs-attr">lease-expiration-duration-in-seconds:</span> <span class="hljs-number">10</span> <span class="hljs-comment"># 10秒不发送就过期</span>
+    <span class="hljs-attr">prefer-ip-address:</span> <span class="hljs-literal">true</span>
+    <span class="hljs-attr">ip-address:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+    <span class="hljs-attr">instance-id:</span> <span class="hljs-string">$&#123;spring.application.name&#125;:$&#123;server.port&#125;</span></code></pre></div>
+
+<p> 结构：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533266035185.png" srcset="/img/loading.gif" alt="1533266035185"></p>
+<p>在leyou-gateway工程的application.yml中，修改路由：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">zuul:</span>
+  <span class="hljs-attr">prefix:</span> <span class="hljs-string">/api</span> <span class="hljs-comment"># 路由路径前缀</span>
+  <span class="hljs-attr">routes:</span>
+    <span class="hljs-attr">item-service:</span> <span class="hljs-string">/item/**</span> <span class="hljs-comment"># 商品微服务的映射路径</span>
+    <span class="hljs-attr">search-service:</span> <span class="hljs-string">/search/**</span> <span class="hljs-comment"># 搜索微服务</span>
+    <span class="hljs-attr">user-service:</span> <span class="hljs-string">/user/**</span> <span class="hljs-comment"># 用户微服务</span>
+    <span class="hljs-attr">auth-service:</span> <span class="hljs-string">/auth/**</span> <span class="hljs-comment"># 授权中心微服务</span></code></pre></div>
+
+
+
+<h2 id="2-2-JWT工具类"><a href="#2-2-JWT工具类" class="headerlink" title="2.2.JWT工具类"></a>2.2.JWT工具类</h2><p>我们在<code>leyou-auth-common</code>中导入课前资料中的工具类：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533268835892.png" srcset="/img/loading.gif" alt="1533268835892"></p>
+<p>需要在<code>leyou-auth-common</code>中引入JWT依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.commons<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>commons-lang3<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>io.jsonwebtoken<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>jjwt<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>0.9.0<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>joda-time<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>joda-time<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+
+
+<h2 id="2-3-测试工具类"><a href="#2-3-测试工具类" class="headerlink" title="2.3.测试工具类"></a>2.3.测试工具类</h2><p>我们在<code>leyou-auth-common</code>中编写测试类：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533282579972.png" srcset="/img/loading.gif" alt="1533282579972"></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JwtTest</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String pubKeyPath = <span class="hljs-string">"C:\\tmp\\rsa\\rsa.pub"</span>;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String priKeyPath = <span class="hljs-string">"C:\\tmp\\rsa\\rsa.pri"</span>;
+
+    <span class="hljs-keyword">private</span> PublicKey publicKey;
+
+    <span class="hljs-keyword">private</span> PrivateKey privateKey;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testRsa</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        RsaUtils.generateKey(pubKeyPath, priKeyPath, <span class="hljs-string">"234"</span>);
+    &#125;
+
+    <span class="hljs-meta">@Before</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testGetRsa</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-keyword">this</span>.publicKey = RsaUtils.getPublicKey(pubKeyPath);
+        <span class="hljs-keyword">this</span>.privateKey = RsaUtils.getPrivateKey(priKeyPath);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testGenerateToken</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        <span class="hljs-comment">// 生成token</span>
+        String token = JwtUtils.generateToken(<span class="hljs-keyword">new</span> UserInfo(<span class="hljs-number">20L</span>, <span class="hljs-string">"jack"</span>), privateKey, <span class="hljs-number">5</span>);
+        System.out.println(<span class="hljs-string">"token = "</span> + token);
+    &#125;
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testParseToken</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;
+        String token = <span class="hljs-string">"eyJhbGciOiJSUzI1NiJ9.eyJpZCI6MjAsInVzZXJuYW1lIjoiamFjayIsImV4cCI6MTUzMzI4MjQ3N30.EPo35Vyg1IwZAtXvAx2TCWuOPnRwPclRNAM4ody5CHk8RF55wdfKKJxjeGh4H3zgruRed9mEOQzWy79iF1nGAnvbkraGlD6iM-9zDW8M1G9if4MX579Mv1x57lFewzEo-zKnPdFJgGlAPtNWDPv4iKvbKOk1-U7NUtRmMsF1Wcg"</span>;
+
+        <span class="hljs-comment">// 解析token</span>
+        UserInfo user = JwtUtils.getInfoFromToken(token, publicKey);
+        System.out.println(<span class="hljs-string">"id: "</span> + user.getId());
+        System.out.println(<span class="hljs-string">"userName: "</span> + user.getUsername());
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>测试生成公钥和私钥，我们运行这段代码：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533282630089.png" srcset="/img/loading.gif" alt="1533282630089"></p>
+<p>运行之后，查看目标目录：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533282665940.png" srcset="/img/loading.gif" alt="1533282665940"></p>
+<p>公钥和私钥已经生成了！</p>
+<p>测试生成token，把@Before的注释去掉的：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533282760203.png" srcset="/img/loading.gif" alt="1533282760203"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533282875434.png" srcset="/img/loading.gif" alt="1533282875434"></p>
+<p>测试解析token：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533282931796.png" srcset="/img/loading.gif" alt="1533282931796"></p>
+<p>正常情况：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533282968301.png" srcset="/img/loading.gif" alt="1533282968301"></p>
+<p>任意改动token，发现报错了：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533283024844.png" srcset="/img/loading.gif" alt="1533283024844"></p>
+<h2 id="2-3-编写登录授权接口"><a href="#2-3-编写登录授权接口" class="headerlink" title="2.3.编写登录授权接口"></a>2.3.编写登录授权接口</h2><p>接下来，我们需要在<code>leyou-auth-servcice</code>编写一个接口，对外提供登录授权服务。基本流程如下：</p>
+<ul>
+<li>客户端携带用户名和密码请求登录</li>
+<li>授权中心调用客户中心接口，根据用户名和密码查询用户信息</li>
+<li>如果用户名密码正确，能获取用户，否则为空，则登录失败</li>
+<li>如果校验成功，则生成JWT并返回</li>
+</ul>
+<h3 id="2-3-1-生成公钥和私钥"><a href="#2-3-1-生成公钥和私钥" class="headerlink" title="2.3.1.生成公钥和私钥"></a>2.3.1.生成公钥和私钥</h3><p>我们需要在授权中心生成真正的公钥和私钥。我们必须有一个生成公钥和私钥的secret，这个可以配置到<code>application.yml</code>中：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">leyou:</span>
+  <span class="hljs-attr">jwt:</span>
+    <span class="hljs-attr">secret:</span> <span class="hljs-string">leyou@Login(Auth&#125;*^31)&amp;heiMa%</span> <span class="hljs-comment"># 登录校验的密钥</span>
+    <span class="hljs-attr">pubKeyPath:</span> <span class="hljs-string">C:\\tmp\\rsa\\rsa.pub</span> <span class="hljs-comment"># 公钥地址</span>
+    <span class="hljs-attr">priKeyPath:</span> <span class="hljs-string">C:\\tmp\\rsa\\rsa.pri</span> <span class="hljs-comment"># 私钥地址</span>
+    <span class="hljs-attr">expire:</span> <span class="hljs-number">30</span> <span class="hljs-comment"># 过期时间,单位分钟</span></code></pre></div>
+
+<p>然后编写属性类，加载这些数据：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"ly.jwt"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JwtProperties</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> String secret; <span class="hljs-comment">// 密钥</span>
+
+    <span class="hljs-keyword">private</span> String pubKeyPath;<span class="hljs-comment">// 公钥</span>
+
+    <span class="hljs-keyword">private</span> String priKeyPath;<span class="hljs-comment">// 私钥</span>
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> expire;<span class="hljs-comment">// token过期时间</span>
+
+    <span class="hljs-keyword">private</span> PublicKey publicKey; <span class="hljs-comment">// 公钥</span>
+
+    <span class="hljs-keyword">private</span> PrivateKey privateKey; <span class="hljs-comment">// 私钥</span>
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(JwtProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@PostContruct</span>：在构造方法执行之后执行该方法</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@PostConstruct</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            File pubKey = <span class="hljs-keyword">new</span> File(pubKeyPath);
+            File priKey = <span class="hljs-keyword">new</span> File(priKeyPath);
+            <span class="hljs-keyword">if</span> (!pubKey.exists() || !priKey.exists()) &#123;
+                <span class="hljs-comment">// 生成公钥和私钥</span>
+                RsaUtils.generateKey(pubKeyPath, priKeyPath, secret);
+            &#125;
+            <span class="hljs-comment">// 获取公钥和私钥</span>
+            <span class="hljs-keyword">this</span>.publicKey = RsaUtils.getPublicKey(pubKeyPath);
+            <span class="hljs-keyword">this</span>.privateKey = RsaUtils.getPrivateKey(priKeyPath);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"初始化公钥和私钥失败！"</span>, e);
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();
+        &#125;
+    &#125;
+    
+    <span class="hljs-comment">// getter setter ...</span>
+&#125;</code></pre></div>
+
+
+
+<h3 id="2-3-2-Controller"><a href="#2-3-2-Controller" class="headerlink" title="2.3.2.Controller"></a>2.3.2.Controller</h3><p>编写授权接口，我们接收用户名和密码，校验成功后，写入cookie中。</p>
+<ul>
+<li>请求方式：post</li>
+<li>请求路径：/accredit</li>
+<li>请求参数：username和password</li>
+<li>返回结果：无</li>
+</ul>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@EnableConfigurationProperties</span>(JwtProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">AuthController</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> AuthService authService;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> JwtProperties prop;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 登录授权</span>
+<span class="hljs-comment">     *</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> username</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> password</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"accredit"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;Void&gt; <span class="hljs-title">authentication</span><span class="hljs-params">(</span></span>
+<span class="hljs-function"><span class="hljs-params">            @RequestParam(<span class="hljs-string">"username"</span>)</span> String username,</span>
+<span class="hljs-function">            @<span class="hljs-title">RequestParam</span><span class="hljs-params">(<span class="hljs-string">"password"</span>)</span> String password,</span>
+<span class="hljs-function">            HttpServletRequest request,</span>
+<span class="hljs-function">            HttpServletResponse response) </span>&#123;
+        <span class="hljs-comment">// 登录校验</span>
+        String token = <span class="hljs-keyword">this</span>.authService.authentication(username, password);
+        <span class="hljs-keyword">if</span> (StringUtils.isBlank(token)) &#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(HttpStatus.UNAUTHORIZED);
+        &#125;
+        <span class="hljs-comment">// 将token写入cookie,并指定httpOnly为true，防止通过JS获取和修改</span>
+        CookieUtils.setCookie(request, response, prop.getCookieName(),
+                token, prop.getCookieMaxAge(), <span class="hljs-keyword">null</span>, <span class="hljs-keyword">true</span>);
+        <span class="hljs-keyword">return</span> ResponseEntity.ok().build();
+    &#125;
+&#125;</code></pre></div>
+
+<p>这里的cookie的name和生存时间，我们配置到属性文件：application.yml：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533295409903.png" srcset="/img/loading.gif" alt="1533295409903"></p>
+<p>然后在<code>JwtProperties</code>中添加属性：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533295465634.png" srcset="/img/loading.gif" alt="1533295465634"></p>
+<h3 id="2-3-3-CookieUtils"><a href="#2-3-3-CookieUtils" class="headerlink" title="2.3.3.CookieUtils"></a>2.3.3.CookieUtils</h3><p>要注意，这里我们使用了一个工具类，CookieUtils，可以在课前资料中找到，我们把它添加到<code>leyou-common</code>中，然后引入servlet相关依赖即可：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.tomcat.embed<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>tomcat-embed-core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>代码：略</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533295716082.png" srcset="/img/loading.gif" alt="1533295716082"></p>
+<h3 id="2-3-3-UserClient"><a href="#2-3-3-UserClient" class="headerlink" title="2.3.3.UserClient"></a>2.3.3.UserClient</h3><p>接下来我们肯定要对用户密码进行校验，所以我们需要通过FeignClient去访问 user-service微服务：</p>
+<p>引入user-service依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.user<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-user-interface<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>编写FeignClient：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = <span class="hljs-string">"user-service"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserClient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">UserApi</span> </span>&#123;
+&#125;</code></pre></div>
+
+<p>在leyou-user-interface工程中添加api接口：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533296452053.png" srcset="/img/loading.gif" alt="1533296452053"></p>
+<p>内容：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping</span>(<span class="hljs-string">"user"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserApi</span> </span>&#123;
+
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"query"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> User <span class="hljs-title">queryUser</span><span class="hljs-params">(</span></span>
+<span class="hljs-function"><span class="hljs-params">            @RequestParam(<span class="hljs-string">"username"</span>)</span> String username,</span>
+<span class="hljs-function">            @<span class="hljs-title">RequestParam</span><span class="hljs-params">(<span class="hljs-string">"password"</span>)</span> String password)</span>;
+&#125;</code></pre></div>
+
+
+
+<h3 id="2-3-4-Service"><a href="#2-3-4-Service" class="headerlink" title="2.3.4.Service"></a>2.3.4.Service</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthService</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> UserClient userClient;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> JwtProperties properties;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">authentication</span><span class="hljs-params">(String username, String password)</span> </span>&#123;
+
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 调用微服务，执行查询</span>
+            User user = <span class="hljs-keyword">this</span>.userClient.queryUser(username, password);
+
+            <span class="hljs-comment">// 如果查询结果为null，则直接返回null</span>
+            <span class="hljs-keyword">if</span> (user == <span class="hljs-keyword">null</span>) &#123;
+                <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+            &#125;
+
+            <span class="hljs-comment">// 如果有查询结果，则生成token</span>
+            String token = JwtUtils.generateToken(<span class="hljs-keyword">new</span> UserInfo(user.getId(), user.getUsername()),
+                    properties.getPrivateKey(), properties.getExpire());
+            <span class="hljs-keyword">return</span> token;
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            e.printStackTrace();
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h3 id="2-3-5-项目结构"><a href="#2-3-5-项目结构" class="headerlink" title="2.3.5.项目结构"></a>2.3.5.项目结构</h3><p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533301291420.png" srcset="/img/loading.gif" alt="1533301291420"></p>
+<h3 id="2-3-6-测试"><a href="#2-3-6-测试" class="headerlink" title="2.3.6.测试"></a>2.3.6.测试</h3><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533301145953.png" srcset="/img/loading.gif" alt="1533301145953"></p>
+<h2 id="2-4-登录页面"><a href="#2-4-登录页面" class="headerlink" title="2.4.登录页面"></a>2.4.登录页面</h2><p>接下来，我们看看登录页面，是否能够正确的发出请求。</p>
+<p>我们在页面输入登录信息，然后点击登录：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533301466739.png" srcset="/img/loading.gif" alt="1533301466739"></p>
+<p>查看控制台：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533301495759.png" srcset="/img/loading.gif" alt="1533301495759"></p>
+<p>发现请求的路径不对，我们的认证接口是：</p>
+<div class="hljs"><pre><code class="hljs awk"><span class="hljs-regexp">/api/</span>auth<span class="hljs-regexp">/accredit</span></code></pre></div>
+
+<p>我们打开login.html，修改路径信息：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527517811770.png" srcset="/img/loading.gif" alt="1527517811770"></p>
+<p>页面ajax请求：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527517866435.png" srcset="/img/loading.gif" alt="1527517866435"></p>
+<p>然后再次测试，成功跳转到了首页：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527518012727.png" srcset="/img/loading.gif" alt="1527518012727"></p>
+<h2 id="2-5-解决cookie写入问题"><a href="#2-5-解决cookie写入问题" class="headerlink" title="2.5.解决cookie写入问题"></a>2.5.解决cookie写入问题</h2><p>接下来我们查看首页cookie：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533302034190.png" srcset="/img/loading.gif" alt="1533302034190"></p>
+<p>什么都没有，为什么？</p>
+<h3 id="2-5-1-问题分析"><a href="#2-5-1-问题分析" class="headerlink" title="2.5.1.问题分析"></a>2.5.1.问题分析</h3><p>我们在之前测试时，清晰的看到了响应头中，有Set-Cookie属性，为什么在这里却什么都没有？</p>
+<p>我们之前在讲cors跨域时，讲到过跨域请求cookie生效的条件：</p>
+<ul>
+<li>服务的响应头中需要携带Access-Control-Allow-Credentials并且为true。</li>
+<li>响应头中的Access-Control-Allow-Origin一定不能为*，必须是指定的域名</li>
+<li>浏览器发起ajax需要指定withCredentials 为true</li>
+</ul>
+<p>看看我们的服务端cors配置：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527518456220.png" srcset="/img/loading.gif" alt="1527518456220"></p>
+<p>没有任何问题。</p>
+<p>再看客户端浏览器的ajax配置，我们在<code>js/common.js</code>中对axios进行了统一配置：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527518532739.png" srcset="/img/loading.gif" alt="1527518532739"></p>
+<p>一切OK。</p>
+<p>那说明，问题一定出在响应的set-cookie头中。我们再次仔细看看刚才的响应头：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527518649379.png" srcset="/img/loading.gif" alt="1527518649379"></p>
+<p>我们发现cookie的 <code>domain</code>属性似乎不太对。</p>
+<p>cookie也是有<code>域</code> 的限制，<strong>一个网页，只能操作当前域名下的cookie</strong>，但是现在我们看到的地址是0.0.1，而页面是<a href="http://www.leyou.com,域名不匹配，cookie设置肯定失败了！" target="_blank" rel="noopener">www.leyou.com,域名不匹配，cookie设置肯定失败了！</a></p>
+<h3 id="2-5-2-跟踪CookieUtils"><a href="#2-5-2-跟踪CookieUtils" class="headerlink" title="2.5.2.跟踪CookieUtils"></a>2.5.2.跟踪CookieUtils</h3><p>我们去Debug跟踪CookieUtils，看看到底是怎么回事：</p>
+<p>我们发现内部有一个方法，用来获取Domain：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533303181817.png" srcset="/img/loading.gif" alt="1533303181817"></p>
+<p>它获取domain是通过服务器的host来计算的，然而我们的地址竟然是：127.0.0.1:8087，因此后续的运算，最终得到的domain就变成了：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533303213902.png" srcset="/img/loading.gif" alt="1533303213902"></p>
+<p>问题找到了：我们请求时的serverName明明是：api.leyou.com，现在却被变成了：127.0.0.1，因此计算domain是错误的，从而导致cookie设置失败！</p>
+<h3 id="2-5-3-解决host地址的变化"><a href="#2-5-3-解决host地址的变化" class="headerlink" title="2.5.3.解决host地址的变化"></a>2.5.3.解决host地址的变化</h3><p>那么问题来了：为什么我们这里的请求serverName变成了：127.0.0.1:8087呢？</p>
+<p>这里的server name其实就是请求时的主机名：Host，之所以改变，有两个原因：</p>
+<ul>
+<li>我们使用了nginx反向代理，当监听到api.leyou.com的时候，会自动将请求转发至127.0.0.1:10010，即Zuul。</li>
+<li>而后请求到达我们的网关Zuul，Zuul就会根据路径匹配，我们的请求是/api/auth，根据规则被转发到了 127.0.0.1:8087 ，即我们的授权中心。</li>
+</ul>
+<p>我们首先去更改nginx配置，让它不要修改我们的host：<code>proxy_set_header Host $host;</code></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533303544219.png" srcset="/img/loading.gif" alt="1533303544219"></p>
+<p>把nginx进行reload：</p>
+<div class="hljs"><pre><code class="hljs ebnf"><span class="hljs-attribute">nginx -s reload</span></code></pre></div>
+
+
+
+<p>这样就解决了nginx这里的问题。但是Zuul还会有一次转发，所以要去修改网关的配置（leyou-gateway工程）：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533303659673.png" srcset="/img/loading.gif" alt="1533303659673"></p>
+<p>重启后，我们再次测试。</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533716093162.png" srcset="/img/loading.gif" alt="1533716093162"></p>
+<p>最后计算得到的domain：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533716136698.png" srcset="/img/loading.gif" alt="1533716136698"></p>
+<p>完美！</p>
+<h3 id="2-5-4-再次测试"><a href="#2-5-4-再次测试" class="headerlink" title="2.5.4.再次测试"></a>2.5.4.再次测试</h3><p>我们再次登录，发现依然没有cookie！！</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/01348FC2.gif" srcset="/img/loading.gif" alt="img"> </p>
+<p>怎么回事呢？</p>
+<p>我们通过RestClient访问下看看：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527520407803.png" srcset="/img/loading.gif" alt="1527520407803"></p>
+<p>发现，响应头中根本没有<code>set-cookie</code>了。</p>
+<p>这是怎么回事？？</p>
+<h3 id="2-5-5-Zuul的敏感头过滤"><a href="#2-5-5-Zuul的敏感头过滤" class="headerlink" title="2.5.5.Zuul的敏感头过滤"></a>2.5.5.Zuul的敏感头过滤</h3><p>Zuul内部有默认的过滤器，会对请求和响应头信息进行重组，过滤掉敏感的头信息：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533732985089.png" srcset="/img/loading.gif" alt="1533732985089"></p>
+<p>会发现，这里会通过一个属性为<code>SensitiveHeaders</code>的属性，来获取敏感头列表，然后添加到<code>IgnoredHeaders</code>中，这些头信息就会被忽略。</p>
+<p>而这个<code>SensitiveHeaders</code>的默认值就包含了<code>set-cookie</code>：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533733081367.png" srcset="/img/loading.gif" alt="1533733081367"></p>
+<p>解决方案有两种：</p>
+<p>全局设置：</p>
+<ul>
+<li><code>zuul.sensitive-headers=</code> </li>
+</ul>
+<p>指定路由设置：</p>
+<ul>
+<li><code>zuul.routes.&lt;routeName&gt;.sensitive-headers=</code></li>
+<li><code>zuul.routes.&lt;routeName&gt;.custom-sensitive-headers=true</code></li>
+</ul>
+<p>思路都是把敏感头设置为null</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533733356133.png" srcset="/img/loading.gif" alt="1533733356133"></p>
+<h3 id="2-5-6-最后的测试"><a href="#2-5-6-最后的测试" class="headerlink" title="2.5.6.最后的测试"></a>2.5.6.最后的测试</h3><p>再次重启后测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533733550548.png" srcset="/img/loading.gif" alt="1533733550548"></p>
+<h1 id="3-首页判断登录状态"><a href="#3-首页判断登录状态" class="headerlink" title="3.首页判断登录状态"></a>3.首页判断登录状态</h1><p>虽然cookie已经成功写入，但是我们首页的顶部，登录状态依然没能判断出用户信息：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533733618901.png" srcset="/img/loading.gif" alt="1533733618901"></p>
+<p>这里需要向后台发起请求，根据cookie获取当前用户的信息。</p>
+<p>我们先看页面实现</p>
+<h2 id="3-1-页面JS代码"><a href="#3-1-页面JS代码" class="headerlink" title="3.1.页面JS代码"></a>3.1.页面JS代码</h2><p>页面的顶部已经被我们封装为一个独立的Vue组件，在<code>/js/pages/shortcut.js</code>中</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533733732779.png" srcset="/img/loading.gif" alt="1533733732779"></p>
+<p>打开js，发现里面已经定义好了Vue组件，并且在created函数中，查询用户信息：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533733810408.png" srcset="/img/loading.gif" alt="1533733810408"></p>
+<p>查看网络控制台，发现发起了请求：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533733946470.png" srcset="/img/loading.gif" alt="1533733946470"></p>
+<p>因为token在cookie中，因此本次请求肯定会携带token信息在头中。</p>
+<h2 id="3-2-后台实现校验用户接口"><a href="#3-2-后台实现校验用户接口" class="headerlink" title="3.2.后台实现校验用户接口"></a>3.2.后台实现校验用户接口</h2><p>我们在<code>leyou-auth-service</code>中定义用户的校验接口，通过cookie获取token，然后校验通过返回用户信息。</p>
+<ul>
+<li>请求方式：GET</li>
+<li>请求路径：/verify</li>
+<li>请求参数：无，不过我们需要从cookie中获取token信息</li>
+<li>返回结果：UserInfo，校验成功返回用户信息；校验失败，则返回401</li>
+</ul>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">  * 验证用户信息</span>
+<span class="hljs-comment">  * <span class="hljs-doctag">@param</span> token</span>
+<span class="hljs-comment">  * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">  */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"verify"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;UserInfo&gt; <span class="hljs-title">verifyUser</span><span class="hljs-params">(@CookieValue(<span class="hljs-string">"LY_TOKEN"</span>)</span>String token)</span>&#123;
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-comment">// 从token中解析token信息</span>
+        UserInfo userInfo = JwtUtils.getInfoFromToken(token, <span class="hljs-keyword">this</span>.properties.getPublicKey());
+        <span class="hljs-comment">// 解析成功返回用户信息</span>
+        <span class="hljs-keyword">return</span> ResponseEntity.ok(userInfo);
+    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+        e.printStackTrace();
+    &#125;
+    <span class="hljs-comment">// 出现异常则，响应500</span>
+    <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+&#125;</code></pre></div>
+
+
+
+<h2 id="3-3-测试"><a href="#3-3-测试" class="headerlink" title="3.3.测试"></a>3.3.测试</h2><p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533734761745.png" srcset="/img/loading.gif" alt="1533734761745"></p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533734803538.png" srcset="/img/loading.gif" alt="1533734803538"></p>
+<p>页面效果：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533734834479.png" srcset="/img/loading.gif" alt="1533734834479"></p>
+<h2 id="3-4-刷新token"><a href="#3-4-刷新token" class="headerlink" title="3.4.刷新token"></a>3.4.刷新token</h2><p>每当用户在页面进行新的操作，都应该刷新token的过期时间，否则30分钟后用户的登录信息就无效了。而刷新其实就是重新生成一份token，然后写入cookie即可。</p>
+<p>那么问题来了：我们怎么知道用户有操作呢？</p>
+<p>事实上，每当用户来查询其个人信息，就证明他正在浏览网页，此时刷新cookie是比较合适的时机。因此我们可以对刚刚的校验用户登录状态的接口进行改进，加入刷新token的逻辑。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment">  * 验证用户信息</span>
+<span class="hljs-comment">  * <span class="hljs-doctag">@param</span> token</span>
+<span class="hljs-comment">  * <span class="hljs-doctag">@return</span></span>
+<span class="hljs-comment">  */</span>
+<span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"verify"</span>)
+<span class="hljs-function"><span class="hljs-keyword">public</span> ResponseEntity&lt;UserInfo&gt; <span class="hljs-title">verifyUser</span><span class="hljs-params">(@CookieValue(<span class="hljs-string">"LY_TOKEN"</span>)</span>String token, HttpServletRequest request, HttpServletResponse response)</span>&#123;
+    <span class="hljs-keyword">try</span> &#123;
+        <span class="hljs-comment">// 从token中解析token信息</span>
+        UserInfo userInfo = JwtUtils.getInfoFromToken(token, <span class="hljs-keyword">this</span>.properties.getPublicKey());
+        <span class="hljs-comment">// 解析成功要重新刷新token</span>
+        token = JwtUtils.generateToken(userInfo, <span class="hljs-keyword">this</span>.properties.getPrivateKey(), <span class="hljs-keyword">this</span>.properties.getExpire());
+        <span class="hljs-comment">// 更新cookie中的token</span>
+        CookieUtils.setCookie(request, response, <span class="hljs-keyword">this</span>.properties.getCookieName(), token, <span class="hljs-keyword">this</span>.properties.getCookieMaxAge());
+
+        <span class="hljs-comment">// 解析成功返回用户信息</span>
+        <span class="hljs-keyword">return</span> ResponseEntity.ok(userInfo);
+    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+        e.printStackTrace();
+    &#125;
+    <span class="hljs-comment">// 出现异常则，响应500</span>
+    <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+&#125;</code></pre></div>
+
+
+
+<h1 id="4-网关的登录拦截器"><a href="#4-网关的登录拦截器" class="headerlink" title="4.网关的登录拦截器"></a>4.网关的登录拦截器</h1><p>接下来，我们在Zuul编写拦截器，对用户的token进行校验，如果发现未登录，则进行拦截。</p>
+<h2 id="4-1-引入jwt相关配置"><a href="#4-1-引入jwt相关配置" class="headerlink" title="4.1.引入jwt相关配置"></a>4.1.引入jwt相关配置</h2><p>既然是登录拦截，一定是前置拦截器，我们在<code>leyou-gateway</code>中定义。</p>
+<p>首先在pom.xml中，引入所需要的依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.common<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.leyou.auth<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>leyou-auth-common<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0.0-SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>然后编写application.yml属性文件，添加如下内容：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">leyou:</span>
+  <span class="hljs-attr">jwt:</span>
+    <span class="hljs-attr">pubKeyPath:</span>  <span class="hljs-string">C:\\tmp\\rsa\\rsa.pub</span> <span class="hljs-comment"># 公钥地址</span>
+    <span class="hljs-attr">cookieName:</span> <span class="hljs-string">LY_TOKEN</span> <span class="hljs-comment"># cookie的名称</span></code></pre></div>
+
+<p>编写属性类，读取公钥：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533736124053.png" srcset="/img/loading.gif" alt="1533736124053"></p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"leyou.jwt"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">JwtProperties</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> String pubKeyPath;<span class="hljs-comment">// 公钥</span>
+
+    <span class="hljs-keyword">private</span> PublicKey publicKey; <span class="hljs-comment">// 公钥</span>
+
+    <span class="hljs-keyword">private</span> String cookieName;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(JwtProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-meta">@PostConstruct</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 获取公钥和私钥</span>
+            <span class="hljs-keyword">this</span>.publicKey = RsaUtils.getPublicKey(pubKeyPath);
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            logger.error(<span class="hljs-string">"初始化公钥失败！"</span>, e);
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException();
+        &#125;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getPubKeyPath</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> pubKeyPath;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPubKeyPath</span><span class="hljs-params">(String pubKeyPath)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.pubKeyPath = pubKeyPath;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> PublicKey <span class="hljs-title">getPublicKey</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> publicKey;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPublicKey</span><span class="hljs-params">(PublicKey publicKey)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.publicKey = publicKey;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getCookieName</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> cookieName;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setCookieName</span><span class="hljs-params">(String cookieName)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.cookieName = cookieName;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="4-2-编写过滤器逻辑"><a href="#4-2-编写过滤器逻辑" class="headerlink" title="4.2.编写过滤器逻辑"></a>4.2.编写过滤器逻辑</h2><p>基本逻辑：</p>
+<ul>
+<li><p>获取cookie中的token</p>
+</li>
+<li><p>通过JWT对token进行校验</p>
+</li>
+<li><p>通过：则放行；不通过：则重定向到登录页</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1527557510032.png" srcset="/img/loading.gif" alt="1527557510032"></p>
+</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@EnableConfigurationProperties</span>(JwtProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">LoginFilter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ZuulFilter</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> JwtProperties properties;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">filterType</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"pre"</span>;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">filterOrder</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">5</span>;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">shouldFilter</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">run</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ZuulException </span>&#123;
+        <span class="hljs-comment">// 获取上下文</span>
+        RequestContext context = RequestContext.getCurrentContext();
+        <span class="hljs-comment">// 获取request</span>
+        HttpServletRequest request = context.getRequest();
+        <span class="hljs-comment">// 获取token</span>
+        String token = CookieUtils.getCookieValue(request, <span class="hljs-keyword">this</span>.properties.getCookieName());
+        <span class="hljs-comment">// 校验</span>
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 校验通过什么都不做，即放行</span>
+            JwtUtils.getInfoFromToken(token, <span class="hljs-keyword">this</span>.properties.getPublicKey());
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            <span class="hljs-comment">// 校验出现异常，返回403</span>
+            context.setSendZuulResponse(<span class="hljs-keyword">false</span>);
+            context.setResponseStatusCode(HttpStatus.FORBIDDEN.value());
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>重启，刷新页面，发现请求校验的接口也被拦截了：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533737074966.png" srcset="/img/loading.gif" alt="1533737074966"></p>
+<p>证明我们的拦截器生效了，但是，似乎有什么不对的。这个路径似乎不应该被拦截啊！</p>
+<h2 id="4-3-白名单"><a href="#4-3-白名单" class="headerlink" title="4.3.白名单"></a>4.3.白名单</h2><p>要注意，并不是所有的路径我们都需要拦截，例如：</p>
+<ul>
+<li>登录校验接口：<code>/auth/**</code></li>
+<li>注册接口：<code>/user/register</code></li>
+<li>数据校验接口：<code>/user/check/**</code></li>
+<li>发送验证码接口：<code>/user/code</code></li>
+<li>搜索接口：<code>/search/**</code></li>
+</ul>
+<p>另外，跟后台管理相关的接口，因为我们没有做登录和权限，因此暂时都放行，但是生产环境中要做登录校验：</p>
+<ul>
+<li>后台商品服务：<code>/item/**</code></li>
+</ul>
+<p>所以，我们需要在拦截时，配置一个白名单，如果在名单内，则不进行拦截。</p>
+<p>在<code>application.yaml</code>中添加规则：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">leyou:</span>
+  <span class="hljs-attr">filter:</span>
+    <span class="hljs-attr">allowPaths:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/api/auth</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/api/search</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/api/user/register</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/api/user/check</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/api/user/code</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">/api/item</span></code></pre></div>
+
+<p>然后读取这些属性：</p>
+<p> <img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533737234087.png" srcset="/img/loading.gif" alt="1533737234087"></p>
+<p>内容：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@ConfigurationProperties</span>(prefix = <span class="hljs-string">"leyou.filter"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FilterProperties</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> List&lt;String&gt; allowPaths;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> List&lt;String&gt; <span class="hljs-title">getAllowPaths</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> allowPaths;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAllowPaths</span><span class="hljs-params">(List&lt;String&gt; allowPaths)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.allowPaths = allowPaths;
+    &#125;
+&#125;</code></pre></div>
+
+<p>在过滤器中的<code>shouldFilter</code>方法中添加判断逻辑：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533737832161.png" srcset="/img/loading.gif" alt="1533737832161"></p>
+<p>代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@EnableConfigurationProperties</span>(&#123;JwtProperties<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">FilterProperties</span>.<span class="hljs-title">class</span>&#125;)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">class</span> <span class="hljs-title">LoginFilter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ZuulFilter</span> </span>&#123;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> JwtProperties jwtProp;
+
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> FilterProperties filterProp;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger logger = LoggerFactory.getLogger(LoginFilter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">filterType</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"pre"</span>;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">filterOrder</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-number">5</span>;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">shouldFilter</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// 获取上下文</span>
+        RequestContext ctx = RequestContext.getCurrentContext();
+        <span class="hljs-comment">// 获取request</span>
+        HttpServletRequest req = ctx.getRequest();
+        <span class="hljs-comment">// 获取路径</span>
+        String requestURI = req.getRequestURI();
+        <span class="hljs-comment">// 判断白名单</span>
+        <span class="hljs-keyword">return</span> !isAllowPath(requestURI);
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isAllowPath</span><span class="hljs-params">(String requestURI)</span> </span>&#123;
+        <span class="hljs-comment">// 定义一个标记</span>
+        <span class="hljs-keyword">boolean</span> flag = <span class="hljs-keyword">false</span>;
+        <span class="hljs-comment">// 遍历允许访问的路径</span>
+        <span class="hljs-keyword">for</span> (String path : <span class="hljs-keyword">this</span>.filterProp.getAllowPaths()) &#123;
+            <span class="hljs-comment">// 然后判断是否是符合</span>
+            <span class="hljs-keyword">if</span>(requestURI.startsWith(path))&#123;
+                flag = <span class="hljs-keyword">true</span>;
+                <span class="hljs-keyword">break</span>;
+            &#125;
+        &#125;
+        <span class="hljs-keyword">return</span> flag;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">run</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> ZuulException </span>&#123;
+        <span class="hljs-comment">// 获取上下文</span>
+        RequestContext ctx = RequestContext.getCurrentContext();
+        <span class="hljs-comment">// 获取request</span>
+        HttpServletRequest request = ctx.getRequest();
+        <span class="hljs-comment">// 获取token</span>
+        String token = CookieUtils.getCookieValue(request, jwtProp.getCookieName());
+        <span class="hljs-comment">// 校验</span>
+        <span class="hljs-keyword">try</span> &#123;
+            <span class="hljs-comment">// 校验通过什么都不做，即放行</span>
+            JwtUtils.getInfoFromToken(token, jwtProp.getPublicKey());
+        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;
+            <span class="hljs-comment">// 校验出现异常，返回403</span>
+            ctx.setSendZuulResponse(<span class="hljs-keyword">false</span>);
+            ctx.setResponseStatusCode(<span class="hljs-number">403</span>);
+            logger.error(<span class="hljs-string">"非法访问，未登录，地址：&#123;&#125;"</span>, request.getRemoteHost(), e );
+        &#125;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>再次测试：</p>
+<p><img src="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday17/1533737743491.png" srcset="/img/loading.gif" alt="1533737743491"></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8E/">乐优商城</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JWT/">JWT</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday18/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">乐优商城day18：购物车</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday16/">
+                        <span class="hidden-mobile">乐优商城day16：用户注册</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "乐优商城day17：授权中心&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

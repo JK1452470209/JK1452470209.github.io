@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>MySQL常用语句大全 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2020-11-25 09:20">
+      2020-11-25
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.6k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      19
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="零、用户管理："><a href="#零、用户管理：" class="headerlink" title="零、用户管理："></a>零、用户管理：</h2><p>　　1、新建用户：</p>
+<p>　　　　&gt;CREATE USER name IDENTIFIED BY ‘ssapdrow’;</p>
+<p>　　2、更改密码：</p>
+<p>　　　　&gt;SET PASSWORD FOR name=PASSWORD(‘fdddfd’);</p>
+<p>　　3、权限管理</p>
+<p>　　　　&gt;SHOW GRANTS FOR name;    //查看name用户权限</p>
+<p>　　　　&gt;GRANT SELECT ON db_name.* TO name;　　　　//给name用户db_name数据库的所有权限</p>
+<p>　　　　&gt;REVOKE SELECT ON db_name.* TO name;　　　　//GRANT的反操作，去除权限；</p>
+<h2 id="一、数据库操作："><a href="#一、数据库操作：" class="headerlink" title="一、数据库操作：　"></a>一、数据库操作：　</h2><p>　　1、查看数据库：</p>
+<p>　　　　&gt;SHOW DATABASES;</p>
+<p>　　2、创建数据库：</p>
+<p>　　　　&gt;CREATE DATABASE db_name;　　//db_name为数据库名</p>
+<p>　　3、使用数据库：</p>
+<p>　　　　&gt;USE db_name;</p>
+<p>　　4、删除数据库：</p>
+<p>　　　　&gt;DROP DATABASE db_name;</p>
+<h2 id="二、创建表："><a href="#二、创建表：" class="headerlink" title="二、创建表："></a>二、创建表：</h2><p>　　1、创建表：</p>
+<p>　　　　&gt;CREATE TABLE table_name(</p>
+<p>　　　　&gt;id TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,　　　　//id值，无符号、非空、递增——唯一性，可做主键。</p>
+<p>　　　　&gt;name VARCHAR(60) NOT NULL</p>
+<p>　　　　&gt;score TINYINT UNSIGNED NOT NULL DEFAULT 0,　　　　//设置默认列值</p>
+<p>　　　　&gt;PRIMARY KEY(id)</p>
+<p>　　　　&gt;)ENGINE=InnoDB　　　　//设置表的存储引擎，一般常用InnoDB和MyISAM；InnoDB可靠，支持事务；MyISAM高效不支持全文检索</p>
+<p>　　　　&gt;DEFAULT charset=utf8;　　//设置默认的编码，防止数据库中文乱码</p>
+<p>　　　　如果有条件的创建数据表还可以使用   &gt;CREATE TABLE IF NOT EXISTS tb_name(……..</p>
+<p>　　2、复制表：</p>
+<p>　　　　&gt;CREATE TABLE tb_name2 SELECT * FROM tb_name;</p>
+<p>　　　　或者部分复制：</p>
+<p>　　　　&gt;CREATE TABLE tb_name2 SELECT id,name FROM tb_name;</p>
+<p>　　3、创建临时表：</p>
+<p>　　　　&gt;CREATE TEMPORARY TABLE tb_name(这里和创建普通表一样);</p>
+<p>　　4、查看数据库中可用的表：</p>
+<p>　　　　&gt;SHOW TABLES;</p>
+<p>　　5、查看表的结构：</p>
+<p>　　　　&gt;DESCRIBE tb_name;</p>
+<p>　　　　也可以使用：</p>
+<p>　　　　&gt;SHOW COLUMNS in tb_name; 　　　　//from也可以</p>
+<p>　　6、删除表：</p>
+<p>　　　　&gt;DROP [ TEMPORARY ] TABLE [ IF EXISTS ] tb_name[ ,tb_name2…….];</p>
+<p>　　　　实例：</p>
+<p>　　　　&gt;DROP TABLE IF EXISTS tb_name;</p>
+<p>　　7、表重命名：</p>
+<p>　　　　&gt;RENAME TABLE name_old TO name_new;</p>
+<p>　　　　还可以使用：</p>
+<p>　　　　&gt;ALTER TABLE name_old RENAME name_new;</p>
+<h2 id="三、修改表："><a href="#三、修改表：" class="headerlink" title="三、修改表："></a>三、修改表：</h2><p>　　1、更改表结构：</p>
+<p>　　　　&gt;ALTER TABLE tb_name ADD[CHANGE,RENAME,DROP] …要更改的内容…</p>
+<p>　　　　实例：</p>
+<p>　　　　&gt;ALTER TABLE tb_name ADD COLUMN address varchar(80) NOT NULL;</p>
+<p>　　　　&gt;ALTER TABLE tb_name DROP address;</p>
+<p>　　　　&gt;ALTER TABLE tb_name CHANGE score score SMALLINT(4) NOT NULL;</p>
+<h2 id="四、插入数据："><a href="#四、插入数据：" class="headerlink" title="四、插入数据："></a>四、插入数据：</h2><p>　　1、插入数据：</p>
+<p>　　　　&gt;INSERT INTO tb_name(id,name,score)VALUES(NULL,’张三’,140),(NULL,’张四’,178),(NULL,’张五’,134);</p>
+<p>　　　　这里的插入多条数据直接在后边加上逗号，直接写入插入的数据即可；主键id是自增的列，可以不用写。</p>
+<p>　　2、插入检索出来的数据：</p>
+<p>　　　　&gt;INSERT INTO tb_name(name,score) SELECT name,score FROM tb_name2;</p>
+<h2 id="五、更新数据："><a href="#五、更新数据：" class="headerlink" title="五、更新数据："></a>五、更新数据：</h2><p>　　1、指定更新数据：</p>
+<p>　　　　&gt;UPDATE tb_name SET score=189 WHERE id=2;</p>
+<p>　　　　&gt;UPDATE tablename SET columnName=NewValue [ WHERE condition ]</p>
+<h2 id="六、删除数据："><a href="#六、删除数据：" class="headerlink" title="六、删除数据："></a>六、删除数据：</h2><p>　　1、删除数据：</p>
+<p>　　　　&gt;DELETE FROM tb_name WHERE id=3;</p>
+<h2 id="七、条件控制："><a href="#七、条件控制：" class="headerlink" title="七、条件控制："></a>七、条件控制：</h2><p>　　1、WHERE 语句：</p>
+<p>　　　　&gt;SELECT * FROM tb_name WHERE id=3;</p>
+<p>　　2、HAVING 语句：</p>
+<p>　　　　&gt;SELECT * FROM tb_name GROUP BY score HAVING count(*)&gt;2</p>
+<p>　　3、相关条件控制符： </p>
+<p>　　　　=、&gt;、&lt;、&lt;&gt;、IN(1,2,3……)、BETWEEN a AND b、NOT</p>
+<p>　　　　AND 、OR</p>
+<p>　　　　Linke()用法中      %  为匹配任意、  _  匹配一个字符（可以是汉字）</p>
+<p>　　　　IS NULL 空值检测</p>
+<h2 id="八、MySQL的正则表达式："><a href="#八、MySQL的正则表达式：" class="headerlink" title="八、MySQL的正则表达式："></a>八、MySQL的正则表达式：</h2><p>　　1、Mysql支持REGEXP的正则表达式：</p>
+<p>　　　　&gt;SELECT * FROM tb_name WHERE name REGEXP ‘^[A-D]’   //找出以A-D 为开头的name</p>
+<p>　　2、特殊字符需要转义。</p>
+<h2 id="九、MySQL的一些函数："><a href="#九、MySQL的一些函数：" class="headerlink" title="九、MySQL的一些函数："></a>九、MySQL的一些函数：</h2><p>　　1、字符串链接——CONCAT()</p>
+<p>　　　　&gt;SELECT CONCAT(name,’=&gt;’,score) FROM tb_name</p>
+<p>　　2、数学函数：</p>
+<p>　　　　AVG、SUM、MAX、MIN、COUNT；</p>
+<p>　　3、文本处理函数：</p>
+<p>　　　　TRIM、LOCATE、UPPER、LOWER、SUBSTRING</p>
+<p>　　4、运算符：</p>
+<p>　　　　+、-、*、\</p>
+<p>　　5、时间函数：</p>
+<p>　　　　DATE()、CURTIME()、DAY()、YEAR()、NOW()…..</p>
+<h2 id="十、分组查询："><a href="#十、分组查询：" class="headerlink" title="十、分组查询："></a>十、分组查询：</h2><p> 　　1、分组查询可以按照指定的列进行分组：</p>
+<p>　　　　&gt;SELECT COUNT(<em>) FROM tb_name GROUP BY score HAVING COUNT(</em>)&gt;1;</p>
+<p>　　2、条件使用Having；</p>
+<p>　　3、ORDER BY 排序：</p>
+<p>　　　　ORDER BY DESC|ASC　　　　=&gt;按数据的降序和升序排列</p>
+<h2 id="十一、UNION规则——可以执行两个语句（可以去除重复行）"><a href="#十一、UNION规则——可以执行两个语句（可以去除重复行）" class="headerlink" title="十一、UNION规则——可以执行两个语句（可以去除重复行）"></a>十一、UNION规则——可以执行两个语句（可以去除重复行）</h2><h2 id="十二、全文检索——MATCH和AGAINST"><a href="#十二、全文检索——MATCH和AGAINST" class="headerlink" title="十二、全文检索——MATCH和AGAINST"></a>十二、全文检索——MATCH和AGAINST</h2><p>　　1、SELECT MATCH(note_text)AGAINST(‘PICASO’) FROM tb_name;</p>
+<p>　　2、InnoDB引擎不支持全文检索，MyISAM可以；</p>
+<h2 id="十三、视图"><a href="#十三、视图" class="headerlink" title="十三、视图"></a>十三、视图</h2><p>　　1、创建视图</p>
+<p>　　　　&gt;CREATE VIEW name AS SELECT * FROM tb_name WHERE <del>~ ORDER BY ~</del>;</p>
+<p>　　2、视图的特殊作用：</p>
+<p>　　　　　　a、简化表之间的联结（把联结写在select中）；</p>
+<p>　　　　　　b、重新格式化输出检索的数据（TRIM，CONCAT等函数）；</p>
+<p>　　　　　　c、过滤不想要的数据（select部分）</p>
+<p>　　　　　　d、使用视图计算字段值，如汇总这样的值。</p>
+<h2 id="十四、使用存储过程："><a href="#十四、使用存储过程：" class="headerlink" title="十四、使用存储过程："></a>十四、使用存储过程：</h2><p>　　个人理解，存储过程就是一个自定义函数，有局部变量参数，可传入参数，可以返回值，不过这语法够呆滞的<del>~</del></p>
+<p>　　1、创建存储过程：</p>
+<p>　　　　&gt;CREATE PROCEDURE pro(</p>
+<p>　　　　&gt;IN num INT,OUT total INT)</p>
+<p>　　　　&gt;BEGIN</p>
+<p>　　　　&gt;SELECT SUM(score) INTO total FROM tb_name WHERE id=num;</p>
+<p>　　　　&gt;END;</p>
+<p>　　　***这里的  IN (传递一个值给存储过程)，OUT（从存储过程传出一个值），INOUT（对存储过程传入、传出），INTO（保存变量）</p>
+<p>　　2、调用存储过程：</p>
+<p>　　　　&gt;CALL pro(13,@total)　　　　　　//这里的存储过程两个变量，一个是IN一个是OUT，这里的OUT也是需要写上的，不写会出错</p>
+<p>　　　　&gt;SELECT @total　　　　　　　　　//这里就可以看到结果了；</p>
+<p>　　3、存储过程的其他操作：</p>
+<p>　　　　&gt;SHOW PROCEDURE STATUS;　　　　　　//显示当期的存储过程</p>
+<p>　　　　&gt;DROP PROCEDURE pro;　　　　　　　　　//删除指定存储过程</p>
+<h2 id="十五、使用游标："><a href="#十五、使用游标：" class="headerlink" title="十五、使用游标："></a>十五、使用游标：</h2><p>　　　1、游标的操作</p>
+<p>　　　　&gt;CREATE PROCEDURE pro()</p>
+<p>　　　　&gt;BEGIN </p>
+<p>　　　　&gt;DECLARE ordername CURSOR FOR</p>
+<p>　　　　&gt;SELECT order_num FROM orders;</p>
+<p>　　　　&gt;END;</p>
+<p>　　　　</p>
+<p>　　　　&gt;OPEN ordername;　　　　//打开游标</p>
+<p>　　　　&gt;CLOSE ordername;　　　　//关闭游标</p>
+<h2 id="十六、触发器："><a href="#十六、触发器：" class="headerlink" title="十六、触发器："></a>十六、触发器：</h2><p>　　触发器是指在进行某项指定操作时，触发触发器内指定的操作；</p>
+<p>　　1、支持触发器的语句有DELETE、INSERT、UPDATE,其他均不支持</p>
+<p>　　2、创建触发器：</p>
+<p>　　　　&gt;CREATE TRIGGER trig AFTER INSERT ON ORDERS FOR EACH ROW SELECT NEW.orser_name;</p>
+<p>　　　　&gt;INSERT语句，触发语句，返回一个值</p>
+<p>　　3、删除触发器</p>
+<p>　　　　&gt;DROP TRIGGER trig;</p>
+<h2 id="十七、语法整理："><a href="#十七、语法整理：" class="headerlink" title="十七、语法整理："></a>十七、语法整理：</h2><p>　　1、ALTER TABLE（修改表）</p>
+<p>　　　　ALTER TABLE table_name</p>
+<p>　　　　(　　ADD　　　　column　　datatype  　　[ NULL | NOT NULL ]　　[ CONSTRAINTS ]</p>
+<p>　　　　　　 CHANGE　　column 　　datatype 　　COLUMNS　　[ NULL | NOT NULL ]　　 [ CONSTRAINTS ]</p>
+<p>　　　　　　 DROP　　　 column，</p>
+<p>　　　　　　　。。。。</p>
+<p>　　　　)</p>
+<p>　　2、COMMIT(处理事务)</p>
+<p>　　　　&gt;COMMIT;</p>
+<p> 　　3、CREATE INDEX(在一个或多个列上创建索引)</p>
+<p>　　　　CREATE INDEX index_name ON tb_name (column [ ASC | DESC ] , …….);</p>
+<p> 　　4、CREATE PROCEDURE (创建存储过程)</p>
+<p>　　　　CREATE PROCEDURE pro([ parameters ])</p>
+<p>　　　　BEGIN</p>
+<p>　　　　……..</p>
+<p>　　　　END</p>
+<p> 　　5、CREATE TABLE(创建表)</p>
+<p>　　　　CREATE TABLE tb_name(</p>
+<p>　　　　column_name　　datetype　　[ NULL | NOT NULL ] 　　[ condtraints]   ,</p>
+<p>　　　　column_name　　datetype　　[ NULL | NOT NULL ] 　　[ condtraints]   ,</p>
+<p>　　　　…….</p>
+<p>　　　　PRIMARY KEY( column_name )</p>
+<p>　　　　)ENGINE=[  InnoDB | MyiSAM ]DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;</p>
+<p> 　　6、CREATE USER(创建用户)</p>
+<p>　　　　CREATE USER user_name [ @hostname ] [ IDENTIFIED BY [ PASSWORD ] ‘pass_word’ ];</p>
+<p> 　　7、CREATE VIEW （在一个或多个表上创建视图）</p>
+<p>　　　　CREATE [ OR REPLACE ] VIEW view_name AS SELECT。。。。。。</p>
+<p> 　　8、DELETE (从表中删除一行或多行)</p>
+<p>　　　　DELETE FROM table_name [WHERE ……]</p>
+<p> 　　9、DROP(永久删除数据库及对象，如视图、索引等)</p>
+<p>　　　　DROP DATEBASE | INDEX | PROCEDURE | TABLE | TRIGGER | USER | VIEW  name</p>
+<p> 　　10、INSERT （给表添加行）</p>
+<p>　　　　INSERT INTO tb_name [ ( columns,…… ) ]  VALUES(value1,…………);</p>
+<p>　　　　使用SELECT值插入：</p>
+<p>　　　　INSERT INTO tb_name [ ( columns,…… ) ]</p>
+<p>　　　　SELECT columns , …….   FROM tb_name [ WHERE …… ] ;</p>
+<p>　　 11、ROLLBACK（撤销一个事务处理块）</p>
+<p>　　　　ROLLBACK [  TO  savapointname  ];</p>
+<p>　　 12、SAVEPOINT(为ROLLBACK设置保留点)</p>
+<p>　　　　SAVEPOINT sp1;</p>
+<p>　　 13、SELECT (检索数据，显示信息)</p>
+<p>　　　　SELECT column_name,…..FROM tb_name  [ WHERE ]   [ UNION ]    [ RROUP BY ]   [ HAVING ]   [ ORDER BY ]</p>
+<p> 　　14、START TRANSACTION (一个新的事务处理块的开始)</p>
+<p>　　　　START TRANSACTION</p>
+<p>　　 15、UPDATE(更新一个表中的一行或多行)</p>
+<p>　　　　UPDATE tb_name SET column=value,……[ where ]</p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/10/05/%E4%B9%90%E4%BC%98%E5%95%86%E5%9F%8Eday19/">
+                        <span class="hidden-mobile">乐优商城day19：下单</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "MySQL常用语句大全&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

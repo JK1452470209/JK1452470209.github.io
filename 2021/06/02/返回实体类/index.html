@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>返回实体类 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-06-02 21:44">
+      2021-06-02
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.9k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      28
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="返回实体类"><a href="#返回实体类" class="headerlink" title="返回实体类"></a>返回实体类</h1><h2 id="一、自定义返回对象"><a href="#一、自定义返回对象" class="headerlink" title="一、自定义返回对象"></a>一、自定义返回对象</h2><p>在工作中，接手项目上看到项目中使用的返回对象是自己封装的，虽然拓展性并不是很高，但是在实际开发过程中使用也够用，状态码通过map中进行返回，前端解析返回的数据带的是什么状态码。、</p>
+<p>弊端：</p>
+<p>​    1.不支持泛型，有可能出现类型转换异常</p>
+<p>​    2.返回状态码目前没有定义枚举，需要有经验的程序员充分理解状态码，而达到对项目状态码返回的统一，（例 代码执行错误，有些返回500，有些人会返回501等等）</p>
+<p>​    3.不能支持对请求头的修改</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.msdw.tms.common.utils;
+
+<span class="hljs-keyword">import</span> org.apache.http.HttpStatus;
+
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * 返回数据</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Mark sunlightcs@gmail.com</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">R</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">HashMap</span>&lt;<span class="hljs-title">String</span>, <span class="hljs-title">Object</span>&gt; </span>&#123;
+	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">1L</span>;
+	
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">R</span><span class="hljs-params">()</span> </span>&#123;
+		put(<span class="hljs-string">"status"</span>, <span class="hljs-number">200</span>);
+		put(<span class="hljs-string">"errmessage"</span>, <span class="hljs-string">"success"</span>);
+	&#125;
+	
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> R <span class="hljs-title">error</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">return</span> error(HttpStatus.SC_INTERNAL_SERVER_ERROR, <span class="hljs-string">"未知异常，请联系管理员"</span>);
+	&#125;
+	
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> R <span class="hljs-title">error</span><span class="hljs-params">(String msg)</span> </span>&#123;
+		<span class="hljs-keyword">return</span> error(HttpStatus.SC_INTERNAL_SERVER_ERROR, msg);
+	&#125;
+	
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> R <span class="hljs-title">error</span><span class="hljs-params">(<span class="hljs-keyword">int</span> code, String msg)</span> </span>&#123;
+		R r = <span class="hljs-keyword">new</span> R();
+		r.put(<span class="hljs-string">"status"</span>, code);
+		r.put(<span class="hljs-string">"errmessage"</span>, msg);
+		<span class="hljs-keyword">return</span> r;
+	&#125;
+
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> R <span class="hljs-title">ok</span><span class="hljs-params">(String msg)</span> </span>&#123;
+		R r = <span class="hljs-keyword">new</span> R();
+		r.put(<span class="hljs-string">"errmessage"</span>, msg);
+		<span class="hljs-keyword">return</span> r;
+	&#125;
+	
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> R <span class="hljs-title">ok</span><span class="hljs-params">(Map&lt;String, Object&gt; map)</span> </span>&#123;
+		R r = <span class="hljs-keyword">new</span> R();
+		r.putAll(map);
+		<span class="hljs-keyword">return</span> r;
+	&#125;
+	
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> R <span class="hljs-title">ok</span><span class="hljs-params">()</span> </span>&#123;
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> R();
+	&#125;
+
+	<span class="hljs-function"><span class="hljs-keyword">public</span> R <span class="hljs-title">put</span><span class="hljs-params">(String key, Object value)</span> </span>&#123;
+		<span class="hljs-keyword">super</span>.put(key, value);
+		<span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
+	&#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="二、MybatisPlus-R"><a href="#二、MybatisPlus-R" class="headerlink" title="二、MybatisPlus R"></a>二、MybatisPlus R</h2><p>MybatisPuls 也有自带ApiController，可以作为项目的通用规范，但是由于使用度较低，在3.5.0的版本中就将其移除</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.baomidou.mybatisplus.extension.api;
+
+<span class="hljs-keyword">import</span> java.io.Serializable;
+<span class="hljs-keyword">import</span> java.util.Optional;
+
+<span class="hljs-keyword">import</span> com.baomidou.mybatisplus.extension.enums.ApiErrorCode;
+<span class="hljs-keyword">import</span> com.baomidou.mybatisplus.extension.exceptions.ApiException;
+
+<span class="hljs-keyword">import</span> lombok.Data;
+<span class="hljs-keyword">import</span> lombok.experimental.Accessors;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * REST API 返回结果</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> hubin</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@since</span> 2018-06-05</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Data</span>
+<span class="hljs-meta">@Accessors</span>(chain = <span class="hljs-keyword">true</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">R</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">implements</span> <span class="hljs-title">Serializable</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">	 * serialVersionUID</span>
+<span class="hljs-comment">	 */</span>
+	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">1L</span>;
+	
+	<span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 业务错误码</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">long</span> code;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 结果集</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> T data;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 描述</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-keyword">private</span> String msg;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">R</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-comment">// to do nothing</span>
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">R</span><span class="hljs-params">(IErrorCode errorCode)</span> </span>&#123;
+        errorCode = Optional.ofNullable(errorCode).orElse(ApiErrorCode.FAILED);
+        <span class="hljs-keyword">this</span>.code = errorCode.getCode();
+        <span class="hljs-keyword">this</span>.msg = errorCode.getMsg();
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">R&lt;T&gt; <span class="hljs-title">ok</span><span class="hljs-params">(T data)</span> </span>&#123;
+        ApiErrorCode aec = ApiErrorCode.SUCCESS;
+        <span class="hljs-keyword">if</span> (data <span class="hljs-keyword">instanceof</span> Boolean &amp;&amp; Boolean.FALSE.equals(data)) &#123;
+            aec = ApiErrorCode.FAILED;
+        &#125;
+        <span class="hljs-keyword">return</span> restResult(data, aec);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">R&lt;T&gt; <span class="hljs-title">failed</span><span class="hljs-params">(String msg)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> restResult(<span class="hljs-keyword">null</span>, ApiErrorCode.FAILED.getCode(), msg);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">R&lt;T&gt; <span class="hljs-title">failed</span><span class="hljs-params">(IErrorCode errorCode)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> restResult(<span class="hljs-keyword">null</span>, errorCode);
+    &#125;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">R&lt;T&gt; <span class="hljs-title">restResult</span><span class="hljs-params">(T data, IErrorCode errorCode)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> restResult(data, errorCode.getCode(), errorCode.getMsg());
+    &#125;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> &lt;T&gt; <span class="hljs-function">R&lt;T&gt; <span class="hljs-title">restResult</span><span class="hljs-params">(T data, <span class="hljs-keyword">long</span> code, String msg)</span> </span>&#123;
+        R&lt;T&gt; apiResult = <span class="hljs-keyword">new</span> R&lt;&gt;();
+        apiResult.setCode(code);
+        apiResult.setData(data);
+        apiResult.setMsg(msg);
+        <span class="hljs-keyword">return</span> apiResult;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">ok</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> ApiErrorCode.SUCCESS.getCode() == code;
+    &#125;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 服务间调用非业务正常，异常直接释放</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> T <span class="hljs-title">serviceData</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (!ok()) &#123;
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> ApiException(<span class="hljs-keyword">this</span>.msg);
+        &#125;
+        <span class="hljs-keyword">return</span> data;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<h2 id="三、Spring-ResponseEntity"><a href="#三、Spring-ResponseEntity" class="headerlink" title="三、Spring ResponseEntity"></a>三、Spring ResponseEntity</h2><p>新项目的开展，项目返回实体类我申请使用ResponseEntity作为项目的返回实体，可以充分解决原公司使用实体不好拓展的情况，并且更加安全可靠。</p>
+<p>接下来贴出源码中的五个构造方法</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ResponseEntity</span>&lt;<span class="hljs-title">T</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">HttpEntity</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Object status;
+
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new &#123;<span class="hljs-doctag">@code</span> ResponseEntity&#125; with the given status code, and no body nor headers.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> status the status code</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ResponseEntity</span><span class="hljs-params">(HttpStatus status)</span> </span>&#123;
+      <span class="hljs-keyword">this</span>(<span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, status);
+   &#125;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new &#123;<span class="hljs-doctag">@code</span> ResponseEntity&#125; with the given body and status code, and no headers.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> body the entity body</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> status the status code</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ResponseEntity</span><span class="hljs-params">(@Nullable T body, HttpStatus status)</span> </span>&#123;
+      <span class="hljs-keyword">this</span>(body, <span class="hljs-keyword">null</span>, status);
+   &#125;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new &#123;<span class="hljs-doctag">@code</span> HttpEntity&#125; with the given headers and status code, and no body.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> headers the entity headers</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> status the status code</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ResponseEntity</span><span class="hljs-params">(MultiValueMap&lt;String, String&gt; headers, HttpStatus status)</span> </span>&#123;
+      <span class="hljs-keyword">this</span>(<span class="hljs-keyword">null</span>, headers, status);
+   &#125;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new &#123;<span class="hljs-doctag">@code</span> HttpEntity&#125; with the given body, headers, and status code.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> body the entity body</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> headers the entity headers</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> status the status code</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ResponseEntity</span><span class="hljs-params">(@Nullable T body, @Nullable MultiValueMap&lt;String, String&gt; headers, HttpStatus status)</span> </span>&#123;
+      <span class="hljs-keyword">super</span>(body, headers);
+      Assert.notNull(status, <span class="hljs-string">"HttpStatus must not be null"</span>);
+      <span class="hljs-keyword">this</span>.status = status;
+   &#125;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new &#123;<span class="hljs-doctag">@code</span> HttpEntity&#125; with the given body, headers, and status code.</span>
+<span class="hljs-comment">    * Just used behind the nested builder API.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> body the entity body</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> headers the entity headers</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> status the status code (as &#123;<span class="hljs-doctag">@code</span> HttpStatus&#125; or as &#123;<span class="hljs-doctag">@code</span> Integer&#125; value)</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">ResponseEntity</span><span class="hljs-params">(@Nullable T body, @Nullable MultiValueMap&lt;String, String&gt; headers, Object status)</span> </span>&#123;
+      <span class="hljs-keyword">super</span>(body, headers);
+      Assert.notNull(status, <span class="hljs-string">"HttpStatus must not be null"</span>);
+      <span class="hljs-keyword">this</span>.status = status;
+   &#125;</code></pre></div>
+
+<p>这里设计有意思的是，不管走那个构造方法都会调用到父类的方法 super(body, headers);中</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HttpEntity</span>&lt;<span class="hljs-title">T</span>&gt; </span>&#123;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * The empty &#123;<span class="hljs-doctag">@code</span> HttpEntity&#125;, with no body or headers.</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> HttpEntity&lt;?&gt; EMPTY = <span class="hljs-keyword">new</span> HttpEntity&lt;&gt;();
+
+
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> HttpHeaders headers;
+
+   <span class="hljs-meta">@Nullable</span>
+   <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> T body;
+
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new, empty &#123;<span class="hljs-doctag">@code</span> HttpEntity&#125;.</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-title">HttpEntity</span><span class="hljs-params">()</span> </span>&#123;
+      <span class="hljs-keyword">this</span>(<span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>);
+   &#125;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new &#123;<span class="hljs-doctag">@code</span> HttpEntity&#125; with the given body and no headers.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> body the entity body</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HttpEntity</span><span class="hljs-params">(T body)</span> </span>&#123;
+      <span class="hljs-keyword">this</span>(body, <span class="hljs-keyword">null</span>);
+   &#125;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new &#123;<span class="hljs-doctag">@code</span> HttpEntity&#125; with the given headers and no body.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> headers the entity headers</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HttpEntity</span><span class="hljs-params">(MultiValueMap&lt;String, String&gt; headers)</span> </span>&#123;
+      <span class="hljs-keyword">this</span>(<span class="hljs-keyword">null</span>, headers);
+   &#125;
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * Create a new &#123;<span class="hljs-doctag">@code</span> HttpEntity&#125; with the given body and headers.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> body the entity body</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> headers the entity headers</span>
+<span class="hljs-comment">    */</span>
+   <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HttpEntity</span><span class="hljs-params">(@Nullable T body, @Nullable MultiValueMap&lt;String, String&gt; headers)</span> </span>&#123;
+      <span class="hljs-keyword">this</span>.body = body;
+      HttpHeaders tempHeaders = <span class="hljs-keyword">new</span> HttpHeaders();
+      <span class="hljs-keyword">if</span> (headers != <span class="hljs-keyword">null</span>) &#123;
+         tempHeaders.putAll(headers);
+      &#125;
+      <span class="hljs-keyword">this</span>.headers = HttpHeaders.readOnlyHttpHeaders(tempHeaders);
+   &#125;</code></pre></div>
+
+<p>通过调用父类的方法，将body跟请求头headers返回的内容保存，而ResponseEntity只是对父类进行拓展，增加状态码status，而spring对状态码也有封装（spring就是贴心）做到开箱即用。以下贴出部分方法。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">enum</span> HttpStatus &#123;
+
+   <span class="hljs-comment">// 1xx Informational</span>
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 100 Continue&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.2.1"&gt;HTTP/1.1: Semantics and Content, section 6.2.1&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   CONTINUE(<span class="hljs-number">100</span>, <span class="hljs-string">"Continue"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 101 Switching Protocols&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.2.2"&gt;HTTP/1.1: Semantics and Content, section 6.2.2&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   SWITCHING_PROTOCOLS(<span class="hljs-number">101</span>, <span class="hljs-string">"Switching Protocols"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 102 Processing&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc2518#section-10.1"&gt;WebDAV&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   PROCESSING(<span class="hljs-number">102</span>, <span class="hljs-string">"Processing"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 103 Checkpoint&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://code.google.com/p/gears/wiki/ResumableHttpRequestsProposal"&gt;A proposal for supporting</span>
+<span class="hljs-comment">    * resumable POST/PUT HTTP requests in HTTP/1.0&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   CHECKPOINT(<span class="hljs-number">103</span>, <span class="hljs-string">"Checkpoint"</span>),
+
+   <span class="hljs-comment">// 2xx Success</span>
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 200 OK&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.3.1"&gt;HTTP/1.1: Semantics and Content, section 6.3.1&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   OK(<span class="hljs-number">200</span>, <span class="hljs-string">"OK"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 201 Created&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.3.2"&gt;HTTP/1.1: Semantics and Content, section 6.3.2&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   CREATED(<span class="hljs-number">201</span>, <span class="hljs-string">"Created"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 202 Accepted&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.3.3"&gt;HTTP/1.1: Semantics and Content, section 6.3.3&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   ACCEPTED(<span class="hljs-number">202</span>, <span class="hljs-string">"Accepted"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 203 Non-Authoritative Information&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.3.4"&gt;HTTP/1.1: Semantics and Content, section 6.3.4&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   NON_AUTHORITATIVE_INFORMATION(<span class="hljs-number">203</span>, <span class="hljs-string">"Non-Authoritative Information"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 204 No Content&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.3.5"&gt;HTTP/1.1: Semantics and Content, section 6.3.5&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   NO_CONTENT(<span class="hljs-number">204</span>, <span class="hljs-string">"No Content"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 205 Reset Content&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.3.6"&gt;HTTP/1.1: Semantics and Content, section 6.3.6&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   RESET_CONTENT(<span class="hljs-number">205</span>, <span class="hljs-string">"Reset Content"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 206 Partial Content&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7233#section-4.1"&gt;HTTP/1.1: Range Requests, section 4.1&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   PARTIAL_CONTENT(<span class="hljs-number">206</span>, <span class="hljs-string">"Partial Content"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 207 Multi-Status&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc4918#section-13"&gt;WebDAV&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   MULTI_STATUS(<span class="hljs-number">207</span>, <span class="hljs-string">"Multi-Status"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 208 Already Reported&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc5842#section-7.1"&gt;WebDAV Binding Extensions&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   ALREADY_REPORTED(<span class="hljs-number">208</span>, <span class="hljs-string">"Already Reported"</span>),
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 226 IM Used&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc3229#section-10.4.1"&gt;Delta encoding in HTTP&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   IM_USED(<span class="hljs-number">226</span>, <span class="hljs-string">"IM Used"</span>),
+
+   <span class="hljs-comment">// 3xx Redirection</span>
+
+   <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * &#123;<span class="hljs-doctag">@code</span> 300 Multiple Choices&#125;.</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@see</span> &lt;a href="https://tools.ietf.org/html/rfc7231#section-6.4.1"&gt;HTTP/1.1: Semantics and Content, section 6.4.1&lt;/a&gt;</span>
+<span class="hljs-comment">    */</span>
+   MULTIPLE_CHOICES(<span class="hljs-number">300</span>, <span class="hljs-string">"Multiple Choices"</span>),</code></pre></div>
+
+<p>记录以下对返回实体类的研究，对ResponseEntity的用法，返回有俩种方式。一种是采用静态方法</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/list"</span>)
+    <span class="hljs-meta">@ApiOperation</span>(value = <span class="hljs-string">" 列表"</span>, response = GpAgLishihangqing<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">    <span class="hljs-title">public</span> <span class="hljs-title">ResponseEntity</span> <span class="hljs-title">listByEntity</span>() </span>&#123;
+        List&lt;GpAgLishihangqing&gt; list = service.list();
+        <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.OK).body(list);
+    &#125;</code></pre></div>
+
+<p>另一种是new一个实体类对象</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/list"</span>)
+<span class="hljs-meta">@ApiOperation</span>(value = <span class="hljs-string">" 列表"</span>, response = GpAgLishihangqing<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">ResponseEntity</span> <span class="hljs-title">listByEntity</span>() </span>&#123;
+    List&lt;GpAgLishihangqing&gt; list = service.list();
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ResponseEntity&lt;&gt;(list, HttpStatus.OK);
+&#125;</code></pre></div>
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2021/01/23/Java8Stream%E6%B5%81/">
+                        <span class="hidden-mobile">Java8Stream流</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "返回实体类&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

@@ -170,7 +170,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      11.6k 字
+      10.7k 字
     </span>
   
 
@@ -180,7 +180,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      125
+      112
        分钟
     </span>
   
@@ -444,36 +444,22 @@ cd nacos/bin</code></pre></div>
 <p>curl 是开发中常用的命令行工具，可以用作HTTP协议测试。</p>
 <p>本教程下载curl的windows版本：curl-7.66.0_2-win64-mingw，</p>
 <p>下载地址：<a href="https://curl.haxx.se/windows/" target="_blank" rel="noopener">https://curl.haxx.se/windows/</a></p>
-<p>下载完成进入curl-7.66.0_2-win64-mingw的bin目录，进行下边的测试，通过测试可判断nacos是否正常工作：<strong>发布**</strong>配置**</p>
-<div class="hljs"><pre><code class="hljs curl">
-上边的命令表示向nacos发布一个配置：
+<p>下载完成进入curl-7.66.0_2-win64-mingw的bin目录，进行下边的测试，通过测试可判断nacos是否正常工作：<strong>发布配置</strong></p>
+<ul>
+<li>curl -X POST”<a href="http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.cfg.dataId&amp;group=test&amp;content=HelloWorld&quot;" target="_blank" rel="noopener">http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.cfg.dataId&amp;group=test&amp;content=HelloWorld&quot;</a> </li>
+</ul>
+<p>上边的命令表示向nacos发布一个配置：</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image009.png" srcset="/img/loading.gif" alt="img">)点击“详情”：<img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image010.png" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>获取配置</strong></p>
+<p>向nacos发布配置成功，就可以通过客户端从nacos获取配置信息，执行下边的命令：</p>
+<div class="hljs"><pre><code class="hljs powershell">curl <span class="hljs-literal">-X</span> GET<span class="hljs-string">"http://127.0.0.1:8848/nacos/v1/cs/configs?dataId=nacos.cfg.dataId&amp;group=test"</span></code></pre></div>
 
-![img](Nacos配置管理&#x2F;image009.png)点击“详情”：![img](Nacos配置管理&#x2F;image010.png)
-
-**获取****配置**
-
-向nacos发布配置成功，就可以通过客户端从nacos获取配置信息，执行下边的命令：
-
-&#96;&#96;&#96;powershell
-curl -X GET&quot;http:&#x2F;&#x2F;127.0.0.1:8848&#x2F;nacos&#x2F;v1&#x2F;cs&#x2F;configs?dataId&#x3D;nacos.cfg.dataId&amp;group&#x3D;test&quot;
-&#96;&#96;&#96;
-
-![img](Nacos配置管理&#x2F;image011.png)
-
-通过测试发现，可以从nacos获取前边发布的配置：HelloWorld
-
-#### **3.1.5.**关闭服务器
-
- 
-
-关闭nacos服务的方式如下：Linux&#x2F;Unix&#x2F;Mac方式：
-
-&#96;&#96;&#96;&#96;sh shutdown.sh&#96;&#96;&#96;
-
-**Windows方式：**
-
-&#96;&#96;&#96;&#96;cmd  shutdown.cmd</code></pre></div>
-
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image011.png" srcset="/img/loading.gif" alt="img"></p>
+<p>通过测试发现，可以从nacos获取前边发布的配置：HelloWorld</p>
+<h4 id="3-1-5-关闭服务器"><a href="#3-1-5-关闭服务器" class="headerlink" title="3.1.5.关闭服务器"></a><strong>3.1.5.</strong>关闭服务器</h4><p>关闭nacos服务的方式如下：Linux/Unix/Mac方式：</p>
+<p>sh shutdown.sh</p>
+<p><strong>Windows方式：</strong></p>
+<p>cmd  shutdown.cmd</p>
 <p>或者双击shutdown.cmd运行文件。</p>
 <p><strong>3.1.6.外部mysql数据库支持</strong></p>
 <p>单机模式时nacos默认使用嵌入式数据库实现数据的存储，若想使用外部mysql存储nacos数据，需要进行以下步骤：</p>
@@ -492,875 +478,557 @@ curl -X GET&quot;http:&#x2F;&#x2F;127.0.0.1:8848&#x2F;nacos&#x2F;v1&#x2F;cs&#x2F
 
 <span class="hljs-meta">db.password</span>=<span class="hljs-string">youdontknow</span></code></pre></div>
 
-<h3 id="3-2-Nacos配置入门"><a href="#3-2-Nacos配置入门" class="headerlink" title="3.2  Nacos配置入门"></a><strong>3.2</strong>  <strong>Nacos配置入门</strong></h3><h4 id="3-3-1-发布配置"><a href="#3-3-1-发布配置" class="headerlink" title="3.3.1  发布配置"></a><strong>3.3.1</strong>  <strong>发布配置</strong></h4><p>首先在nacos发布配置。</p>
-<p>浏览器访问 <a href="http://127.0.0.1:8848/nacos" target="_blank" rel="noopener">http://127.0.0.1:8848/nacos</a> ，打开nacos控制台，并点击菜单<strong>配置管理**</strong>-&gt;<strong>**配置列表</strong>：在Nacos添加如下的配置：</p>
- <div class="hljs"><pre><code class="hljs routeros">Data ID:        nacos‐simple‐demo.yaml
+<h3 id="3-2-Nacos配置入门"><a href="#3-2-Nacos配置入门" class="headerlink" title="3.2  Nacos配置入门"></a><strong>3.2</strong>  Nacos配置入门</h3><h4 id="3-2-1-发布配置"><a href="#3-2-1-发布配置" class="headerlink" title="3.2.1  发布配置"></a><strong>3.2.1</strong>  <strong>发布配置</strong></h4><p>首先在nacos发布配置。</p>
+<p>浏览器访问 <a href="http://127.0.0.1:8848/nacos" target="_blank" rel="noopener">http://127.0.0.1:8848/nacos</a> ，打开nacos控制台，并点击菜单<strong>配置管理-&gt;配置列表</strong>：在Nacos添加如下的配置：</p>
+ <div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">Data ID:</span> <span class="hljs-string">nacos‐simple‐demo.yaml</span>
 
-Group    :        DEFAULT_GROUP
+<span class="hljs-attr">Group  :</span>  <span class="hljs-string">DEFAULT_GROUP</span>
 
-配置格式:      YAML
+<span class="hljs-string">配置格式:</span> <span class="hljs-string">YAML</span>
 
-配置内容：   common:
+<span class="hljs-string">配置内容：</span>   <span class="hljs-attr">common:</span>
 
-			config1: something</code></pre></div>
+			<span class="hljs-attr">config1:</span> <span class="hljs-string">something</span></code></pre></div>
 
-<div class="hljs"><pre><code class="hljs Note：">
-第一步：点击新增配置
+<p>Note： 注意dataid是以 properties(默认的文件扩展名方式)为扩展名，这里使用yaml。</p>
+<p>第一步：点击新增配置</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image012.png" srcset="/img/loading.gif" alt="img"></p>
+<p>第二步：配置信息</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image013.png" srcset="/img/loading.gif" alt="img">第三步：发布配置</p>
+<p>在第二步点击“发布”，如下图，点击确定发布成功。<img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image014.png" srcset="/img/loading.gif" alt="img">)第四步：查询配置<img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image015.png" srcset="/img/loading.gif" alt="img"></p>
+<h4 id="3-2-2-nacos客户端获取配置"><a href="#3-2-2-nacos客户端获取配置" class="headerlink" title="3.2.2  nacos客户端获取配置"></a><strong>3.2.2</strong>  <strong>nacos客户端获取配置</strong></h4><p>我们需要新增一个名为nacos-simple-demo的项目，坐标如下：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
 
-![img](Nacos配置管理&#x2F;image012.png)
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐simple‐demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
 
- 
+<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span></code></pre></div>
 
-第二步：配置信息
+<p>添加group ID 为 com.alibaba.nacos 和 artifact ID 为 nacos-client  的 starter。用于实现项目中使用 Nacos 来实现应用的外部化配置。</p>
+ <div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
 
-![img](Nacos配置管理&#x2F;image013.png)第三步：发布配置
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
 
-在第二步点击“发布”，如下图，点击确定发布成功。![img](Nacos配置管理&#x2F;image014.png)第四步：查询配置![img](Nacos配置管理&#x2F;image015.png)
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
 
-#### **3.3.2**  **nacos客户端获取配置**
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
 
-我们需要新增一个名为nacos-simple-demo的项目，坐标如下：
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
 
-&#96;&#96;&#96;xml
-&lt;groupId&gt;com.itheima.nacos&lt;&#x2F;groupId&gt;
+<p><strong>（1）完整的pom.xml配置如下</strong></p>
+ <div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF‐8"?&gt;</span>
 
-&lt;artifactId&gt;nacos‐simple‐demo&lt;&#x2F;artifactId&gt;
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span> </span>
+<span class="hljs-tag">         <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema‐instance"</span> 		 		<span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0</span></span>
+<span class="hljs-tag"><span class="hljs-string">http://maven.apache.org/xsd/maven‐4.0.0.xsd"</span>&gt;</span>
 
-&lt;version&gt;1.0‐SNAPSHOT&lt;&#x2F;version&gt;
-&#96;&#96;&#96;
-
-添加group ID 为 com.alibaba.nacos 和 artifact ID 为 nacos-client  的 starter。用于实现项目中使用 Nacos 来实现应用的外部化配置。
-
- &#96;&#96;&#96;xml
-&lt;dependency&gt;
-
-    &lt;groupId&gt;com.alibaba.nacos&lt;&#x2F;groupId&gt;
-
-    &lt;artifactId&gt;nacos‐client&lt;&#x2F;artifactId&gt;
-
-    &lt;version&gt;1.1.3&lt;&#x2F;version&gt;
-
-&lt;&#x2F;dependency&gt;
- &#96;&#96;&#96;
-
-**（1）完整的pom.xml配置如下**
-
- 
-
- &#96;&#96;&#96;xml
-&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF‐8&quot;?&gt;
-
-&lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot; 
-         xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema‐instance&quot; 		 		xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0
-http:&#x2F;&#x2F;maven.apache.org&#x2F;xsd&#x2F;maven‐4.0.0.xsd&quot;&gt;
-
-    &lt;groupId&gt;com.itheima.nacos&lt;&#x2F;groupId&gt;
-    &lt;version&gt;1.0‐SNAPSHOT&lt;&#x2F;version&gt;
-    &lt;artifactId&gt;nacos‐simple‐demo&lt;&#x2F;artifactId&gt;
-    &lt;modelVersion&gt;4.0.0&lt;&#x2F;modelVersion&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐simple‐demo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
 
 
-    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.alibaba.nacos&lt;&#x2F;groupId&gt;
-            &lt;artifactId&gt;nacos‐client&lt;&#x2F;artifactId&gt;
-            &lt;version&gt;1.1.3&lt;&#x2F;version&gt;
-        &lt;&#x2F;dependency&gt;
-    &lt;&#x2F;dependencies&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐client<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.1.3<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
 
-&lt;&#x2F;project&gt;
- &#96;&#96;&#96;
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
 
-**（2）获取外部化配置**
-
-新增java执行类，并在执行过程中获取配置信息：
-
- &#96;&#96;&#96;java
-package com.itheima.nacos;
+<p><strong>（2）获取外部化配置</strong></p>
+<p>新增java执行类，并在执行过程中获取配置信息：</p>
+ <div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.itheima.nacos;
 
  
 
-import com.alibaba.nacos.api.NacosFactory;
+<span class="hljs-keyword">import</span> com.alibaba.nacos.api.NacosFactory;
 
-import com.alibaba.nacos.api.config.ConfigService; 
-import com.alibaba.nacos.api.exception.NacosException;
-
- 
-
-import java.util.Properties;
+<span class="hljs-keyword">import</span> com.alibaba.nacos.api.config.ConfigService; 
+<span class="hljs-keyword">import</span> com.alibaba.nacos.api.exception.NacosException;
 
  
 
-&#x2F;**
-
-* @author Administrator
-
-* @version 1.0 **&#x2F;
-
-public class SimpleDemoMain &#123;
-
-public static void main(String[] args) throws NacosException &#123;
+<span class="hljs-keyword">import</span> java.util.Properties;
 
  
 
-&#x2F;&#x2F;nacos 地址
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">* <span class="hljs-doctag">@author</span> Administrator</span>
+<span class="hljs-comment"></span>
+<span class="hljs-comment">* <span class="hljs-doctag">@version</span> 1.0 **/</span>
 
-String serverAddr &#x3D; &quot;127.0.0.1:8848&quot;;
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDemoMain</span> </span>&#123;
 
-&#x2F;&#x2F;Data Id
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> NacosException </span>&#123;
 
-String dataId &#x3D; &quot;nacos‐simple‐demo.yaml&quot;;
+ 
 
-&#x2F;&#x2F;Group
+<span class="hljs-comment">//nacos 地址</span>
 
-String group&#x3D; &quot;DEFAULT_GROUP&quot;;
-    Properties properties &#x3D; new Properties();
-    properties.put(&quot;serverAddr&quot;,serverAddr);
+String serverAddr = <span class="hljs-string">"127.0.0.1:8848"</span>;
 
-ConfigService configService &#x3D; NacosFactory.createConfigService(properties);
+<span class="hljs-comment">//Data Id</span>
 
-&#x2F;&#x2F;获取配置,String dataId, Stringgroup, long timeoutMs
+String dataId = <span class="hljs-string">"nacos‐simple‐demo.yaml"</span>;
 
-String content&#x3D; configService.getConfig(dataId, group, 5000); System.out.println(content);
+<span class="hljs-comment">//Group</span>
+
+String group= <span class="hljs-string">"DEFAULT_GROUP"</span>;
+    Properties properties = <span class="hljs-keyword">new</span> Properties();
+    properties.put(<span class="hljs-string">"serverAddr"</span>,serverAddr);
+
+ConfigService configService = NacosFactory.createConfigService(properties);
+
+<span class="hljs-comment">//获取配置,String dataId, Stringgroup, long timeoutMs</span>
+
+String content= configService.getConfig(dataId, group, <span class="hljs-number">5000</span>); System.out.println(content);
 
 &#125;
 
-&#125;
- &#96;&#96;&#96;
-
-启动SimpleDemoMain，控制台得到以下内容：
-
-&#96;&#96;&#96;yaml
-common:
-
-	config1: something
-
-&#96;&#96;&#96;
-
-说明获取配置成功。
-
-
-
-## **4.** **Nacos配置管理基础应用**
-
- 
-
-### **4.1**  **Nacos配置管理模型**
-
- 
-
-对于Nacos配置管理，通过Namespace、group、Data ID能够定位到一个配置集。
-
-![img](Nacos配置管理&#x2F;image016.png)
-
- 
-
-**配置集(DataID)**
-
-在系统中，一个配置文件通常就是一个**配置集**，一个配置集可以包含了系统的各种配置信息，例如，一个配置集可能包含了数据源、线程池、日志级别等配置项。每个配置集都可以定义一个有意义的名称，就是配置集的ID即Data ID。
-
-**配置项**
-
-**配置集**中包含的一个个配置内容就是**配置项**。它代表一个具体的可配置的参数与其值域，通常以 key&#x3D;value 的形式存在。例如我们常配置系统的日志输出级别（logLevel&#x3D;INFO|WARN|ERROR）就是一个配置项。
-
-**配置分组(Group)**
-
-配置分组是对配置集进行分组，通过一个有意义的字符串（如 Buy 或 Trade ）来表示，不同的配置分组下可以有相同的配置集（Data ID）。当您在 Nacos 上创建一个配置时，如果未填写配置分组的名称，则配置分组的名称默认采用 DEFAULT_GROUP 。配置分组的常见场景：可用于区分不同的项目或应用，例如：学生管理系统的配置集可以定义一个group为：STUDENT_GROUP。
-
-**命名空间(Namespace)**
-
-命名空间（namespace）可用于进行不同环境的配置隔离。例如可以隔离开发环境、测试环境和生产环境，因为它们的配置可能各不相同，或者是隔离不同的用户，不同的开发人员使用同一个nacos管理各自的配置，可通过namespace隔离。不同的命名空间下，可以存在相同名称的配置分组(Group) 或 配置集。
-
-**最佳实践**
-
-Nacos抽象定义了Namespace、Group、Data ID的概念，具体这几个概念代表什么，取决于我们把它们看成什么，这里推荐给大家一种用法，如下图：
-
-Namespace：代表不同**环境**，如开发、测试、生产环境。
-
-Group：代表某**项目**，如XX医疗项目、XX电商项目
-
-DataId：每个项目下往往有若干个**工程**，每个配置集(DataId)是一个工程的**主配置文件**
-
- 
-
-![img](Nacos配置管理&#x2F;image017.png)
-
-**获取某配置集的代码**：获取配置集需要指定：
-
-1、nacos服务地址，必须指定
-
-2、namespace，如不指定默认public
-
- 3、group，如不指定默认 DEFAULT_GROUP 4、dataId，必须指定
-
-代码如下：
-
- 看懂即可不用运行。
-
- &#96;&#96;&#96;java
-&#x2F;&#x2F; 初始化配置服务，
-
-String serverAddr &#x3D; &quot;127.0.0.1:8848&quot;;
-String namespace &#x3D; &quot;ee247dde‐d838‐425c‐b371‐029dab26232f&quot;; &#x2F;&#x2F;开发环境
-String group &#x3D; &quot;DEFAULT_GROUP&quot;;
-String dataId &#x3D; &quot;nacos‐simple‐demo.yaml&quot;; Properties properties &#x3D; new Properties(); properties.put(&quot;serverAddr&quot;, serverAddr); properties.put(&quot;namespace&quot;, namespace);
-
-&#x2F;&#x2F;默认组
-ConfigService configService &#x3D; NacosFactory.createConfigService(properties);
-&#x2F;&#x2F;获取配置，并输出控制台
-String content &#x3D; configService.getConfig(dataId, group, 5000); System.out.println(content);
- &#96;&#96;&#96;
-
-以上代码说明将从地址为127.0.0.1:8848的nacos配置中心获取配置，通过以下信息定位配置集：
-
- namespace：ee247dde-d838-425c-b371-029dab26232f
-
- 注意：namespace需要指定id。
-
- group：DEFAULT_GROUP
-
- Data Id：nacos-simple-demo.yaml
-
-#### 4.2 **命名空间管理**
-
- **4.2.1namespace** **隔离设计**
-
-namespace 的设计是 nacos 基于此做多环境以及多租户（多个用户共同使用nacos）数据(**配置和服务**)隔离的。从一个租户(用户)的角度来看，如果有多套不同的环境，那么这个时候可以根据指定的环境来创建不同的
-
-namespce，以此来实现多环境的隔离。例如，你可能有开发，测试和生产三个不同的环境，那么使用一套nacos 集群可以分别建以下三个不同的 namespace。如下图所示：
-
-![img](Nacos配置管理&#x2F;image018.png)从多个租户(用户)的角度来看，每个租户(用户)可能会有自己的 namespace,每个租户(用户)的配置数据以及注册的服务数据都会归属到自己的 namespace 下，以此来实现多租户间的数据隔离。例如超级管理员分配了三个租户，分别为张三、李四和王五。分配好了之后，各租户用自己的账户名和密码登录后，创建自己的命名空间。如下图所示：![img](Nacos配置管理&#x2F;image019.png)
-
-**注意**:nacos多租户(用户)功能还在规划中。
-
-#### **4.2.2** **命名空间管理**
-
-前面已经介绍过，命名空间(Namespace)是用于隔离多个环境的（如开发、测试、生产），而每个应用在不同环境的同一个配置（如数据库数据源）的值是不一样的。因此，我们应针对企业项目实际研发流程、环境进行规划。如某软件公司拥有开发、测试、生产三套环境，那么我们应该针对这三个环境分别建立三个namespace。
-
-![img](Nacos配置管理&#x2F;image020.png) 建立好所有namespace后，在**配置管理**与**服务管理**模块下所有页面，都会包含用于切换namespace(环境)的tab按钮，如下图：![img](Nacos配置管理&#x2F;image021.png)
-
-如果您在**编写程序**获取配置集过程中没有感知到这个参数的输入，那么 nacos 统一会使用一个默认的 namespace作为输入，nacos config 会使用一个**空字符串**作为默认的参数来初始化，对应界面上就是public命名空间。
-
-Note: namesace 为 **public** 是 nacos 的一个保留空间，如果您需要创建自己的 namespace，不要和 **public**重名，以一个实际业务场景有具体语义的名字来命名，以免带来字面上不容易区分自己是哪一个namespace。
-
- 
-
-Note：在编写程序获取配置集时，指定的namespace参数一定要填写**命名空间****ID**，而不是名称
-
-
-
-运行下边的程序测试新建的命名空间：
-
-注意：namespace的值根据自己的环境确定。
-
-&#96;&#96;&#96;java
-&#x2F;&#x2F; 初始化配置服务，
-String serverAddr &#x3D; &quot;127.0.0.1:8848&quot;;
-String namespace &#x3D; &quot;ee247dde‐d838‐425c‐b371‐029dab26232f&quot;; &#x2F;&#x2F;开发环境
-String group&#x3D; &quot;DEFAULT_GROUP&quot;;
-String dataId &#x3D; &quot;nacos‐simple‐demo.yaml&quot;; 
-Properties properties &#x3D; new Properties();
-properties.put(&quot;serverAddr&quot;, serverAddr); 
-properties.put(&quot;namespace&quot;, namespace);
-&#x2F;&#x2F;默认组
-ConfigService configService&#x3D; NacosFactory.createConfigService(properties);
-&#x2F;&#x2F;获取配置，并输出控制台
-String content &#x3D; configService.getConfig(dataId, group, 5000); 
-System.out.println(content);
-&#96;&#96;&#96;
-
-### **4.2**  **配置管理**
-
- Nacos支持基于Namespace和Group的配置分组管理，以便用户更灵活的根据自己的需要按照环境或者应用、模块等分组管理微服务的大量配置，在配置管理中主要提供了配置历史版本、回滚、订阅者查询等核心管理能力。
-
-####  **4.2.1**  **配置列表**
-
- 点击Nacos控制台的 配置管理-&gt;配置列表 菜单，即可看到以下界面展示：
-
-![img](Nacos配置管理&#x2F;image022.png)
-
-界面中展示了不同namespace下的**配置集**列表，可点击左上角的不同namespace进行切换。右上角“+&quot;号或点击某配置集后的 编辑 按钮可进入配置集编辑器。
-
-**多配置格式编辑器**
-
-Nacos支持 YAML、Properties、TEXT、JSON、XML、HTML 等常见配置格式在线编辑、语法高亮、格式校验，帮助用户高效编辑的同时大幅降低格式错误带来的风险。
-
-Nacos支持配置标签的能力，帮助用户更好、更灵活的做到基于标签的配置分类及管理。同时支持用户对配置及其变更进行描述，方面多人或者跨团队协作管理配置。
-
-![img](Nacos配置管理&#x2F;image023.png)
-
- 
-
-**编辑DIFF**
-
-Nacos支持编辑DIFF能力，帮助用户校验修改内容，降低改错带来的风险。
-
- ![img](Nacos配置管理&#x2F;image024.png)
-
-**配置集导出**
-
-勾选若干配置集，点击 导出选中的配置，可获得一个压缩包：
-
-![img](Nacos配置管理&#x2F;image025.png)
-
-压缩包内，包含了选中配置集所转换的配置文件：
-
- ![img](Nacos配置管理&#x2F;image026.png)
-
-**配置集导入**
-
-点击右上角的 导入配置，可选择导出的压缩包文件，将压缩包内的文件恢复为nacos配置集。
-
-![img](Nacos配置管理&#x2F;image027.png)
-
-**配置集克隆**
-
-点击左下角 克隆 按钮，将会弹出克隆对话框，此功能可用于将配置迁移到其他Namespace。
-
-![img](Nacos配置管理&#x2F;image028.png)
-
- 
-
-#### **4.2.2**  **历史版本**
-
-
-
-Nacos通过提供配置版本管理及其一键回滚能力，帮助用户改错配置的时候能够快速恢复，降低微服务系统在配置管理上的可用性风险。
-
- ![img](Nacos配置管理&#x2F;image029.png)
-
-点击回滚：
-
- ![img](Nacos配置管理&#x2F;image031.png)
-
-
-
-#### **4.2.3**  **监听查询**
-
- Nacos提供配置订阅者即监听者查询能力，同时提供客户端当前配置的MD5校验值，以便帮助用户更好的检查配置变更是否推送到Client 端。
-
- ![img](Nacos配置管理&#x2F;image030.png)
-
-通过以下代码可对某配置进行监听：
-
- &#96;&#96;&#96;java
-public class SimpleDemoMainListener &#123;
-    public static void main(String[] args) throws NacosException &#123;
-
-        &#x2F;&#x2F;nacos 地址
-        String serverAddr &#x3D; &quot;127.0.0.1:8848&quot;;
-        &#x2F;&#x2F;Data Id
-
-        String dataId &#x3D; &quot;nacos‐simple‐demo.yaml&quot;;
-
-        &#x2F;&#x2F;Group
-        String group &#x3D; &quot;DEFAULT_GROUP&quot;; Properties properties &#x3D; new Properties(); properties.put(&quot;serverAddr&quot;,serverAddr);
-        ConfigService configService &#x3D; NacosFactory.createConfigService(properties);
-        &#x2F;&#x2F;获取配置,String dataId, String group, long timeoutMs
-        String content &#x3D; configService.getConfig(dataId, group, 5000); System.out.println(content);
-        &#x2F;&#x2F;添加监听String dataId, String group, Listener listener
-        configService.addListener(dataId, group, new Listener() &#123;
-            public Executor getExecutor() &#123;
-            return null;
+&#125;</code></pre></div>
+
+<p>启动SimpleDemoMain，控制台得到以下内容：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">common:</span>
+
+	<span class="hljs-attr">config1:</span> <span class="hljs-string">something</span></code></pre></div>
+
+<p>说明获取配置成功。</p>
+<h2 id="4-Nacos配置管理基础应用"><a href="#4-Nacos配置管理基础应用" class="headerlink" title="4.Nacos配置管理基础应用"></a><strong>4.Nacos配置管理基础应用</strong></h2><h3 id="4-1-Nacos配置管理模型"><a href="#4-1-Nacos配置管理模型" class="headerlink" title="4.1  Nacos配置管理模型"></a><strong>4.1</strong>  <strong>Nacos配置管理模型</strong></h3><p>对于Nacos配置管理，通过Namespace、group、Data ID能够定位到一个配置集。</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image016.png" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>配置集(DataID)</strong></p>
+<p>在系统中，一个配置文件通常就是一个<strong>配置集</strong>，一个配置集可以包含了系统的各种配置信息，例如，一个配置集可能包含了数据源、线程池、日志级别等配置项。每个配置集都可以定义一个有意义的名称，就是配置集的ID即Data ID。</p>
+<p><strong>配置项</strong></p>
+<p><strong>配置集</strong>中包含的一个个配置内容就是<strong>配置项</strong>。它代表一个具体的可配置的参数与其值域，通常以 key=value 的形式存在。例如我们常配置系统的日志输出级别（logLevel=INFO|WARN|ERROR）就是一个配置项。</p>
+<p><strong>配置分组(Group)</strong></p>
+<p>配置分组是对配置集进行分组，通过一个有意义的字符串（如 Buy 或 Trade ）来表示，不同的配置分组下可以有相同的配置集（Data ID）。当您在 Nacos 上创建一个配置时，如果未填写配置分组的名称，则配置分组的名称默认采用 DEFAULT_GROUP 。配置分组的常见场景：可用于区分不同的项目或应用，例如：学生管理系统的配置集可以定义一个group为：STUDENT_GROUP。</p>
+<p><strong>命名空间(Namespace)</strong></p>
+<p>命名空间（namespace）可用于进行不同环境的配置隔离。例如可以隔离开发环境、测试环境和生产环境，因为它们的配置可能各不相同，或者是隔离不同的用户，不同的开发人员使用同一个nacos管理各自的配置，可通过namespace隔离。不同的命名空间下，可以存在相同名称的配置分组(Group) 或 配置集。</p>
+<p><strong>最佳实践</strong></p>
+<p>Nacos抽象定义了Namespace、Group、Data ID的概念，具体这几个概念代表什么，取决于我们把它们看成什么，这里推荐给大家一种用法，如下图：</p>
+<p>Namespace：代表不同<strong>环境</strong>，如开发、测试、生产环境。</p>
+<p>Group：代表某<strong>项目</strong>，如XX医疗项目、XX电商项目</p>
+<p>DataId：每个项目下往往有若干个<strong>工程</strong>，每个配置集(DataId)是一个工程的<strong>主配置文件</strong></p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image017.png" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>获取某配置集的代码</strong>：获取配置集需要指定：</p>
+<p>1、nacos服务地址，必须指定</p>
+<p>2、namespace，如不指定默认public</p>
+<p> 3、group，如不指定默认 DEFAULT_GROUP 4、dataId，必须指定</p>
+<p>代码如下：</p>
+<p> 看懂即可不用运行。</p>
+ <div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">// 初始化配置服务，</span>
+
+String serverAddr = <span class="hljs-string">"127.0.0.1:8848"</span>;
+String namespace = <span class="hljs-string">"ee247dde‐d838‐425c‐b371‐029dab26232f"</span>; <span class="hljs-comment">//开发环境</span>
+String group = <span class="hljs-string">"DEFAULT_GROUP"</span>;
+String dataId = <span class="hljs-string">"nacos‐simple‐demo.yaml"</span>; Properties properties = <span class="hljs-keyword">new</span> Properties(); properties.put(<span class="hljs-string">"serverAddr"</span>, serverAddr); properties.put(<span class="hljs-string">"namespace"</span>, namespace);
+
+<span class="hljs-comment">//默认组</span>
+ConfigService configService = NacosFactory.createConfigService(properties);
+<span class="hljs-comment">//获取配置，并输出控制台</span>
+String content = configService.getConfig(dataId, group, <span class="hljs-number">5000</span>); System.out.println(content);</code></pre></div>
+
+<p>以上代码说明将从地址为127.0.0.1:8848的nacos配置中心获取配置，通过以下信息定位配置集：</p>
+<p> namespace：ee247dde-d838-425c-b371-029dab26232f</p>
+<p> 注意：namespace需要指定id。</p>
+<p> group：DEFAULT_GROUP</p>
+<p> Data Id：nacos-simple-demo.yaml</p>
+<h4 id="4-2-1-命名空间管理"><a href="#4-2-1-命名空间管理" class="headerlink" title="4.2.1 命名空间管理"></a>4.2.1 <strong>命名空间管理</strong></h4><h5 id="4-2-1-1namespace-隔离设计"><a href="#4-2-1-1namespace-隔离设计" class="headerlink" title="4.2.1.1namespace 隔离设计"></a><strong>4.2.1.1namespace</strong> <strong>隔离设计</strong></h5><p>namespace 的设计是 nacos 基于此做多环境以及多租户（多个用户共同使用nacos）数据(<strong>配置和服务</strong>)隔离的。从一个租户(用户)的角度来看，如果有多套不同的环境，那么这个时候可以根据指定的环境来创建不同的</p>
+<p>namespce，以此来实现多环境的隔离。例如，你可能有开发，测试和生产三个不同的环境，那么使用一套nacos 集群可以分别建以下三个不同的 namespace。如下图所示：</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image018.png" srcset="/img/loading.gif" alt="img">)从多个租户(用户)的角度来看，每个租户(用户)可能会有自己的 namespace,每个租户(用户)的配置数据以及注册的服务数据都会归属到自己的 namespace 下，以此来实现多租户间的数据隔离。例如超级管理员分配了三个租户，分别为张三、李四和王五。分配好了之后，各租户用自己的账户名和密码登录后，创建自己的命名空间。如下图所示：<img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image019.png" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>注意</strong>:nacos多租户(用户)功能还在规划中。</p>
+<h4 id="4-2-2-命名空间管理"><a href="#4-2-2-命名空间管理" class="headerlink" title="4.2.2 命名空间管理"></a><strong>4.2.2</strong> <strong>命名空间管理</strong></h4><p>前面已经介绍过，命名空间(Namespace)是用于隔离多个环境的（如开发、测试、生产），而每个应用在不同环境的同一个配置（如数据库数据源）的值是不一样的。因此，我们应针对企业项目实际研发流程、环境进行规划。如某软件公司拥有开发、测试、生产三套环境，那么我们应该针对这三个环境分别建立三个namespace。</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image020.png" srcset="/img/loading.gif" alt="img"> 建立好所有namespace后，在<strong>配置管理</strong>与<strong>服务管理</strong>模块下所有页面，都会包含用于切换namespace(环境)的tab按钮，如下图：<img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image021.png" srcset="/img/loading.gif" alt="img"></p>
+<p>如果您在<strong>编写程序</strong>获取配置集过程中没有感知到这个参数的输入，那么 nacos 统一会使用一个默认的 namespace作为输入，nacos config 会使用一个<strong>空字符串</strong>作为默认的参数来初始化，对应界面上就是public命名空间。</p>
+<p>Note: namesace 为 <strong>public</strong> 是 nacos 的一个保留空间，如果您需要创建自己的 namespace，不要和 <strong>public</strong>重名，以一个实际业务场景有具体语义的名字来命名，以免带来字面上不容易区分自己是哪一个namespace。</p>
+<p>Note：在编写程序获取配置集时，指定的namespace参数一定要填写<strong>命名空间**</strong>ID**，而不是名称</p>
+<p>运行下边的程序测试新建的命名空间：</p>
+<p>注意：namespace的值根据自己的环境确定。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">// 初始化配置服务，</span>
+String serverAddr = <span class="hljs-string">"127.0.0.1:8848"</span>;
+String namespace = <span class="hljs-string">"ee247dde‐d838‐425c‐b371‐029dab26232f"</span>; <span class="hljs-comment">//开发环境</span>
+String group= <span class="hljs-string">"DEFAULT_GROUP"</span>;
+String dataId = <span class="hljs-string">"nacos‐simple‐demo.yaml"</span>; 
+Properties properties = <span class="hljs-keyword">new</span> Properties();
+properties.put(<span class="hljs-string">"serverAddr"</span>, serverAddr); 
+properties.put(<span class="hljs-string">"namespace"</span>, namespace);
+<span class="hljs-comment">//默认组</span>
+ConfigService configService= NacosFactory.createConfigService(properties);
+<span class="hljs-comment">//获取配置，并输出控制台</span>
+String content = configService.getConfig(dataId, group, <span class="hljs-number">5000</span>); 
+System.out.println(content);</code></pre></div>
+
+<h3 id="4-2-配置管理"><a href="#4-2-配置管理" class="headerlink" title="4.2  配置管理"></a><strong>4.2</strong>  <strong>配置管理</strong></h3><p> Nacos支持基于Namespace和Group的配置分组管理，以便用户更灵活的根据自己的需要按照环境或者应用、模块等分组管理微服务的大量配置，在配置管理中主要提供了配置历史版本、回滚、订阅者查询等核心管理能力。</p>
+<h4 id="4-2-1-配置列表"><a href="#4-2-1-配置列表" class="headerlink" title="4.2.1  配置列表"></a><strong>4.2.1</strong>  <strong>配置列表</strong></h4><p> 点击Nacos控制台的 配置管理-&gt;配置列表 菜单，即可看到以下界面展示：</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image022.png" srcset="/img/loading.gif" alt="img"></p>
+<p>界面中展示了不同namespace下的<strong>配置集</strong>列表，可点击左上角的不同namespace进行切换。右上角“+”号或点击某配置集后的 编辑 按钮可进入配置集编辑器。</p>
+<p><strong>多配置格式编辑器</strong></p>
+<p>Nacos支持 YAML、Properties、TEXT、JSON、XML、HTML 等常见配置格式在线编辑、语法高亮、格式校验，帮助用户高效编辑的同时大幅降低格式错误带来的风险。</p>
+<p>Nacos支持配置标签的能力，帮助用户更好、更灵活的做到基于标签的配置分类及管理。同时支持用户对配置及其变更进行描述，方面多人或者跨团队协作管理配置。</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image023.png" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>编辑DIFF</strong></p>
+<p>Nacos支持编辑DIFF能力，帮助用户校验修改内容，降低改错带来的风险。</p>
+<p> <img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image024.png" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>配置集导出</strong></p>
+<p>勾选若干配置集，点击 导出选中的配置，可获得一个压缩包：</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image025.png" srcset="/img/loading.gif" alt="img"></p>
+<p>压缩包内，包含了选中配置集所转换的配置文件：</p>
+<p> <img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image026.png" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>配置集导入</strong></p>
+<p>点击右上角的 导入配置，可选择导出的压缩包文件，将压缩包内的文件恢复为nacos配置集。</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image027.png" srcset="/img/loading.gif" alt="img"></p>
+<p><strong>配置集克隆</strong></p>
+<p>点击左下角 克隆 按钮，将会弹出克隆对话框，此功能可用于将配置迁移到其他Namespace。</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image028.png" srcset="/img/loading.gif" alt="img"></p>
+<h4 id="4-2-2-历史版本"><a href="#4-2-2-历史版本" class="headerlink" title="4.2.2  历史版本"></a><strong>4.2.2</strong>  <strong>历史版本</strong></h4><p>Nacos通过提供配置版本管理及其一键回滚能力，帮助用户改错配置的时候能够快速恢复，降低微服务系统在配置管理上的可用性风险。</p>
+<p> <img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image029.png" srcset="/img/loading.gif" alt="img"></p>
+<p>点击回滚：</p>
+<p> <img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image031.png" srcset="/img/loading.gif" alt="img"></p>
+<h4 id="4-2-3-监听查询"><a href="#4-2-3-监听查询" class="headerlink" title="4.2.3  监听查询"></a><strong>4.2.3</strong>  <strong>监听查询</strong></h4><p> Nacos提供配置订阅者即监听者查询能力，同时提供客户端当前配置的MD5校验值，以便帮助用户更好的检查配置变更是否推送到Client 端。</p>
+<p> <img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image030.png" srcset="/img/loading.gif" alt="img"></p>
+<p>通过以下代码可对某配置进行监听：</p>
+ <div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SimpleDemoMainListener</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> NacosException </span>&#123;
+
+        <span class="hljs-comment">//nacos 地址</span>
+        String serverAddr = <span class="hljs-string">"127.0.0.1:8848"</span>;
+        <span class="hljs-comment">//Data Id</span>
+
+        String dataId = <span class="hljs-string">"nacos‐simple‐demo.yaml"</span>;
+
+        <span class="hljs-comment">//Group</span>
+        String group = <span class="hljs-string">"DEFAULT_GROUP"</span>; Properties properties = <span class="hljs-keyword">new</span> Properties(); properties.put(<span class="hljs-string">"serverAddr"</span>,serverAddr);
+        ConfigService configService = NacosFactory.createConfigService(properties);
+        <span class="hljs-comment">//获取配置,String dataId, String group, long timeoutMs</span>
+        String content = configService.getConfig(dataId, group, <span class="hljs-number">5000</span>); System.out.println(content);
+        <span class="hljs-comment">//添加监听String dataId, String group, Listener listener</span>
+        configService.addListener(dataId, group, <span class="hljs-keyword">new</span> Listener() &#123;
+            <span class="hljs-function"><span class="hljs-keyword">public</span> Executor <span class="hljs-title">getExecutor</span><span class="hljs-params">()</span> </span>&#123;
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
             &#125;
 
-            public void receiveConfigInfo(String s) &#123;
-            &#x2F;&#x2F;当配置发生变化时的响应
+            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">receiveConfigInfo</span><span class="hljs-params">(String s)</span> </span>&#123;
+            <span class="hljs-comment">//当配置发生变化时的响应</span>
             System.out.println(s);
             &#125;
             &#125;);
-            &#x2F;&#x2F; 测试让主线程不退出，因为订阅配置是守护线程，主线程退出守护线程就会退出。 正式代码中无需下面代码
-            while (true) &#123;
-                try &#123; Thread.sleep(1000);
-                &#125; catch (InterruptedException e) &#123;
+            <span class="hljs-comment">// 测试让主线程不退出，因为订阅配置是守护线程，主线程退出守护线程就会退出。 正式代码中无需下面代码</span>
+            <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;
+                <span class="hljs-keyword">try</span> &#123; Thread.sleep(<span class="hljs-number">1000</span>);
+                &#125; <span class="hljs-keyword">catch</span> (InterruptedException e) &#123;
                 e.printStackTrace();
             &#125;
         &#125;
     &#125;
-&#125;
+&#125;</code></pre></div>
 
+<h3 id="4-3-登录管理"><a href="#4-3-登录管理" class="headerlink" title="4.3  登录管理"></a><strong>4.3</strong>  <strong>登录管理</strong></h3><p>Nacos当前版本支持简单的登录功能，默认用户名/密码为： nacos/nacos 。</p>
+<p><strong>修改默认用户名/密码方法</strong></p>
+<ol>
+<li>生成加密密码</li>
+</ol>
+<p>在入门程序中加入如下以来：</p>
+ <div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
 
- &#96;&#96;&#96;
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.security<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐security‐core<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>5.1.4.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
 
-### **4.3**  **登录管理**
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
 
- 
+<p>编写PasswordEncoderUtil类，生成加密后的密码，采用BCrypt加密方法在每次生成密码时会加随机盐，所以生成密码每次可能不一样。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PasswordEncoderUtil</span></span>&#123;
 
-Nacos当前版本支持简单的登录功能，默认用户名&#x2F;密码为： nacos&#x2F;nacos 。
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
 
-**修改默认用户名&#x2F;密码方法**
-
-1. 生成加密密码
-
-在入门程序中加入如下以来：
-
- &#96;&#96;&#96;xml
-&lt;dependency&gt;
-
-    &lt;groupId&gt;org.springframework.security&lt;&#x2F;groupId&gt;
-    &lt;artifactId&gt;spring‐security‐core&lt;&#x2F;artifactId&gt;
-    &lt;version&gt;5.1.4.RELEASE&lt;&#x2F;version&gt;
-
-&lt;&#x2F;dependency&gt;
- 
- &#96;&#96;&#96;
-
-编写PasswordEncoderUtil类，生成加密后的密码，采用BCrypt加密方法在每次生成密码时会加随机盐，所以生成密码每次可能不一样。
-
-&#96;&#96;&#96;java
-public class PasswordEncoderUtil&#123;
-
-    public static void main(String[] args) &#123;
-
-		System.out.println(new BCryptPasswordEncoder().encode(&quot;123&quot;));
+		System.out.println(<span class="hljs-keyword">new</span> BCryptPasswordEncoder().encode(<span class="hljs-string">"123"</span>));
     &#125;
 
-&#125;
+&#125;</code></pre></div>
 
-&#96;&#96;&#96;
+<ol>
+<li><p>创建用户名或者密码的时候，用指定用户名密码即可。将上边程序输出的密码更新到数据库。</p>
+<div class="hljs"><pre><code class="hljs sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-keyword">users</span> (username, <span class="hljs-keyword">password</span>, enabled) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">'nacos1'</span>, <span class="hljs-string">'2a10$SmtL5C6Gp2sLjBrhrx1vj.dJAbJLa4FiJYZsBb921/wfvKAmxKWyu'</span>, <span class="hljs-literal">TRUE</span>); 
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> <span class="hljs-keyword">roles</span> (username, <span class="hljs-keyword">role</span>) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">'nacos1'</span>, <span class="hljs-string">'ROLE_ADMIN'</span>);</code></pre></div>
 
-1. 创建用户名或者密码的时候，用指定用户名密码即可。将上边程序输出的密码更新到数据库。
+</li>
+</ol>
+<p><strong>关闭登录功能</strong></p>
+<p>由于部分公司自己开发控制台，不希望被nacos的安全filter 拦截。因此nacos支持定制关闭登录功能找到配置文件</p>
+<p>${nacoshome}/conf/application.properties ， 替换以下内容即可。</p>
+ <div class="hljs"><pre><code class="hljs properties"><span class="hljs-comment">## spring security config ### turn off security</span>
 
- &#96;&#96;&#96;sql
-INSERT INTO users (username, password, enabled) VALUES (&#39;nacos1&#39;, &#39;2a10$SmtL5C6Gp2sLjBrhrx1vj.dJAbJLa4FiJYZsBb921&#x2F;wfvKAmxKWyu&#39;, TRUE); 
-INSERT INTO roles (username, role) VALUES (&#39;nacos1&#39;, &#39;ROLE_ADMIN&#39;);
- &#96;&#96;&#96;
-
-**关闭登录功能**
-
-由于部分公司自己开发控制台，不希望被nacos的安全filter 拦截。因此nacos支持定制关闭登录功能找到配置文件
-
-$&#123;nacoshome&#125;&#x2F;conf&#x2F;application.properties ， 替换以下内容即可。
-
- &#96;&#96;&#96;properties
-## spring security config ### turn off security
-
-spring.security.enabled&#x3D;false 
-management.security&#x3D;false security.basic.enabled&#x3D;false 
-nacos.security.ignore.urls&#x3D;&#x2F;**
+<span class="hljs-meta">spring.security.enabled</span>=<span class="hljs-string">false </span>
+<span class="hljs-meta">management.security</span>=<span class="hljs-string">false security.basic.enabled=false </span>
+<span class="hljs-meta">nacos.security.ignore.urls</span>=<span class="hljs-string">/**</span>
 
 
-#nacos.security.ignore.urls&#x3D;&#x2F;,&#x2F;&#x2F;*.css,&#x2F;&#x2F;.js,&#x2F;**&#x2F;.html,&#x2F;&#x2F;*.map,&#x2F;&#x2F;.svg,&#x2F;**&#x2F;.png,&#x2F;&#x2F;*. ico,&#x2F;console‐ fe&#x2F;public&#x2F;,&#x2F;v1&#x2F;auth&#x2F;login,&#x2F;v1&#x2F;console&#x2F;health,&#x2F;v1&#x2F;cs&#x2F;,&#x2F;v1&#x2F;ns&#x2F;,&#x2F;v1&#x2F;cmdb&#x2F;,&#x2F;actuator&#x2F;
- &#96;&#96;&#96;
+<span class="hljs-comment">#nacos.security.ignore.urls=/,//*.css,//.js,/**/.html,//*.map,//.svg,/**/.png,//*. ico,/console‐ fe/public/,/v1/auth/login,/v1/console/health,/v1/cs/,/v1/ns/,/v1/cmdb/,/actuator/</span></code></pre></div>
 
-## **5.** **Nacos配置管理应用于分布式系统**
-
- 
-
-### **5.1**  **从单体架构到微服务**
-
-#### **5.1.1**  **单体架构**
-
- 
-
-Web应用程序发展的早期，大部分web工程师将所有的功能模块打包到一起并放在一个web容器中运行，所有功能模块使用同一个数据库，同时，它还提供API或者UI访问的web模块等。
-
-![img](Nacos配置管理&#x2F;image032.png)
-
-尽管也是模块化逻辑，但是最终它还是会打包并部署为单体式应用，这种将所有功能都部署在一个web容器中运行的系统就叫做**单体架构**（也叫：巨石型应用）。
-
-单体架构有很多好处：
-
-**开发效率高**：模块之间交互采用本地方法调用，并节省微服务之间的交互讨论时间与开发成本。**容易测试**：IDE都是为开发单个应用设计的、容易测试——在本地就可以启动完整的系统。
-
-**容易部署**：运维成本小，直接打包为一个完整的包，拷贝到web容器的某个目录下即可运行。
-
-但是，上述的好处是有条件的，它适用于小型简单应用，对于大规模的复杂应用，就会展现出来以下的不足：**复杂性逐渐变高，可维护性逐渐变差** ：所有业务模块部署在一起，复杂度越来越高，修改时牵一发动全身。**版本迭代速度逐渐变慢**：修改一个地方就要将整个应用全部编译、部署、启动时间过长、回归测试周期过长。**阻碍技术创新**：若更新技术框架，除非你愿意将系统全部重写，无法实现部分技术更新。
-
-**无法按需伸缩**：通过冗余部署完整应用的方式来实现水平扩展，无法针对某业务按需伸缩。
-
-#### **5.1.2** **微服务**
-
-许多大型公司，通过采用微服务架构解决了上述问题。其思路不是开发一个巨大的单体式的应用，而是将应用分解为小的、互相连接的微服务。
-
-一个微服务一般完成某个特定的功能，比如订单服务、用户服务等等。每一个微服务都是完整应用，都有自己的业务逻辑和数据库。一些微服务还会发布API给其它微服务和应用客户端使用。
-
-比如，根据前面描述系统可能的分解如下：
-
-![img](Nacos配置管理&#x2F;image033.png)
-
-每一个业务模块都使用独立的服务完成，这种微服务架构模式也影响了应用和数据库之间的关系，不像传统多个业务模块共享一个数据库，微服务架构每个服务都有自己的数据库。
-
-微服务架构的好处：
-
- 
-
-- 分而治之，职责单一；易于开发、理解和维护、方便团队的拆分和管理可伸缩；
-- 能够单独的对指定的服务进行伸缩
-- 局部容易修改，容易替换，容易部署，有利于持续集成和快速迭代
-- 不会受限于任何技术栈
-
-### **5.2** **分布式应用配置管理**
-
- 
-
-下图展示了如何通过Nacos集中管理多个服务的配置：
-
-![img](Nacos配置管理&#x2F;image034.png)
-
-- 用户通过Nacos Server的控制台集中对多个服务的配置进行管理。
-- 各服务统一从Nacos Server中获取各自的配置，并监听配置的变化。
-
-#### **5.2.1发布配置**
-
- 首先在nacos发布配置，我们规划了两个服务service1、service2，并且想对这两个服务的配置进行集中维护。浏览器访问 &lt;http:&#x2F;&#x2F;127.0.0.1:8848&#x2F;nacos&gt; ，打开nacos控制台，并点击菜单**配置管理-&gt;配置列表**：
-
-在Nacos添加如下的配置：
-
- service1
-
-&#96;&#96;&#96;
-Namespace:  c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4	#开发环境
+<h2 id="5-Nacos配置管理应用于分布式系统"><a href="#5-Nacos配置管理应用于分布式系统" class="headerlink" title="5. Nacos配置管理应用于分布式系统"></a><strong>5.</strong> <strong>Nacos配置管理应用于分布式系统</strong></h2><h3 id="5-1-从单体架构到微服务"><a href="#5-1-从单体架构到微服务" class="headerlink" title="5.1  从单体架构到微服务"></a><strong>5.1</strong>  <strong>从单体架构到微服务</strong></h3><h4 id="5-1-1-单体架构"><a href="#5-1-1-单体架构" class="headerlink" title="5.1.1  单体架构"></a><strong>5.1.1</strong>  <strong>单体架构</strong></h4><p>Web应用程序发展的早期，大部分web工程师将所有的功能模块打包到一起并放在一个web容器中运行，所有功能模块使用同一个数据库，同时，它还提供API或者UI访问的web模块等。</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image032.png" srcset="/img/loading.gif" alt="img"></p>
+<p>尽管也是模块化逻辑，但是最终它还是会打包并部署为单体式应用，这种将所有功能都部署在一个web容器中运行的系统就叫做<strong>单体架构</strong>（也叫：巨石型应用）。</p>
+<p>单体架构有很多好处：</p>
+<p><strong>开发效率高</strong>：模块之间交互采用本地方法调用，并节省微服务之间的交互讨论时间与开发成本。<strong>容易测试</strong>：IDE都是为开发单个应用设计的、容易测试——在本地就可以启动完整的系统。</p>
+<p><strong>容易部署</strong>：运维成本小，直接打包为一个完整的包，拷贝到web容器的某个目录下即可运行。</p>
+<p>但是，上述的好处是有条件的，它适用于小型简单应用，对于大规模的复杂应用，就会展现出来以下的不足：<strong>复杂性逐渐变高，可维护性逐渐变差</strong> ：所有业务模块部署在一起，复杂度越来越高，修改时牵一发动全身。<strong>版本迭代速度逐渐变慢</strong>：修改一个地方就要将整个应用全部编译、部署、启动时间过长、回归测试周期过长。<strong>阻碍技术创新</strong>：若更新技术框架，除非你愿意将系统全部重写，无法实现部分技术更新。</p>
+<p><strong>无法按需伸缩</strong>：通过冗余部署完整应用的方式来实现水平扩展，无法针对某业务按需伸缩。</p>
+<h4 id="5-1-2-微服务"><a href="#5-1-2-微服务" class="headerlink" title="5.1.2 微服务"></a><strong>5.1.2</strong> <strong>微服务</strong></h4><p>许多大型公司，通过采用微服务架构解决了上述问题。其思路不是开发一个巨大的单体式的应用，而是将应用分解为小的、互相连接的微服务。</p>
+<p>一个微服务一般完成某个特定的功能，比如订单服务、用户服务等等。每一个微服务都是完整应用，都有自己的业务逻辑和数据库。一些微服务还会发布API给其它微服务和应用客户端使用。</p>
+<p>比如，根据前面描述系统可能的分解如下：</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image033.png" srcset="/img/loading.gif" alt="img"></p>
+<p>每一个业务模块都使用独立的服务完成，这种微服务架构模式也影响了应用和数据库之间的关系，不像传统多个业务模块共享一个数据库，微服务架构每个服务都有自己的数据库。</p>
+<p>微服务架构的好处：</p>
+<ul>
+<li>分而治之，职责单一；易于开发、理解和维护、方便团队的拆分和管理可伸缩；</li>
+<li>能够单独的对指定的服务进行伸缩</li>
+<li>局部容易修改，容易替换，容易部署，有利于持续集成和快速迭代</li>
+<li>不会受限于任何技术栈</li>
+</ul>
+<h3 id="5-2-分布式应用配置管理"><a href="#5-2-分布式应用配置管理" class="headerlink" title="5.2 分布式应用配置管理"></a><strong>5.2</strong> <strong>分布式应用配置管理</strong></h3><p>下图展示了如何通过Nacos集中管理多个服务的配置：</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image034.png" srcset="/img/loading.gif" alt="img"></p>
+<ul>
+<li>用户通过Nacos Server的控制台集中对多个服务的配置进行管理。</li>
+<li>各服务统一从Nacos Server中获取各自的配置，并监听配置的变化。</li>
+</ul>
+<h4 id="5-2-1发布配置"><a href="#5-2-1发布配置" class="headerlink" title="5.2.1发布配置"></a><strong>5.2.1发布配置</strong></h4><p> 首先在nacos发布配置，我们规划了两个服务service1、service2，并且想对这两个服务的配置进行集中维护。浏览器访问 <a href="http://127.0.0.1:8848/nacos" target="_blank" rel="noopener">http://127.0.0.1:8848/nacos</a> ，打开nacos控制台，并点击菜单<strong>配置管理-&gt;配置列表</strong>：</p>
+<p>在Nacos添加如下的配置：</p>
+<p> service1</p>
+<div class="hljs"><pre><code class="hljs routeros">Namespace:  c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4	#开发环境
 Data ID:	service1.yaml
 Group	:	TEST_GROUP
 配置格式:	YAML
 配置内容：   common:
-				name: service1 config
-&#96;&#96;&#96;
+				name: service1 config</code></pre></div>
 
-![img](Nacos配置管理&#x2F;image035.png)
-
-service2
-
-&#96;&#96;&#96;
-Namespace:  c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4  #开发环境
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image035.png" srcset="/img/loading.gif" alt="img"></p>
+<p>service2</p>
+<div class="hljs"><pre><code class="hljs routeros">Namespace:  c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4  #开发环境
 Data ID:	service2.yaml
 Group	:	TEST_GROUP
 配置格式:	YAML
 配置内容：   common:
-				name: service2 config
-&#96;&#96;&#96;
+				name: service2 config</code></pre></div>
 
-![img](Nacos配置管理&#x2F;image036.png)
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image036.png" srcset="/img/loading.gif" alt="img"></p>
+<h4 id="5-2-2-创建父工程"><a href="#5-2-2-创建父工程" class="headerlink" title="5.2.2   创建父工程"></a><strong>5.2.2</strong>   <strong>创建父工程</strong></h4><p>为了规范依赖的版本，这里创建父工程，指定依赖的版本。父工程pom.xml如下：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF‐8"?&gt;</span>
 
-#### **5.2.2**   **创建父工程**
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag"><span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema‐instance"</span> <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0</span></span>
+<span class="hljs-tag"><span class="hljs-string">http://maven.apache.org/xsd/maven‐4.0.0.xsd"</span>&gt;</span>
+	<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
 
- 
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span>
 
-为了规范依赖的版本，这里创建父工程，指定依赖的版本。父工程pom.xml如下：
+    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF‐8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>UTF‐8<span class="hljs-tag">&lt;/<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span>
 
-&#96;&#96;&#96;xml
-&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF‐8&quot;?&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐alibaba‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.0.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Greenwich.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.3.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span>
 
-&lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot;
-xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema‐instance&quot; xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0
-http:&#x2F;&#x2F;maven.apache.org&#x2F;xsd&#x2F;maven‐4.0.0.xsd&quot;&gt;
-	&lt;modelVersion&gt;4.0.0&lt;&#x2F;modelVersion&gt;
+    <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐maven‐plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
 
-    &lt;groupId&gt;com.itheima.nacos&lt;&#x2F;groupId&gt;
-    &lt;artifactId&gt;nacos‐config&lt;&#x2F;artifactId&gt;
-    &lt;version&gt;1.0‐SNAPSHOT&lt;&#x2F;version&gt;
-    &lt;packaging&gt;pom&lt;&#x2F;packaging&gt;
+<h5 id="5-2-2-1-微服务service1配置"><a href="#5-2-2-1-微服务service1配置" class="headerlink" title="5.2.2.1 微服务service1配置"></a>5.2.2.1 微服务service1配置</h5><p>本小节，我们将演示如何使用 <strong>Spring</strong> <strong>Cloud</strong> <strong>Alibaba</strong> <strong>Nacos</strong> <strong>Config</strong>在<strong>Spring</strong> <strong>Cloud</strong>应用中集成Nacos，通过Spring cloud原生方式快捷的获取配置内容。</p>
+<p>Spring Cloud是什么：</p>
+<p>Spring Cloud是一系列框架的有序集合。它利用<a href="https://baike.baidu.com/item/Spring%20Boot/20249767" target="_blank" rel="noopener">SpringBoot</a>的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Boot的开发风格做到一键启动和部署。Spring Cloud并没有重复制造轮子，它只是将目前各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，集成最多的组件要属Netflix公司，通过Spring Boot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。</p>
+<p>Spring Cloud Alibaba Nacos Config是什么：</p>
+<p>Spring Cloud Alibaba Nacos Discovery是<strong>Spring</strong> <strong>Cloud</strong> <strong>Alibaba</strong>的子项目，而Spring Cloud Alibaba是阿里巴巴公司提供的开源的基于Spring cloud的微服务套件合集，它致力于提供微服务开发的一站式解决方</p>
+<p>案，可以理解为spring cloud是一套微服务开发的 标准 ，spring cloud alibaba与spring cloud Netflix是实现。使用 Spring Cloud Alibaba方案，开发者只需要添加一些注解和少量配置，就可以将 Spring Cloud 应用接入阿里分布式应用解决方案，通过阿里中间件来迅速搭建分布式应用系统。</p>
+<p>由于Nacos是阿里的中间件，因此，若开发Spring cloud微服务应用，使用Spring Cloud Alibaba Nacos Config来集成Nacos的配置管理功能是比较明智的选择。</p>
+<p><strong>1）新建项目service1</strong></p>
+<p>首先新增一个名为service1工程，并添加group ID 为 com.alibaba.cloud  和 artifact ID 为 spring-cloud- starter-alibaba-nacos-config  的 starter。</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
 
-    &lt;properties&gt;
-        &lt;project.build.sourceEncoding&gt;UTF‐8&lt;&#x2F;project.build.sourceEncoding&gt;
-        &lt;project.reporting.outputEncoding&gt;UTF‐8&lt;&#x2F;project.reporting.outputEncoding&gt;
-        &lt;java.version&gt;1.8&lt;&#x2F;java.version&gt;
-    &lt;&#x2F;properties&gt;
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service1<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐starter‐web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
 
-    &lt;dependencyManagement&gt;
-        &lt;dependencies&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;com.alibaba.cloud&lt;&#x2F;groupId&gt;
-                &lt;artifactId&gt;spring‐cloud‐alibaba‐dependencies&lt;&#x2F;artifactId&gt;
-                &lt;version&gt;2.1.0.RELEASE&lt;&#x2F;version&gt;
-                &lt;type&gt;pom&lt;&#x2F;type&gt;
-                &lt;scope&gt;import&lt;&#x2F;scope&gt;
-            &lt;&#x2F;dependency&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.cloud&lt;&#x2F;groupId&gt;
-                &lt;artifactId&gt;spring‐cloud‐dependencies&lt;&#x2F;artifactId&gt;
-                &lt;version&gt;Greenwich.RELEASE&lt;&#x2F;version&gt;
-                &lt;type&gt;pom&lt;&#x2F;type&gt;
-                &lt;scope&gt;import&lt;&#x2F;scope&gt;
-            &lt;&#x2F;dependency&gt;
-            &lt;dependency&gt;
-                &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
-                &lt;artifactId&gt;spring‐boot‐dependencies&lt;&#x2F;artifactId&gt;
-                &lt;version&gt;2.1.3.RELEASE&lt;&#x2F;version&gt;
-                &lt;type&gt;pom&lt;&#x2F;type&gt;
-                &lt;scope&gt;import&lt;&#x2F;scope&gt;
-            &lt;&#x2F;dependency&gt;
-        &lt;&#x2F;dependencies&gt;
-    &lt;&#x2F;dependencyManagement&gt;
+<p><strong>（2）bootstrap.yml配置</strong></p>
+<p>一般来说，spring boot的配置将在application.yml(也可以是application.properties)文件中编写， 由于使用外部配置中心，必须将原先的application.yml重命名为bootstrap.yml，bootstrap.yml如下所示：</p>
+<p>spring.cloud.nacos.config.server-addr 指定了Nacos Server的网络地址和端口号。</p>
+<div class="hljs"><pre><code class="hljs yml"><span class="hljs-attr">server:</span>
+	<span class="hljs-attr">port:</span> <span class="hljs-number">56010</span> <span class="hljs-comment">#启动端口 命令行注入</span>
 
-    &lt;build&gt;
-        &lt;plugins&gt;
-            &lt;plugin&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
-            &lt;artifactId&gt;spring‐boot‐maven‐plugin&lt;&#x2F;artifactId&gt;
-            &lt;&#x2F;plugin&gt;
-        &lt;&#x2F;plugins&gt;
-    &lt;&#x2F;build&gt;
-&lt;&#x2F;project&gt;
+<span class="hljs-attr">spring:</span> 
+	<span class="hljs-attr">application:</span>
+		<span class="hljs-attr">name: service1 cloud:</span>
+	<span class="hljs-attr">nacos:</span>
+		<span class="hljs-attr">config:</span>
+			<span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># 配置中心地址</span>
+			<span class="hljs-string">file‐extension:</span> <span class="hljs-string">yaml</span>
+			<span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span> <span class="hljs-comment"># 开发环境</span>
+			<span class="hljs-attr">group:</span>  <span class="hljs-string">TEST_GROUP</span>  <span class="hljs-comment">#  测试组</span></code></pre></div>
 
-&#96;&#96;&#96;
+<p>以上配置文件说明该应用将从地址为127.0.0.1:8848配置中心获取配置，通过以下信息定位配置集：</p>
+<p>namespace：c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4  #  开发环境</p>
+<p>group：TEST_GROUP # 测试组</p>
+<p>Data Id：service1.yaml</p>
+<p>Note：spring-cloud-starter-alibaba-nacos-config 在加载配置的时候，加载了以 dataid 为</p>
+<p>${spring.application.name}.${file-extension:properties} 的基础配置。对应以上的配置，它会去nacos server中加载data id为service1.yaml的<strong>配置集</strong>。</p>
+<p>Note: 若没有指定spring.cloud.nacos.config.group配置,则默认为DEFAULT_GROUP。</p>
+<p> <strong>（3）启动配置客户端</strong></p>
+<p>新增Spring Boot 启动类，并增加获取配置的web访问端点/configs ，通过标准的spring @Value 方式。</p>
+ <div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.itheima.nacos;
 
-##### **5.2.2.1 **微服务service1配置
-
- 
-
-本小节，我们将演示如何使用 **Spring** **Cloud** **Alibaba** **Nacos** **Config**在**Spring** **Cloud**应用中集成Nacos，通过Spring cloud原生方式快捷的获取配置内容。
-
-Spring Cloud是什么：
-
- 
-
-Spring Cloud是一系列框架的有序集合。它利用[SpringBoot](https:&#x2F;&#x2F;baike.baidu.com&#x2F;item&#x2F;Spring%20Boot&#x2F;20249767)的开发便利性巧妙地简化了分布式系统基础设施的开发，如服务发现注册、配置中心、消息总线、负载均衡、断路器、数据监控等，都可以用Spring Boot的开发风格做到一键启动和部署。Spring Cloud并没有重复制造轮子，它只是将目前各家公司开发的比较成熟、经得起实际考验的服务框架组合起来，集成最多的组件要属Netflix公司，通过Spring Boot风格进行再封装屏蔽掉了复杂的配置和实现原理，最终给开发者留出了一套简单易懂、易部署和易维护的分布式系统开发工具包。
-
-Spring Cloud Alibaba Nacos Config是什么：
-
- 
-
-Spring Cloud Alibaba Nacos Discovery是**Spring** **Cloud** **Alibaba**的子项目，而Spring Cloud Alibaba是阿里巴巴公司提供的开源的基于Spring cloud的微服务套件合集，它致力于提供微服务开发的一站式解决方
-
-案，可以理解为spring cloud是一套微服务开发的 标准 ，spring cloud alibaba与spring cloud Netflix是实现。使用 Spring Cloud Alibaba方案，开发者只需要添加一些注解和少量配置，就可以将 Spring Cloud 应用接入阿里分布式应用解决方案，通过阿里中间件来迅速搭建分布式应用系统。
-
-由于Nacos是阿里的中间件，因此，若开发Spring cloud微服务应用，使用Spring Cloud Alibaba Nacos Config来集成Nacos的配置管理功能是比较明智的选择。
-
-**1）新建项目service1**
-
-首先新增一个名为service1工程，并添加group ID 为 com.alibaba.cloud  和 artifact ID 为 spring-cloud- starter-alibaba-nacos-config  的 starter。
-
-&#96;&#96;&#96;xml
-&lt;parent&gt;
-    &lt;artifactId&gt;nacos‐config&lt;&#x2F;artifactId&gt;
-    &lt;groupId&gt;com.itheima.nacos&lt;&#x2F;groupId&gt;
-    &lt;version&gt;1.0‐SNAPSHOT&lt;&#x2F;version&gt;
-&lt;&#x2F;parent&gt;
-&lt;modelVersion&gt;4.0.0&lt;&#x2F;modelVersion&gt;
-
-&lt;artifactId&gt;service1&lt;&#x2F;artifactId&gt;
-&lt;dependencies&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;com.alibaba.cloud&lt;&#x2F;groupId&gt;
-        &lt;artifactId&gt;spring‐cloud‐starter‐alibaba‐nacos‐config&lt;&#x2F;artifactId&gt;
-    &lt;&#x2F;dependency&gt;
-    &lt;dependency&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
-        &lt;artifactId&gt;spring‐boot‐starter‐web&lt;&#x2F;artifactId&gt;
-    &lt;&#x2F;dependency&gt;
-&lt;&#x2F;dependencies&gt;
-
-&#96;&#96;&#96;
-
-**（2）bootstrap.yml配置**
-
-一般来说，spring boot的配置将在application.yml(也可以是application.properties)文件中编写， 由于使用外部配置中心，必须将原先的application.yml重命名为bootstrap.yml，bootstrap.yml如下所示：
-
-spring.cloud.nacos.config.server-addr 指定了Nacos Server的网络地址和端口号。
-
-&#96;&#96;&#96;yml
-server:
-	port: 56010 #启动端口 命令行注入
-
-spring: 
-	application:
-		name: service1 cloud:
-	nacos:
-		config:
-			server‐addr: 127.0.0.1:8848 # 配置中心地址
-			file‐extension: yaml
-			namespace: c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4 # 开发环境
-			group:  TEST_GROUP  #  测试组
-&#96;&#96;&#96;
-
-以上配置文件说明该应用将从地址为127.0.0.1:8848配置中心获取配置，通过以下信息定位配置集：
-
- 
-
-namespace：c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4  #  开发环境
-
-group：TEST_GROUP # 测试组
-
-Data Id：service1.yaml
-
-
-
-Note：spring-cloud-starter-alibaba-nacos-config 在加载配置的时候，加载了以 dataid 为
-
-$&#123;spring.application.name&#125;.$&#123;file-extension:properties&#125; 的基础配置。对应以上的配置，它会去nacos server中加载data id为service1.yaml的**配置集**。
-
-Note: 若没有指定spring.cloud.nacos.config.group配置,则默认为DEFAULT_GROUP。
-
- **（3）启动配置客户端**
-
-新增Spring Boot 启动类，并增加获取配置的web访问端点&#x2F;configs ，通过标准的spring @Value 方式。
-
- &#96;&#96;&#96;java
-package com.itheima.nacos;
-
-@SpringBootApplication @RestController
-public class Service1Bootstrap &#123;
-    public static void main(String[] args) &#123; 
-        SpringApplication.run(Service1Bootstrap.class, args);
+<span class="hljs-meta">@SpringBootApplication</span> <span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Service1Bootstrap</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123; 
+        SpringApplication.run(Service1Bootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
     &#125;
 
-    @Value(&quot;$&#123;common.name&#125;&quot;) private String config1;
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;common.name&#125;"</span>) <span class="hljs-keyword">private</span> String config1;
 
-    @GetMapping(value &#x3D; &quot;&#x2F;configs&quot;)
+    <span class="hljs-meta">@GetMapping</span>(value = <span class="hljs-string">"/configs"</span>)
 
-    public String getConfigs()&#123;
-        return config1;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getConfigs</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> config1;
     &#125;
 
-&#125;
- &#96;&#96;&#96;
+&#125;</code></pre></div>
 
-##### **5.2.4.2   **微服务service2配置
+<h5 id="5-2-2-2-微服务service2配置"><a href="#5-2-2-2-微服务service2配置" class="headerlink" title="5.2.2.2  微服务service2配置"></a>5.2.2.2  微服务service2配置</h5><p><strong>service2</strong>的创建流程与service1一致：</p>
+<p>需要注意的是spring boot 启动端口要避免重复，spring.application.name为service2。</p>
+<div class="hljs"><pre><code class="hljs yml"><span class="hljs-attr">server:</span>
+	<span class="hljs-attr">port:</span> <span class="hljs-number">56020</span> <span class="hljs-comment">#启动端口 命令行注入</span>
 
- 
+<span class="hljs-attr">spring:</span> 
+	<span class="hljs-attr">application:</span>
+		<span class="hljs-attr">name: service2 cloud:</span>
+	<span class="hljs-attr">nacos:</span>
+		<span class="hljs-attr">config:</span>
+			<span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># 配置中心地址</span>
+			<span class="hljs-string">file‐extension:</span> <span class="hljs-string">yaml</span>
+			<span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span> <span class="hljs-comment"># 开发环境</span>
+			<span class="hljs-attr">group:</span>  <span class="hljs-string">TEST_GROUP</span>  <span class="hljs-comment">#  测试组</span></code></pre></div>
 
-**service2**的创建流程与service1一致：
+<p>分别启动service1和service2项目，并分别访问 /configs 进行测试，不同项目能够获取各自的配置内容。</p>
+<h4 id="5-2-3-支持配置的动态更新"><a href="#5-2-3-支持配置的动态更新" class="headerlink" title="5.2.3   支持配置的动态更新"></a><strong>5.2.3</strong>   <strong>支持配置的动态更新</strong></h4><p>基于上面快速上手的例子，若要实现配置的动态更新，只需要进行如下改造：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">// 注入配置文件上下文</span>
+<span class="hljs-meta">@Autowired</span>
+<span class="hljs-keyword">private</span> ConfigurableApplicationContext applicationContext;
 
-需要注意的是spring boot 启动端口要避免重复，spring.application.name为service2。
+<span class="hljs-meta">@GetMapping</span>(value = <span class="hljs-string">"/configs"</span>) 
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getConfigs</span><span class="hljs-params">()</span></span>&#123;
+	<span class="hljs-keyword">return</span> applicationContext.getEnvironment().getProperty(<span class="hljs-string">"common.name"</span>);
+&#125;</code></pre></div>
 
-&#96;&#96;&#96;yml
-server:
-	port: 56020 #启动端口 命令行注入
+<p>我们通过nacos控制台更新common.name的配置值，再次访问web端点/configs ，发现应用程序能够获取到最新的配置值，说明spring-cloud-starter-alibaba-nacos-config 支持配置的动态更新。</p>
+<p>Note 可以通过配置spring.cloud.nacos.config.refresh.enabled=false来关闭动态刷新</p>
+<h4 id="5-2-4-自定义namespace与group配置"><a href="#5-2-4-自定义namespace与group配置" class="headerlink" title="5.2.4 自定义namespace与group配置"></a>5.2.4 自定义namespace与group配置</h4><p><strong>支持自定义 namespace的配置</strong></p>
+<p>在没有明确指定 ${spring.cloud.nacos.config.namespace}  配置的情况下， 默认使用的是 Nacos 上 Public 这个namespace。如果需要使用自定义的命名空间，可以通过以下配置来实现：</p>
+ <div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span> 
+	<span class="hljs-attr">cloud:</span>
+		<span class="hljs-attr">nacos:</span>
+			<span class="hljs-attr">config:</span>
+				<span class="hljs-attr">namespace:</span>  <span class="hljs-string">b3404bc0‐d7dc‐4855‐b519‐570ed34b62d7</span></code></pre></div>
 
-spring: 
-	application:
-		name: service2 cloud:
-	nacos:
-		config:
-			server‐addr: 127.0.0.1:8848 # 配置中心地址
-			file‐extension: yaml
-			namespace: c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4 # 开发环境
-			group:  TEST_GROUP  #  测试组
+<p>Note：该配置必须放在 bootstrap.yml文件中。此外 spring.cloud.nacos.config.namespace  的值是 namespace对应的 id，id 值可以在 Nacos 的控制台获取。并且在添加配置时注意不要选择其他的 namespae，否则将会导致读取不到正确的配置。</p>
+<p><strong>支持自定义</strong> <strong>Group</strong> <strong>的配置</strong></p>
+<p>在没有明确指定 ${spring.cloud.nacos.config.group}  配置的情况下， 默认使用的是 DEFAULT_GROUP 。如果需要自定义自己的Group，可以通过以下配置来实现：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span> 
+	<span class="hljs-attr">cloud:</span>
+		<span class="hljs-attr">nacos:</span>
+			<span class="hljs-attr">config:</span>
+				<span class="hljs-attr">group:</span>  <span class="hljs-string">DEVELOP_GROUP</span></code></pre></div>
 
-&#96;&#96;&#96;
+<p>Note：该配置必须放在 bootstrap.properties 文件中。并且在添加配置时 Group 的值一定要和</p>
+<p>spring.cloud.nacos.config.group 的配置值一致。</p>
+<h4 id="5-2-5-自定义扩展的-Data-Id-配置"><a href="#5-2-5-自定义扩展的-Data-Id-配置" class="headerlink" title="5.2.5  自定义扩展的 Data Id 配置"></a><strong>5.2.5</strong>  <strong>自定义扩展的</strong> <strong>Data</strong> <strong>Id</strong> <strong>配置</strong></h4><p>Spring Cloud Alibaba Nacos Config可支持自定义 Data Id 的配置。 一个完整的配置案例如下所示：下边我们在service2微服务下配置扩展。</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span> 
+	<span class="hljs-attr">application:</span>
+		<span class="hljs-attr">name: service2 cloud:</span>
+	<span class="hljs-attr">nacos:</span>
+		<span class="hljs-attr">config:</span>
+			<span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># config external configuration</span>
+			<span class="hljs-comment">#  1、Data  Id  在默认的组 DEFAULT_GROUP,不支持配置的动态刷新</span>
+			<span class="hljs-string">ext‐config[0]:</span>
+			<span class="hljs-string">data‐id:</span> <span class="hljs-string">ext‐config‐common01.properties</span>
 
-分别启动service1和service2项目，并分别访问 &#x2F;configs 进行测试，不同项目能够获取各自的配置内容。
+			<span class="hljs-comment"># 2、Data Id 不在默认的组，不支持动态刷新</span>
+			<span class="hljs-string">ext‐config[1]:</span>
+			<span class="hljs-string">data‐id:</span> <span class="hljs-string">ext‐config‐common02.properties</span> <span class="hljs-attr">group:</span>  <span class="hljs-string">GLOBALE_GROUP</span>
 
-#### **5.2.3**   **支持配置的动态更新**
+			<span class="hljs-comment"># 3、Data Id 既不在默认的组，也支持动态刷新</span>
+			<span class="hljs-string">ext‐config[2]:</span>
+			<span class="hljs-string">data‐id:</span> <span class="hljs-string">ext‐config‐common03.properties</span> <span class="hljs-attr">group:</span>  <span class="hljs-string">REFRESH_GROUP</span>
+			<span class="hljs-attr">refresh:</span> <span class="hljs-literal">true</span></code></pre></div>
 
- 
+<p>可以看到:</p>
+<p>通过 spring.cloud.nacos.config.ext-config[n].data-id 的配置方式来支持多个 Data Id 的配置。</p>
+<p>通过 spring.cloud.nacos.config.ext-config[n].group 的配置方式自定义 Data Id 所在的组，不明确配置的话，默认是DEFAULT_GROUP。</p>
+<p>通过 spring.cloud.nacos.config.ext-config[n].refresh  的配置方式来控制该 Data Id 在配置变更时，是否支持应用中可动态刷新， 感知到最新的配置值。默认是不支持的。</p>
+<p>Note ： spring.cloud.nacos.config.ext-config[n].data-id  的值必须带文件扩展名，文件扩展名既可支持properties，又可以支持 yaml/yml。 此时 spring.cloud.nacos.config.file-extension 的配置对自定义扩展配置的 Data Id 文件扩展名没有影响。</p>
+<p>通过自定义扩展的 Data Id 配置，既可以解决多个应用间配置共享的问题，又可以支持一个应用有多个配置文件。测试：</p>
+<p>配置ext-config-common01.properties ：</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image037.png" srcset="/img/loading.gif" alt="img"></p>
+<p>配置ext-config-common02.properties</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image038.png" srcset="/img/loading.gif" alt="img"></p>
+<p>配置ext-config-common03.properties</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image039.png" srcset="/img/loading.gif" alt="img"></p>
+<p>编写测试代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping</span>(value = <span class="hljs-string">"/configs2"</span>) 
+<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getConfigs2</span><span class="hljs-params">()</span></span>&#123;
+    String name = applicationContext.getEnvironment().getProperty(<span class="hljs-string">"common.name"</span>); 
+    String age =   applicationContext.getEnvironment().getProperty(<span class="hljs-string">"common.age"</span>);
+    String address =   applicationContext.getEnvironment().getProperty(<span class="hljs-string">"common.address"</span>);
+    String birthday=   applicationContext.getEnvironment().getProperty(<span class="hljs-string">"common.birthday"</span>); 		String fullname =   applicationContext.getEnvironment().getProperty(<span class="hljs-string">"common.fullname"</span>); 	<span class="hljs-keyword">return</span> name+<span class="hljs-string">"+"</span>+ age+<span class="hljs-string">"+"</span>+address+<span class="hljs-string">"+"</span>+ birthday+<span class="hljs-string">"+"</span>+ fullname;
+&#125;</code></pre></div>
 
-基于上面快速上手的例子，若要实现配置的动态更新，只需要进行如下改造：
-
-&#96;&#96;&#96;java
-&#x2F;&#x2F; 注入配置文件上下文
-@Autowired
-private ConfigurableApplicationContext applicationContext;
-
-@GetMapping(value &#x3D; &quot;&#x2F;configs&quot;) 
-public String getConfigs()&#123;
-	return applicationContext.getEnvironment().getProperty(&quot;common.name&quot;);
-&#125;
-
-&#96;&#96;&#96;
-
-我们通过nacos控制台更新common.name的配置值，再次访问web端点&#x2F;configs ，发现应用程序能够获取到最新的配置值，说明spring-cloud-starter-alibaba-nacos-config 支持配置的动态更新。
-
-Note 可以通过配置spring.cloud.nacos.config.refresh.enabled&#x3D;false来关闭动态刷新
-
-####  **5.2.4   **自定义namespace与group配置
-
- 
-
-**支持自定义 namespace的配置**
-
-在没有明确指定 $&#123;spring.cloud.nacos.config.namespace&#125;  配置的情况下， 默认使用的是 Nacos 上 Public 这个namespace。如果需要使用自定义的命名空间，可以通过以下配置来实现：
-
- &#96;&#96;&#96;yaml
-spring: 
-	cloud:
-		nacos:
-			config:
-				namespace:  b3404bc0‐d7dc‐4855‐b519‐570ed34b62d7
- &#96;&#96;&#96;
-
-Note：该配置必须放在 bootstrap.yml文件中。此外 spring.cloud.nacos.config.namespace  的值是 namespace对应的 id，id 值可以在 Nacos 的控制台获取。并且在添加配置时注意不要选择其他的 namespae，否则将会导致读取不到正确的配置。
-
- 
-
-**支持自定义** **Group** **的配置**
-
-在没有明确指定 $&#123;spring.cloud.nacos.config.group&#125;  配置的情况下， 默认使用的是 DEFAULT_GROUP 。如果需要自定义自己的Group，可以通过以下配置来实现：
-
-&#96;&#96;&#96;yaml
-spring: 
-	cloud:
-		nacos:
-			config:
-				group:  DEVELOP_GROUP
-&#96;&#96;&#96;
-
-Note：该配置必须放在 bootstrap.properties 文件中。并且在添加配置时 Group 的值一定要和
-
-spring.cloud.nacos.config.group 的配置值一致。
-
-#### **5.2.5**  **自定义扩展的** **Data** **Id** **配置**
-
- 
-
-Spring Cloud Alibaba Nacos Config可支持自定义 Data Id 的配置。 一个完整的配置案例如下所示：下边我们在service2微服务下配置扩展。
-
-&#96;&#96;&#96;yaml
-spring: 
-	application:
-		name: service2 cloud:
-	nacos:
-		config:
-			server‐addr: 127.0.0.1:8848 # config external configuration
-			#  1、Data  Id  在默认的组 DEFAULT_GROUP,不支持配置的动态刷新
-			ext‐config[0]:
-			data‐id: ext‐config‐common01.properties
-
-			# 2、Data Id 不在默认的组，不支持动态刷新
-			ext‐config[1]:
-			data‐id: ext‐config‐common02.properties group:  GLOBALE_GROUP
-
-			# 3、Data Id 既不在默认的组，也支持动态刷新
-			ext‐config[2]:
-			data‐id: ext‐config‐common03.properties group:  REFRESH_GROUP
-			refresh: true
-&#96;&#96;&#96;
-
-可以看到:
-
-通过 spring.cloud.nacos.config.ext-config[n].data-id 的配置方式来支持多个 Data Id 的配置。
-
-通过 spring.cloud.nacos.config.ext-config[n].group 的配置方式自定义 Data Id 所在的组，不明确配置的话，默认是DEFAULT_GROUP。
-
-通过 spring.cloud.nacos.config.ext-config[n].refresh  的配置方式来控制该 Data Id 在配置变更时，是否支持应用中可动态刷新， 感知到最新的配置值。默认是不支持的。
-
-Note ： spring.cloud.nacos.config.ext-config[n].data-id  的值必须带文件扩展名，文件扩展名既可支持properties，又可以支持 yaml&#x2F;yml。 此时 spring.cloud.nacos.config.file-extension 的配置对自定义扩展配置的 Data Id 文件扩展名没有影响。
-
-通过自定义扩展的 Data Id 配置，既可以解决多个应用间配置共享的问题，又可以支持一个应用有多个配置文件。测试：
-
-配置ext-config-common01.properties ：
-
-![img](Nacos配置管理&#x2F;image037.png)
-
-
-
-配置ext-config-common02.properties
-
-![img](Nacos配置管理&#x2F;image038.png)
-
-配置ext-config-common03.properties
-
-![img](Nacos配置管理&#x2F;image039.png)
-
-编写测试代码：
-
-&#96;&#96;&#96;java
-@GetMapping(value &#x3D; &quot;&#x2F;configs2&quot;) 
-public String getConfigs2()&#123;
-    String name &#x3D; applicationContext.getEnvironment().getProperty(&quot;common.name&quot;); 
-    String age &#x3D;   applicationContext.getEnvironment().getProperty(&quot;common.age&quot;);
-    String address &#x3D;   applicationContext.getEnvironment().getProperty(&quot;common.address&quot;);
-    String birthday&#x3D;   applicationContext.getEnvironment().getProperty(&quot;common.birthday&quot;); 		String fullname &#x3D;   applicationContext.getEnvironment().getProperty(&quot;common.fullname&quot;); 	return name+&quot;+&quot;+ age+&quot;+&quot;+address+&quot;+&quot;+ birthday+&quot;+&quot;+ fullname;
-&#125;
-
-&#96;&#96;&#96;
-
-重启应用，访问&lt;http:&#x2F;&#x2F;localhost:56011&#x2F;configs2&gt;，观察配置是否成功获取。输出：
-
-&#96;&#96;&#96;&#96;service2 config+12+beijing+1990‐1‐1+zhangsansanff</code></pre></div>
-
+<p>重启应用，访问<a href="http://localhost:56011/configs2" target="_blank" rel="noopener">http://localhost:56011/configs2</a>，观察配置是否成功获取。输出：</p>
+<p>service2 config+12+beijing+1990‐1‐1+zhangsansanff</p>
 <h4 id="5-2-6-自定义共享Data-Id-配置"><a href="#5-2-6-自定义共享Data-Id-配置" class="headerlink" title="5.2.6 自定义共享Data Id 配置"></a><strong>5.2.6 自定义共享Data Id 配置</strong></h4><p>为了更加清晰的在多个应用间配置共享的 Data Id ，你可以通过以下的方式来配置：</p>
 <div class="hljs"><pre><code class="hljs yml"><span class="hljs-attr">spring:</span>
     <span class="hljs-attr">cloud:</span>
@@ -1376,71 +1044,47 @@ public String getConfigs2()&#123;
 <p>Note：通过 spring.cloud.nacos.config.shared-dataids  来配置时，Data Id 必须带文件扩展名，文件扩展名既可支持 properties，也可以支持 yaml/yml。 此时 spring.cloud.nacos.config.file-extension  的配置对自定义扩展配置的 Data Id 文件扩展名没有影响。</p>
 <p>Note： spring.cloud.nacos.config.refreshable-dataids  给出哪些需要支持动态刷新时，Data Id 的值也必须明确给出文件扩展名。</p>
 <p>测试输出：</p>
-<div class="hljs"><pre><code class="hljs service2">
-​                                                                 
+<p>service2 config+12+beijing+null+null</p>
+<p>​                                                                 </p>
+<p>为什么后面俩个null?</p>
+<p>共享DataId的配置使用默认的group即DEFAULT_GROUP，ext-config-common02.properties 不属于DEFAULT_GROUP。</p>
+<p>共享DataId的配置相比扩展的 Data Id 配置，它把group固定为DEFAULT_GROUP，建议使用扩展的 Data Id 配置，因为扩展的 Data Id 配置也可以实现共享DataId配置。</p>
+<h4 id="5-2-7-配置的优先级"><a href="#5-2-7-配置的优先级" class="headerlink" title="5.2.7 配置的优先级"></a><strong>5.2.7 配置的优先级</strong></h4><p>Spring Cloud Alibaba Nacos Config 目前提供了三种配置能力从 Nacos 拉取相关的配置。 </p>
+<ul>
+<li>A: 通过 <code>spring.cloud.nacos.config.shared-dataids</code>支持多个共享 Data Id 的配置</li>
+<li>B: 通过<code>spring.cloud.nacos.config.ext-config[n].data-id</code>的方式支持多个扩展 Data Id 的配置，多个<br>Data Id 同时配置时，他的优先级关系是<code>spring.cloud.nacos.config.ext-config[n].data-id</code>其中 n 的值越<br>大，优先级越高。</li>
+<li>C: 通过内部相关规则(应用名、扩展名 )自动生成相关的 Data Id 配置</li>
+<li>当三种方式共同使用时，他们的一个优先级关系是:C &gt; B &gt;A</li>
+</ul>
+<p>测试，屏蔽共享dataId，放开ext-config，如下：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>
+    <span class="hljs-attr">application:</span>
+        <span class="hljs-attr">name:</span> <span class="hljs-string">service2</span> 
+    <span class="hljs-attr">cloud:</span>
+        <span class="hljs-attr">nacos:</span>
+            <span class="hljs-attr">config:</span>
+                <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># 配置中心地址</span>
+                <span class="hljs-string">file‐extension:</span> <span class="hljs-string">yaml</span>
+                <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span> <span class="hljs-comment"># 开发环境</span>
+                <span class="hljs-attr">group:</span>  <span class="hljs-string">TEST_GROUP</span>
+                <span class="hljs-comment">#	shared‐dataids: ext‐config‐common01.properties,ext‐config‐common02.properties # config external configuration</span>
+                <span class="hljs-comment">#  1、Data  Id  在默认的组 DEFAULT_GROUP,不支持配置的动态刷新</span>
+                <span class="hljs-string">ext‐config[0]:</span>
+                <span class="hljs-string">data‐id:</span> <span class="hljs-string">ext‐config‐common01.properties</span>
 
-为什么后面俩个null?
+                <span class="hljs-comment"># 2、Data Id 不在默认的组，不支持动态刷新</span>
+                <span class="hljs-string">ext‐config[1]:</span>
+                <span class="hljs-string">data‐id:</span> <span class="hljs-string">ext‐config‐common02.properties</span> <span class="hljs-attr">group:</span>  <span class="hljs-string">GLOBALE_GROUP</span>
 
-共享DataId的配置使用默认的group即DEFAULT_GROUP，ext-config-common02.properties 不属于DEFAULT_GROUP。
+                <span class="hljs-comment"># 3、Data Id 既不在默认的组，也支持动态刷新</span>
+                <span class="hljs-string">ext‐config[2]:</span>
+                <span class="hljs-string">data‐id:</span> <span class="hljs-string">ext‐config‐common03.properties</span> <span class="hljs-attr">group:</span>  <span class="hljs-string">REFRESH_GROUP</span>
+                <span class="hljs-attr">refresh:</span> <span class="hljs-literal">true</span></code></pre></div>
 
- 
-
-共享DataId的配置相比扩展的 Data Id 配置，它把group固定为DEFAULT_GROUP，建议使用扩展的 Data Id 配置，因为扩展的 Data Id 配置也可以实现共享DataId配置。
-
-#### **5.2.7 配置的优先级**
-
- 
-
-Spring Cloud Alibaba Nacos Config 目前提供了三种配置能力从 Nacos 拉取相关的配置。 
-
-- A: 通过 &#96;&#96;&#96;&#96;spring.cloud.nacos.config.shared-dataids&#96;&#96;&#96;&#96;支持多个共享 Data Id 的配置
-- B: 通过&#96;&#96;&#96;&#96;spring.cloud.nacos.config.ext-config[n].data-id&#96;&#96;&#96;&#96;的方式支持多个扩展 Data Id 的配置，多个
-  Data Id 同时配置时，他的优先级关系是&#96;&#96;&#96;&#96;spring.cloud.nacos.config.ext-config[n].data-id&#96;&#96;&#96;&#96;其中 n 的值越
-  大，优先级越高。
-- C: 通过内部相关规则(应用名、扩展名 )自动生成相关的 Data Id 配置
-- 当三种方式共同使用时，他们的一个优先级关系是:C &gt; B &gt;A
-
- 
-
- 
-
-测试，屏蔽共享dataId，放开ext-config，如下：
-
-&#96;&#96;&#96;yaml
-spring:
-    application:
-        name: service2 
-    cloud:
-        nacos:
-            config:
-                server‐addr: 127.0.0.1:8848 # 配置中心地址
-                file‐extension: yaml
-                namespace: c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4 # 开发环境
-                group:  TEST_GROUP
-                #	shared‐dataids: ext‐config‐common01.properties,ext‐config‐common02.properties # config external configuration
-                #  1、Data  Id  在默认的组 DEFAULT_GROUP,不支持配置的动态刷新
-                ext‐config[0]:
-                data‐id: ext‐config‐common01.properties
-
-                # 2、Data Id 不在默认的组，不支持动态刷新
-                ext‐config[1]:
-                data‐id: ext‐config‐common02.properties group:  GLOBALE_GROUP
-
-                # 3、Data Id 既不在默认的组，也支持动态刷新
-                ext‐config[2]:
-                data‐id: ext‐config‐common03.properties group:  REFRESH_GROUP
-                refresh: true
-
-&#96;&#96;&#96;
-
-修改ext-config-common03.properties ：
-
-![img](Nacos配置管理&#x2F;image040.png)
-
-输出：
-
-&#96;&#96;&#96;&#96;service2 config
-service2 config aaa+15+beijing+1990‐1‐1+zhangsansanff</code></pre></div>
+<p>修改ext-config-common03.properties ：</p>
+<p><img src="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/image040.png" srcset="/img/loading.gif" alt="img"></p>
+<p>输出：</p>
+<div class="hljs"><pre><code class="hljs service2">service2 config aaa+15+beijing+1990‐1‐1+zhangsansanff</code></pre></div>
 
 <p>通过测试发现多个 Data Id 同时配置时，他的优先级关系是 spring.cloud.nacos.config.ext-config[n].data-id其中 n 的值越大，优先级越高。</p>
 <p>修改：service1.yaml</p>

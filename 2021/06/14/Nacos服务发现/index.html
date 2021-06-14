@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>Nacos服务发现 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-06-14 09:21">
+      2021-06-14
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      12k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      132
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="Nacos-服务发现"><a href="#Nacos-服务发现" class="headerlink" title="Nacos - 服务发现"></a><strong>Nacos - 服务发现</strong></h1><p>目标<br>1）理解什么是微服务<br>2）能够说出服务发现的概念以及使用场景<br>3）了解主流的服务发现中心<br>4）掌握Nacos作为服务发现中心的快速入门方法<br>5）理解Nacos服务发现的核心概念及数据模型<br>6）掌握使用Nacos控制台管理服务的操作方法<br>7）了解Nacos服务发现API的使用方式<br>8）掌握Spring cloud alibaba实际项目架构案例<br>9）掌握Nacos与dubbo集成方式</p>
+<h1 id="1-概览"><a href="#1-概览" class="headerlink" title="1 概览"></a>1 概览</h1><h2 id="1-1-从单体架构到微服务"><a href="#1-1-从单体架构到微服务" class="headerlink" title="1.1 从单体架构到微服务"></a>1.1 从单体架构到微服务</h2><h3 id="1-1-1-单体架构"><a href="#1-1-1-单体架构" class="headerlink" title="1.1.1 单体架构"></a>1.1.1 单体架构</h3><p>Web应用程序发展的早期，大部分web工程师将所有的功能模块打包到一起并放在一个web容器中运行，所有功能<br>模块使用同一个数据库，同时，它还提供API或者UI访问的web模块等。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage008.png" srcset="/img/loading.gif" alt></p>
+<p>尽管也是模块化逻辑，但是最终它还是会打包并部署为单体式应用，这种将所有功能都部署在一个web容器中运行<br>的系统就叫做单体架构（也叫：巨石型应用）。<br>单体架构有很多好处：</p>
+<ul>
+<li>开发效率高：模块之间交互采用本地方法调用，并节省微服务之间的交互讨论时间与开发成本。</li>
+<li>容易测试：IDE都是为开发单个应用设计的、容易测试——在本地就可以启动完整的系统。</li>
+<li>容易部署：运维成本小，直接打包为一个完整的包，拷贝到web容器的某个目录下即可运行。</li>
+</ul>
+<p>但是，上述的好处是有条件的，它适用于小型简单应用，对于大规模的复杂应用，就会展现出来以下的不足：</p>
+<ul>
+<li>复杂性逐渐变高，可维护性逐渐变差 ：所有业务模块部署在一起，复杂度越来越高，修改时牵一发动全身。</li>
+<li>版本迭代速度逐渐变慢：修改一个地方就要将整个应用全部编译、部署、启动时间过长、回归测试周期过长。</li>
+<li>阻碍技术创新：若更新技术框架，除非你愿意将系统全部重写，无法实现部分技术更新。</li>
+<li>无法按需伸缩：通过冗余部署完整应用的方式来实现水平扩展，无法针对某业务按需伸缩。</li>
+</ul>
+<h3 id="1-1-2-微服务"><a href="#1-1-2-微服务" class="headerlink" title="1.1.2 微服务"></a>1.1.2 微服务</h3><p>许多大型公司，通过采用微服务架构解决了上述问题。其思路不是开发一个巨大的单体式的应用，而是将应用分解<br>为小的、互相连接的微服务。<br>一个微服务一般完成某个特定的功能，比如订单服务、用户服务等等。每一个微服务都是完整应用，都有自己的业<br>务逻辑和数据库。一些微服务还会发布API给其它微服务和应用客户端使用。<br>比如，一个前面描述系统可能的分解如下：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage011.png" srcset="/img/loading.gif" alt></p>
+<p>每一个业务模块都使用独立的服务完成，这种微服务架构模式也影响了应用和数据库之间的关系，不像传统多个业<br>务模块共享一个数据库，微服务架构每个服务都有自己的数据库。<br>微服务架构的好处：</p>
+<ul>
+<li>分而治之，职责单一；易于开发、理解和维护、方便团队的拆分和管理</li>
+<li>可伸缩；能够单独的对指定的服务进行伸缩</li>
+<li>局部容易修改，容易替换，容易部署，有利于持续集成和快速迭代</li>
+<li>不会受限于任何技术栈</li>
+</ul>
+<h2 id="1-2-什么是服务发现"><a href="#1-2-什么是服务发现" class="headerlink" title="1.2 什么是服务发现"></a>1.2 什么是服务发现</h2><p>在微服务架构中，整个系统会按职责能力划分为多个服务，通过服务之间协作来实现业务目标。这样在我们的代码<br>中免不了要进行服务间的远程调用，服务的消费方要调用服务的生产方，为了完成一次请求，消费方需要知道服务<br>生产方的网络位置(IP地址和端口号)。</p>
+<p>我们的代码可以通过读取配置文件的方式读取服务生产方网络位置，如下：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage017.png" srcset="/img/loading.gif" alt></p>
+<p>我们通过Spring boot技术很容易实现：</p>
+<p><strong>Service B（服务生产者）</strong></p>
+<p>Service B是服务的生产方，暴露/service服务地址，实现代码如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringRestProviderBootstrap</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+   	 SpringApplication.run(SpringRestProviderBootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+    <span class="hljs-meta">@GetMapping</span>(value = <span class="hljs-string">"/service"</span>) <span class="hljs-comment">//暴露服务</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"provider invoke"</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>配置文件：</p>
+<div class="hljs"><pre><code class="hljs properties"><span class="hljs-meta">server.port</span> = <span class="hljs-string">56010</span></code></pre></div>
+
+<p><strong>Service A（服务消费者）</strong><br>实现代码：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringRestConsumerBootstrap</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    	SpringApplication.run(SpringRestConsumerBootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+    
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">"$&#123;provider.address&#125;"</span>)
+    <span class="hljs-keyword">private</span> String providerAddress;
+    
+    <span class="hljs-meta">@GetMapping</span>(value = <span class="hljs-string">"/service"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>&#123;
+        RestTemplate restTemplate = <span class="hljs-keyword">new</span> RestTemplate();
+        <span class="hljs-comment">//调用服务</span>
+        String providerResult = restTemplate.getForObject(<span class="hljs-string">"http://"</span> + providerAddress +
+        <span class="hljs-string">"/service"</span>,String<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"consumer invoke | "</span> + providerResult;
+    &#125;
+&#125;</code></pre></div>
+
+<p>配置文件：</p>
+<div class="hljs"><pre><code class="hljs properties"><span class="hljs-meta">server.port</span> = <span class="hljs-string">56020</span>
+<span class="hljs-comment"># 服务生产方地址</span>
+<span class="hljs-meta">provider.address</span> = <span class="hljs-string">127.0.0.1:56010</span></code></pre></div>
+
+<p>访问<a href="http://127.0.0.1:56020/service，输出以下内容：" target="_blank" rel="noopener">http://127.0.0.1:56020/service，输出以下内容：</a></p>
+<div class="hljs"><pre><code class="hljs smali">consumer<span class="hljs-built_in"> invoke </span>| provider invoke</code></pre></div>
+
+<p>看上去很完美，但是，仔细考虑以下，此方案对于微服务应用而言行不通。</p>
+<p>首先，微服务可能是部署在云环境的，服务实例的网络位置或许是动态分配的。另外，每一个服务一般会有多个实<br>例来做负载均衡，由于宕机或升级，服务实例网络地址会经常动态改变。再者，每一个服务也可能应对临时访问压<br>力增加新的服务节点。正如下图所示：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage026.png" srcset="/img/loading.gif" alt></p>
+<p>基于以上的问题，服务之间如何相互感知？服务如何管理？这就是服务发现的问题了。如下图：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage030.png" srcset="/img/loading.gif" alt></p>
+<p>上图中服务实例本身并不记录服务生产方的网络地址，所有服务实例内部都会包含<strong>服务发现客户端</strong>。<br>（1）在每个服务启动时会向<strong>服务发现中心</strong>上报自己的网络位置。这样，在服务发现中心内部会形成一个<strong>服务注册表，服务注册表</strong>是服务发现的核心部分，是包含所有服务实例的网络地址的数据库。<br>（2）<strong>服务发现客户端</strong>会定期从<strong>服务发现中心</strong>同步<strong>服务注册表</strong> ，并缓存在客户端。<br>（3）当需要对某服务进行请求时，服务实例通过该注册表，定位目标服务网络地址。若目标服务存在多个网络地<br>址，则使用负载均衡算法从多个服务实例中选择出一个，然后发出请求。<br>总结一下，在微服务环境中，由于服务运行实例的网络地址是不断动态变化的，服务实例数量的动态变化 ，因此无<br>法使用固定的配置文件来记录服务提供方的网络地址，必须使用动态的服务发现机制用于实现微服务间的<strong>相互感知</strong>。各服务实例会上报自己的网络地址，这样服务中心就形成了一个完整的服务注册表，各服务实例会通过<strong>服务发现中心</strong>来获取访问目标服务的网络地址，从而实现<strong>服务发现</strong>的机制。</p>
+<h2 id="1-3-主流服务发现与配置中心对比"><a href="#1-3-主流服务发现与配置中心对比" class="headerlink" title="1.3 主流服务发现与配置中心对比"></a>1.3 主流服务发现与配置中心对比</h2><p>目前市面上用的比较多的服务发现中心有：Nacos、Eureka、Consul和Zookeeper。</p>
+<table>
+<thead>
+<tr>
+<th><strong>对比项目</strong></th>
+<th><strong>Nacos</strong></th>
+<th><strong>Eureka</strong></th>
+<th><strong>Consul</strong></th>
+<th><strong>Zook**</strong>eeper**</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一致性协议</td>
+<td>支持AP和CP模型</td>
+<td>AP模型</td>
+<td>CP模型</td>
+<td>CP模型</td>
+</tr>
+<tr>
+<td>健康检查</td>
+<td>TCP/HTTP/MYSQL/Client  Beat</td>
+<td>Client Beat</td>
+<td>TCP/HTTP/gRPC/Cmd</td>
+<td>Keep Alive</td>
+</tr>
+<tr>
+<td>负载均衡策略</td>
+<td>权重/metadata/Selector</td>
+<td>Ribbon</td>
+<td>Fabio</td>
+<td>-</td>
+</tr>
+<tr>
+<td>雪崩保护</td>
+<td>有</td>
+<td>有</td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td>自动注销实例</td>
+<td>支持</td>
+<td>支持</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>访问协议</td>
+<td>HTTP/DNS</td>
+<td>HTTP</td>
+<td>HTTP/DNS</td>
+<td>TCP</td>
+</tr>
+<tr>
+<td>监听支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>多数据中心</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>跨注册中心同步</td>
+<td>支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>SpringCloud集成</td>
+<td>支持</td>
+<td>支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>Dubbo集成</td>
+<td>支持</td>
+<td>不支持</td>
+<td>不支持</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>k8s集成</td>
+<td>支持</td>
+<td>不支持</td>
+<td>支持</td>
+<td>不支持</td>
+</tr>
+</tbody></table>
+<p>从上面对比可以了解到，Nacos作为服务发现中心，具备更多的功能支持项，且从长远来看Nacos在以后的版本会<br>支持SpringCLoud+Kubernetes的组合，填补 2 者的鸿沟，在两套体系下可以采用同一套服务发现和配置管理的解决方案，这将大大的简化使用和维护的成本。另外，Nacos 计划实现 Service Mesh，也是未来微服务发展的趋<br>势。</p>
+<h2 id="1-4-Nacos简介"><a href="#1-4-Nacos简介" class="headerlink" title="1.4 Nacos简介"></a>1.4 Nacos简介</h2><p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage033.png" srcset="/img/loading.gif" alt></p>
+<p>Nacos是阿里的一个开源产品，它是针对微服务架构中的服务发现、配置管理、服务治理的综合型解决方案。<br>官方介绍是这样的：</p>
+<p class="note note-primary">Nacos 致力于帮助您发现、配置和管理微服务。Nacos 提供了一组简单易用的特性集，帮助您实现动态服务发现、服务配置管理、服务及流量管理。 Nacos 帮助您更敏捷和容易地构建、交付和管理微服务平台。Nacos 是构建以“服务”为中心的现代应用架构的服务基础设施。</p>
+
+<p>官网地址：<a href="https://nacos.io" target="_blank" rel="noopener">https://nacos.io</a></p>
+<h2 id="1-5-Nacos特性"><a href="#1-5-Nacos特性" class="headerlink" title="1.5 Nacos特性"></a>1.5 Nacos特性</h2><p>Nacos主要提供以下四大功能：</p>
+<ol>
+<li><strong>服务发现与服务健康检查</strong><br>Nacos使服务更容易注册，并通过DNS或HTTP接口发现其他服务，Nacos还提供服务的实时健康检查，以防<br>止向不健康的主机或服务实例发送请求。</li>
+<li><strong>动态配置管理</strong><br>动态配置服务允许您在所有环境中以集中和动态的方式管理所有服务的配置。Nacos消除了在更新配置时重新<br>部署应用程序，这使配置的更改更加高效和灵活。</li>
+</ol>
+<ol start="3">
+<li><strong>动态DNS服务</strong><br>Nacos提供基于DNS 协议的服务发现能力，旨在支持异构语言的服务发现，支持将注册在Nacos上的服务以<br>域名的方式暴露端点，让三方应用方便的查阅及发现。</li>
+<li><strong>服务和元数据管理</strong><br>Nacos 能让您从微服务平台建设的视角管理数据中心的所有服务及元数据，包括管理服务的描述、生命周<br>期、服务的静态依赖分析、服务的健康状态、服务的流量管理、路由及安全策略。<br>这里1、3、4说明了服务发现的功能特性。</li>
+</ol>
+<h1 id="2-Nacos-服务发现快速入门"><a href="#2-Nacos-服务发现快速入门" class="headerlink" title="2 Nacos 服务发现快速入门"></a>2 Nacos 服务发现快速入门</h1><p>本小节，我们将演示如何使用Spring Cloud Alibaba Nacos Discovery为Spring cloud 应用程序与 Nacos 的无<br>缝集成。 通过一些原生的spring cloud注解，我们可以快速来实现Spring cloud微服务的服务发现机制，并使用<br>Nacos Server作为服务发现中心，统一管理所有微服务。</p>
+<h2 id="2-1-Spring-Cloud服务协作流程"><a href="#2-1-Spring-Cloud服务协作流程" class="headerlink" title="2.1 Spring Cloud服务协作流程"></a>2.1 Spring Cloud服务协作流程</h2><p>现在，我们对Spring cloud内的一些组件还不了解，为了能够完全理解快速入门程序，我们需要学习以下内容。<br>Spring Cloud 常见的集成方式是使用Feign+Ribbon技术来完成服务间远程调用及负载均衡的，如下图：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage030.png" srcset="/img/loading.gif" alt></p>
+<p>（1）在微服务启动时，会向服务发现中心上报自身实例信息，这里ServiceB 包含多个实例。<br>每个实例包括：IP地址、端口号信息。</p>
+<p>（2）微服务会定期从Nacos Server(服务发现中心)获取服务实例列表。<br>（3）当ServiceA调用ServiceB时，ribbon组件从本地服务实例列表中查找ServiceB的实例，如获取了多个实例如<br>Instance1、Instance2。这时ribbon会通过用户所配置的负载均衡策略从中选择一个实例。<br>（4）最终，Feign组件会通过ribbon选取的实例发送http请求。<br>采用Feign+Ribbon的整合方式，是由Feign完成远程调用的整个流程。而Feign集成了Ribbon，Feign使用Ribbon<br>完成调用实例的负载均衡。</p>
+<h3 id="2-1-1-负载均衡的概念"><a href="#2-1-1-负载均衡的概念" class="headerlink" title="2.1.1 负载均衡的概念"></a>2.1.1 负载均衡的概念</h3><p>在SpringCloud服务协议流程中，ServiceA通过负载均衡调用ServiceB，下边来了解一下<strong>负载均衡</strong>：</p>
+<p><strong>负载均衡</strong>就是将用户请求（流量）通过一定的策略，分摊在多个服务实例上执行，它是系统处理高并发、缓解网络<br>压力和进行服务端扩容的重要手段之一。它分为<strong>服务端负载均衡</strong>和<strong>客户端负载均衡</strong>。</p>
+<p><strong>服务器端负载均衡</strong>：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage039.png" srcset="/img/loading.gif" alt></p>
+<p>在负载均衡器中维护一个可用的服务实例清单，当客户端请求来临时，负载均衡服务器按照某种配置好的规则(<strong>负载均衡算法</strong>)从可用服务实例清单中选取其一去处理客户端的请求。这就是服务端负载均衡。</p>
+<p class="note note-primary">如Nginx，通过Nginx进行负载均衡，客户端发送请求至Nginx，Nginx通过负载均衡算法，在多个服务器之间选择一个进行访问。即在服务器端再进行负载均衡算法分配。</p>
+
+<p><strong>客户端服务负载均衡</strong>：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage044.png" srcset="/img/loading.gif" alt></p>
+<p class="note note-primary">我们接下来要讲的Ribbon，就属于客户端负载均衡。在ribbon客户端会有一个服务实例地址列表，在发送请求前通过负载均衡算法选择一个服务实例，然后进行访问，这是客户端负载均衡。即在客户端就进行负载均衡算法分配。</p>
+
+<p>Ribbon是一个客户端负载均衡器，它的责任是从一组实例列表中挑选合适的实例，如何挑选？取决于<strong>负载均衡策略</strong>。</p>
+<ul>
+<li>Ribbon核心组件IRule是负载均衡策略接口，它有如下实现，大家仅做了解：</li>
+<li>RoundRobinRule(默认):轮询，即按一定的顺序轮换获取实例的地址。</li>
+<li>RandomRule:随机，即以随机的方式获取实例的地址。</li>
+<li>AvailabilityFilteringRule: 会先过滤掉由于多次访问故障而处于断路器跳闸状态的服务,以及并发的连接数量</li>
+</ul>
+<p>超过阈值的服务,然后对剩余的服务列表按照轮询策略进行访问;</p>
+<ul>
+<li>WeightedResponseTimeRule: 根据平均响应时间计算所有服务的权重,响应时间越快,服务权重越大,被选中的</li>
+</ul>
+<p>机率越高;<br>刚启动时,如果统计信息不足,则使用RoundRobinRule策略,等统计信息足够时,会切换到WeightedResponseTimeRule</p>
+<ul>
+<li>RetryRule: 先按照RoundRobinRule的策略获取服务,如果获取服务失败,则在指定时间内会进行重试,获取可用</li>
+</ul>
+<p>的服务;</p>
+<ul>
+<li>BestAvailableRule: 会先过滤掉由于多次访问故障而处于断路器跳闸状态的服务,然后选择一个并发量最小的</li>
+</ul>
+<p>服务;</p>
+<ul>
+<li>ZoneAvoidanceRule: 默认规则,复合判断server所在区域的性能和server的可用性选择服务器;</li>
+</ul>
+<p>可通过下面方式在spring boot 配置文件中修改默认的负载均衡策略：</p>
+<div class="hljs"><pre><code class="hljs stylus">account‐service<span class="hljs-selector-class">.ribbon</span>.NFLoadBalancerRuleClassName=com<span class="hljs-selector-class">.netflix</span><span class="hljs-selector-class">.loadbalancer</span>.RandomRule</code></pre></div>
+
+<p>account-service 是调用的服务的名称，后面的组成部分是固定的。</p>
+<h3 id="2-1-2-Feign-介绍"><a href="#2-1-2-Feign-介绍" class="headerlink" title="2.1.2 Feign 介绍"></a>2.1.2 Feign 介绍</h3><p>Feign是Netflix开发的声明式、模板化的HTTP客户端， Feign可以帮助我们更快捷、优雅地调用HTTP API。Feign<br>的英文表意为“假装，伪装，变形”， 可以理解为将HTTP报文请求方式伪装为简单的java接口调用方式。</p>
+<p>参考第1章节的ServiceA调用ServiceB的例子，我们使用Feign实现这个过程，代码如下：<br>Service B暴露”/service”服务端点，如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringRestProviderBootstrap</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    	SpringApplication.run(SpringRestProviderBootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+    <span class="hljs-meta">@GetMapping</span>(value = <span class="hljs-string">"/service"</span>) <span class="hljs-comment">//暴露服务</span>
+        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"provider invoke"</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p><strong>Feign</strong>调用方式如下：<br>（1）声明Feign客户端</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = <span class="hljs-string">"serviceB"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ServiceBAgent</span> </span>&#123;
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">    * 根据用户名查询账号信息</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@param</span> username 用户名</span>
+<span class="hljs-comment">    * <span class="hljs-doctag">@return</span> 账号信息</span>
+<span class="hljs-comment">    */</span>
+    <span class="hljs-meta">@GetMapping</span>(value = <span class="hljs-string">"/service"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
+
+<p>（2）业务调用</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span>
+<span class="hljs-keyword">private</span> ServiceBAgent serviceBAgent.;
+<span class="hljs-comment">//....略</span>
+serviceBAgent.service();
+<span class="hljs-comment">//....略</span></code></pre></div>
+
+<p>是不是非常简单？并且在业务调用时，减少了与业务无关的http请求相关代码的编写，使业务逻辑清晰。咱们分析<br>一下Feign帮我们做了哪些事儿：</p>
+<ul>
+<li>在 声明Feign客户端 之后，Feign会根据@FeignClient注解使用java的动态代理技术生成代理类，在这里我们<br>指定@FeignClient value为serviceB，则说明这个类的远程目标为spring cloud的服务名称为serviceB的微服<br>务</li>
+<li>serviceB的具体访问地址，Feign会交由ribbon获取，若该服务有多个实例地址，ribbon会采用指定的负载均<br>衡策略选取实例。</li>
+<li>Feign兼容spring的web注解（如：@GetMapping），它会分析声明Feign客户端方法中的Spring注解，得出<br>Http请求method、参数信息以及返回信息结构。</li>
+<li>当业务调用Feign客户端方法时，会调用代理类，根据以上分析结果，由代理类完成实际的参数封装、远程<br>http请求，返回结果封装等操作。</li>
+</ul>
+<p>另外，别忘了，若在在Spring cloud中使用Feign，需要引入以下依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>Feign默认集成了Ribbon，可以直接使用。</p>
+<p>还需要在spring cloud 启动类中标注@EnableFeignClients，表明此项目开启Feign客户端:</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableFeignClients</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringRestConsumerBootstrap</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    	SpringApplication.run(SpringRestConsumerBootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+...</code></pre></div>
+
+<p>总结：通过上面的学习，我们已经了解Spring cloud的微服务是如何协作的，通过哪些组件的配合能够完成服务间<br>协作？我们了解了什么是负载均衡，Feign用于服务间Http调用，Ribbon用于执行负载均衡算法选取访问实例，而<br>Ribbon的实例列表来源是由Spring cloud的服务发现中心提供（当前实现为Nacos）。</p>
+<h2 id="2-2-搭建Nacos服务端"><a href="#2-2-搭建Nacos服务端" class="headerlink" title="2.2 搭建Nacos服务端"></a>2.2 搭建Nacos服务端</h2><p>略…</p>
+<h2 id="2-3-创建父工程"><a href="#2-3-创建父工程" class="headerlink" title="2.3 创建父工程"></a>2.3 创建父工程</h2><p>为了规范依赖的版本，这里创建父工程，指定依赖的版本。<br>父工程pom.xml如下：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version="1.0" encoding="UTF‐8"?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">project</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0"</span></span>
+<span class="hljs-tag"><span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">"http://www.w3.org/2001/XMLSchema‐instance"</span></span>
+<span class="hljs-tag"><span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">"http://maven.apache.org/POM/4.0.0</span></span>
+<span class="hljs-tag"><span class="hljs-string">http://maven.apache.org/xsd/maven‐4.0.0.xsd"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF‐8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>UTF‐8<span class="hljs-tag">&lt;/<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐alibaba‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.0.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Greenwich.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.3.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+                <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐maven‐plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">project</span>&gt;</span></code></pre></div>
+
+<h2 id="2-4-服务生产者"><a href="#2-4-服务生产者" class="headerlink" title="2.4 服务生产者"></a>2.4 服务生产者</h2><p>以下步骤演示了如何将一个服务生产者注册到 Nacos。</p>
+<p>1、pom.xml的配置。<br>包括Spring Cloud Feign组件、Spring Cloud Alibaba Nacos Discovery组件以及Spring boot web相关组件依赖。</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+   <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>quickstart‐provider<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+   <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐starter‐web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+       <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+           <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+       <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<p>2、application.yml配置。一些关于 Nacos 基本的配置也必须在application.yml(也可以是application.properties)<br>配置，如下所示： application.yml</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+	<span class="hljs-attr">port:</span> <span class="hljs-number">56010</span> <span class="hljs-comment">#启动端口</span>
+<span class="hljs-attr">spring:</span>
+	<span class="hljs-attr">application:</span>
+		<span class="hljs-attr">name:</span> <span class="hljs-string">quickstart‐provider</span>
+	<span class="hljs-attr">cloud:</span>
+    <span class="hljs-attr">nacos:</span>
+        <span class="hljs-attr">discovery:</span>
+            <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span>	
+<span class="hljs-attr">logging:</span>
+    <span class="hljs-attr">level:</span>
+        <span class="hljs-attr">root:</span> <span class="hljs-string">info</span>
+        	<span class="hljs-attr">org.springframework:</span> <span class="hljs-string">inf</span></code></pre></div>
+
+<p>Note: spring.cloud.nacos.discovery.server-addr 指定了Nacos Server的网络地址和端口号。</p>
+<p>3、Provider(生产者)服务实现</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProviderController</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOG = LoggerFactory.getLogger(ProviderController<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/service"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>&#123;
+        LOG.info(<span class="hljs-string">"provider invoke"</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"provider invoke"</span>;
+	&#125;	
+&#125;</code></pre></div>
+
+<p>4、启动Provider(生产者)</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableFeignClients</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NacosProviderApp</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+   		 SpringApplication.run(NacosProviderApp<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>Note: <strong>@EnableDiscovery</strong>Client 在spring cloud项目中表明此项目是一个注册发现客户端，这里注册服务发<br>现使用的是Nacos<br>Note: <strong>@EnableFeignClients</strong> 开启FeignClient</p>
+<h2 id="2-5-服务消费者"><a href="#2-5-服务消费者" class="headerlink" title="2.5 服务消费者"></a>2.5 服务消费者</h2><p>以下步骤演示了如何结合Nacos对spring cloud rest接口进行消费。<br>1、pom.xml的配置。</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>quickstart‐consumer<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    	<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐starter‐web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<p>2、application.yml配置</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+	<span class="hljs-attr">port:</span> <span class="hljs-number">56020</span> <span class="hljs-comment">#启动端口 命令行注入</span>
+<span class="hljs-attr">spring:</span>
+    <span class="hljs-attr">application:</span>
+    	<span class="hljs-attr">name:</span> <span class="hljs-string">quickstart‐consumer</span>
+    <span class="hljs-attr">cloud:</span>
+        <span class="hljs-attr">nacos:</span>
+            <span class="hljs-attr">discovery:</span>
+            	<span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span></code></pre></div>
+
+<p>3、Provider(生产者)远程代理定义</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(name = <span class="hljs-string">"quickstart‐provider"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ProviderClient</span> </span>&#123;
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/service"</span>)
+    <span class="hljs-function">String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
+
+<p>4、Consumer(消费者)服务实现</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerController</span> </span>&#123;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Logger LOG = LoggerFactory.getLogger(ConsumerController<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> ProviderClient providerClient;
+    
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/service"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>&#123;
+        LOG.info(<span class="hljs-string">"consumer invoke"</span>);
+        String providerResult = providerClient.service();
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"consumer invoke"</span> + <span class="hljs-string">"|"</span> + providerResult;
+	&#125;
+&#125;</code></pre></div>
+
+<p>5、启动Consumer(消费者)</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableFeignClients</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NacosConsumerApp</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+   		 SpringApplication.run(NacosConsumerApp<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>访问地址：<a href="http://127.0.0.1:56020/service" target="_blank" rel="noopener">http://127.0.0.1:56020/service</a></p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage093.png" srcset="/img/loading.gif" alt></p>
+<p>调用成功。</p>
+<p>浏览器访问 <a href="http://127.0.0.1:8848/nacos" target="_blank" rel="noopener">http://127.0.0.1:8848/nacos</a> ，打开nacos控制台，并点击菜单服务管理-&gt;服务列表，可展示出刚刚注<br>册的两个服务：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage095.png" srcset="/img/loading.gif" alt></p>
+<h2 id="2-6-测试多实例负载均衡"><a href="#2-6-测试多实例负载均衡" class="headerlink" title="2.6 测试多实例负载均衡"></a>2.6 测试多实例负载均衡</h2><p>修改quickstart-provider工程的application.yaml，实现port动态传入：</p>
+<div class="hljs"><pre><code class="hljs dts"><span class="hljs-symbol">server:</span>
+<span class="hljs-symbol">	port:</span> $&#123;port:<span class="hljs-number">56010</span>&#125; <span class="hljs-meta">#启动端口</span></code></pre></div>
+
+<p>设置启动参数：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage099.png" srcset="/img/loading.gif" alt></p>
+<p>启动quickstart-provider两个实例。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage101.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage103.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage105.png" srcset="/img/loading.gif" alt></p>
+<p>请求<a href="http://127.0.0.1:56020/service测试负载均衡。" target="_blank" rel="noopener">http://127.0.0.1:56020/service测试负载均衡。</a><br>跟踪quickstart-provider两个实例的控制台的日志输出，默认负载均衡策略是轮询。</p>
+<h1 id="3-Nacos服务发现基础应用"><a href="#3-Nacos服务发现基础应用" class="headerlink" title="3 Nacos服务发现基础应用"></a>3 Nacos服务发现基础应用</h1><h2 id="3-1-服务发现数据模型"><a href="#3-1-服务发现数据模型" class="headerlink" title="3.1 服务发现数据模型"></a>3.1 服务发现数据模型</h2><p>Nacos在经过阿里内部多年生产经验后提炼出的数据模型，则是一种服务-集群-实例的三层模型，这样基本可以满<br>足服务在所有场景下的数据存储和管理。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage108.png" srcset="/img/loading.gif" alt></p>
+<p><strong>命名空间(Namespace)</strong><br>用于进行租户粒度的配置隔离，命名空间不仅适用于nacos的配置管理，同样适用于服务发现。Namespace 的常<br>用场景之一是不同环境的配置的区分隔离，例如开发测试环境和生产环境的资源（如配置、服务）隔离等。<br><strong>服务</strong><br>提供给客户端的软件功能，通过预定义接口网络访问。<br><strong>服务名</strong><br>服务提供的标识，通过该标识可以唯一确定其指代的服务。<br><strong>实例</strong><br>提供一个或多个服务的具有可访问网络地址（IP:Port）的进程，启动一个服务，就产生了一个服务实例。<br><strong>元信息</strong><br>Nacos数据（如配置和服务）描述信息，如服务版本、权重、容灾策略、负载均衡策略、鉴权配置、各种自定义标<br>签 (label)，从作用范围来看，分为服务级别的元信息、集群的元信息及实例的元信息。<br><strong>集群</strong><br>服务实例的集合，服务实例组成一个默认集群, 集群可以被进一步按需求划分，划分的单位可以是虚拟集群，相同<br>集群下的实例才能相互感知。</p>
+<p>应用通过Namespace、Service、Cluster(DEFAULT)的配置，描述了该服务向哪个环境（如开发环境）的哪个集群<br>注册实例。</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">spring:</span>
+    <span class="hljs-attr">application:</span>
+    	<span class="hljs-attr">name:</span> <span class="hljs-string">transaction‐service</span>
+    <span class="hljs-attr">cloud:</span>
+        <span class="hljs-attr">nacos:</span>
+            <span class="hljs-attr">discovery:</span>
+                <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:7283</span> <span class="hljs-comment"># 注册中心地址</span>
+                <span class="hljs-attr">namespace:</span> <span class="hljs-string">a1f8e863‐3117‐48c4‐9dd3‐e9ddc2af90a8</span> <span class="hljs-comment"># 开发环境</span>
+                <span class="hljs-string">cluster‐name:</span> <span class="hljs-string">DEFAULT</span> <span class="hljs-comment"># 默认集群，可不填写</span></code></pre></div>
+
+<p>Note: 集群作为实例的隔离，相同集群的实例才能相互感知。<br>Note: namespace、cluster-name若不填写都将采取默认值，namespace的默认是public命名空间，<br>cluster-name的默认值为DEFAULT集群。</p>
+<h2 id="3-2-服务管理"><a href="#3-2-服务管理" class="headerlink" title="3.2 服务管理"></a>3.2 服务管理</h2><p>开发者或者运维人员往往需要在服务注册后，通过友好的界面来查看服务的注册情况，包括当前系统注册的所有服<br>务和每个服务的详情。并在有权限控制的情况下，进行服务的一些配置的编辑操作。Nacos在目前最新版本开放的<br>控制台的服务发现部分，主要就是提供用户一个基本的运维页面，能够查看、编辑当前注册的服务，这些功能集中<br>在Nacos控制台的服务管理一级菜单内。</p>
+<h3 id="3-2-1-服务列表管理"><a href="#3-2-1-服务列表管理" class="headerlink" title="3.2.1 服务列表管理"></a>3.2.1 服务列表管理</h3><p>服务列表帮助用户以统一的视图管理其所有的微服务以及服务健康状态。整体界面布局是左上角有服务的搜索框和<br>搜索按钮，页面中央是服务列表的展示。服务列表主要展示服务名、集群数目、实例数目、健康实例数目和详情按<br>钮五个栏目。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage111.png" srcset="/img/loading.gif" alt></p>
+<p>在服务列表页面点击详情，可以看到服务的详情。可以查看服务、集群和实例的基本信息。</p>
+<h3 id="3-2-2-服务流量权重支持及流量保护"><a href="#3-2-2-服务流量权重支持及流量保护" class="headerlink" title="3.2.2 服务流量权重支持及流量保护"></a>3.2.2 服务流量权重支持及流量保护</h3><p>Nacos 为用户提供了流量权重控制的能力，同时开放了服务流量的阈值保护，以帮助用户更好的保护服务服务提<br>供者集群不被意外打垮。如下图所以，可以点击实例的编辑按钮，修改实例的权重。如果想增加实例的流量，可以<br>将权重调大，如果不想实例接收流量，则可以将权重设为0。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage113.png" srcset="/img/loading.gif" alt></p>
+<h3 id="3-2-3-服务元数据管理"><a href="#3-2-3-服务元数据管理" class="headerlink" title="3.2.3 服务元数据管理"></a>3.2.3 服务元数据管理</h3><p>Nacos提供多个维度的服务元数据的暴露，帮助用户存储自定义的信息。这些信息都是以K-V的数据结构存储，在<br>控制台上，会以k1=v1,k2=v2这样的格式展示。类似的，编辑元数据可以通过相同的格式进行。例如服务的元数据<br>编辑，首先点击服务详情页右上角的“编辑服务”按钮，然后在元数据输入框输入：version=1.0。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage115.png" srcset="/img/loading.gif" alt></p>
+<p>点击确认，就可以在服务详情页面，看到服务的元数据已经更新了。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage117.png" srcset="/img/loading.gif" alt></p>
+<h3 id="3-2-4-服务优雅上下线"><a href="#3-2-4-服务优雅上下线" class="headerlink" title="3.2.4 服务优雅上下线"></a>3.2.4 服务优雅上下线</h3><p>Nacos还提供服务实例的上下线操作，在服务详情页面，可以点击实例的“上线”或者“下线”按钮，被下线的实例，<br>将不会包含在健康的实例列表里。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage119.png" srcset="/img/loading.gif" alt></p>
+<p>上下线测试：<br>（1）分别启动快速上手中的quickstart-consumer与quickstart-provider工程，更改quickstart-provide中的启动<br>端口，再次启动quickstart-provider，让quickstart-provider服务拥有两个实例。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage121.png" srcset="/img/loading.gif" alt></p>
+<p>（2）多次访问<a href="http://127.0.0.1:56020/service" target="_blank" rel="noopener">http://127.0.0.1:56020/service</a> ，让consumer调用provider时触发负载均衡。<br>（3）观察provider的2个实例控制台，可发现实例调用被均匀负载。<br>（4）在provider的服务详情页面，让某实例下线。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage123.png" srcset="/img/loading.gif" alt></p>
+<p>（5）多次访问<a href="http://127.0.0.1:56020/service" target="_blank" rel="noopener">http://127.0.0.1:56020/service</a> ，观察控制台，发现下线的实例已不再接收流量。<br>（6）在provider的服务详情页面，让该实例恢复上线状态。<br>（7）多次访问<a href="http://127.0.0.1:56020/service" target="_blank" rel="noopener">http://127.0.0.1:56020/service</a> ，观察控制台，发现恢复上线的实例已恢复流量访问。</p>
+<h1 id="4-Spring-Cloud-Alibaba-综合集成架构演示"><a href="#4-Spring-Cloud-Alibaba-综合集成架构演示" class="headerlink" title="4 Spring Cloud Alibaba 综合集成架构演示"></a>4 Spring Cloud Alibaba 综合集成架构演示</h1><p>前面说到，Spring Cloud是一个较为全面的微服务框架集，集成了如服务注册发现、配置中心、消息总线、负载均<br>衡、断路器、API网关等功能实现。而在网上经常会发现Spring Cloud与阿里巴巴的Dubbo进行选择对比，这样做<br>其实不是很妥当，前者是一套较为完整的架构方案，而Dubbo只是服务治理与RPC实现方案。</p>
+<p>Dubbo在国内有着非常大的用户群体，但是其周边设施与组件相对来说并不那么完善。很多开发者用户又很希望享受Spring Cloud的生态，因此也会有一些Spring Cloud与Dubbo一起使用的案例与方法出现，但是一直以来大部分</p>
+<p>Spring Cloud整合Dubbo的使用方案都不完善。直到Spring Cloud Alibaba的出现，才得以解决这样的问题。<br>在此之前，我们已经学了如何使用Spring Cloud Alibaba来集成Nacos与Spring Cloud应用，并且在此之下可以如<br>传统的Spring Cloud应用一样地使用Ribbon或Feign来微服务之间的协作。由于Feign是基于Http Restful的调用，<br>在高并发下的性能不够理想，RPC方案能否切换为Dubbo？Spring Cloud与阿里系的若干组件能否完美集成呢？</p>
+<p>可以！本章内容将指引大家集成一个微服务的基础架构，并讨论其合理性。</p>
+<h2 id="4-1-总体结构"><a href="#4-1-总体结构" class="headerlink" title="4.1 总体结构"></a>4.1 总体结构</h2><p>系统架构图如下：</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage125.png" srcset="/img/loading.gif" alt></p>
+<p>组件说明：<br><strong>API网关</strong> ：系统统一入口，屏蔽架构内部结构，统一安全拦截，采用Zuul实现。<br><strong>application-1</strong> ：应用1，模拟应用，提供http接口服务。<br><strong>service-1 *<em>：微服务1，模拟微服务，提供dubbo接口服务。<br>*</em>service-2</strong> ：微服务2，模拟微服务，提供dubbo接口服务。<br>调用流程：<br>所有访问系统的请求都要经过网关，网关转发Http请求至application-1，application-1使用dubbo调用service1完<br>成自身业务，而后sevice1调用service2完成自身业务。至此，完成所有组件贯穿。</p>
+<p>架构中application与sevice的区别是什么？</p>
+<ul>
+<li>service提供了基础服务功能；application组装基础服务功能，提供给用户直接可用的业务。</li>
+<li>service服务粒度小、功能基础，不易发生改变；application提供上游业务功能，紧贴业务需求，容易发生改</li>
+</ul>
+<p>变。</p>
+<ul>
+<li>形成service支撑application的整体架构，增加多变的application甚至不需要变动service。</li>
+</ul>
+<h2 id="4-3-工程结构说明"><a href="#4-3-工程结构说明" class="headerlink" title="4.3 工程结构说明"></a>4.3 工程结构说明</h2><p>采用maven工程，结构如下：</p>
+<div class="hljs"><pre><code class="hljs angelscript">nacos‐micro‐service 整体父工程
+├─api‐gateway API网关，端口：<span class="hljs-number">56010</span>
+├─application‐<span class="hljs-number">1</span> 应用<span class="hljs-number">1</span>，端口：<span class="hljs-number">56020</span>
+├─service‐<span class="hljs-number">1</span> 服务<span class="hljs-number">1</span>父工程
+│ ├─service‐<span class="hljs-number">1</span>‐api 服务<span class="hljs-number">1</span>API
+│ └─service‐<span class="hljs-number">1</span>‐server 服务<span class="hljs-number">1</span>实现，端口：<span class="hljs-number">56030</span>
+└─service‐<span class="hljs-number">2</span> 服务<span class="hljs-number">2</span>父工程
+├─service‐<span class="hljs-number">2</span>‐api 服务<span class="hljs-number">2</span>API
+└─service‐<span class="hljs-number">2</span>‐server 服务<span class="hljs-number">2</span>实现，端口：<span class="hljs-number">56040</span></code></pre></div>
+
+<h2 id="4-4-创建父工程"><a href="#4-4-创建父工程" class="headerlink" title="4.4 创建父工程"></a>4.4 创建父工程</h2><p>创建 artifactId 名为 nacos-micro-service 的 Maven 工程，此父工程继承nacos-discovery父工程，间接指定<br>了Spring boot、spring cloud 以及spring-cloud-alibaba的依赖版本。</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐micro‐service<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span></code></pre></div>
+
+<p>nacos-discovery的pom.xml如下：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">packaging</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">packaging</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">properties</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>UTF‐8<span class="hljs-tag">&lt;/<span class="hljs-name">project.build.sourceEncoding</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>UTF‐8<span class="hljs-tag">&lt;/<span class="hljs-name">project.reporting.outputEncoding</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">java.version</span>&gt;</span>1.8<span class="hljs-tag">&lt;/<span class="hljs-name">java.version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">properties</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependencyManagement</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐alibaba‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.0.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>Greenwich.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐dependencies<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>2.1.3.RELEASE<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">type</span>&gt;</span>pom<span class="hljs-tag">&lt;/<span class="hljs-name">type</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>import<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencyManagement</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">build</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">plugins</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐maven‐plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">plugins</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">build</span>&gt;</span></code></pre></div>
+
+<h2 id="4-5-实现application1"><a href="#4-5-实现application1" class="headerlink" title="4.5 实现application1"></a>4.5 实现application1</h2><p>application1属于应用层，提供http接口服务。</p>
+<p>（1）初始化 application-1 Maven 工程</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>application‐1<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐starter‐web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+	<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<p>（2）实现 application-1 功能</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.itheima.microservice.application1.controller;
+<span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Application1Controller</span> </span>&#123;
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/service"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>&#123;
+    	<span class="hljs-keyword">return</span> <span class="hljs-string">"test"</span> ;
+    &#125;
+&#125;</code></pre></div>
+
+<p>（3） application1 配置<br>纯粹的dubbo服务消费者，配置看起来更简单。<br>定义bootstrap.yml</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+    <span class="hljs-attr">port:</span> <span class="hljs-number">56020</span> <span class="hljs-comment">#启动端口 命令行注入</span>
+    <span class="hljs-attr">servlet:</span>
+    	<span class="hljs-string">context‐path:</span> <span class="hljs-string">/application1</span>
+<span class="hljs-attr">spring:</span>
+    <span class="hljs-attr">application:</span>
+    	<span class="hljs-attr">name:</span> <span class="hljs-string">application1</span>
+<span class="hljs-attr">main:</span>
+	<span class="hljs-string">allow‐bean‐definition‐overriding:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># Spring Boot 2.1 需要设定</span>
+<span class="hljs-attr">cloud:</span>
+    <span class="hljs-attr">nacos:</span>
+        <span class="hljs-attr">discovery:</span>
+            <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span>
+            <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span>
+            <span class="hljs-string">cluster‐name:</span> <span class="hljs-string">DEFAULT</span>
+        <span class="hljs-attr">config:</span>
+            <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># 配置中心地址</span>
+            <span class="hljs-string">file‐extension:</span> <span class="hljs-string">yaml</span>
+            <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span> <span class="hljs-comment"># 开发环境</span>
+            <span class="hljs-attr">group:</span> <span class="hljs-string">NACOS_MICROSERVICE_GROUP</span> <span class="hljs-comment"># xx业务组</span></code></pre></div>
+
+<p>（4） application1 启动</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Application1Bootstrap</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    	SpringApplication.run(Application1Bootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>,<span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>当 Service1Bootstrap 启动后，应用 application1 将出现在 Nacos 控制台界面。</p>
+<h2 id="4-6-实现-Service1"><a href="#4-6-实现-Service1" class="headerlink" title="4.6 实现 Service1"></a>4.6 实现 Service1</h2><h3 id="4-6-1-定义父工程"><a href="#4-6-1-定义父工程" class="headerlink" title="4.6.1 定义父工程"></a>4.6.1 定义父工程</h3><p>定义service1父工程，pom.xml如下：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐micro‐service<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>Service1<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></code></pre></div>
+
+<h3 id="4-6-2-定义service-1-api"><a href="#4-6-2-定义service-1-api" class="headerlink" title="4.6.2 定义service-1-api"></a>4.6.2 定义service-1-api</h3><p>为了方便其它服务调用dubbo服务，专门定义api工程，此工程将作为jar被其它工程依赖。<br>定义service-1-api工程，pom.xml如下：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>Service1<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service‐1‐api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></code></pre></div>
+
+<p>定义服务接口：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.itheima.microservice.service1.api;
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ConsumerService</span> </span>&#123;
+	<span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
+
+<h3 id="4-6-3-实现service-1-server"><a href="#4-6-3-实现service-1-server" class="headerlink" title="4.6.3 实现service-1-server"></a>4.6.3 实现service-1-server</h3><p>（1）初始化 service-1-server Maven 工程<br>与服务提供方 Maven工程类似，需添加相关 Maven 依赖：</p>
+<div class="hljs"><pre><code class="hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>Service1<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service‐1‐server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service‐1‐api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<p>（2）实现 Dubbo 服务</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.itheima.microservice.service1.service;
+<span class="hljs-meta">@org</span>.apache.dubbo.config.annotation.Service
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ConsumerService</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span> </span>&#123;
+    	<span class="hljs-keyword">return</span> <span class="hljs-string">"Consumer invoke "</span> ;
+    &#125;
+&#125;</code></pre></div>
+
+<p>注意：使用@org.apache.dubbo.config.annotation.Service标记dubbo服务<br>（3）配置 Dubbo 服务<br>Service2 作为Dubbo服务消费方配置与服务提供方类似，注意，service1不仅是消费方，同时还是服务提供方：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+	<span class="hljs-attr">port:</span> <span class="hljs-string">$&#123;port:56030&#125;</span> <span class="hljs-comment">#启动端口 命令行注入</span>
+<span class="hljs-attr">spring:</span>
+    <span class="hljs-attr">application:</span>
+   		<span class="hljs-attr">name:</span> <span class="hljs-string">service1</span>
+    <span class="hljs-attr">main:</span>
+   		<span class="hljs-string">allow‐bean‐definition‐overriding:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># Spring Boot 2.1 需要设定</span>
+    <span class="hljs-attr">cloud:</span>
+        <span class="hljs-attr">nacos:</span>
+            <span class="hljs-attr">discovery:</span>
+                <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span>
+                <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span>
+                <span class="hljs-string">cluster‐name:</span> <span class="hljs-string">DEFAULT</span>
+            <span class="hljs-attr">config:</span>
+                <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># 配置中心地址</span>
+                <span class="hljs-string">file‐extension:</span> <span class="hljs-string">yaml</span>
+                <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span> <span class="hljs-comment"># 开发环境</span>
+                <span class="hljs-attr">group:</span> <span class="hljs-string">NACOS_MICROSERVICE_GROUP</span> <span class="hljs-comment"># xx业务组</span>
+<span class="hljs-attr">dubbo:</span>
+    <span class="hljs-attr">scan:</span>
+    <span class="hljs-comment"># dubbo 服务扫描基准包</span>
+   		<span class="hljs-string">base‐packages:</span> <span class="hljs-string">com.itheima.microservice</span>
+    <span class="hljs-attr">protocol:</span>
+    <span class="hljs-comment"># dubbo 协议</span>
+    	<span class="hljs-attr">name:</span> <span class="hljs-string">dubbo</span>
+    <span class="hljs-comment"># dubbo 协议端口</span>
+    	<span class="hljs-attr">port:</span> <span class="hljs-string">$&#123;dubbo_port:20881&#125;</span>
+    <span class="hljs-attr">registry:</span>
+        <span class="hljs-attr">address:</span> <span class="hljs-string">nacos://127.0.0.1:8848</span>
+    <span class="hljs-attr">application:</span>
+        <span class="hljs-string">qos‐enable:</span> <span class="hljs-literal">false</span> <span class="hljs-comment">#dubbo运维服务是否开启</span>
+    <span class="hljs-attr">consumer:</span>
+        <span class="hljs-attr">check:</span> <span class="hljs-literal">false</span> <span class="hljs-comment">#启动时就否检查依赖的服务</span></code></pre></div>
+
+<p>以上 YAML 内容，dubbo开头的为dubbo服务 的配置：</p>
+<ul>
+<li>dubbo.scan.base-packages : 指定 Dubbo 服务实现类的扫描基准包，将</li>
+</ul>
+<p>@org.apache.dubbo.config.annotation.Service注解标注的service暴露为dubbo服务。</p>
+<ul>
+<li>dubbo.protocol : Dubbo 服务暴露的协议配置，其中子属性 name 为协议名称， port 为dubbo协议端口</li>
+</ul>
+<p>可以指定多协议，如：dubbo.protocol.rmi.port=1099</p>
+<ul>
+<li>dubbo.registry : Dubbo 服务注册中心配置，其中子属性 address 的值 “nacos://127.0.0.1:8848”，说明</li>
+</ul>
+<p>dubbo服务注册到nacos相当于原生dubbo的xml配置中的 </p>
+<p>上半部分为SpringCloud的相关配置：</p>
+<ul>
+<li>spring.application.name : Spring 应用名称，用于 Spring Cloud 服务注册和发现。</li>
+</ul>
+<p>该值在 Dubbo Spring Cloud 加持下被视作 dubbo.application.name ，因此，无需再显示地配置<br>dubbo.application.name</p>
+<ul>
+<li>spring.cloud.nacos.discovery : Nacos 服务发现与注册配置，其中子属性 server-addr 指定 Nacos 服务器</li>
+</ul>
+<p>主机和端口</p>
+<ul>
+<li>spring.cloud.nacos.config : Nacos 配置中心配置，其中子属性 server-addr 指定 Nacos 服务器主机和端</li>
+</ul>
+<p>口。<br>（4）启动服务消费方应用</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Service1Bootstrap</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    	SpringApplication.run(Service1Bootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>当 Service1Bootstrap 启动后，应用 service1 将出现在 Nacos 控制台界面。<br>启动成功，观察nacos服务列表</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage160.png" srcset="/img/loading.gif" alt></p>
+<h2 id="4-7-实现-application1调用Service1"><a href="#4-7-实现-application1调用Service1" class="headerlink" title="4.7 实现 application1调用Service1"></a>4.7 实现 application1调用Service1</h2><p>现在service1已暴露dubbo服务并注册到nacos中，下边实现application1调用service1</p>
+<h3 id="4-7-1-引用service1"><a href="#4-7-1-引用service1" class="headerlink" title="4.7.1 引用service1"></a>4.7.1 引用service1</h3><p>下边在application1中引用service1<br>在pom.xml中引入service-1-api的依赖</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service‐1‐api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>引入 spring-cloud-starter-dubbo依赖，它会根据接口生成代理对象</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<h3 id="4-7-2-实现远程调用"><a href="#4-7-2-实现远程调用" class="headerlink" title="4.7.2 实现远程调用"></a>4.7.2 实现远程调用</h3><div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Application1Controller</span> </span>&#123;
+    
+    <span class="hljs-meta">@org</span>.apache.dubbo.config.annotation.Reference
+    <span class="hljs-keyword">private</span> ConsumerService consumerService;
+    
+    <span class="hljs-meta">@GetMapping</span>(<span class="hljs-string">"/service"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>&#123;
+    	<span class="hljs-keyword">return</span> <span class="hljs-string">"test"</span> + consumerService.service();
+    &#125;
+&#125;</code></pre></div>
+
+<p>Note：注意：这里的 @Reference 注解是 org.apache.dubbo.config.annotation.Reference<br>测试：<br>请求：<a href="http://localhost:56020/application1/service" target="_blank" rel="noopener">http://localhost:56020/application1/service</a><br>consumerService正常生成代理对象，service1被调用。</p>
+<h2 id="4-8-实现-Service2"><a href="#4-8-实现-Service2" class="headerlink" title="4.8 实现 Service2"></a>4.8 实现 Service2</h2><p>如上面设计所示，Service2需要暴露dubbo接口以供service1消费，若想在Spring cloud Alibaba中集成并使用<br>dubbo。</p>
+<h3 id="4-8-1-定义父工程"><a href="#4-8-1-定义父工程" class="headerlink" title="4.8.1 定义父工程"></a>4.8.1 定义父工程</h3><p>定义service2父工程，pom.xml如下：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐micro‐service<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>Service2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></code></pre></div>
+
+<h3 id="4-8-2-定义service-2-api"><a href="#4-8-2-定义service-2-api" class="headerlink" title="4.8.2 定义service-2-api"></a>4.8.2 定义service-2-api</h3><p>定义service-2-api工程，pom.xml如下：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>Service2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service‐2‐api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span></code></pre></div>
+
+<p>并定义服务接口，Dubbo 服务接口是服务提供方与消费方的远程通讯契约，通常由普通的 Java 接口（interface）<br>来声明，如 ProviderService 接口：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.itheima.microservice.service2.api;
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ProviderService</span> </span>&#123;
+	<span class="hljs-function">String <span class="hljs-title">service</span><span class="hljs-params">()</span></span>;
+&#125;</code></pre></div>
+
+<h3 id="4-8-3-实现service-2-server"><a href="#4-8-3-实现service-2-server" class="headerlink" title="4.8.3 实现service-2-server"></a>4.8.3 实现service-2-server</h3><p>（1）初始化 service-2-server Maven 工程<br>首先，创建 artifactId 名为 service-2-server 的 Maven 工程，并在其 pom.xml 文件中增添 Dubbo Spring<br>Cloud 必要的依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>Service2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service‐2‐server<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service‐2‐api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐dubbo<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<p>以上依赖 artifact 说明如下：</p>
+<ul>
+<li>service-2-api : 提供 ProviderService 接口的 artifact</li>
+<li>spring-boot-starter-web : Spring Boot starter artifact ，间接引入 spring-boot artifact</li>
+<li>spring-cloud-starter-dubbo : Dubbo Spring Cloud Starter artifact ，间接引入 dubbo-spring-bootstarter 等 artifact</li>
+<li>spring-cloud-starter-alibaba-nacos-discovery : Nacos Spring Cloud 服务注册与发现 artifact</li>
+</ul>
+<p>（2）实现 Dubbo 服务<br>ProviderService 作为暴露的 Dubbo 服务接口，服务提供方 service-2-server 需要将其实现：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.itheima.microservice.service2.service;
+<span class="hljs-meta">@org</span>.apache.dubbo.config.annotation.Service
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ProviderServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ProviderService</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span> </span>&#123;
+    	<span class="hljs-keyword">return</span> <span class="hljs-string">"Provider invoke"</span>;
+	&#125;
+&#125;</code></pre></div>
+
+<p>其中， @org.apache.dubbo.config.annotation.Service 是 Dubbo 服务注解，仅声明该 Java 服务（本地）实现<br>为 Dubbo 服务。 因此，下一步需要将其配置 Dubbo 服务（远程）。<br>（3）配置 Dubbo 服务<br>在暴露 Dubbo 服务方面，推荐开发人员外部化配置的方式，即指定 Java 服务实现类的扫描基准包。</p>
+<p>Dubbo Spring Cloud 继承了 Dubbo Spring Boot 的外部化配置特性，也可以通过标注<br>*<em>@DubboComponentScan *</em>来实现基准包扫描</p>
+<p>同时，Dubbo 远程服务需要暴露网络端口，并设定通讯协议，完整的 YAML 配置如下所示：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+	<span class="hljs-attr">port:</span> <span class="hljs-string">$&#123;port:56040&#125;</span> <span class="hljs-comment">#启动端口 命令行注入</span>
+<span class="hljs-attr">spring:</span>
+    <span class="hljs-attr">application:</span>
+    	<span class="hljs-attr">name:</span> <span class="hljs-string">service2</span>
+    <span class="hljs-attr">main:</span>
+    	<span class="hljs-string">allow‐bean‐definition‐overriding:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># Spring Boot 2.1 需要设定</span>
+    <span class="hljs-attr">cloud:</span>
+        <span class="hljs-attr">nacos:</span>
+            <span class="hljs-attr">discovery:</span>
+                <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span>
+                <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span>
+                <span class="hljs-string">cluster‐name:</span> <span class="hljs-string">DEFAULT</span>
+            <span class="hljs-attr">config:</span>
+                <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># 配置中心地址</span>
+                <span class="hljs-string">file‐extension:</span> <span class="hljs-string">yaml</span>
+                <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span> <span class="hljs-comment"># 开发环境</span>
+                <span class="hljs-attr">group:</span> <span class="hljs-string">NACOS_MICROSERVICE_GROUP</span> <span class="hljs-comment"># xx业务组</span>
+<span class="hljs-attr">dubbo:</span>
+    <span class="hljs-attr">scan:</span>
+        <span class="hljs-comment"># dubbo 服务扫描基准包</span>
+        <span class="hljs-string">base‐packages:</span> <span class="hljs-string">com.itheima.microservice</span>
+    <span class="hljs-attr">protocol:</span>
+        <span class="hljs-comment"># dubbo 协议</span>
+        <span class="hljs-attr">name:</span> <span class="hljs-string">dubbo</span>
+        <span class="hljs-comment"># dubbo 协议端口（ ‐1 表示自增端口，从 20880 开始）</span>
+        <span class="hljs-attr">port:</span> <span class="hljs-string">$&#123;dubbo_port:20891&#125;</span>
+    <span class="hljs-attr">registry:</span>
+    	<span class="hljs-attr">address:</span> <span class="hljs-string">nacos://127.0.0.1:8848</span>
+    <span class="hljs-attr">application:</span>
+    	<span class="hljs-string">qos‐enable:</span> <span class="hljs-literal">false</span>
+    <span class="hljs-attr">consumer:</span>
+    	<span class="hljs-attr">check:</span> <span class="hljs-literal">false</span></code></pre></div>
+
+<p>（4）启动服务提供方应用<br>Dubbo Spring Cloud 引导类与普通 Spring Cloud 应用并无差别，如下所示：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Service2Bootstrap</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    	SpringApplication.run(Service2Bootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+    &#125;
+&#125;</code></pre></div>
+
+<p>在引导 Service2Bootstrap 之前，请提前启动 Nacos 服务器。 当 Service2Bootstrap 启动后，应用 service2<br>将出现在 Nacos 控制台界面。</p>
+<h2 id="4-9-实现service1调用service2"><a href="#4-9-实现service1调用service2" class="headerlink" title="4.9 实现service1调用service2"></a>4.9 实现service1调用service2</h2><h3 id="4-9-1-引用service2"><a href="#4-9-1-引用service2" class="headerlink" title="4.9.1 引用service2"></a>4.9.1 引用service2</h3><p>在service2中添加service1的依赖：</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>service‐2‐api<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>4.9.2 实现远程调用</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@org</span>.apache.dubbo.config.annotation.Service
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ConsumerServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ConsumerService</span> </span>&#123;
+    <span class="hljs-meta">@Reference</span>
+    ProviderService providerService;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">service</span><span class="hljs-params">()</span> </span>&#123;
+    	<span class="hljs-keyword">return</span> <span class="hljs-string">"Consumer invoke | "</span>+providerService.service();
+	&#125;
+&#125;</code></pre></div>
+
+<p>测试：<br>请求：<a href="http://localhost:56020/application1/service" target="_blank" rel="noopener">http://localhost:56020/application1/service</a><br>application1调用service1，service1调用service2</p>
+<h2 id="4-10-实现api-gateway"><a href="#4-10-实现api-gateway" class="headerlink" title="4.10 实现api-gateway"></a>4.10 实现api-gateway</h2><h3 id="4-10-1-Zuul介绍"><a href="#4-10-1-Zuul介绍" class="headerlink" title="4.10.1 Zuul介绍"></a>4.10.1 Zuul介绍</h3><p>什么是网关？<br>原来的单体架构，所有的服务都是本地的，UI可以直接调用，现在按功能拆分成独立的服务，跑在独立的一般都在<br>独立的虚拟机上的 Java进程了。客户端UI如何访问？他的后台有N个服务，前台就需要记住管理N个服务，一个服<br>务下线/更新/升级，前台就要重新部署，这明显不服务我们拆分的理念，特别当前台是移动应用的时候，通常业务<br>变化的节奏更快。另外，N个小服务的调用也是一个不小的网络开销。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage187.png" srcset="/img/loading.gif" alt></p>
+<p>有了网关作为服务统一入口，就可以避免上述问题，不仅如此，服务网关是在微服务前边设置一道屏障，请求先到<br>服务网关，网关会对请求进行过虑、校验、路由等处理。有了服务网关可以提高微服务的安全性，网关校验请求的<br>合法性，请求不合法将被拦截，拒绝访问。</p>
+<ul>
+<li>提供统一服务入口，让微服务对前台透明</li>
+<li>聚合后台的服务，节省流量，提升性能</li>
+<li>提供安全，过滤，流控等API管理功能</li>
+</ul>
+<p>什么是Zuul？<br>Spring Cloud Zuul是整合Netflix公司的Zuul开源项目实现的微服务网关，它实现了请求路由、负载均衡、校验过<br>虑等 功能。<br>官方：<a href="https://github.com/Netflix/zuul" target="_blank" rel="noopener">https://github.com/Netflix/zuul</a></p>
+<p>Zuul与Nginx怎么配合使用？<br>Zuul与Nginx在实际项目中需要配合使用，如下图，Nginx的作用是反向代理、负载均衡，Zuul的作用是保障微服<br>务的安全访问，拦截微服务请求，校验合法性及负载均衡。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage189.png" srcset="/img/loading.gif" alt></p>
+<p>4.10.2 搭建网关工程<br>初始化 api-gateway Maven 工程</p>
+<div class="hljs"><pre><code class="hljs xml">    <span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>nacos‐micro‐service<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.itheima.nacos<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">version</span>&gt;</span>1.0‐SNAPSHOT<span class="hljs-tag">&lt;/<span class="hljs-name">version</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">modelVersion</span>&gt;</span>4.0.0<span class="hljs-tag">&lt;/<span class="hljs-name">modelVersion</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>api‐gateway<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependencies</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐config<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.alibaba.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐alibaba‐nacos‐discovery<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐boot‐starter‐web<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐netflix‐zuul<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring‐cloud‐starter‐openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependencies</span>&gt;</span></code></pre></div>
+
+<h3 id="4-10-2-api-gateway配置"><a href="#4-10-2-api-gateway配置" class="headerlink" title="4.10.2 api-gateway配置"></a>4.10.2 api-gateway配置</h3><div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">server:</span>
+	<span class="hljs-attr">port:</span> <span class="hljs-number">56010</span> <span class="hljs-comment">#启动端口 命令行注入</span>
+<span class="hljs-attr">spring:</span>
+    <span class="hljs-attr">application:</span>
+    	<span class="hljs-attr">name:</span> <span class="hljs-string">api‐gateway</span>
+    <span class="hljs-attr">main:</span>
+    	<span class="hljs-string">allow‐bean‐definition‐overriding:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># Spring Boot 2.1 需要设定</span>
+    <span class="hljs-attr">cloud:</span>
+        <span class="hljs-attr">nacos:</span>
+            <span class="hljs-attr">discovery:</span>
+                <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span>
+                <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span>
+                <span class="hljs-string">cluster‐name:</span> <span class="hljs-string">DEFAULT</span>
+            <span class="hljs-attr">config:</span>
+                <span class="hljs-string">server‐addr:</span> <span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span><span class="hljs-string">:8848</span> <span class="hljs-comment"># 配置中心地址</span>
+                <span class="hljs-string">file‐extension:</span> <span class="hljs-string">yaml</span>
+                <span class="hljs-attr">namespace:</span> <span class="hljs-string">c67e4a97‐a698‐4d6d‐9bb1‐cfac5f5b51c4</span> <span class="hljs-comment"># 开发环境</span>
+                <span class="hljs-attr">group:</span> <span class="hljs-string">NACOS_MICROSERVICE_GROUP</span> <span class="hljs-comment"># xx业务组</span></code></pre></div>
+
+<p>网关的路由配置采用nacos远程配置，在nacos控制台开发环境中新增api-gateway.yaml配置集，配置组为<br>TEST_GROUP，配置内容如下：</p>
+<div class="hljs"><pre><code class="hljs yaml"><span class="hljs-attr">zuul:</span>
+    <span class="hljs-attr">routes:</span>
+        <span class="hljs-attr">application1:</span>
+            <span class="hljs-attr">stripPrefix:</span> <span class="hljs-literal">false</span>
+            <span class="hljs-attr">path:</span> <span class="hljs-string">/application1/**</span></code></pre></div>
+
+<p>将请求为 /application1/ 开头的请求路由至 application1 服务，保留请求url中的 /application1/ 。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage199.png" srcset="/img/loading.gif" alt></p>
+<p>（4） api-gateway启动<br>注意在启动类上使用@EnableZuulProxy注解标识此工程为Zuul网关，启动类代码如下：``</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-meta">@EnableDiscoveryClient</span>
+<span class="hljs-meta">@EnableZuulProxy</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ApiGatewayBootstrap</span> </span>&#123;
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+    	SpringApplication.run(ApiGatewayBootstrap<span class="hljs-class">.<span class="hljs-keyword">class</span>, <span class="hljs-title">args</span>)</span>;
+	&#125;
+&#125;</code></pre></div>
+
+<p>当 Service1Bootstrap 启动后，应用 api-gateway 将出现在 Nacos 服务列表中。</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage197.png" srcset="/img/loading.gif" alt></p>
+<p>测试：</p>
+<p>通过网关（api-gateway）请求Application1应用，Application1的业务实现又贯穿service1、service2，访问</p>
+<p><img src="/2021/06/14/Nacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/C:%5CUsers%5CMI%5CDesktop%5CHexo%5Csource_posts%5CNacos%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0%5Cimage201.jpg" srcset="/img/loading.gif" alt></p>
+<h1 id="附：-Spring-Cloud-Nacos-discovery-Starter配置项信息说明"><a href="#附：-Spring-Cloud-Nacos-discovery-Starter配置项信息说明" class="headerlink" title="附： Spring Cloud Nacos discovery Starter配置项信息说明"></a>附： Spring Cloud Nacos discovery Starter配置项信息说明</h1><table>
+<thead>
+<tr>
+<th align="left"><strong>配置项</strong></th>
+<th align="left"><strong>Key</strong></th>
+<th align="left"><strong>默认值</strong></th>
+<th align="left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">服务端地址</td>
+<td align="left">spring.cloud.nacos.discovery.server-addr</td>
+<td align="left">无</td>
+<td align="left">NacosServer 启动监听的ip地址和端口</td>
+</tr>
+<tr>
+<td align="left">服务名</td>
+<td align="left">spring.cloud.nacos.discovery.service</td>
+<td align="left">${spring.application.name}</td>
+<td align="left">给当前的服务命名</td>
+</tr>
+<tr>
+<td align="left">服务分组</td>
+<td align="left">spring.cloud.nacos.discovery.group</td>
+<td align="left">DEFAULT_GROUP</td>
+<td align="left">设置服务所处的分组</td>
+</tr>
+<tr>
+<td align="left">权重</td>
+<td align="left">spring.cloud.nacos.discovery.weight</td>
+<td align="left">1</td>
+<td align="left">取值范围 1 到 100，数值越大，权重越大</td>
+</tr>
+<tr>
+<td align="left">网卡名</td>
+<td align="left">spring.cloud.nacos.discovery.network- interface</td>
+<td align="left">无</td>
+<td align="left">当IP未配置时，注册的IP为此网卡所对应的IP地址，如果此项也未配置，则默认取第一块网卡的地址</td>
+</tr>
+<tr>
+<td align="left">注册的IP地址</td>
+<td align="left">spring.cloud.nacos.discovery.ip</td>
+<td align="left">无</td>
+<td align="left">优先级最高</td>
+</tr>
+<tr>
+<td align="left">注册的端口</td>
+<td align="left">spring.cloud.nacos.discovery.port</td>
+<td align="left">-1</td>
+<td align="left">默认情况下不用配置，会自动探测</td>
+</tr>
+<tr>
+<td align="left">命名空间</td>
+<td align="left">spring.cloud.nacos.discovery.namespace</td>
+<td align="left">无</td>
+<td align="left">常用场景之一是不同环境的注册的区分隔离，例如开发测试环境和生产环境的资源（如配置、服务）隔离等。</td>
+</tr>
+<tr>
+<td align="left">AccessKey</td>
+<td align="left">spring.cloud.nacos.discovery.access-key</td>
+<td align="left">无</td>
+<td align="left">当要上阿里云时，阿里云上面的一个云账号名</td>
+</tr>
+<tr>
+<td align="left">SecretKey</td>
+<td align="left">spring.cloud.nacos.discovery.secret-key</td>
+<td align="left">无</td>
+<td align="left">当要上阿里云时，阿里云上面的一个云账号密码</td>
+</tr>
+<tr>
+<td align="left">Metadata</td>
+<td align="left">spring.cloud.nacos.discovery.metadata</td>
+<td align="left">无</td>
+<td align="left">使用Map格式配置，用户可以根据自己的需要自定义一些和服务相关的元数据信息</td>
+</tr>
+<tr>
+<td align="left">日志文件名</td>
+<td align="left">spring.cloud.nacos.discovery.log-name</td>
+<td align="left">无</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">集群</td>
+<td align="left">spring.cloud.nacos.discovery.cluster-name</td>
+<td align="left">DEFAULT</td>
+<td align="left">配置成Nacos集群名称</td>
+</tr>
+<tr>
+<td align="left">接入点</td>
+<td align="left">spring.cloud.nacos.discovery.enpoint</td>
+<td align="left">UTF-8</td>
+<td align="left">地域的某个服务的入口域名，通过此域名可以动态地拿到服务端地址</td>
+</tr>
+<tr>
+<td align="left">是否集成  Ribbon</td>
+<td align="left">ribbon.nacos.enabled</td>
+<td align="left">true</td>
+<td align="left">一般都设置成true即可</td>
+</tr>
+<tr>
+<td align="left">是否开启Nacos  Watch</td>
+<td align="left">spring.cloud.nacos.discovery.watch.enabled</td>
+<td align="left">true</td>
+<td align="left">可以设置成false来关闭 watch</td>
+</tr>
+</tbody></table>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Nacos/">Nacos</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2021/06/13/Nacos%E9%85%8D%E7%BD%AE%E7%AE%A1%E7%90%86/">
+                        <span class="hidden-mobile">Nacos配置管理</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站已经勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Nacos服务发现&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

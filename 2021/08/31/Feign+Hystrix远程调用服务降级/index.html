@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="Mr.JK">
   <meta name="keywords" content="">
-  <title>About - Mr.JK</title>
+  <title>Feign+Hystrix远程调用服务降级 - Mr.JK</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 
@@ -58,7 +58,7 @@
 
 
 <body>
-  <header style="height: 60vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -146,7 +146,7 @@
 </nav>
 
     <div class="view intro-2" id="background" parallax=true
-         style="background: url('/img/default.png') no-repeat center center;
+         style="background: url('/img/banner.png') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
@@ -154,6 +154,48 @@
             <span class="h2" id="subtitle">
               
             </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-08-31 22:13">
+      2021-08-31
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      598 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      6
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
 
             
           </div>
@@ -166,119 +208,168 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5" id="board"
-          >
-          
-            <div class="about-avatar">
-              <img src="/img/avatar1.png" srcset="/img/loading.gif"
-                   class="img-fluid" alt="avatar">
-            </div>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h1 id="Feign-Hystrix远程调用服务降级"><a href="#Feign-Hystrix远程调用服务降级" class="headerlink" title="Feign+Hystrix远程调用服务降级"></a>Feign+Hystrix远程调用服务降级</h1><h2 id="hystrix介绍"><a href="#hystrix介绍" class="headerlink" title="hystrix介绍"></a>hystrix介绍</h2><p>在分布式环境中，许多服务依赖项中的一些必然会失败。Hystrix是一个库，通过添加延迟容忍和容错逻辑，帮助你控制这些分布式服务之间的交互。Hystrix通过隔离服务之间的访问点、停止级联失败和提供回退选项来实现这一点，所有这些都可以提高系统的整体弹性。</p>
+<p>Hystrix被设计的目标是：</p>
+<ol>
+<li>对通过第三方客户端库访问的依赖项（通常是通过网络）的延迟和故障进行保护和控制。</li>
+<li>在复杂的分布式系统中阻止级联故障。</li>
+<li>快速失败，快速恢复。</li>
+<li>回退，尽可能优雅地降级。</li>
+<li>启用近实时监控、警报和操作控制。</li>
+</ol>
+<p>hystrix在微服务架构中一般作为熔断器使用，为防止服务的雪崩 通过配置熔断器，让系统在特殊情况下舍弃掉一些服务，以保证整个系统的稳定性。hystrix单独可以对单个服务进行配置，如果服务停止，可以返回一些友好信息。</p>
+<p>本次配置的是通过Feign远程调用，搭配Hystrix实现远程调用服务的降级，目的是为了防止某些服务的崩溃不引起整体系统的崩溃。</p>
+<div class="hljs"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--服务调用--&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.cloud<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-cloud-starter-openfeign<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></code></pre></div>
+
+<p>添加服务调用的依赖</p>
+<p>在需要远程调用的服务启动类上添加注解</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@EnableFeignClients</span>(basePackages = <span class="hljs-string">"com.xxx.api"</span>)</code></pre></div>
+
+<h2 id="Clien客户端"><a href="#Clien客户端" class="headerlink" title="Clien客户端"></a>Clien客户端</h2><p>对Feign中指定回滚的工厂类，如果服务不存在 则会调用xxxClientImpl类，进行服务的降级</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@FeignClient</span>(value = <span class="hljs-string">"服务名"</span>,fallbackFactory = xxxClientImpl<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class"><span class="hljs-title">public</span> <span class="hljs-title">interface</span> <span class="hljs-title">xxxClient</span> </span>&#123;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 删除多个文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> keys 多个文件完整名称集合</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 返回多个删除的文件名</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@DeleteMapping</span>(<span class="hljs-string">"/nakadai/oss/fileDeletion"</span>)
+    <span class="hljs-function">R <span class="hljs-title">fileDeletion</span><span class="hljs-params">(@RequestParam(<span class="hljs-string">"keys"</span>)</span> List&lt;String&gt; keys)</span>;
+
+    <span class="hljs-comment">/**</span>
+<span class="hljs-comment">     * 上传文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@param</span> file 文件</span>
+<span class="hljs-comment">     * <span class="hljs-doctag">@return</span> 文件路径及相关信息</span>
+<span class="hljs-comment">     */</span>
+    <span class="hljs-meta">@PostMapping</span>(<span class="hljs-string">"/nakadai/oss/fileUpload"</span>)
+    <span class="hljs-function">R <span class="hljs-title">fileUpload</span><span class="hljs-params">(@RequestParam(<span class="hljs-string">"file"</span>)</span> MultipartFile file)</span>;
+
+&#125;</code></pre></div>
+
+<p>实现类</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">xxxClientImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">FallbackFactory</span>&lt;<span class="hljs-title">xxxClient</span>&gt; </span>&#123;
+
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> xxxClient <span class="hljs-title">create</span><span class="hljs-params">(Throwable throwable)</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> xxxClient() &#123;
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> R <span class="hljs-title">fileDeletion</span><span class="hljs-params">(List&lt;String&gt; keys)</span> </span>&#123;
+                <span class="hljs-keyword">return</span> R.error(<span class="hljs-string">"调用服务失败:"</span> + throwable.getMessage());
+            &#125;
+
+            <span class="hljs-meta">@Override</span>
+            <span class="hljs-function"><span class="hljs-keyword">public</span> R <span class="hljs-title">fileUpload</span><span class="hljs-params">(MultipartFile file)</span> </span>&#123;
+                <span class="hljs-keyword">return</span> R.error(<span class="hljs-string">"调用服务失败:"</span> + throwable.getMessage());
+            &#125;
+        &#125;;
+    &#125;
+&#125;</code></pre></div>
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">项目笔记</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Feign/">Feign</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Hystrix/">Hystrix</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2021/08/14/SpringMVC%E7%AC%94%E8%AE%B0/">
+                        <span class="hidden-mobile">SpringMVC笔记</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
 
-<div class="text-center">
-  <div class="about-info">
-    <div class="about-name">Mr.JK</div>
-    <div class="about-intro">远赴人间惊鸿宴&nbsp&nbsp&nbsp&nbsp一睹人间盛世颜😎</div>
-    <div class="about-icons">
-      
-        
-        
-        
-        <a href="https://github.com/JK1452470209" class="
-           hint--bottom hint--rounded"
-           aria-label=GitHub
-        >
-          <i class="iconfont icon-github-fill" aria-hidden="true"></i>
-          
-        </a>
-      
-        
-        
-        
-        <a href="javascript:;" class="qr-trigger
-           "
-           
-        >
-          <i class="iconfont icon-wechat-fill" aria-hidden="true"></i>
-          
-            <img class="qr-img" src="/img/weixin.jpg" srcset="/img/loading.gif" alt="qrcode" />
-          
-        </a>
-      
-    </div>
-  </div>
-</div>
-<div class="mt-5 markdown-body">
-  <p class="note note-primary">&nbsp 世界再闹腾都要留给自己一片净土 这里只分享技术</p>
-
-<p>​        HashMap&lt;String, Object&gt; me = new HashMap&lt;&gt;();<br>        me.put(“Gender”,”男”);<br>        me.put(“MyPhone”,18316054662F);<br>        me.put(“Age”,Integer.valueOf(20));<br>        me.put(“Information”,new Object[]{“Name”,”Mr.JK”});<br>        me.put(“Address”,new HashSet&lt;&gt;(Arrays.asList(“广东”,”汕头”,”金平”)));<br>        me.put(“Hobby”,new ArrayList&lt;&gt;(Arrays.asList(“看电影”,”敲代码”,”女朋友”)));</p>
-<div id="echarts525" style="width: 85%;height: 400px;margin: 0 auto"></div>
-<script src="https://cdn.bootcss.com/echarts/4.1.0-release/echarts.min.js"></script>
-<script type="text/javascript">
-        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts525'));
-        // 指定图表的配置项和数据
-        var option = {
-    title : {
-        text: '技术分布图',
-        subtext: '纯属虚构',
-        x:'center'
-    },
-    tooltip : {
-        trigger: 'item',
-        formatter: "{a} <br/>{b} : {c} ({d}%)"
-    },
-    legend: {
-        orient: 'vertical',
-        left: 'left',
-        data: ['Spring全家桶','JavaEE','前端','ElasticSearch','JavaSE']
-    },
-    series : [
-        {
-            name: '详细数据',
-            type: 'pie',
-            radius : '55%',
-            center: ['50%', '60%'],
-            data:[
-                {value:335, name:'Spring全家桶'},
-                {value:310, name:'JavaEE'},
-                {value:234, name:'前端'},
-                {value:135, name:'ElasticSearch'},
-                {value:1548, name:'JavaSE'}
-            ],
-            itemStyle: {
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-        }
-    ]
-}
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-</script>
-
-
-
-
-
-
-</div>
-
-         
-              </div>            
-            </div> 
+            
           </div>
         </div>
       </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
     
   </main>
 
@@ -440,6 +531,31 @@
 
 
 
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
 
 
   <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
@@ -447,7 +563,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Nothing is difficult to the man who will try.&nbsp;",
+        "Feign+Hystrix远程调用服务降级&nbsp;",
       ],
       cursorChar: "|",
       typeSpeed: 65,
@@ -492,6 +608,20 @@
   </script>
 
 
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 

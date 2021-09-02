@@ -217,16 +217,16 @@
   <p class="note note-primary">&nbsp 世界再闹腾都要留给自己一片净土 这里只分享技术</p>
 
 <p>​        HashMap&lt;String, Object&gt; me = new HashMap&lt;&gt;();<br>        me.put(“Gender”,”男”);<br>        me.put(“MyPhone”,18316054662F);<br>        me.put(“Age”,Integer.valueOf(20));<br>        me.put(“Information”,new Object[]{“Name”,”Mr.JK”});<br>        me.put(“Address”,new HashSet&lt;&gt;(Arrays.asList(“广东”,”汕头”,”金平”)));<br>        me.put(“Hobby”,new ArrayList&lt;&gt;(Arrays.asList(“看电影”,”敲代码”,”女朋友”)));</p>
-<div id="echarts525" style="width: 85%;height: 400px;margin: 0 auto"></div>
+<div id="echarts2714" style="width: 85%;height: 400px;margin: 0 auto"></div>
 <script src="https://cdn.bootcss.com/echarts/4.1.0-release/echarts.min.js"></script>
 <script type="text/javascript">
         // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('echarts525'));
+        var myChart = echarts.init(document.getElementById('echarts2714'));
         // 指定图表的配置项和数据
         var option = {
     title : {
         text: '技术分布图',
-        subtext: '纯属虚构',
+        subtext: '纯属虚构——实际会的更多',
         x:'center'
     },
     tooltip : {
@@ -236,20 +236,26 @@
     legend: {
         orient: 'vertical',
         left: 'left',
-        data: ['Spring全家桶','JavaEE','前端','ElasticSearch','JavaSE']
+        data: ['Spring全家桶','JavaEE','前端','ElasticSearch','Redis','RabbitMq','Seata','Nacos','Eureka','Gateway','Mysql']
     },
-    series : [
+	series : [
         {
             name: '详细数据',
             type: 'pie',
             radius : '55%',
             center: ['50%', '60%'],
             data:[
-                {value:335, name:'Spring全家桶'},
+                {value:600, name:'Spring全家桶'},
                 {value:310, name:'JavaEE'},
-                {value:234, name:'前端'},
-                {value:135, name:'ElasticSearch'},
-                {value:1548, name:'JavaSE'}
+                {value:150, name:'前端'},
+                {value:160, name:'ElasticSearch'},
+                {value:180, name:'Redis'},
+                {value:160, name:'RabbitMq'},
+                {value:160, name:'Seata'},
+                {value:180, name:'Nacos'},
+                {value:160, name:'Eureka'},
+                {value:160, name:'Gateway'},
+                {value:300, name:'Mysql'}
             ],
             itemStyle: {
                 emphasis: {

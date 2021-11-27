@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Mr.JK">
+  <meta name="keywords" content="">
+  <title>Spring事件发布与监听机制 - Mr.JK</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.0.0/styles/darcula.min.css" />
+  
+
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_yg9cfy8wd6.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_pjno9b9zyxs.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+  
+<link rel="stylesheet" href="/css/custom.css">
+
+
+
+  <script  src="/js/utils.js" ></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>私人博客</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                主页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于我
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/banner.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+  <div class="mt-3 post-meta">
+    <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+    <time datetime="2021-11-27 13:41">
+      2021-11-27
+    </time>
+  </div>
+
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      3.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      40
+       分钟
+    </span>
+  
+
+  
+  
+    
+      <!-- 不蒜子统计文章PV -->
+      <span id="busuanzi_container_page_pv" style="display: none">
+        <i class="iconfont icon-eye" aria-hidden="true"></i>
+        <span id="busuanzi_value_page_pv"></span> 次
+      </span>
+    
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+	
+   
+	
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <p>Spring 提供了 <code>ApplicationContext</code> 事件机制，可以发布和监听事件，这个特性非常有用。</p>
+<p>Spring 内置了一些事件和监听器，例如在 Spring 容器启动前，Spring 容器启动后，应用启动失败后等事件发生后，监听在这些事件上的监听器会做出相应的响应处理。</p>
+<p>当然，我们也可以自定义监听器，监听 Spring 原有的事件。或者自定义我们自己的事件和监听器，在必要的时间点发布事件，然后监听器监听到事件就做出响应处理。</p>
+<h2 id="ApplicationContext-事件机制"><a href="#ApplicationContext-事件机制" class="headerlink" title="ApplicationContext 事件机制"></a>ApplicationContext 事件机制</h2><hr>
+<p>ApplicationContext 事件机制采用观察者设计模式来实现，通过 <code>ApplicationEvent</code> 事件类和 <code>ApplicationListener</code> 监听器接口，可以实现 <code>ApplicationContext</code> 事件发布与处理。</p>
+<p>每当 ApplicationContext 发布 ApplicationEvent 时，如果 Spring 容器中有 ApplicationListener bean，则监听器会被触发执行相应的处理。当然，ApplicationEvent 事件的发布需要显示触发，要么 Spring 显示触发，要么我们显示触发。</p>
+<h2 id="ApplicationListener-监听器"><a href="#ApplicationListener-监听器" class="headerlink" title="ApplicationListener 监听器"></a>ApplicationListener 监听器</h2><hr>
+<p>定义应用监听器需要实现的接口。此接口继承了 JDK 标准的事件监听器接口 <code>EventListener</code>，EventListener 接口是一个空的标记接口，推荐所有事件监听器必须要继承它。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.springframework.context;
+
+<span class="hljs-keyword">import</span> java.util.EventListener;
+
+<span class="hljs-meta">@FunctionalInterface</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ApplicationListener</span>&lt;<span class="hljs-title">E</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ApplicationEvent</span>&gt; <span class="hljs-keyword">extends</span> <span class="hljs-title">EventListener</span> </span>&#123;
+
+  <span class="hljs-comment">/**</span>
+<span class="hljs-comment">   * 处理应用事件</span>
+<span class="hljs-comment">   */</span>
+  <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(E event)</span></span>;
+&#125;</code></pre></div>
+
+
+
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> java.util;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">EventListener</span> </span>&#123;
+&#125;</code></pre></div>
+
+
+
+<p>ApplicationListener 是个泛型接口，我们自定义此接口的实现类时，如果指定了泛型的具体事件类，那么只会监听此事件。如果不指定具体的泛型，则会监听 ApplicationEvent 抽象类的所有子类事件。</p>
+<p>如下我们定义一个监听器，监听具体的事件，例如监听 ApplicationStartedEvent 事件。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.boot.context.event.ApplicationStartedEvent;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationListener;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationListener</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationListener</span>&lt;<span class="hljs-title">ApplicationStartedEvent</span>&gt; </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(ApplicationStartedEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; MyApplicationListener：&#123;&#125;"</span>, event);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>启动服务，会发现在服务启动后，此监听器被触发了。</p>
+<p><img src="https://static001.geekbang.org/infoq/e5/e535b674a56cde7d15d017685006c925.png" srcset="/img/loading.gif" alt="img"></p>
+<p>如果不指定具体的泛型类，则会监听 ApplicationEvent 抽象类的所有子类事件。如下所示：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationEvent;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationListener;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationListener</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationListener</span> </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(ApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; MyApplicationListener：&#123;&#125;"</span>, event);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p><img src="https://static001.geekbang.org/infoq/b0/b0b0f3fa86c7eb01f1733e64305211c6.png" srcset="/img/loading.gif" alt="img"></p>
+<p>注意，监听器类的 bean 要注入到 Spring 容器中，不然不会生效。一种是使用注解注入，例如 <code>@Component</code>。另外可以使用 <code>SpringApplicationBuilder.listeners()</code> 方法添加，不过这两种方式有区别的，看以下示例。</p>
+<p>首先我们使用 @Component 注解方式，服务启动时，监视到了 2 个事件：</p>
+<ul>
+<li>ApplicationStartedEvent</li>
+<li>ApplicationReadyEvent</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.boot.context.event.SpringApplicationEvent;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationListener;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationListener</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationListener</span>&lt;<span class="hljs-title">SpringApplicationEvent</span>&gt; </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(SpringApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; MyApplicationListener：&#123;&#125;"</span>, event);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p><img src="https://static001.geekbang.org/infoq/8c/8c1f0aae477f777223c9929db73e6a9e.png" srcset="/img/loading.gif" alt="img"></p>
+<p>而使用 <code>SpringApplicationBuilder.listeners()</code> 方法添加监听器，服务启动时，监听到了 5 个事件：</p>
+<ul>
+<li>ApplicationEnvironmentPreparedEvent</li>
+<li>ApplicationContextInitializedEvent</li>
+<li>ApplicationPreparedEvent</li>
+<li>ApplicationStartedEvent</li>
+<li>ApplicationReadyEvent</li>
+</ul>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.builder.SpringApplicationBuilder;
+<span class="hljs-keyword">import</span> org.springframework.context.ConfigurableApplicationContext;
+
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Application</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-comment">// SpringApplication.run(Application.class, args);</span>
+
+        SpringApplication app = <span class="hljs-keyword">new</span> SpringApplicationBuilder(Application<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">                .<span class="hljs-title">listeners</span>(<span class="hljs-title">new</span> <span class="hljs-title">MyApplicationListener</span>()).<span class="hljs-title">build</span>()</span>;
+        app.run(args);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p><img src="https://static001.geekbang.org/infoq/a8/a8390b23ccecf27ac093d9ca65b9e2e8.png" srcset="/img/loading.gif" alt="img"></p>
+<p>其实这是和监听器 bean 注册的时机有关，@component 注解的监听器 bean 只有在 bean 初始化注册完后才能使用；而通过 SpringApplicationBuilder.listeners() 添加的监听器 bean 是在容器启动前，所以监听到的事件比较多。但是注意，这两个不要同时使用，不然监听器会重复执行两遍。</p>
+<p>如果你想在监听器 bean 中注入其他 bean（例如 @Autowired），那最好是使用注解形式，因为如果太早发布监听器，可能其他 bean 还未初始化完成，可能会报错。</p>
+<h2 id="ApplicationEvent-事件"><a href="#ApplicationEvent-事件" class="headerlink" title="ApplicationEvent 事件"></a>ApplicationEvent 事件</h2><hr>
+<p>ApplicationEvent 是所有应用事件需要继承的抽象类。它继承了 <code>EventObject</code> 类，EventObject 是所有事件的根类，这个类有个 Object 类型的对象 source，代表事件源。所有继承它的类的构造函数都必须要显示传递这个事件源。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.springframework.context;
+
+<span class="hljs-keyword">import</span> java.util.EventObject;
+
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ApplicationEvent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">EventObject</span> </span>&#123;
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">7099057708183571937L</span>;
+
+  <span class="hljs-comment">// 发布事件的系统时间</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> timestamp;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">ApplicationEvent</span><span class="hljs-params">(Object source)</span> </span>&#123;
+    <span class="hljs-keyword">super</span>(source);
+    <span class="hljs-keyword">this</span>.timestamp = System.currentTimeMillis();
+  &#125;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> <span class="hljs-title">getTimestamp</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.timestamp;
+  &#125;
+&#125;</code></pre></div>
+
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> java.util;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EventObject</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">java</span>.<span class="hljs-title">io</span>.<span class="hljs-title">Serializable</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">long</span> serialVersionUID = <span class="hljs-number">5516075349620653480L</span>;
+
+    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">transient</span> Object  source;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">EventObject</span><span class="hljs-params">(Object source)</span> </span>&#123;
+        <span class="hljs-keyword">if</span> (source == <span class="hljs-keyword">null</span>)
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"null source"</span>);
+
+        <span class="hljs-keyword">this</span>.source = source;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">getSource</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> source;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> getClass().getName() + <span class="hljs-string">"[source="</span> + source + <span class="hljs-string">"]"</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>在 Spring 中，比较重要的事件类是 <code>SpringApplicationEvent</code>。Spring 有一些内置的事件，当完成某种操作时会触发某些事件。这些内置事件继承 <code>SpringApplicationEvent</code> 抽象类。SpringApplicationEvent 继承 ApplicationEvent 并增加了字符串数组参数字段 args。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * Base class for &#123;<span class="hljs-doctag">@link</span> ApplicationEvent&#125; related to a &#123;<span class="hljs-doctag">@link</span> SpringApplication&#125;.</span>
+<span class="hljs-comment"> *</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@author</span> Phillip Webb</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@since</span> 1.0.0</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"serial"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SpringApplicationEvent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ApplicationEvent</span> </span>&#123;
+
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String[] args;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">SpringApplicationEvent</span><span class="hljs-params">(SpringApplication application, String[] args)</span> </span>&#123;
+    <span class="hljs-keyword">super</span>(application);
+    <span class="hljs-keyword">this</span>.args = args;
+  &#125;
+
+  <span class="hljs-function"><span class="hljs-keyword">public</span> SpringApplication <span class="hljs-title">getSpringApplication</span><span class="hljs-params">()</span> </span>&#123;
+    <span class="hljs-keyword">return</span> (SpringApplication) getSource();
+  &#125;
+
+  <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> String[] getArgs() &#123;
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.args;
+  &#125;
+&#125;</code></pre></div>
+
+
+
+<p><img src="https://static001.geekbang.org/infoq/38/3840da9b99a9b13836d49549ba439c82.png" srcset="/img/loading.gif" alt="img"></p>
+<p>我们可以编写自己的监听器，然后监听这些事件，实现自己的业务逻辑。例如编写 ApplicationListener<ContextStartedEvent> 接口的实现类，监听 ContextStartedEvent 事件，当应用容器 ApplicationContext 启动时，会发布该事件，所以我们编写的监听器会被触发。</ContextStartedEvent></p>
+<ul>
+<li><strong>ContextRefreshedEvent</strong>：ApplicationContext 被初始化或刷新时，事件被发布。ConfigurableApplicationContext 接口中的 refresh() 方法被调用也会触发事件发布。初始化是指所有的 Bean 被成功装载，后处理 Bean 被检测并激活，所有单例 Bean 被预实例化，ApplicationContext 容器已就绪可用。</li>
+<li><strong>ContextStartedEvent</strong>：应用程序上下文被刷新后，但在任何 ApplicationRunner 和 CommandLineRunner 被调用之前，发布此事件。</li>
+<li><strong>ApplicationReadyEvent</strong>：此事件会尽可能晚地被发布，以表明应用程序已准备好为请求提供服务。事件源是 SpringApplication 本身，但是要注意修改它的内部状态，因为到那时所有初始化步骤都已经完成了。</li>
+<li><strong>ContextStoppedEvent</strong>：ConfigurableApplicationContext 接口的 stop() 被调用停止 ApplicationContext 时，事件被发布。</li>
+<li><strong>ContextClosedEvent</strong>：ConfigurableApplicationContext 接口的 close() 被调用关闭 ApplicationContext 时，事件被发布。注意，一个已关闭的上下文到达生命周期末端后，它不能被刷新或重启。</li>
+<li><strong>ApplicationFailedEvent</strong>：当应用启动失败后发布事件。</li>
+<li><strong>ApplicationEnvironmentPreparedEvent</strong>：事件是在 SpringApplication 启动时发布的，并且首次检查和修改 Environment 时，此时上 ApplicationContext 还没有创建。</li>
+<li><strong>ApplicationPreparedEvent</strong>：事件发布时，SpringApplication 正在启动，ApplicationContext 已经完全准备好，但没有刷新。在这个阶段，将加载 bean definitions 并准备使用 Environment。</li>
+<li><strong>RequestHandledEvent</strong>：这是一个 web 事件，只能应用于使用 DispatcherServlet 的 Web 应用。在使用 Spring 作为前端的 MVC 控制器时，当 Spring 处理用户请求结束后，系统会自动触发该事件。</li>
+</ul>
+<h2 id="自定义事件和监听器"><a href="#自定义事件和监听器" class="headerlink" title="自定义事件和监听器"></a>自定义事件和监听器</h2><hr>
+<p>前面介绍了自定义监听器，然后监听 Spring 原有的事件。下面介绍自定义事件和自定义监听器，然后在程序中发布事件，触发监听器执行，实现自己的业务逻辑。</p>
+<p>首先自定义事件，继承 <code>ApplicationEvent</code>，当然事件可以自定义自己的属性。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> lombok.Getter;
+<span class="hljs-keyword">import</span> lombok.Setter;
+<span class="hljs-keyword">import</span> lombok.ToString;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationEvent;
+
+<span class="hljs-meta">@Getter</span>
+<span class="hljs-meta">@Setter</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationEvent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ApplicationEvent</span> </span>&#123;
+
+    <span class="hljs-comment">// 事件可以增加自己的属性</span>
+    <span class="hljs-keyword">private</span> String myField;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyApplicationEvent</span><span class="hljs-params">(Object source, String myField)</span> </span>&#123;
+        <span class="hljs-comment">// 绑定事件源</span>
+        <span class="hljs-keyword">super</span>(source);
+        <span class="hljs-keyword">this</span>.myField = myField;
+    &#125;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">toString</span><span class="hljs-params">()</span> </span>&#123;
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"MyApplicationEvent&#123;"</span> + <span class="hljs-string">"myField='"</span> + myField + <span class="hljs-string">'\''</span> + <span class="hljs-string">", source="</span> + source + <span class="hljs-string">'&#125;'</span>;
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>然后自定义监听器，监听我们自定义的事件。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationListener;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 自定义监听器</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> 陈皮</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2021/6/26</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationListener</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationListener</span>&lt;<span class="hljs-title">MyApplicationEvent</span>&gt; </span>&#123;
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(MyApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; MyApplicationListener：&#123;&#125;"</span>, event);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+
+
+<p>注册监听器和发布事件。注册监听器上面讲解了有两种方式。事件的发布可以通过 <code>ApplicationEventPublisher.publishEvent()</code> 方法。此处演示直接用 configurableApplicationContext 发布，它实现了 ApplicationEventPublisher 接口。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> org.springframework.boot.SpringApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;
+<span class="hljs-keyword">import</span> org.springframework.boot.builder.SpringApplicationBuilder;
+<span class="hljs-keyword">import</span> org.springframework.context.ConfigurableApplicationContext;
+
+<span class="hljs-meta">@SpringBootApplication</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Application</span> </span>&#123;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;
+        <span class="hljs-comment">// SpringApplication.run(Application.class, args);</span>
+        <span class="hljs-comment">// 注册监听器</span>
+        SpringApplication app = <span class="hljs-keyword">new</span> SpringApplicationBuilder(Application<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>
+<span class="hljs-class">                .<span class="hljs-title">listeners</span>(<span class="hljs-title">new</span> <span class="hljs-title">MyApplicationListener</span>()).<span class="hljs-title">build</span>()</span>;
+        ConfigurableApplicationContext configurableApplicationContext = app.run(args);
+        <span class="hljs-comment">// 方便演示，在项目启动后发布事件，当然也可以在其他操作和其他时间点发布事件</span>
+        configurableApplicationContext
+                .publishEvent(<span class="hljs-keyword">new</span> MyApplicationEvent(<span class="hljs-string">"我是事件源，项目启动成功后发布事件"</span>, <span class="hljs-string">"我是自定义事件属性"</span>));
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>启动服务，结果显示确实监听到发布的事件了。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">16</span>:<span class="hljs-number">15</span>:<span class="hljs-number">09.584</span>  INFO <span class="hljs-number">10992</span> --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : <span class="hljs-function">Tomcat started on <span class="hljs-title">port</span><span class="hljs-params">(s)</span>: 8081 <span class="hljs-params">(http)</span> with context path ''</span>
+<span class="hljs-function">2021-06-26 16:15:09.601  INFO 10992 --- [           main] com.chenpi.Application                   : Started Application in 2.563 <span class="hljs-title">seconds</span> <span class="hljs-params">(JVM running <span class="hljs-keyword">for</span> <span class="hljs-number">4.012</span>)</span></span>
+<span class="hljs-function">2021-06-26 16:15:09.606  INFO 10992 --- [           main] com.chenpi.MyApplicationListener         : &gt;&gt;&gt; MyApplicationListener：MyApplicationEvent</span>&#123;myField=<span class="hljs-string">'我是自定义事件属性'</span>, source=我是事件源，项目启动成功后发布事件&#125;</code></pre></div>
+
+
+
+<p>事件监听机制能达到分发，解耦效果。例如可以在业务类中发布事件，让监听在此事件的监听器执行自己的业务处理。例如：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationEventPublisher;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationEventPublisherAware;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationEventPublisherAware</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> ApplicationEventPublisher applicationEventPublisher;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setApplicationEventPublisher</span><span class="hljs-params">(ApplicationEventPublisher applicationEventPublisher)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.applicationEventPublisher = applicationEventPublisher;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testEvent</span><span class="hljs-params">()</span> </span>&#123;
+        applicationEventPublisher
+                .publishEvent(<span class="hljs-keyword">new</span> MyApplicationEvent(<span class="hljs-string">"我是事件源"</span>, <span class="hljs-string">"我是自定义事件属性"</span>));
+    &#125;
+&#125;</code></pre></div>
+
+<p>复制代码</p>
+<h2 id="注解式监听器"><a href="#注解式监听器" class="headerlink" title="注解式监听器"></a>注解式监听器</h2><hr>
+<p>除了实现 ApplicationListener 接口创建监听器外，Spring 还提供了注解 <code>@EventListener</code> 来创建监听器。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> org.springframework.context.event.EventListener;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+
+
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationListener01</span> </span>&#123;
+    <span class="hljs-meta">@EventListener</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(MyApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; MyApplicationListener：&#123;&#125;"</span>, event);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+
+
+<p>而且注解还可以通过条件过滤只监听指定条件的事件。例如事件的 myField 属性的值等于”陈皮”的事件。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> org.springframework.context.event.EventListener;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+
+
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationListener01</span> </span>&#123;
+    <span class="hljs-meta">@EventListener</span>(condition = <span class="hljs-string">"#event.myField.equals('陈皮')"</span>)
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(MyApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; MyApplicationListener：&#123;&#125;"</span>, event);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>还可以在同一个类中定义多个监听，对同一个事件的不同监听还可以指定顺序。order 值越小越先执行。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> org.springframework.context.event.EventListener;
+<span class="hljs-keyword">import</span> org.springframework.core.annotation.Order;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 自定义监听器</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationListener01</span> </span>&#123;
+    <span class="hljs-meta">@Order</span>(<span class="hljs-number">2</span>)
+    <span class="hljs-meta">@EventListener</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(MyApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; onApplicationEvent order=2：&#123;&#125;"</span>, event);
+    &#125;
+
+    <span class="hljs-meta">@Order</span>(<span class="hljs-number">1</span>)
+    <span class="hljs-meta">@EventListener</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent01</span><span class="hljs-params">(MyApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; onApplicationEvent order=1：&#123;&#125;"</span>, event);
+    &#125;
+
+    <span class="hljs-meta">@EventListener</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">otherEvent</span><span class="hljs-params">(YourApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; otherEvent：&#123;&#125;"</span>, event);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>执行结果如下：</p>
+<div class="hljs"><pre><code class="hljs java">&gt;&gt;&gt; onApplicationEvent order=<span class="hljs-number">1</span>：MyApplicationEvent&#123;myField=<span class="hljs-string">'陈皮'</span>, source=我是事件源&#125;
+&gt;&gt;&gt; onApplicationEvent order=<span class="hljs-number">2</span>：MyApplicationEvent&#123;myField=<span class="hljs-string">'陈皮'</span>, source=我是事件源&#125;
+&gt;&gt;&gt; otherEvent：MyApplicationEvent&#123;myField=<span class="hljs-string">'我是自定义事件属性01'</span>, source=我是事件源<span class="hljs-number">01</span>&#125;</code></pre></div>
+
+
+
+<p>事件的监听处理是同步的，如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationEventPublisher;
+<span class="hljs-keyword">import</span> org.springframework.context.ApplicationEventPublisherAware;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyService</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">ApplicationEventPublisherAware</span> </span>&#123;
+
+    <span class="hljs-keyword">private</span> ApplicationEventPublisher applicationEventPublisher;
+
+    <span class="hljs-meta">@Override</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setApplicationEventPublisher</span><span class="hljs-params">(ApplicationEventPublisher applicationEventPublisher)</span> </span>&#123;
+        <span class="hljs-keyword">this</span>.applicationEventPublisher = applicationEventPublisher;
+    &#125;
+
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testEvent</span><span class="hljs-params">()</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; testEvent begin"</span>);
+        applicationEventPublisher.publishEvent(<span class="hljs-keyword">new</span> MyApplicationEvent(<span class="hljs-string">"我是事件源"</span>, <span class="hljs-string">"陈皮"</span>));
+        applicationEventPublisher.publishEvent(<span class="hljs-keyword">new</span> YourApplicationEvent(<span class="hljs-string">"我是事件源01"</span>, <span class="hljs-string">"我是自定义事件属性01"</span>));
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; testEvent end"</span>);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>执行结果如下：</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">34</span>:<span class="hljs-number">27.990</span>  INFO <span class="hljs-number">12936</span> --- [nio-<span class="hljs-number">8081</span>-exec-<span class="hljs-number">1</span>] com.chenpi.MyService                     : &gt;&gt;&gt; testEvent begin
+<span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">34</span>:<span class="hljs-number">27.990</span>  INFO <span class="hljs-number">12936</span> --- [nio-<span class="hljs-number">8081</span>-exec-<span class="hljs-number">1</span>] com.chenpi.MyApplicationListener01       : &gt;&gt;&gt; onApplicationEvent order=<span class="hljs-number">1</span>：MyApplicationEvent&#123;myField=<span class="hljs-string">'陈皮'</span>, source=我是事件源&#125;
+<span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">34</span>:<span class="hljs-number">27.991</span>  INFO <span class="hljs-number">12936</span> --- [nio-<span class="hljs-number">8081</span>-exec-<span class="hljs-number">1</span>] com.chenpi.MyApplicationListener01       : &gt;&gt;&gt; onApplicationEvent order=<span class="hljs-number">2</span>：MyApplicationEvent&#123;myField=<span class="hljs-string">'陈皮'</span>, source=我是事件源&#125;
+<span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">34</span>:<span class="hljs-number">27.992</span>  INFO <span class="hljs-number">12936</span> --- [nio-<span class="hljs-number">8081</span>-exec-<span class="hljs-number">1</span>] com.chenpi.MyApplicationListener01       : &gt;&gt;&gt; otherEvent：MyApplicationEvent&#123;myField=<span class="hljs-string">'我是自定义事件属性01'</span>, source=我是事件源<span class="hljs-number">01</span>&#125;
+<span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">34</span>:<span class="hljs-number">27.992</span>  INFO <span class="hljs-number">12936</span> --- [nio-<span class="hljs-number">8081</span>-exec-<span class="hljs-number">1</span>] com.chenpi.MyService                     : &gt;&gt;&gt; testEvent end</code></pre></div>
+
+
+
+<p>不过，我们也可以显示指定异步方式去执行监听器，记得在服务添加 <code>@EnableAsync</code> 注解开启异步注解。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.chenpi;
+
+<span class="hljs-keyword">import</span> org.springframework.context.event.EventListener;
+<span class="hljs-keyword">import</span> org.springframework.core.annotation.Order;
+<span class="hljs-keyword">import</span> org.springframework.scheduling.annotation.Async;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+
+<span class="hljs-comment">/**</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Description</span> 自定义监听器</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Author</span> 陈皮</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Date</span> 2021/6/26</span>
+<span class="hljs-comment"> * <span class="hljs-doctag">@Version</span> 1.0</span>
+<span class="hljs-comment"> */</span>
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-meta">@Component</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApplicationListener01</span> </span>&#123;
+
+    <span class="hljs-meta">@Async</span>
+    <span class="hljs-meta">@Order</span>(<span class="hljs-number">2</span>)
+    <span class="hljs-meta">@EventListener</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent</span><span class="hljs-params">(MyApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; onApplicationEvent order=2：&#123;&#125;"</span>, event);
+    &#125;
+
+    <span class="hljs-meta">@Order</span>(<span class="hljs-number">1</span>)
+    <span class="hljs-meta">@EventListener</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onApplicationEvent01</span><span class="hljs-params">(MyApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; onApplicationEvent order=1：&#123;&#125;"</span>, event);
+    &#125;
+
+    <span class="hljs-meta">@Async</span>
+    <span class="hljs-meta">@EventListener</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">otherEvent</span><span class="hljs-params">(YourApplicationEvent event)</span> </span>&#123;
+        log.info(<span class="hljs-string">"&gt;&gt;&gt; otherEvent：&#123;&#125;"</span>, event);
+    &#125;
+&#125;</code></pre></div>
+
+
+
+<p>执行结果如下，注意打印的线程名。</p>
+<div class="hljs"><pre><code class="hljs java"><span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">37</span>:<span class="hljs-number">04.807</span>  INFO <span class="hljs-number">9092</span> --- [nio-<span class="hljs-number">8081</span>-exec-<span class="hljs-number">1</span>] com.chenpi.MyService                     : &gt;&gt;&gt; testEvent begin
+<span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">37</span>:<span class="hljs-number">04.819</span>  INFO <span class="hljs-number">9092</span> --- [nio-<span class="hljs-number">8081</span>-exec-<span class="hljs-number">1</span>] com.chenpi.MyApplicationListener01       : &gt;&gt;&gt; onApplicationEvent order=<span class="hljs-number">1</span>：MyApplicationEvent&#123;myField=<span class="hljs-string">'陈皮'</span>, source=我是事件源&#125;
+<span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">37</span>:<span class="hljs-number">04.831</span>  INFO <span class="hljs-number">9092</span> --- [         task-<span class="hljs-number">1</span>] com.chenpi.MyApplicationListener01       : &gt;&gt;&gt; onApplicationEvent order=<span class="hljs-number">2</span>：MyApplicationEvent&#123;myField=<span class="hljs-string">'陈皮'</span>, source=我是事件源&#125;
+<span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">37</span>:<span class="hljs-number">04.831</span>  INFO <span class="hljs-number">9092</span> --- [nio-<span class="hljs-number">8081</span>-exec-<span class="hljs-number">1</span>] com.chenpi.MyService                     : &gt;&gt;&gt; testEvent end
+<span class="hljs-number">2021</span>-<span class="hljs-number">06</span>-<span class="hljs-number">26</span> <span class="hljs-number">20</span>:<span class="hljs-number">37</span>:<span class="hljs-number">04.831</span>  INFO <span class="hljs-number">9092</span> --- [         task-<span class="hljs-number">2</span>] com.chenpi.MyApplicationListener01       : &gt;&gt;&gt; otherEvent：MyApplicationEvent&#123;myField=<span class="hljs-string">'我是自定义事件属性01'</span>, source=我是事件源<span class="hljs-number">01</span>&#125;</code></pre></div>
+
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B/">新手教程</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Spring/">Spring</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2021/09/30/%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">
+                        <span class="hidden-mobile">算法总结</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<!--
+
+代码块js 用不到，fulid自带有，添加css样式即可实现
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+<script type="text/javascript" src="/libs/codeBlock/clipboard.min.js"></script>
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script> 
+
+<style type="text/css">code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }</style>
+
+-->
+
+
+
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键字</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+	<div>
+  <span id="timeDate">载入天数...</span>
+  <span id="times">载入时分秒...</span>
+  <script>
+  var now = new Date();
+  function createtime(){
+      var grt= new Date("06/20/2020 00:00:00");//此处修改你的建站时间或者网站上线时间
+      now.setTime(now.getTime()+250);
+      days = (now - grt ) / 1000 / 60 / 60 / 24;
+      dnum = Math.floor(days);
+      hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+      hnum = Math.floor(hours);
+      if(String(hnum).length ==1 ){
+          hnum = "0" + hnum;
+      }
+      minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+      mnum = Math.floor(minutes);
+      if(String(mnum).length ==1 ){
+                mnum = "0" + mnum;
+      }
+      seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+      snum = Math.round(seconds);
+      if(String(snum).length ==1 ){
+                snum = "0" + snum;
+      }
+      document.getElementById("timeDate").innerHTML = "本站已经勉强运行&nbsp"+dnum+"&nbsp天";
+      document.getElementById("times").innerHTML = hnum + "&nbsp小时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+  }
+  setInterval("createtime()",250);
+  </script>
+</div>
+    
+  <div class="statistics">
+    
+    
+
+    
+      
+        <!-- 不蒜子统计PV -->
+        <span id="busuanzi_container_site_pv" style="display: none">
+            总访问量 
+            <span id="busuanzi_value_site_pv"></span>
+             次
+          </span>
+      
+      
+        <!-- 不蒜子统计UV -->
+        <span id="busuanzi_container_site_uv" style="display: none">
+            总访客数 
+            <span id="busuanzi_value_site_uv"></span>
+             人
+          </span>
+      
+    
+  </div>
+
+
+    
+  <!-- 备案信息 -->
+  <div class="beian">
+    <a href="http://beian.miit.gov.cn/" target="_blank"
+       rel="nofollow noopener">京ICP证20000725号</a>
+    
+      <a
+        href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=20000725"
+        rel="nofollow noopener"
+        class="beian-police"
+        target="_blank"
+      >
+        <span class="beian-police-sep">&nbsp;|&nbsp;</span>
+        
+          <img src="/img/police_beian.png" srcset="/img/loading.gif" alt="police-icon" />
+        
+        <span>京公网安备20000725号</span>
+      </a>
+     
+  </div>
+
+
+    
+	
+  </div>
+  
+
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/main.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+  
+<script src="/js/custom.js"></script>
+
+
+
+
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: 'article.markdown-body',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Spring事件发布与监听机制&nbsp;",
+      ],
+      cursorChar: "|",
+      typeSpeed: 65,
+      loop: true,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+      icon: "<"
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+  
+  
+    <script>
+      !function (e, t, a) {
+        function r() {
+          for (var e = 0; e < s.length; e++) s[e].alpha <= 0 ? (t.body.removeChild(s[e].el), s.splice(e, 1)) : (s[e].y--, s[e].scale += .004, s[e].alpha -= .013, s[e].el.style.cssText = "left:" + s[e].x + "px;top:" + s[e].y + "px;opacity:" + s[e].alpha + ";transform:scale(" + s[e].scale + "," + s[e].scale + ") rotate(45deg);background:" + s[e].color + ";z-index:99999");
+          requestAnimationFrame(r)
+        }
+
+        function n() {
+          var t = "function" == typeof e.onclick && e.onclick;
+          e.onclick = function (e) {
+            t && t(), o(e)
+          }
+        }
+
+        function o(e) {
+          var a = t.createElement("div");
+          a.className = "heart", s.push({
+            el: a,
+            x: e.clientX - 5,
+            y: e.clientY - 5,
+            scale: 1,
+            alpha: 1,
+            color: c()
+          }), t.body.appendChild(a)
+        }
+
+        function i(e) {
+          var a = t.createElement("style");
+          a.type = "text/css";
+          try {
+            a.appendChild(t.createTextNode(e))
+          } catch (t) {
+            a.styleSheet.cssText = e
+          }
+          t.getElementsByTagName("head")[0].appendChild(a)
+        }
+
+        function c() {
+          return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+        }
+
+        var s = [];
+        e.requestAnimationFrame = e.requestAnimationFrame || e.webkitRequestAnimationFrame || e.mozRequestAnimationFrame || e.oRequestAnimationFrame || e.msRequestAnimationFrame || function (e) {
+          setTimeout(e, 1e3 / 60)
+        }, i(".heart{width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: fixed;}.heart:after{top: -5px;}.heart:before{left: -5px;}"), n(), r()
+      }(window, document);
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript"
+color="107,160,220" opacity='0.7' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js">
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
